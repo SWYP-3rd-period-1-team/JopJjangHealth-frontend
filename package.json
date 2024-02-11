@@ -6,7 +6,8 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vcsBerry:update": "yarn dlx @yarnpkg/sdks vscode"
   },
   "dependencies": {
     "next": "14.1.0",
@@ -20,5 +21,6 @@
     "eslint": "8.56.0",
     "eslint-config-next": "14.1.0",
     "typescript": "5.3.3"
-  }
+  },
+  "packageManager": "yarn@4.1.0"
 }
