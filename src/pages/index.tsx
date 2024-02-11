@@ -3,6 +3,7 @@ import styles from '../styles/Home.module.css';
 import styled from 'styled-components';
 import Image from 'next/image';
 import LogoImage from '../../public/assets/Logo.png';
+import Head from 'next/head';
 
 const Container = styled.main`
   height: 100vh;
@@ -21,6 +22,7 @@ const HeaderView = styled.header`
   font-family: 'GmarketSansMedium';
   color: #00a241;
   font-size: 20pt;
+  user-select: none;
 `;
 
 const LogoImageView = styled(Image)``;
@@ -40,6 +42,9 @@ const Content = styled.div`
 const Home: NextPage = () => {
   return (
     <Container>
+      <Head>
+        <title>직짱건강 | Home</title>
+      </Head>
       <HeaderView>
         <LogoImageView src={LogoImage} alt="로고" width={100} height={100} />
         <div>
