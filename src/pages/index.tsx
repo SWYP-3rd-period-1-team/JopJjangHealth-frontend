@@ -14,10 +14,13 @@ const Container = styled.main`
 `;
 
 const HeaderView = styled.header`
-  height: 120px;
   display: flex;
   width: 100vw;
   padding: 50px 50px 30px 50px;
+  align-items: center;
+  font-family: 'GmarketSansMedium';
+  color: #00a241;
+  font-size: 20pt;
 `;
 
 const LogoImageView = styled(Image)``;
