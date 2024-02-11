@@ -10,7 +10,7 @@
     "vcsBerry:update": "yarn dlx @yarnpkg/sdks vscode"
   },
   "dependencies": {
-    "next": "14.1.0",
+    "next": "12.3.4",
     "react": "18.2.0",
     "react-dom": "18.2.0"
   },
@@ -19,7 +19,7 @@
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
     "eslint": "8.56.0",
-    "eslint-config-next": "14.1.0",
+    "eslint-config-next": "12.3.4",
     "typescript": "5.3.3"
   },
   "packageManager": "yarn@4.1.0"
