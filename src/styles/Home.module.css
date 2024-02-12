@@ -39,7 +39,7 @@
 }
 
 
-.content_basic, .content_bold, .image, .check {
+.content_basic, .content_bold, .image_container, .check {
     position: absolute;
     left: 50%;
     transform: translateX(-50%); /* 좌우 중앙 정렬을 위해 X축으로만 이동 */
@@ -64,13 +64,13 @@
 }
 
 .content_basic {
-    top: 20%; /* 상대적 위치 조정 */
+    top: 10%; /* 상대적 위치 조정 */
     font-size: 20px;
     font-weight: 500;
 }
 
 .content_bold {
-    top: 30%; /* 상대적 위치 조정 */
+    top: 20%; /* 상대적 위치 조정 */
     font-size: 30px;
     font-weight: 700;
     border-right: 2px solid black; /* 커서처럼 보이는 효과 */
@@ -80,15 +80,14 @@
     animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite; /* 타이핑 효과와 커서 깜빡임 */
 }
 
-.image {
-    background-color: black;
-    width: 140px;
-    height: 140px;
-    top: 45%; /* 상대적 위치 조정 */
+.image_container {
+    display: flex;
+    justify-content: center;
+    margin-top: 130px; /* 상단 여백을 주고 싶다면 추가 */
 }
 
 .check {
-    top: 85%; /* 상대적 위치 조정 */
+    top: 90%; /* 상대적 위치 조정 */
     border-radius: 20px;
     padding: 10px 20px; /* 버튼 내부 여백 추가 */
     border: none; /* 테두리 제거 */
