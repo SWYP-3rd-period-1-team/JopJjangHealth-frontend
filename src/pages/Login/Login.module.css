@@ -1,0 +1,65 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.loginTitle {
+    margin-bottom: 20px;
+    font-size:30px;
+    font-weight:500;
+}
+
+.inputGroup {
+    margin-bottom: 15px;
+}
+
+
+.input,.inputError {
+    width:400px;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+.inputError {
+    border: 2px solid red;
+}
+
+.errorText {
+    color: red;
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+.submitButton {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    width:400px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+}
+
+.linkContainer {
+    width:390px;
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+    margin-left:36.5%;
+}
+
+.hr {
+    width : 400px;
+}

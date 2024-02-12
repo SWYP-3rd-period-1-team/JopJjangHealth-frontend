@@ -1,20 +1,19 @@
-/* 메뉴 항목을 위한 스타일 */
 .header_menu {
-    float: right; /* 오른쪽 정렬 */
-    margin: 50px 0 0 100px; /* 마진 */
-    padding: 0; /* 패딩 제거 */
-    list-style: none; /* 리스트 스타일 제거 */
+    float: right;
+    margin: 50px 0 0 100px;
+    padding: 0;
+    list-style: none;
 }
 
 .header_link {
-    display: inline; /* 리스트 항목을 인라인으로 표시 */
-    padding: 0 20px; /* 좌우 여백 */
+    display: inline;
+    padding: 0 20px;
 }
 
 .header_link_a {
-    color: #757575; /* 링크 색상 */
-    text-decoration: none; /* 밑줄 제거 */
-    font-size: 16px; /* 폰트 크기 */
+    color: #757575;
+    text-decoration: none;
+    font-size: 16px;
 }
 
 .header_link_a:hover {
@@ -26,9 +25,9 @@
     position: absolute;
     right:100px;
     top:115px;
-    color: #757575; /* 링크 색상 */
-    text-decoration: none; /* 밑줄 제거 */
-    font-size: 16px; /* 폰트 크기 */
+    color: #757575;
+    text-decoration: none;
+    font-size: 16px;
 }
 
 .header_link_login:hover {

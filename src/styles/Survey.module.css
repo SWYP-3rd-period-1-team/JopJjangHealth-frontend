@@ -20,7 +20,7 @@
 .question {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* 좌우 중앙 정렬을 위해 X축으로만 이동 */
+    transform: translateX(-50%);
 }
 
 @keyframes typing {
@@ -45,9 +45,9 @@
     margin-bottom: 20px;
     font-size: 24px;
     text-align: center;
-    border-right: 2px solid black; /* 커서처럼 보이는 효과 */
-    white-space: nowrap; /* 줄바꿈 없이 한 줄에 */
-    overflow: hidden; /* 넘치는 내용 숨김 */
+    border-right: 2px solid black;
+    white-space: nowrap;
+    overflow: hidden;
     width: 0;
     animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite; /* 타이핑 효과와 커서 깜빡임 */
 }

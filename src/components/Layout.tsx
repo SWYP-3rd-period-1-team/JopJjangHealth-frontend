@@ -1,9 +1,9 @@
 import React from 'react';
 import Head from 'next/head';
-import Header from './Header'; // Header 컴포넌트의 경로를 확인하세요
+import Header from './Header';
 import styles from '../styles/Home.module.css';
 import Image from 'next/image';
-import LogoImage from '../../public/assets/Logo.png'; // 경로 확인
+import LogoImage from '../../public/assets/Logo.png';
 
 const Layout = ({children, title = "직짱건강"}) => {
 	return (
