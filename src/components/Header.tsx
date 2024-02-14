@@ -1,4 +1,3 @@
-// Header.tsx 파일
 import React from 'react';
 import Link from 'next/link';
 import styles from '../styles/Header.module.css';
@@ -8,7 +7,7 @@ const Header: () => JSX.Element = () => {
 		<>
 			<ul className={styles.header_menu}>
 				<li className={styles.header_link}>
-					<Link href="/Survey">
+					<Link href="/Survey/1">
 						<a className={styles.header_link_a}>간단 설문</a>
 					</Link>
 				</li>
