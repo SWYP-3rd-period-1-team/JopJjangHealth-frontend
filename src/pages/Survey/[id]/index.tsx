@@ -3,6 +3,8 @@ import Image from 'next/image';
 import Layout from '../../../components/Layout';
 import styles from '../../../styles/Survey.module.css';
 import React, {useEffect, useState} from "react";
+import Vector from "../../../../public/assets/Vector.svg";
+import BeforeVector from "../../../../public/assets/BeforeVector.svg";
 
 interface IOption {
 	id: number;
@@ -18,10 +20,10 @@ const options: IOption[] = [
 	// 1단계 옵션: 주요 부위
 	{id: 1, stage: 1, bodyPart: "생식기", image: "/assets/survey/생식기.png"},
 	{id: 2, stage: 1, bodyPart: "눈", image: "/assets/survey/눈.png"},
-	{id: 3, stage: 1, bodyPart: "코, 귀, 목", image: "/assets/survey/코,귀,목.png"},
+	{id: 3, stage: 1, bodyPart: "코,귀,목", image: "/assets/survey/코,귀,목.png"},
 	{id: 4, stage: 1, bodyPart: "피부", image: "/assets/survey/피부.png"},
-	{id: 5, stage: 1, bodyPart: "배, 가슴", image: "/assets/survey/배,가슴.png"},
-	{id: 6, stage: 1, bodyPart: "팔, 다리, 어깨", image: "/assets/survey/팔,다리,어깨.png"},
+	{id: 5, stage: 1, bodyPart: "배,가슴", image: "/assets/survey/배,가슴.png"},
+	{id: 6, stage: 1, bodyPart: "팔,다리,어깨", image: "/assets/survey/팔,다리,어깨.png"},
 	
 	//  2단계 옵션: 세부 분류 예시
 	{id: 1, stage: 2, bodyPart: "생식기", gender: "여자", image: "/assets/survey/여자.png"},
@@ -55,11 +57,11 @@ const options: IOption[] = [
 	{id: 29, stage: 2, bodyPart: "목", gender: "기관지염", image: "/assets/survey/기관지염.png"},
 	{id: 30, stage: 2, bodyPart: "목", gender: "림프종, 암", image: "/assets/survey/목암.png"},
 	{id: 31, stage: 2, bodyPart: "팔", gender: "골절", image: "/assets/survey/골절.png"},
-	{id: 32, stage: 2, bodyPart: "피부", gender: "습진", image: "/assets/survey/습진.png"},
-	{id: 33, stage: 2, bodyPart: "피부", gender: "아토피 피부염", image: "/assets/survey/아토피피부염.png"},
-	{id: 34, stage: 2, bodyPart: "피부", gender: "피부염", image: "/assets/survey/피부염.png"},
-	{id: 35, stage: 2, bodyPart: "피부", gender: "동양질환", image: "/assets/survey/동양질환.png"},
-	{id: 36, stage: 2, bodyPart: "피부", gender: "수포성 피부질환", image: "/assets/survey/수포성피부질환.png"},
+	{id: 32, stage: 2, bodyPart: "피부", gender: "피부 가려움증", image: "/assets/survey/피부 가려움증.png"},
+	{id: 33, stage: 2, bodyPart: "피부", gender: "통증", image: "/assets/survey/통증.png"},
+	{id: 34, stage: 2, bodyPart: "피부", gender: "두드러기", image: "/assets/survey/두드러기.png"},
+	{id: 35, stage: 2, bodyPart: "피부", gender: "피부의 지성 또는 건조", image: "/assets/survey/피부 건조.png"},
+	// {id: 36, stage: 2, bodyPart: "피부", gender: "수포성 피부질환", image: "/assets/survey/수포성피부질환.png"},
 	{id: 37, stage: 2, bodyPart: "배, 가슴", gender: "유방암, 양성종양", image: "/assets/survey/유방암.png"},
 	{id: 38, stage: 2, bodyPart: "배, 가슴", gender: "심장질환(심근경색, 협심증)", image: "/assets/survey/심장질환.png"},
 	{id: 39, stage: 2, bodyPart: "배, 가슴", gender: "소화기 질환(식도염, 소화성 궤양)", image: "/assets/survey/소화기질환.png"},
@@ -118,7 +120,8 @@ const options: IOption[] = [
 	{id: 50, stage: 3, bodyPart: "생식기", gender: "소변", disease: "속옷에 샘", image: ""},
 	{id: 51, stage: 3, bodyPart: "피부", gender: "습진", disease: "피부 가려움증, 건조한 피부", image: ""},
 	{id: 52, stage: 3, bodyPart: "피부", gender: "아토피 피부염", disease: "발진, 발적, 다양한 부위", image: ""},
-	{id: 53, stage: 3, bodyPart: "피부", gender: "피부염", disease: "붉은 반점", image: ""},
+	{id: 53, stage: 3, bodyPart: "피부", gender: "두드러기", disease: "특정 음식이나 물질 접촉시 악화", image: "/assets/survey/특정 음식이나 물질 접촉시 악화.png"},
+	{id: 53, stage: 3, bodyPart: "피부", gender: "두드러기", disease: "특정 부위에서만 발생", image: "/assets/survey/특정 부위에서만 발생.png"},
 	{id: 54, stage: 3, bodyPart: "피부", gender: "동양질환", disease: "은색 크고 두꺼운 비늘로 덮인 피부 반점", image: ""},
 	{id: 55, stage: 3, bodyPart: "피부", gender: "수포성 피부질환", disease: "수포, 물집", image: ""},
 	{id: 56, stage: 3, bodyPart: "배, 가슴", gender: "유방암, 양성종양", disease: "덩어리가 만져지거나, 염증이 생김", image: ""},
@@ -158,7 +161,7 @@ const SurveyDetail = () => {
 			case 1:
 				return <>직짱인 님이 <b>체크하고 싶은 부위</b>는 어디인가요?</>;
 			case 2:
-				return <>선택한 부위에 대한 <b>성별을 선택</b>해주세요.</>;
+				return <><b>{"'"}{router.query.bodyPart}{"'"}</b> 중에서 <b>어떤 부분의 진단</b>이 필요하세요?</>;
 			case 3:
 				return <>해당하는 <b>증상</b>을 선택하세요!</>;
 			default:
@@ -191,7 +194,7 @@ const SurveyDetail = () => {
 						<div key={option.id} onClick={() => goToNextPage(option)}>
 							<Image src={option.image} alt="survey option" className={styles.option} width={100} height={100}/>
 							<br/>
-							<div>
+							<div className={styles.survey_text}>
 								{(() => {
 									switch (currentStage) {
 										case 1:
@@ -207,6 +210,13 @@ const SurveyDetail = () => {
 					))}
 				</div>
 			</div>
+			{currentStage > 1 &&
+					<>
+              <button className={styles.before_button}><Image src={BeforeVector} alt="BeforeVector" width={10} height={10}/> 전 단계로 돌아가기</button>
+              <button className={styles.home_button}><Image src={Vector} alt="Vector" width={10} height={10}/> 직<b>짱</b>건강</button>
+					
+					</>
+			}
 		</Layout>
 	);
 };

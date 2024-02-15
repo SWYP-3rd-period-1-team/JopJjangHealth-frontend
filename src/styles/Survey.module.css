@@ -73,3 +73,39 @@
 .option:hover {
     background-color: #e7e7e7;
 }
+
+
+.home_button {
+    float:right;
+    margin-right:50px;
+    margin-bottom:38px;
+    width: 124px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #D9D9D9;
+}
+
+.before_button {
+    float:left;
+    margin-left:50px;
+    margin-bottom:38px;
+    width: 162px;
+    height: 40px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    background: #D9D9D9;
+}
+
+.survey_text {
+    word-break: keep-all;
+    color: #000;
+    text-align: center;
+    /*font-family: 'SUIT', serif;*/
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 32px */
+    letter-spacing: -0.4px;
+
+}
