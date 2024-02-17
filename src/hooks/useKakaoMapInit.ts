@@ -1,3 +1,8 @@
+import {useRef} from 'react';
+
+//병원 카테고리 코드: HP8
+//약국 카테고리 코드: PM9
+
 const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false&libraries=services`;
 
 declare global {
@@ -5,7 +10,6 @@ declare global {
         kakao: any;
     }
 }
-
 interface Props {
     location?: {
         latitude: number;
@@ -14,6 +18,8 @@ interface Props {
     keyword?: string;
 }
 const useKakaoMapInit = () => {
+    const mapCenterRef = useRef(null); // 이전의 맵 중심 좌표를 기억
+
     const getMapLocation = ({location, keyword}: Props) => {
         const kakaoMapScript = document.createElement('script');
         kakaoMapScript.async = false;
@@ -22,10 +28,18 @@ const useKakaoMapInit = () => {
 
         const onLoadKakaoAPI = () => {
             window.kakao.maps.load(() => {
-                const center = new window.kakao.maps.LatLng(
-                    location ? location.latitude : 37.566826,
-                    location ? location.longitude : 126.9786567,
-                );
+                let center;
+
+                if (mapCenterRef.current) {
+                    // 이전에 저장된 중심 좌표가 있는 경우
+                    center = mapCenterRef.current;
+                } else {
+                    // 이전에 저장된 중심 좌표가 없는 경우
+                    center = new window.kakao.maps.LatLng(
+                        location ? location.latitude : 37.566826,
+                        location ? location.longitude : 126.9786567,
+                    );
+                }
 
                 var container = document.getElementById('map');
                 var options = {
@@ -74,6 +88,19 @@ const useKakaoMapInit = () => {
                         },
                     );
                 }
+
+                window.kakao.maps.event.addListener(
+                    map,
+                    'center_changed',
+                    function () {
+                        var newCenter = map.getCenter();
+                        center = new window.kakao.maps.LatLng(
+                            newCenter.getLat(),
+                            newCenter.getLng(),
+                        );
+                        mapCenterRef.current = center; // 현재 중심 좌표를 저장
+                    },
+                );
             });
         };
 
