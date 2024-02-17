@@ -1,13 +1,12 @@
-import React, {Suspense, useEffect, useRef, useState} from 'react';
+import React, {Suspense, useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
-import Script from 'next/script';
-import Head from 'next/head';
 import MapView from './Child/MapView';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';
 import SearchView from './Child/SearchView';
+import useKakaoMapInit from '../../hooks/useKakaoMapInit';
 
-const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`;
+// const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`;
 
 const Container = styled.main`
     width: 100%;
@@ -18,21 +17,14 @@ const Container = styled.main`
     align-items: center;
 `;
 
-declare global {
-    interface Window {
-        kakao: any;
-    }
-}
 const Search = () => {
-    const [searchQuery, setSearchQuery] = useState('');
+    const {getMapLocation} = useKakaoMapInit();
 
+    const [searchQuery, setSearchQuery] = useState('');
     const [location, setLocation] = useState<{
-        latitude: number | undefined;
-        longitude: number | undefined;
-    }>({
-        latitude: undefined,
-        longitude: undefined,
-    });
+        latitude: number;
+        longitude: number;
+    }>();
 
     const getLocation = () => {
         if (navigator.geolocation) {
@@ -55,30 +47,9 @@ const Search = () => {
     }, []);
 
     useEffect(() => {
-        if (location.latitude && location.longitude) {
-            const kakaoMapScript = document.createElement('script');
-            kakaoMapScript.async = false;
-            kakaoMapScript.src = KAKAO_SDK_URL;
-            document.head.appendChild(kakaoMapScript);
-
-            const onLoadKakaoAPI = () => {
-                window.kakao.maps.load(() => {
-                    var container = document.getElementById('map');
-                    var options = {
-                        center: new window.kakao.maps.LatLng(
-                            location.latitude,
-                            location.longitude,
-                        ),
-                        level: 3,
-                    };
-
-                    const map = new window.kakao.maps.Map(container, options);
-                });
-            };
-
-            kakaoMapScript.addEventListener('load', onLoadKakaoAPI);
-        }
-    }, [location]);
+        getMapLocation({location, keyword: searchQuery});
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [location, searchQuery]);
 
     return (
         <>
