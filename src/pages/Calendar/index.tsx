@@ -1,12 +1,11 @@
 import React from 'react';
+import Layout from "../../components/Layout";
 
 const Calendar: () => JSX.Element = () => {
 	return (
-		<>
-			<>
-				<div>여기는 캘린더!</div>
-			</>
-		</>
+		<Layout>
+			<div>여기는 캘린더!</div>
+		</Layout>
 	);
 };
 

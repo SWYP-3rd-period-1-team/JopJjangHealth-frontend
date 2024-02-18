@@ -1,0 +1,145 @@
+.findContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 450px;
+    height: 400px;
+    margin: auto;
+    padding: 40px;
+    background: #fff;
+    border: 1px solid #000000;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+}
+
+.findText {
+    font-size: 20px;
+    font-weight: 500;
+}
+
+.findId, .findPassword, .find_complete {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: keep-all;
+}
+.findId, .findPassword, .find_complete {
+    font-size: 20px;
+    font-weight: 500;
+    text-align: center;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    word-break: keep-all;
+}
+
+
+.findTitle {
+    font-size: 24px;
+    color: #333;
+    margin-bottom: 32px;
+    text-align: center;
+}
+
+.inputGroup {
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.input {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+.inputError {
+    border: 2px solid red;
+}
+
+.errorText {
+    color: #d32f2f;
+    font-size: 14px;
+    margin-top: 8px;
+    height: 20px;
+}
+
+.findButton {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    text-transform: uppercase;
+    color: white;
+    background-color: #4CAF50; /* A shade of green */
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.findButton:hover {
+    background-color: #45a049;
+}
+
+.findButton:disabled {
+    background-color: #a5d6a7;
+    cursor: default;
+}
+
+.idMessage,
+.passwordMessage {
+    color: #4CAF50;
+    font-size: 14px;
+    margin-top: 16px;
+    text-align: center;
+}
+
+/* Custom styles for specific elements */
+.errorMessage {
+    color: #d32f2f;
+    margin-top: 16px;
+    text-align: center;
+}
+
+
+/* Tab.module.css */
+.tabs {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 400px;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tabButton {
+    float: left;
+    width: 400px;
+    border-bottom: 3px solid #dddddd;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tabButton:hover {
+    border-bottom: 3px solid #4CAF50;
+}
+
+.activeTab {
+    color: #4CAF50;
+    border-bottom: 3px solid #4CAF50;
+    font-weight: bold;
+}
+

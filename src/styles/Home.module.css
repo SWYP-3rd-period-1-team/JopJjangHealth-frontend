@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: column;
     align-items: center;
+    overflow-x:hidden; /* join에서는 지웠는데 고민 */
 }
 
 .header {
@@ -33,16 +34,16 @@
     flex: 1;
     width: 100vw;
     padding: 0 50px 50px 50px;
-    display: flex; /* 섹션을 flex 컨테이너로 만듭니다 */
-    justify-content: center; /* 수평 중앙 정렬 */
-    align-items: center; /* 수직 중앙 정렬 */
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
 .content_basic, .content_bold, .image_container, .check {
     position: absolute;
     left: 50%;
-    transform: translateX(-50%); /* 좌우 중앙 정렬을 위해 X축으로만 이동 */
+    transform: translateX(-50%);
 }
 
 @keyframes typing {
@@ -64,38 +65,38 @@
 }
 
 .content_basic {
-    top: 10%; /* 상대적 위치 조정 */
+    top: 10%;
     font-size: 20px;
     font-weight: 500;
 }
 
 .content_bold {
-    top: 20%; /* 상대적 위치 조정 */
+    top: 20%;
     font-size: 30px;
     font-weight: 700;
-    border-right: 2px solid black; /* 커서처럼 보이는 효과 */
-    white-space: nowrap; /* 줄바꿈 없이 한 줄에 */
-    overflow: hidden; /* 넘치는 내용 숨김 */
+    border-right: 2px solid black;
+    white-space: nowrap;
+    overflow: hidden;
     width: 0;
-    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite; /* 타이핑 효과와 커서 깜빡임 */
+    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
 }
 
 .image_container {
     display: flex;
     justify-content: center;
-    margin-top: 130px; /* 상단 여백을 주고 싶다면 추가 */
+    margin-top: 130px;
 }
 
 .check {
-    top: 90%; /* 상대적 위치 조정 */
+    top: 90%;
     border-radius: 20px;
-    padding: 10px 20px; /* 버튼 내부 여백 추가 */
-    border: none; /* 테두리 제거 */
-    background-color: #00a241; /* 버튼 배경색 설정 */
-    color: white; /* 버튼 글자색 설정 */
-    cursor: pointer; /* 마우스 오버 시 커서 변경 */
-    font-size: 16px; /* 글자 크기 설정 */
-    font-family: 'GmarketSansMedium', serif; /* 글자 폰트 설정 */
+    padding: 10px 20px;
+    border: none;
+    background-color: #00a241;
+    color: white;
+    cursor: pointer;
+    font-size: 16px;
+    font-family: 'GmarketSansMedium', serif;
 }
 
 
