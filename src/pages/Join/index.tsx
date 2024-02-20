@@ -3,7 +3,7 @@ import {useForm} from 'react-hook-form';
 import {signUp, sendEmailVerification, verifyEmailCode} from '../../utils/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
 
-import styles from './Join.module.css';
+import styles from '../../styles/Join.module.css';
 import Layout from '../../components/Layout';
 
 interface FormData {
@@ -56,11 +56,10 @@ const Join: () => JSX.Element = () => {
 	
 	const handleEmailVerification = async () => {
 		const formData = getValues();
-		const verificationResult = await verifyEmailCode(formData.email, formData.emailVerificationCode); // 인증 코드 검증 함수 호출
+		const verificationResult = await verifyEmailCode(formData.email, formData.emailVerificationCode);
 		if (verificationResult.success) {
 			alert('이메일이 성공적으로 인증되었습니다.');
 			setIsVerificationComplete(true);
-			// 추가 처리 (예: 폼 제출 활성화)
 		} else {
 			alert('잘못된 인증 코드입니다. 다시 확인해주세요.');
 		}
@@ -172,7 +171,7 @@ const Join: () => JSX.Element = () => {
 							인증 하기
 						</button>
 					</div>
-					{isVerificationSent && !isVerificationComplete && ( // 인증이 발송되었고 아직 완료되지 않았을 때만 인증 코드 입력 필드를 표시
+					{isVerificationSent && !isVerificationComplete && (
 						<div className={styles.inputGroup}>
 							<input
 								placeholder="인증 코드 입력"

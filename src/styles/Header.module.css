@@ -21,16 +21,26 @@
     color: #000000;
 }
 
-.header_link_login {
-    position: absolute;
-    right:100px;
+.header_link_login, .header_link_login_second {
+   position: absolute;
+    z-index: 1;
+    right:200px;
     top:115px;
     color: #757575;
     text-decoration: none;
     font-size: 16px;
 }
 
-.header_link_login:hover {
+.header_link_login_second {
+    right:100px;
+}
+
+.header_link_login:hover, .header_link_login_second:hover {
+    font-weight: 700;
+    color: #000000;
+}
+
+.active {
     font-weight: 700;
     color: #000000;
 }

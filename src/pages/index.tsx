@@ -1,11 +1,11 @@
-import styles from '../styles/Home.module.css';
+import styles from '../styles/Survey.module.css';
 import React from 'react';
 import Image from 'next/image';
 import OnBoarding from '../../public/assets/Animation.gif';
 import Layout from "../components/Layout";
 import {useRouter} from 'next/router';
 
-const Home: () => JSX.Element = () => {
+const Index: () => React.JSX.Element = () => {
 	const router = useRouter();
 	
 	return (
@@ -20,4 +20,4 @@ const Home: () => JSX.Element = () => {
 	);
 };
 
-export default Home;
+export default Index;

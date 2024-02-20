@@ -1,7 +1,7 @@
 import React from 'react';
 import Layout from "../../components/Layout";
 
-const Calendar: () => JSX.Element = () => {
+const Calendar= () => {
 	return (
 		<Layout>
 			<div>여기는 캘린더!</div>

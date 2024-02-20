@@ -1,8 +1,8 @@
 import axios from 'axios';
 
 interface VerificationResult {
-	success: boolean; // 작업 성공 여부
-	message?: string; // 선택적 메시지, 작업 실패 시 이유를 설명
+	success: boolean;
+	message?: string;
 }
 
 export async function login(userId: string, password: string): Promise<string | undefined> {
@@ -11,7 +11,7 @@ export async function login(userId: string, password: string): Promise<string | 
 		window.location.href = '/';
 	} catch (error) {
 		console.error('로그인 실패:', error.response?.data?.message);
-		return error.response?.data?.message; // 실패 메시지 반환
+		return error.response?.data?.message;
 	}
 }
 
@@ -47,7 +47,7 @@ export const verifyEmailCode = async (email: string, code: string): Promise<Veri
 export async function findPassword(email: string): Promise<boolean> {
 	try {
 		const response = await axios.post('/api/findPassword', { email });
-		return response.data.exists; // 가정: 응답에 'exists' 필드가 있고, 계정 존재 여부를 나타냅니다.
+		return response.data.exists;
 	} catch (error) {
 		console.error('비밀번호 찾기 실패:', error);
 		return false;
@@ -57,7 +57,7 @@ export async function findPassword(email: string): Promise<boolean> {
 export async function findId(email: string): Promise<string | null> {
 	try {
 		const response = await axios.post('/api/findId', { email });
-		return response.data.id; // 가정: 응답에 'id' 필드가 있고, 사용자 ID를 나타냅니다.
+		return response.data.id;
 	} catch (error) {
 		console.error('ID 찾기 실패:', error);
 		return null;

@@ -2,50 +2,29 @@ import {useRouter} from 'next/router';
 import Image from 'next/image';
 import Layout from '../../../components/Layout';
 import styles from '../../../styles/Survey.module.css';
-import React, {useEffect, useState} from "react";
+import React, {useEffect} from "react";
+import {useRecoilState} from 'recoil';
+import {
+	selectedBodyPartState,
+	selectedTargetBodyPartState,
+	selectedPresentedSymptomState
+} from "../../../state/surveyState"
 import Vector from "../../../../public/assets/Vector.svg";
-import BeforeVector from "../../../../public/assets/BeforeVector.svg";
-import shareVector from "../../../../public/assets/shareVector.svg";
+import beforeVector from "../../../../public/assets/beforeVector.svg";
+import hospitalVector from "../../../../public/assets/hospitalVector.svg";
 import {options} from "../../../../mock/SurveyMock";
+import ShareButton from "../../../components/Share/ShareButton";
+import {IOption} from "../../../types";
 
-interface IOption {
-	id: number;
-	stage: number;
-	targetBodyPart?: string;
-	diagnosisPart?: string;
-	presentedSymptom?: string;
-	disease?:string;
-	department?:string;
-	image:string;
-}
-
-const SurveyDetail = () => {
+const Index = () => {
 	const router = useRouter();
 	const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
 	
-	const [selectedBodyPart, setSelectedBodyPart] = useState<string | null>(targetBodyPart as string);
-	const [selectedTargetBodyPart, setSelectedTargetBodyPart] = useState<string | null>(diagnosisPart as string);
-	const [selectedPresentedSymptom, setSelectedPresentedSymptom] =  useState<string | null>(presentedSymptom as string);
-	const currentStage = parseInt(id as string,10);
+	const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);
+	const [selectedTargetBodyPart, setSelectedTargetBodyPart] = useRecoilState(selectedTargetBodyPartState);
+	const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
 	
-	useEffect(() => {
-		if (!router.isReady) return;
-		
-		switch(currentStage) {
-			case 2:
-				setSelectedBodyPart(targetBodyPart ? decodeURIComponent(targetBodyPart as string) : null);
-				break;
-			case 3:
-				setSelectedBodyPart(targetBodyPart ? decodeURIComponent(targetBodyPart as string) : null);
-				setSelectedTargetBodyPart(diagnosisPart ? decodeURIComponent(diagnosisPart as string) : null);
-				break;
-			case 4:
-				setSelectedBodyPart(targetBodyPart ? decodeURIComponent(targetBodyPart as string) : null);
-				setSelectedTargetBodyPart(diagnosisPart ? decodeURIComponent(diagnosisPart as string) : null);
-				setSelectedPresentedSymptom(presentedSymptom ? decodeURIComponent(presentedSymptom as string) : null);
-				break;
-		}
-	}, [currentStage]);
+	const currentStage = parseInt(id as string, 10);
 	
 	let currentOptions = options.filter(option => option.stage === currentStage);
 	
@@ -59,8 +38,24 @@ const SurveyDetail = () => {
 		currentOptions = currentOptions.filter(option =>
 			option.targetBodyPart === selectedBodyPart &&
 			option.diagnosisPart === selectedTargetBodyPart &&
-			option.presentedSymptom === selectedPresentedSymptom);
+			option.presentedSymptom === selectedPresentedSymptom
+		);
 	}
+	
+	useEffect(() => {
+		if (targetBodyPart !== undefined) {
+			// @ts-ignore
+			setSelectedBodyPart(targetBodyPart);
+		}
+		if (diagnosisPart !== undefined) {
+			// @ts-ignore
+			setSelectedTargetBodyPart(diagnosisPart);
+		}
+		if (presentedSymptom !== undefined) {
+			// @ts-ignore
+			setSelectedPresentedSymptom(presentedSymptom);
+		}
+	}, [router.query, setSelectedBodyPart, setSelectedTargetBodyPart, setSelectedPresentedSymptom]);
 	
 	const SurveyAskText = () => {
 		switch (currentStage) {
@@ -73,7 +68,8 @@ const SurveyDetail = () => {
 			case 4:
 				return (
 					<>
-						<>직짱인 님, <b>이런 증상이 의심</b> 돼요!</><br/>
+						<>직짱인 님, <b>이런 증상이 의심</b> 돼요!</>
+						<br/>
 						<>결과를 토대로 <b>병원을 추천</b> 드릴게요.</>
 					</>
 				);
@@ -82,17 +78,25 @@ const SurveyDetail = () => {
 		}
 	};
 	
+	const SurveyAnswerText = (currentStage: number, option: IOption) => {
+		switch (currentStage) {
+			case 1:
+				return option.targetBodyPart;
+			case 2:
+				return option.diagnosisPart;
+			case 3:
+				return option.presentedSymptom;
+			case 4:
+				return option.disease || option.department;
+			default:
+				return '';
+		}
+	}
+	
 	const goToNextPage = (selectedOption: IOption) => {
 		const nextId = currentStage + 1;
 		if (nextId <= 4) {
-			let query = `/Survey/${nextId}?`;
-			if (currentStage === 1 && selectedOption.targetBodyPart) {
-				query += `targetBodyPart=${selectedOption.targetBodyPart}`;
-			} else if (currentStage === 2 && selectedOption.diagnosisPart) {
-				query += `targetBodyPart=${selectedBodyPart}&diagnosisPart=${selectedOption.diagnosisPart}`;
-			} else if (currentStage === 3 && selectedOption.presentedSymptom) {
-				query += `targetBodyPart=${selectedBodyPart}&diagnosisPart=${selectedOption.diagnosisPart}&presentedSymptom=${selectedOption.presentedSymptom}`;
-			}
+			let query = `/Survey/${nextId}?targetBodyPart=${selectedOption.targetBodyPart}&diagnosisPart=${selectedOption.diagnosisPart}&presentedSymptom=${selectedOption.presentedSymptom}`;
 			router.push(query);
 		}
 	};
@@ -102,67 +106,100 @@ const SurveyDetail = () => {
 		router.push("/")
 	}
 	
+	const choiceHospitalButton = async (currentOptions: any[]) => {
+		if (navigator.geolocation) {
+			navigator.geolocation.getCurrentPosition(
+				async (position) => {
+					const { latitude, longitude } = position.coords;
+					console.log(latitude, longitude);
+					const diseases = currentOptions
+						.filter((option: { disease?: string }) => option.disease)
+						.map((option: { disease: string }) => option.disease);
+					const departments = currentOptions
+						.filter((option: { department?: string }) => option.department)
+						.map((option: { department: string }) => option.department);
+					
+					// http://localhost:3000/Search?disease=%EB%B6%80%EB%B9%84%EB%8F%99%EC%97%BC&department=%EC%9D%B4%EB%B9%84%EC%9D%B8%ED%9B%84%EA%B3%BC&latitude=37.6242176&longitude=127.0710272
+					if (diseases.length > 0 && departments.length > 0) {
+						router.push({
+							pathname: "/Search",
+							query: {
+								disease: diseases.join(','),
+								department: departments.join(','),
+								latitude: latitude,
+								longitude: longitude
+							}
+						});
+					}
+				},
+				(error) => {
+					console.error(error);
+				},
+				{ enableHighAccuracy: true }
+			);
+		} else {
+			console.log("이 브라우저는 Geolocation을 지원하지 않습니다.");
+		}
+	};
+
+	
 	return (
 		<Layout>
 			<div className={styles.quizContainer}>
-				<div className={currentStage < 4 ? styles.question_num: styles.question_complete}>{currentStage < 4 ? currentStage : <>설문 완료!</> }</div>
-				<div className={styles.question}>
+				<div
+					className={currentStage < 4 ? styles.question_num : styles.question_complete}>{currentStage < 4 ? currentStage : <>설문
+					완료!</>}</div>
+				<div className={currentStage < 4 ? styles.question : styles.question_complete_title}>
 					<SurveyAskText/>
 				</div>
 				<div className={styles.options}>
-					{currentOptions.map(option => (
-						<div key={option.id} onClick={() => goToNextPage(option)}>
-							<Image src={option.image} alt="survey-option" className={styles.option} width={100} height={100} />
+					{currentOptions && currentOptions.map(option => (
+						<div key={option.id} onClick={() => currentStage < 4 ? goToNextPage(option) : ""}>
+							<Image src={option.image} alt="survey-option" className={styles.option} width={100} height={100}/>
 							<br/>
 							<div className={styles.survey_text}>
-								{(() => {
-									switch (currentStage) {
-										case 1:
-											return option.targetBodyPart;
-										case 2:
-											return option.diagnosisPart;
-										case 3:
-											return option.presentedSymptom;
-										case 4 :
-											return option.disease||option.department;
-									}
-								})()}
+								{SurveyAnswerText(currentStage, option)}
 							</div>
-
 						</div>
 					))}
 				</div>
 			</div>
-			{currentStage > 1 && currentStage < 4 &&
-					<>
-              <button className={styles.before_button} onClick={() => router.back()}><Image src={BeforeVector} alt="BeforeVector" width={10} height={10}/> 전 단계로 돌아가기</button>
-              <button className={styles.home_button} onClick={homeButton}><Image src={Vector} alt="Vector" width={10} height={10}/> 직<b>짱</b>건강</button>
-					
-					</>
-			}
-			{currentStage === 4 &&
-          <>
-              <button className={styles.before_button} onClick={() => router.back()}><Image src={BeforeVector} alt="BeforeVector" width={16} height={16}/> 전 단계로 돌아가기</button>
-		          <button className={styles.share_button}><Image src={shareVector} alt="Vector" width={16} height={16}/> 공유하기</button>
-		          <button className={styles.home_button} onClick={homeButton}><Image src={Vector} alt="Vector" width={16} height={16}/> 직<b>짱</b>건강</button>
-          </>
-			}
+			{currentStage > 1 && (
+				<>
+					<button className={styles.before_button} onClick={() => router.back()}>
+						<Image src={beforeVector} alt="BeforeVector" width={10} height={10}/> 전 단계로 돌아가기
+					</button>
+					{currentStage < 4 && (
+						<button className={styles.share_button} onClick={homeButton}>
+							<Image src={Vector} alt="Vector" width={10} height={10}/> 직<b>짱</b>건강
+						</button>
+					)}
+				</>
+			)}
+			{currentStage === 4 && (
+				<>
+					<button className={styles.share_button} onClick={() => choiceHospitalButton(currentOptions)}>
+						추천병원 <Image src={hospitalVector} alt="HospitalVector" width={16} height={16}/>
+					</button>
+					<ShareButton/>
+				</>
+			)}
+		
 		</Layout>
-		);
-	}
-	
-export async function getServerSideProps(context: { query: { targetBodyPart: null, diagnosisPart: null, presentedSymptom:null }}) {
-	const initialBodyPart = context.query.targetBodyPart || null;
-	const initialTargetBodyPart = context.query.diagnosisPart || null;
-	const initialDiagnosisPart = context.query.presentedSymptom || null;
+	);
+}
+
+export async function getServerSideProps(context: { query: { targetBodyPart: IOption; diagnosisPart: IOption; presentedSymptom: IOption; }; }) {
+	const {targetBodyPart, diagnosisPart, presentedSymptom} = context.query;
 	
 	return {
 		props: {
-			initialBodyPart: initialBodyPart,
-			initialTargetBodyPart: initialTargetBodyPart,
-			initialDiagnosisPart: initialDiagnosisPart
+			initialBodyPart: targetBodyPart || null,
+			initialTargetBodyPart: diagnosisPart || null,
+			initialPresentedSymptom: presentedSymptom || null,
 		},
 	};
 }
 
-export default SurveyDetail;
+
+export default Index;

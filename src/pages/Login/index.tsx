@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { login } from '../../utils/Auth';
+import { login } from '../../utils/auth';
 import { validatePassword, validateUserId} from '../../utils/validation';
-import styles from './Login.module.css';
+import styles from '../../styles/Login.module.css';
 import Layout from '../../components/Layout';
 import {useRouter} from "next/router";
 
