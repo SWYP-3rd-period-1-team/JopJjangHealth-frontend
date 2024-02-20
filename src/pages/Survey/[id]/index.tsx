@@ -106,39 +106,22 @@ const Index = () => {
 		router.push("/")
 	}
 	
-	const choiceHospitalButton = async (currentOptions: any[]) => {
-		if (navigator.geolocation) {
-			navigator.geolocation.getCurrentPosition(
-				async (position) => {
-					const { latitude, longitude } = position.coords;
-					console.log(latitude, longitude);
-					const diseases = currentOptions
-						.filter((option: { disease?: string }) => option.disease)
-						.map((option: { disease: string }) => option.disease);
-					const departments = currentOptions
-						.filter((option: { department?: string }) => option.department)
-						.map((option: { department: string }) => option.department);
-					
-					// http://localhost:3000/Search?disease=%EB%B6%80%EB%B9%84%EB%8F%99%EC%97%BC&department=%EC%9D%B4%EB%B9%84%EC%9D%B8%ED%9B%84%EA%B3%BC&latitude=37.6242176&longitude=127.0710272
-					if (diseases.length > 0 && departments.length > 0) {
-						router.push({
-							pathname: "/Search",
-							query: {
-								disease: diseases.join(','),
-								department: departments.join(','),
-								latitude: latitude,
-								longitude: longitude
-							}
-						});
-					}
-				},
-				(error) => {
-					console.error(error);
-				},
-				{ enableHighAccuracy: true }
-			);
-		} else {
-			console.log("이 브라우저는 Geolocation을 지원하지 않습니다.");
+	const choiceHospitalButton = (currentOptions: any[]) => {
+		const diseases = currentOptions
+			.filter((option: { disease?: string }) => option.disease)
+			.map((option: { disease: string }) => option.disease);
+		const departments = currentOptions
+			.filter((option: { department?: string }) => option.department)
+			.map((option: { department: string }) => option.department);
+		
+		if (diseases.length > 0 && departments.length > 0) {
+			router.push({
+				pathname: "/Search",
+				query: {
+					disease: diseases.join(','),
+					department: departments.join(',')
+				}
+			});
 		}
 	};
 
