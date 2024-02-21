@@ -16,7 +16,8 @@ export const options: IOption[] = [
 	{id: 3, stage: 1, targetBodyPart: "코, 귀, 목", image: "/assets/survey/코, 귀, 목.png"},
 	{id: 4, stage: 1, targetBodyPart: "피부", image: "/assets/survey/피부.png"},
 	{id: 5, stage: 1, targetBodyPart: "배, 가슴", image: "/assets/survey/배, 가슴.png"},
-	{id: 6, stage: 1, targetBodyPart: "팔, 다리, 어깨", image: "/assets/survey/팔,다리,어깨.png"},
+	{id: 6, stage: 1, targetBodyPart: "관절", image: "/assets/survey/관절.png"},
+	{id: 6, stage: 1, targetBodyPart: "정서적, 신경적", image: "/assets/survey/정서적, 신경적.png"},
 	
 	//  2단계 옵션: 세부 분류 예시
 	{id: 1, stage: 2, targetBodyPart: "생식기", diagnosisPart: "여성 건강", image: "/assets/survey/여성건강.png"},
@@ -37,11 +38,17 @@ export const options: IOption[] = [
 	{id: 16, stage: 2, targetBodyPart: "배, 가슴", diagnosisPart: "가슴", image: "/assets/survey/가슴.png"},
 	{id: 17, stage: 2, targetBodyPart: "배, 가슴", diagnosisPart: "복부 통증", image: "/assets/survey/복부 통증.png"},
 	{id: 18, stage: 2, targetBodyPart: "배, 가슴", diagnosisPart: "소화 불량", image: "/assets/survey/소화불량.png"},
-	{id: 19, stage: 2, targetBodyPart: "팔, 다리, 어깨", diagnosisPart: "손가락, 손바닥", image: "/assets/survey/손가락, 손바닥.png"},
-	{id: 20, stage: 2, targetBodyPart: "팔, 다리, 어깨", diagnosisPart: "손목", image: "/assets/survey/손목.png"},
-	{id: 21, stage: 2, targetBodyPart: "팔, 다리, 어깨", diagnosisPart: "팔꿈치", image: "/assets/survey/팔.png"},
-	{id: 22, stage: 2, targetBodyPart: "팔, 다리, 어깨", diagnosisPart: "발", image: "/assets/survey/발목,발.png"},
-	{id: 23, stage: 2, targetBodyPart: "팔, 다리, 어깨", diagnosisPart: "무릎", image: "/assets/survey/무릎.png"},
+	{id: 19, stage: 2, targetBodyPart: "관절", diagnosisPart: "손가락, 손바닥", image: "/assets/survey/손가락, 손바닥.png"},
+	{id: 20, stage: 2, targetBodyPart: "관절", diagnosisPart: "손목", image: "/assets/survey/손목.png"},
+	{id: 21, stage: 2, targetBodyPart: "관절", diagnosisPart: "팔꿈치", image: "/assets/survey/팔 (2).png"},
+	{id: 22, stage: 2, targetBodyPart: "관절", diagnosisPart: "어깨", image: "/assets/survey/어깨.png"},
+	{id: 23, stage: 2, targetBodyPart: "관절", diagnosisPart: "쇄골", image: "/assets/survey/쇄골.png"},
+	{id: 24, stage: 2, targetBodyPart: "관절", diagnosisPart: "발", image: "/assets/survey/발목,발.png"},
+	{id: 25, stage: 2, targetBodyPart: "관절", diagnosisPart: "발목", image: "/assets/survey/발목,발.png"},
+	{id: 26, stage: 2, targetBodyPart: "관절", diagnosisPart: "무릎", image: "/assets/survey/무릎.png"},
+	{id: 27, stage: 2, targetBodyPart: "관절", diagnosisPart: "골반, 엉덩이", image: "/assets/survey/엉덩이,골반,항문.png"},
+	{id: 28, stage: 2, targetBodyPart: "관절", diagnosisPart: "허리", image: "/assets/survey/허리, 등.png"},
+	{id: 29, stage: 2, targetBodyPart: "관절", diagnosisPart: "목", image: "/assets/survey/목.png"},
 	
 	// 3단계 옵션: 질병 및 상세 증상 예시
 	{id: 1, stage: 3, targetBodyPart: "생식기", diagnosisPart: "여성 건강", presentedSymptom: "생리불규칙", image: "/assets/survey/생리불규칙.png"},
