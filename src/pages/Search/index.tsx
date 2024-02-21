@@ -4,9 +4,13 @@ import MapView from './Child/MapView';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';
 import SearchView from './Child/SearchView';
-import useKakaoMapInit from '../../hooks/useKakaoMapInit';
+import {useRouter} from 'next/router';
 
-// const KAKAO_SDK_URL = `//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&autoload=false`;
+declare global {
+    interface Window {
+        google: any;
+    }
+}
 
 const Container = styled.main`
     width: 100%;
@@ -18,38 +22,111 @@ const Container = styled.main`
 `;
 
 const Search = () => {
-    const {getMapLocation} = useKakaoMapInit();
+    const router = useRouter();
 
+    const [map, setMap] = useState<any>(null);
     const [searchQuery, setSearchQuery] = useState('');
-    const [location, setLocation] = useState<{
-        latitude: number;
-        longitude: number;
-    }>();
+    // 마커 관리 전역 변수
+    const [markers, setMarkers] = useState<any[]>([]);
 
-    const getLocation = () => {
+    useEffect(() => {
+        // Google Maps API 스크립트
+        const googleMapScript = document.createElement('script');
+        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`;
+        googleMapScript.onload = initMap;
+        document.head.appendChild(googleMapScript);
+
+        return () => {
+            document.head.removeChild(googleMapScript);
+        };
+    }, []);
+
+    const initMap = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 position => {
-                    setLocation({
-                        latitude: position.coords.latitude,
-                        longitude: position.coords.longitude,
-                    });
+                    const mapInstance = new window.google.maps.Map(
+                        document.getElementById('map'),
+                        {
+                            center: {
+                                lat: position.coords.latitude,
+                                lng: position.coords.longitude,
+                            },
+                            zoom: 14,
+                        },
+                    );
+                    setMap(mapInstance);
                 },
-                error => {},
+                error => {
+                    console.error('Error getting current location:', error);
+                },
             );
         } else {
-            console.log('geolocationerrror');
+            console.error('Geolocation is not supported by this browser.');
         }
     };
 
-    useEffect(() => {
-        getLocation();
-    }, []);
+    const handleSearch = () => {
+        if (!map || !searchQuery) return;
 
-    useEffect(() => {
-        getMapLocation({location, keyword: searchQuery});
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [location, searchQuery]);
+        // 이전에 생성된 모든 마커 제거
+        clearMarkers();
+
+        // 현재 지도의 중심 좌표 (드래그로 위치 변경)
+        const center = map.getCenter();
+        const service = new window.google.maps.places.PlacesService(map);
+        service.textSearch(
+            {
+                query: searchQuery,
+                radius: 5000,
+                location: {
+                    lat: center.lat(),
+                    lng: center.lng(),
+                },
+            },
+            (results: any, status: any) => {
+                if (
+                    status === window.google.maps.places.PlacesServiceStatus.OK
+                ) {
+                    addMarkers(results);
+                }
+            },
+        );
+    };
+
+    // 이전 마커 제거
+    const clearMarkers = () => {
+        // 전체 마커 목록 순회
+        markers.forEach(marker => {
+            marker.setMap(null); // 마커를 지도에서 제거
+        });
+        // 배열 초기화
+        setMarkers([]);
+    };
+
+    // 마커를 추가하는 함수
+    const addMarkers = (places: any[]) => {
+        places.forEach(place => {
+            const marker = new window.google.maps.Marker({
+                position: place.geometry.location,
+                map: map,
+                title: place.name,
+            });
+            // 생성된 마커를 전역 배열에 추가
+            setMarkers(prev => [...prev, marker]);
+
+            // 마커 클릭 이벤트
+            marker.addListener('click', () => {
+                // console.log(JSON.stringify(place, null, 2));
+                router.push(`/Search/${place.place_id}`);
+            });
+
+            // 마커에 마우스 호버 이벤트를 추가합니다.
+            marker.addListener('mouseover', () => {
+                console.log('마커 위에 마우스가 올라갔습니다:', place.name);
+            });
+        });
+    };
 
     return (
         <>
@@ -57,6 +134,7 @@ const Search = () => {
                 <Container>
                     <SearchView
                         useSearchQueryState={[searchQuery, setSearchQuery]}
+                        onSearch={handleSearch}
                     />
                     <Suspense fallback={<LoadingView />}>
                         <MapView />

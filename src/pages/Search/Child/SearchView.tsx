@@ -26,8 +26,9 @@ const SearchButton = styled.button`
 
 interface Props {
     useSearchQueryState: [string, Dispatch<SetStateAction<string>>];
+    onSearch: () => void;
 }
-const SearchView = ({useSearchQueryState}: Props) => {
+const SearchView = ({useSearchQueryState, onSearch}: Props) => {
     const [searchQuery, setSearchQuery] = useSearchQueryState;
 
     const onTextHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -36,6 +37,7 @@ const SearchView = ({useSearchQueryState}: Props) => {
 
     const onSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
+        onSearch();
     };
 
     return (
