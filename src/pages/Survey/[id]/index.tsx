@@ -15,6 +15,15 @@ import hospitalVector from "../../../../public/assets/hospitalVector.svg";
 import {options} from "../../../../mock/SurveyMock";
 import ShareButton from "../../../components/Share/ShareButton";
 import {IOption} from "../../../types";
+import styled from "styled-components";
+
+const OptionDiv = styled.div`
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 84px;
+`
 
 const Index = () => {
 	const router = useRouter();
@@ -124,7 +133,6 @@ const Index = () => {
 			});
 		}
 	};
-
 	
 	return (
 		<Layout>
@@ -135,7 +143,7 @@ const Index = () => {
 				<div className={currentStage < 4 ? styles.question : styles.question_complete_title}>
 					<SurveyAskText/>
 				</div>
-				<div className={styles.options}>
+				<div className={currentOptions.length > 10 ? styles.max_options: styles.options}>
 					{currentOptions && currentOptions.map(option => (
 						<div key={option.id} onClick={() => currentStage < 4 ? goToNextPage(option) : ""}>
 							<Image src={option.image} alt="survey-option" className={styles.option} width={100} height={100}/>
