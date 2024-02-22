@@ -1,0 +1,75 @@
+.quizContainer {
+    margin:100px 0 20px 0;
+    padding:0;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.question_num {
+    margin-bottom:20px;
+    margin-left:50%;
+    background-color: #e7e7e7;
+    text-align: center;
+    width: 50px;
+    height:50px;
+    border-radius: 50%;
+    font-size: 30px;
+}
+
+.question {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%); /* 좌우 중앙 정렬을 위해 X축으로만 이동 */
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 515px;
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: black;
+    }
+}
+
+.question {
+    margin-bottom: 20px;
+    font-size: 24px;
+    text-align: center;
+    border-right: 2px solid black; /* 커서처럼 보이는 효과 */
+    white-space: nowrap; /* 줄바꿈 없이 한 줄에 */
+    overflow: hidden; /* 넘치는 내용 숨김 */
+    width: 0;
+    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite; /* 타이핑 효과와 커서 깜빡임 */
+}
+
+.options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top:inherit;
+}
+
+.option {
+    padding: 10px 15px;
+    width: 100px;
+    height: 100px;
+    border: 1px solid #ccc;
+    background-color: #f7f7f7;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.option:hover {
+    background-color: #e7e7e7;
+}
