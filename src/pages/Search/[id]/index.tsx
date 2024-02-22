@@ -1,0 +1,88 @@
+/* eslint-disable react-hooks/exhaustive-deps */
+import {useRouter} from 'next/router';
+import Layout from '../../../components/Layout';
+import styled from 'styled-components';
+import {useEffect, useState} from 'react';
+import InfoTitleView from './Child/InfoTitleView';
+import {Model_GoogleMapPlace} from '../../../types/PlaceInfo';
+
+const Container = styled.main`
+    width: 100%;
+    height: 100%;
+    display: flex;
+    padding: 30px 160px;
+    flex-direction: column;
+    align-items: center;
+`;
+const ImageContainer = styled.div`
+    width: 100%;
+    height: 400px;
+    background-color: #d9d9d9;
+`;
+const PlaceImage = styled.img`
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+`;
+
+const SearchDetail = () => {
+    const router = useRouter();
+    const {id} = router.query;
+    const [placeDetails, setPlaceDetails] = useState<Model_GoogleMapPlace>();
+    const [placeImage, setPlaceImage] = useState<string>();
+
+    useEffect(() => {
+        if (id) {
+            const script = document.createElement('script');
+            script.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`;
+            script.onload = initializeMap;
+            document.head.appendChild(script);
+        }
+    }, [id]);
+
+    const initializeMap = () => {
+        const map = new window.google.maps.Map(document.getElementById('map'), {
+            center: {lat: -34.397, lng: 150.644},
+            zoom: 15,
+        });
+
+        const service = new window.google.maps.places.PlacesService(map);
+
+        const request = {
+            placeId: id,
+        };
+
+        service.getDetails(request, (place: any, status: any) => {
+            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                setPlaceDetails(place);
+
+                const image = place?.photos?.[0].getUrl();
+                setPlaceImage(image);
+            } else {
+                console.error('장소 정보를 가져오는데 실패했습니다:', status);
+            }
+        });
+    };
+
+    console.log(JSON.stringify(placeDetails, null, 2));
+
+    return (
+        <Layout>
+            <Container>
+                {/* map api 활성화 용도 hidden */}
+                <div id="map" style={{display: 'none'}} />
+
+                <ImageContainer>
+                    {!!placeImage && (
+                        <PlaceImage key={1} src={placeImage} alt={`Photo 1`} />
+                    )}
+                </ImageContainer>
+                {!!placeDetails?.name && (
+                    <InfoTitleView name={placeDetails.name} />
+                )}
+            </Container>
+        </Layout>
+    );
+};
+
+export default SearchDetail;
