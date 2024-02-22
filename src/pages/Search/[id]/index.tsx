@@ -5,6 +5,7 @@ import styled from 'styled-components';
 import {useEffect, useState} from 'react';
 import InfoTitleView from './Child/InfoTitleView';
 import {Model_GoogleMapPlace} from '../../../types/PlaceInfo';
+import InfoContentView from './Child/InfoContentView';
 
 const Container = styled.main`
     width: 100%;
@@ -23,6 +24,11 @@ const PlaceImage = styled.img`
     width: 100%;
     height: 100%;
     object-fit: cover;
+`;
+const ContentContainer = styled.section`
+    display: flex;
+    width: 100%;
+    border-bottom: 2px solid black;
 `;
 
 const SearchDetail = () => {
@@ -80,6 +86,13 @@ const SearchDetail = () => {
                 {!!placeDetails?.name && (
                     <InfoTitleView name={placeDetails.name} />
                 )}
+                <ContentContainer>
+                    <InfoContentView
+                        address={placeDetails?.formatted_address}
+                        openingHour={placeDetails?.opening_hours.weekday_text}
+                        phoneNumber={placeDetails?.formatted_phone_number}
+                    />
+                </ContentContainer>
             </Container>
         </Layout>
     );
