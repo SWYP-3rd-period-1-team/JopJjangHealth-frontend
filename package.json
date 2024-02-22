@@ -2,6 +2,7 @@
   "name": "jobjjanghealth_front",
   "version": "0.1.0",
   "private": true,
+  "proxy": "http://3.36.251.109:8080/",
   "scripts": {
     "dev": "next dev",
     "build": "next build",

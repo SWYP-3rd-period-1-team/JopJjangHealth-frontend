@@ -9,10 +9,10 @@ export const validateEmail = (email: string): string | true => {
 export const validatePassword = (password: string): string | true => {
 	const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/;
 	if (!regex.test(password)) {
-		return '대소문자, 숫자, 특수 문자를 모두 포함해야 합니다.';
+	return '대소문자, 숫자, 특수 문자를 모두 포함해야 합니다.';
 	}
 	if (password.length < 8) {
-		return '비밀번호는 최소 8자 이상이어야 합니다.';
+   return '비밀번호는 최소 8자 이상이어야 합니다.';
 	}
 	return true;
 };

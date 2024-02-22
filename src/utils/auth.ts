@@ -15,10 +15,14 @@ export async function login(userId: string, password: string): Promise<string | 
 	}
 }
 
-export async function signUp(nickname: string, userId: string, email: string, password: string): Promise<void> {
+export const signUp = async (nickname: string, userId: string, email: string, password: string): Promise<void> => {
 	try {
-		await axios.post('/api/signup', { nickname, userId, email, password });
-		window.location.href = "/Login";
+		await axios.post('/api/members/join', { nickname, userId, email, password }, {
+			headers: {
+				'Content-Type': 'application/json; charset=UTF-8',
+				'Accept': 'application/json'
+			}
+		});
 	} catch (error) {
 		console.error('회원가입 실패:', error);
 	}
