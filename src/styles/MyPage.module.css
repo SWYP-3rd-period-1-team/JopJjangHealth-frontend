@@ -1,0 +1,64 @@
+.myPage_title {
+    color: #000;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 51.2px */
+    letter-spacing: -0.64px;
+}
+.myPageContainer {
+    width: 100%;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.profileContainer {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.profileImage {
+    width: 80px; /* Adjust size as needed */
+    height: 80px;
+    background-color: #ccc; /* Placeholder color */
+    border-radius: 40px; /* Makes it circular */
+    margin-right: 10px;
+}
+
+.profileInfo {
+    display: flex;
+    flex-direction: column;
+}
+
+.username {
+    font-size: 1.2em;
+    font-weight: bold;
+}
+
+.userId {
+    color: #666;
+    margin-top: 5px;
+}
+
+.likedListContainer {
+    border-top: 2px dashed #ccc;
+    padding-top: 20px;
+}
+
+.likedTitle {
+    font-size: 1em;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.change {
+    border-radius: 20px;
+    width: 120px;
+    height: 30px;
+    flex-shrink: 0;
+    background: #F4F4F4;
+}
+
+/* Add more styles as needed */
