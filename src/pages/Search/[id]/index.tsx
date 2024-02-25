@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 import InfoTitleView from './Child/InfoTitleView';
 import {Model_GoogleMapPlace} from '../../../types/PlaceInfo';
 import InfoContentView from './Child/InfoContentView';
+import CommentView from './Child/CommntView';
 
 const Container = styled.main`
     width: 100%;
@@ -89,10 +90,12 @@ const SearchDetail = () => {
                 <ContentContainer>
                     <InfoContentView
                         address={placeDetails?.formatted_address}
-                        openingHour={placeDetails?.opening_hours.weekday_text}
+                        openingHour={placeDetails?.opening_hours?.weekday_text}
                         phoneNumber={placeDetails?.formatted_phone_number}
                     />
                 </ContentContainer>
+
+                <CommentView />
             </Container>
         </Layout>
     );
