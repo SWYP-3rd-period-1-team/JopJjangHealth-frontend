@@ -1,0 +1,55 @@
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.modal_content {
+    width:auto;
+    background-color: #ffffff;
+    overflow-y: auto;
+    padding: 20px;
+    border-radius: 25px;
+}
+
+.modal_content::-webkit-scrollbar {
+    width: 0;
+    background: transparent;
+}
+
+.close {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+.choice_share {
+    padding:10px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 10px;
+}
+
+.choice_share_kakao {
+    float:right;
+    text-align: center;
+    width: 45%;
+    padding:10px;
+    margin-top:5px;
+}
+
+.choice_share_clip {
+    float: left;
+    text-align: center;
+    width:45%;
+    padding:10px;
+    margin-top:5px;
+}
