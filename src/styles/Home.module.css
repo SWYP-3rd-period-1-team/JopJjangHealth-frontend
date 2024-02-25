@@ -54,7 +54,7 @@
     position: relative;
     margin:20px;
     background-size: cover;
-    background: url("/assets/late_work.png") no-repeat center;
+    background: url("/assets/home/late_work.png") no-repeat center;
     float: left;
     width: 490px;
     height: 550px;
@@ -64,7 +64,7 @@
 }
 
 .home_right {
-    background: url("/assets/calendar.png") no-repeat center;
+    background: url("/assets/home/calendar.png") no-repeat center;
 }
 
 .home_text, .home_detail {
