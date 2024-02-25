@@ -1,0 +1,71 @@
+.joinContainer {
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+    align-items: center;
+    margin-top: -30px;
+    margin-left:10%;
+}
+
+.joinTitle {
+    padding: 15px;
+    margin-right:10%;
+    margin-bottom:10px;
+    font-size: 30px;
+    font-weight: 500;
+}
+
+.inputGroup {
+    margin-bottom: 20px;
+}
+
+.input, .input_email, .inputError {
+    width: 410px;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
+.input_email {
+    margin-right:5px;
+    width: 190px;
+}
+
+.selectDomain {
+    margin-left: 5px;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+
+.inputError {
+    border: 2px solid red;
+}
+
+.errorText {
+    color: red;
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+.submitButton {
+    background-color: blue;
+    color: white;
+    padding: 10px 20px;
+    width: 400px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.submitButton:disabled {
+    background-color: grey;
+    cursor: not-allowed;
+}
+
+.verifyButton {
+    margin-left: 20px;
+    background-color: #ffffff;
+    padding: 8px 20px;
+    width: max-content;
+}

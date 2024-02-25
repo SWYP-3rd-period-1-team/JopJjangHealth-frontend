@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="e956759e-0de5-4d1a-8730-66dd586b3d04" name="변경" comment="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경">
+      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/mock/SurveyMock.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/pages/Join/index.tsx" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/state/join.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/styles/Join.module.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/auth.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/utils/validation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.pnp.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/.pnp.cjs" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.yarn/install-state.gz" beforeDir="false" afterPath="$PROJECT_DIR$/.yarn/install-state.gz" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mock/body.json" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/public/assets/Animation.gif" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/survey/Animation.gif" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Header.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Header.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Home.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Survey.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Survey.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="HTML File" />
+        <option value="TypeScript File" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="main" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="MarkdownSettingsMigration">
+    <option name="stateVersion" value="1" />
+  </component>
+  <component name="PackageJsonUpdateNotifier">
+    <dismissed value="$PROJECT_DIR$/package.json" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 8
+}</component>
+  <component name="ProjectId" id="2cqDeNazPMv5Z7enbP13osAXpWN" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;DefaultHtmlFileTemplate&quot;: &quot;HTML File&quot;,
+    &quot;Notification.DisplayName-DoNotAsk-Vcs Important Messages&quot;: &quot;VCS 중요 메시지&quot;,
+    &quot;Notification.DoNotAsk-Vcs Important Messages&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;login&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/User/WebstormProjects/JopJjangHealth-frontend-test/src&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.standard&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.standard&quot;: &quot;&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;yarn&quot;,
+    &quot;npm.vcsBerry:update.executor&quot;: &quot;Run&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;yarn:package.json:typescript&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  }
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\src" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\public" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\public\assets" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\src\utils" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\src\pages" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\public\assets\survey" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\mock" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\public\assets\icon" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\public\assets\share" />
+      <recent name="C:\Users\User\WebstormProjects\JopJjangHealth-frontend-test\public\assets\home" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="vcsBerry:update" type="js.build_tools.npm" temporary="true" nameIsGenerated="true">
+      <package-json value="$PROJECT_DIR$/package.json" />
+      <command value="run" />
+      <scripts>
+        <script value="vcsBerry:update" />
+      </scripts>
+      <node-interpreter value="project" />
+      <envs />
+      <method v="2" />
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="npm.vcsBerry:update" />
+        <item itemvalue="npm.vcsBerry:update" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="애플리케이션 수준" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="디폴트 작업">
+      <changelist id="e956759e-0de5-4d1a-8730-66dd586b3d04" name="변경" comment="" />
+      <created>1708830312546</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1708830312546</updated>
+      <workItem from="1708830318921" duration="1034000" />
+      <workItem from="1708831400154" duration="4710000" />
+      <workItem from="1708836683734" duration="213000" />
+      <workItem from="1708836911413" duration="5883000" />
+      <workItem from="1708844088208" duration="2534000" />
+    </task>
+    <task id="LOCAL-00001" summary="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경">
+      <option name="closed" value="true" />
+      <created>1708835449041</created>
+      <option name="number" value="00001" />
+      <option name="presentableId" value="LOCAL-00001" />
+      <option name="project" value="LOCAL" />
+      <updated>1708835449041</updated>
+    </task>
+    <option name="localTasksCounter" value="2" />
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="RECENT_FILTERS">
+      <map>
+        <entry key="Branch">
+          <value>
+            <list>
+              <RecentGroup>
+                <option name="FILTER_VALUES">
+                  <option value="login" />
+                </option>
+              </RecentGroup>
+            </list>
+          </value>
+        </entry>
+      </map>
+    </option>
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State>
+              <option name="FILTERS">
+                <map>
+                  <entry key="branch">
+                    <value>
+                      <list>
+                        <option value="origin/basic" />
+                      </list>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </State>
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
+  <component name="VcsManagerConfiguration">
+    <MESSAGE value="Merge pull request #22 from RyuJeongSang/map&#10;&#10;Map" />
+    <MESSAGE value="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경" />
+    <option name="LAST_COMMIT_MESSAGE" value="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경" />
+  </component>
+</project>
