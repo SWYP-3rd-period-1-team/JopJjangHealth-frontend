@@ -3,6 +3,10 @@ import Layout from '../../components/Layout';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';
 import {useRouter} from 'next/router';
+import SearchLogoView from './Child/SearchLogoView';
+import {Model_GoogleMapPlace} from '../../types/PlaceInfo';
+import SearchInput from './Child/SearchInput';
+import SearchList from './Child/SearchList';
 
 declare global {
     interface Window {
@@ -14,7 +18,7 @@ const Container = styled.main`
     width: 100%;
     height: 100%;
     display: flex;
-    padding: 30px 160px;
+    padding: 30px 30px;
     flex-direction: column;
     align-items: center;
 `;
@@ -25,7 +29,7 @@ const Search = () => {
     const [map, setMap] = useState<any>(null);
     const [searchQuery, setSearchQuery] = useState('');
     // 마커 관리 전역 변수
-    const [markers, setMarkers] = useState<any[]>([]);
+    const [searchList, setSearchList] = useState<Model_GoogleMapPlace[]>([]);
 
     useEffect(() => {
         // Google Maps API 스크립트
@@ -67,10 +71,6 @@ const Search = () => {
     const handleSearch = () => {
         if (!map || !searchQuery) return;
 
-        // 이전에 생성된 모든 마커 제거
-        clearMarkers();
-
-        // 현재 지도의 중심 좌표 (드래그로 위치 변경)
         const center = map.getCenter();
         const service = new window.google.maps.places.PlacesService(map);
         service.textSearch(
@@ -82,54 +82,30 @@ const Search = () => {
                     lng: center.lng(),
                 },
             },
-            (results: any, status: any) => {
+            (results: Model_GoogleMapPlace[], status: any) => {
                 if (
                     status === window.google.maps.places.PlacesServiceStatus.OK
                 ) {
-                    addMarkers(results);
+                    setSearchList(results);
                 }
             },
         );
     };
 
-    // 이전 마커 제거
-    const clearMarkers = () => {
-        // 전체 마커 목록 순회
-        markers.forEach(marker => {
-            marker.setMap(null); // 마커를 지도에서 제거
-        });
-        // 배열 초기화
-        setMarkers([]);
-    };
-
-    // 마커를 추가하는 함수
-    const addMarkers = (places: any[]) => {
-        places.forEach(place => {
-            const marker = new window.google.maps.Marker({
-                position: place.geometry.location,
-                map: map,
-                title: place.name,
-            });
-            // 생성된 마커를 전역 배열에 추가
-            setMarkers(prev => [...prev, marker]);
-
-            // 마커 클릭 이벤트
-            marker.addListener('click', () => {
-                // console.log(JSON.stringify(place, null, 2));
-                router.push(`/Map/${place.place_id}`);
-            });
-
-            // 마커에 마우스 호버 이벤트를 추가합니다.
-            marker.addListener('mouseover', () => {
-                console.log('마커 위에 마우스가 올라갔습니다:', place.name);
-            });
-        });
-    };
+    const isSearchList = !!searchList && searchList.length > 0;
 
     return (
         <>
             <Layout>
-                <Container></Container>
+                <div id="map" style={{display: 'none'}} />
+                <Container>
+                    {!isSearchList && <SearchLogoView />}
+                    <SearchInput
+                        useSearchQueryState={[searchQuery, setSearchQuery]}
+                        onSearch={handleSearch}
+                    />
+                    {isSearchList && <SearchList hospitalList={searchList} />}
+                </Container>
             </Layout>
         </>
     );
