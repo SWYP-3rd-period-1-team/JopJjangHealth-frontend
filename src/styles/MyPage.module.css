@@ -1,64 +1,74 @@
-.myPage_title {
-    color: #000;
-    text-align: center;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 160%; /* 51.2px */
-    letter-spacing: -0.64px;
-}
 .myPageContainer {
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
+    width: 1000px;
+    height: 850px;
+    flex-shrink: 0;
+    border: 1px solid #A8A8A8;
+    background: #E6E6E6;
 }
 
 .profileContainer {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-}
-
-.profileImage {
-    width: 80px; /* Adjust size as needed */
-    height: 80px;
-    background-color: #ccc; /* Placeholder color */
-    border-radius: 40px; /* Makes it circular */
-    margin-right: 10px;
+    width: 960px;
+    height: 180px;
+    flex-shrink: 0;
+    background: #FFF;
 }
 
 .profileInfo {
     display: flex;
-    flex-direction: column;
+    align-items: center;
+}
+
+.profileImage {
+    width: 150px;
+    height: 150px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: #D9D9D9;
+}
+
+.profileText {
+    margin-left: 10px;
 }
 
 .username {
-    font-size: 1.2em;
-    font-weight: bold;
+    color: #000;
+    /*text-align: center;*/
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 44.8px */
+    letter-spacing: -0.56px;
 }
 
 .userId {
-    color: #666;
-    margin-top: 5px;
+    color: #757575;
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 32px */
+    letter-spacing: -0.4px;
 }
 
-.likedListContainer {
-    border-top: 2px dashed #ccc;
-    padding-top: 20px;
-}
-
-.likedTitle {
-    font-size: 1em;
-    font-weight: bold;
-    margin-bottom: 10px;
-}
-
-.change {
-    border-radius: 20px;
+.userbutton {
     width: 120px;
     height: 30px;
     flex-shrink: 0;
-    background: #F4F4F4;
+    border-radius: 100px;
+    background: #D9D9D9;
+    border: none;
+    padding: 5px 10px;
+    margin-top: 10px;
+    cursor: pointer;
 }
 
-/* Add more styles as needed */
+.likedListContainer {
+    color: #000;
+    /*text-align: center;*/
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%; /* 38.4px */
+    letter-spacing: -0.48px;
+    margin-top: 20px;
+}

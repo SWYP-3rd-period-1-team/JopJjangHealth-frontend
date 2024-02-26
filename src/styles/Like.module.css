@@ -1,0 +1,161 @@
+.like_text {
+    color: #000;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 51.2px */
+    letter-spacing: -0.64px;
+    margin: 50px 210px 0 210px;
+}
+
+.like_container {
+    width: 1000px;
+    height: 699px;
+    flex-shrink: 0;
+    background: #fff;
+    border: 1px solid #A8A8A8;
+    margin: 0 210px 50px 210px;
+}
+
+.like_item_container {
+    width: 960px;
+    height: 100px;
+    margin: 20px;
+    flex-shrink: 0;
+    background: #F4F4F4;
+}
+
+.title {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 32px */
+    letter-spacing: -0.4px;
+    margin:20px 20px 20px 20px;
+}
+
+.date {
+    margin:-20px 20px 0 0;
+    float:right;
+    color: #757575;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: -0.28px;
+}
+
+.place {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
+}
+
+.district {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
+}
+
+.delete {
+    border :none;
+    margin:-35px 20px 0 0;
+    float:right;
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: -0.28px;
+}
+
+.no_hospitals {
+    margin-top:250px;
+}
+
+.no_like {
+    color: #000;
+    text-align: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 64px */
+    letter-spacing: -0.8px;
+}
+.no_like_text {
+    color: #000;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 64px */
+    letter-spacing: -0.8px;
+}
+.click_survey{
+    color: #000;
+    text-align: center;
+margin-top:50px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 38.4px */
+    letter-spacing: -0.48px;
+}
+
+/* Like.module.css */
+
+/* 기존 스타일 이외에 추가할 팝업 관련 스타일 */
+.popupContainer {
+    position: fixed; /* 팝업을 화면 중앙에 고정 */
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 80%; /* 팝업의 폭 */
+    max-width: 400px; /* 팝업의 최대 폭 */
+    padding: 20px;
+    background-color: white;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
+    z-index: 100; /* 다른 요소들 위에 표시 */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.popupContainer div,
+.popupContainer button {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+/* 팝업 닫기 버튼 스타일 */
+.popupContainer button {
+    padding: 10px 20px;
+    background-color: #f44336; /* 버튼 배경색 */
+    color: white; /* 버튼 텍스트 색상 */
+    border: none;
+    cursor: pointer;
+}
+
+/* 팝업 이동 버튼 스타일 */
+.popupContainer button:last-child {
+    background-color: #4caf50; /* 녹색 배경 */
+}
+
+/* 버튼 호버 효과 */
+.popupContainer button:hover {
+    opacity: 0.9;
+}
+
+/* 기존의 스타일 외에 추가할 새로운 스타일 */
+.clickedItem {
+    background-color: red; /* 클릭 시 적용할 배경색, 원하는 색상으로 변경 가능 */
+}
+
+

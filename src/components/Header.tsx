@@ -40,7 +40,7 @@ const Header: () => React.JSX.Element = () => {
 							</Link>
 						</li>
 						<li className={styles.header_link}>
-							<Link href="/MyPage">
+							<Link href="/MyPage/Profile">
 								<a className={isActive('/MyPage', styles.header_link_login_second)}>마이페이지</a>
 							</Link>
 						</li>
