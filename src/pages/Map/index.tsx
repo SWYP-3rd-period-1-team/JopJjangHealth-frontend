@@ -1,7 +1,9 @@
 import React, {Suspense, useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
+import MapView from './Child/MapView';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';
+import SearchView from './Child/SearchView';
 import {useRouter} from 'next/router';
 
 declare global {
@@ -19,7 +21,7 @@ const Container = styled.main`
     align-items: center;
 `;
 
-const Search = () => {
+const Map = () => {
     const router = useRouter();
 
     const [map, setMap] = useState<any>(null);
@@ -129,10 +131,18 @@ const Search = () => {
     return (
         <>
             <Layout>
-                <Container></Container>
+                <Container>
+                    <SearchView
+                        useSearchQueryState={[searchQuery, setSearchQuery]}
+                        onSearch={handleSearch}
+                    />
+                    <Suspense fallback={<LoadingView />}>
+                        <MapView />
+                    </Suspense>
+                </Container>
             </Layout>
         </>
     );
 };
 
-export default Search;
+export default Map;

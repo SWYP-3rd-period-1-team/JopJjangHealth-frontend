@@ -32,7 +32,7 @@ const ContentContainer = styled.section`
     border-bottom: 2px solid black;
 `;
 
-const SearchDetail = () => {
+const MapDetail = () => {
     const router = useRouter();
     const {id} = router.query;
     const [placeDetails, setPlaceDetails] = useState<Model_GoogleMapPlace>();
@@ -81,7 +81,7 @@ const SearchDetail = () => {
 
                 <ImageContainer>
                     {!!placeImage && (
-                        <PlaceImage key={1} src={placeImage} alt={`Photo 1`} />
+                        <PlaceImage key={1} src={placeImage} alt={`Photo`} />
                     )}
                 </ImageContainer>
                 {!!placeDetails?.name && (
@@ -101,4 +101,4 @@ const SearchDetail = () => {
     );
 };
 
-export default SearchDetail;
+export default MapDetail;
