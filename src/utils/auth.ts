@@ -5,14 +5,9 @@ interface VerificationResult {
 	message?: string;
 }
 
-export async function login(userId: string, password: string): Promise<string | undefined> {
-	try {
-		const response = await axios.post('/api/login', { userId, password });
-		window.location.href = '/';
-	} catch (error) {
-		console.error('로그인 실패:', error.response?.data?.message);
-		return error.response?.data?.message;
-	}
+interface LogoutResult {
+	success: boolean;
+	message?: string;
 }
 
 export const signUp = async (nickname: string, userId: string, email: string, password: string): Promise<void> => {
@@ -48,22 +43,28 @@ export const verifyEmailCode = async (email: string, code: string): Promise<Veri
 	}
 };
 
-export async function findPassword(email: string): Promise<boolean> {
+export const logout = async (): Promise<LogoutResult> => {
 	try {
-		const response = await axios.post('/api/findPassword', { email });
-		return response.data.exists;
+		const refreshToken = localStorage.getItem('refreshToken');
+		
+		if (!refreshToken) {
+			console.error('No refresh token found');
+			return { success: false, message: 'No refresh token found.' };
+		}
+		
+		// HTTP 요청 헤더에 'Authorization' 대신 'RefreshToken' 사용 (서버 구현에 따라 다를 수 있음)
+		await axios.post('/api/members/logout', {}, {
+			headers: {
+				'Authorization': `Bearer ${refreshToken}`
+			}
+		});
+		localStorage.removeItem('accessToken');
+		localStorage.removeItem('refreshToken');
+		return { success: true };
 	} catch (error) {
-		console.error('비밀번호 찾기 실패:', error);
-		return false;
+		console.error(`Error logging out: ${error}`);
+		return { success: false, message: 'Failed to log out.' };
 	}
-}
+};
 
-export async function findId(email: string): Promise<string | null> {
-	try {
-		const response = await axios.post('/api/findId', { email });
-		return response.data.id;
-	} catch (error) {
-		console.error('ID 찾기 실패:', error);
-		return null;
-	}
-}
+

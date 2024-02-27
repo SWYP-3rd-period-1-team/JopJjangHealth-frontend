@@ -3,6 +3,7 @@ import styles from '../../styles/MyPage.module.css';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import LogoutModal from '../../components/Mypage/Logout';
+import {logout} from '../../utils/auth';
 
 const MyPage = () => {
     const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -45,10 +46,8 @@ const MyPage = () => {
                     isOpen={showLogoutModal}
                     onClose={() => setShowLogoutModal(false)}
                     onLogout={() => {
-                        // Handle the logout logic here
-                        console.log('Performing logout...');
+                        logout()
                         setShowLogoutModal(false);
-                        // Here you should also perform the logout action like clearing cookies or tokens
                     }}
                 />}
             </div>

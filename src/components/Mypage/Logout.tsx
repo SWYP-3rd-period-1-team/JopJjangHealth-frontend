@@ -1,5 +1,5 @@
 import React from 'react';
-import styles from '../../styles/Logout.module.css'; // CSS 모듈을 import합니다.
+import styles from '../../styles/Logout.module.css';
 
 interface LogoutModalProps {
     isOpen: boolean;
@@ -8,7 +8,7 @@ interface LogoutModalProps {
 }
 
 const LogoutModal: React.FC<LogoutModalProps> = ({ isOpen, onClose, onLogout }) => {
-    if (!isOpen) return null; // 모달이 열리지 않았으면 아무 것도 렌더링하지 않습니다.
+    if (!isOpen) return null;
     
     return (
         <div className={styles.modalOverlay}>
