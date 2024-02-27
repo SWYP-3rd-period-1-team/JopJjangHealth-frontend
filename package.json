@@ -15,6 +15,7 @@
     "axios": "^1.6.7",
     "install": "^0.13.0",
     "next": "12.3.4",
+    "qs": "^6.11.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hook-form": "^7.50.1",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@types/add": "^2",
     "@types/node": "20.11.17",
+    "@types/qs": "^6",
     "@types/react": "18.2.55",
     "@types/react-dom": "18.2.19",
     "@types/styled-components": "^5.1.34",

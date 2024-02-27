@@ -5,26 +5,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="e956759e-0de5-4d1a-8730-66dd586b3d04" name="변경" comment="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경">
-      <change afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/mock/SurveyMock.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/pages/Join/index.tsx" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/state/join.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/styles/Join.module.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/auth.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/utils/validation.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.pnp.cjs" beforeDir="false" afterPath="$PROJECT_DIR$/.pnp.cjs" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.yarn/install-state.gz" beforeDir="false" afterPath="$PROJECT_DIR$/.yarn/install-state.gz" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/mock/body.json" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/next.config.js" beforeDir="false" afterPath="$PROJECT_DIR$/next.config.js" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/public/assets/Animation.gif" beforeDir="false" afterPath="$PROJECT_DIR$/public/assets/survey/Animation.gif" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Header.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Header.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/components/Layout.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/components/Layout.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Join/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Join/index.tsx" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/pages/Login/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/Login/index.tsx" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/pages/_app.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/_app.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/pages/index.tsx" beforeDir="false" afterPath="$PROJECT_DIR$/src/pages/index.tsx" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/Header.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Header.module.css" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/styles/Home.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Home.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/styles/Join.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Join.module.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/styles/Survey.module.css" beforeDir="false" afterPath="$PROJECT_DIR$/src/styles/Survey.module.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/utils/auth.ts" beforeDir="false" afterPath="$PROJECT_DIR$/src/utils/auth.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/yarn.lock" beforeDir="false" afterPath="$PROJECT_DIR$/yarn.lock" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -134,6 +124,9 @@
       <workItem from="1708836683734" duration="213000" />
       <workItem from="1708836911413" duration="5883000" />
       <workItem from="1708844088208" duration="2534000" />
+      <workItem from="1709037605745" duration="1693000" />
+      <workItem from="1709039505963" duration="143000" />
+      <workItem from="1709039906802" duration="7314000" />
     </task>
     <task id="LOCAL-00001" summary="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경">
       <option name="closed" value="true" />
@@ -190,6 +183,25 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="Merge pull request #22 from RyuJeongSang/map&#10;&#10;Map" />
     <MESSAGE value="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경" />
-    <option name="LAST_COMMIT_MESSAGE" value="[24-02-25] 목업 파일 / 기본 설정 세팅 값 추가 변경" />
+    <MESSAGE value="[24-02-26] 찜구성 기본 틀 제안" />
+    <option name="LAST_COMMIT_MESSAGE" value="[24-02-26] 찜구성 기본 틀 제안" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/next.config.js</url>
+          <line>11</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+        <line-breakpoint enabled="true" type="javascript">
+          <url>file://$PROJECT_DIR$/src/utils/auth.ts</url>
+          <line>43</line>
+          <properties lambdaOrdinal="-1" />
+          <option name="timeStamp" value="2" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>

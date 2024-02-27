@@ -1,4 +1,5 @@
 import axios from 'axios';
+import qs from "qs";
 
 interface VerificationResult {
 	success: boolean;
@@ -37,3 +38,26 @@ export const verifyEmailCode = async (email: string, code: string): Promise<Veri
 		return { success: false, message: 'Failed to verify email code.' };
 	}
 };
+
+
+
+export const login = async (username:string, password:string) => {
+	try {
+		const data = qs.stringify({
+			username: username,
+			password: password,
+		});
+		
+		const url = 'http://3.36.251.109:8080/login';
+		
+		await axios.post(url, data, {
+			headers: {
+				'Content-Type': 'application/x-www-form-urlencoded',
+			}
+		});
+		console.log('로그인 성공');
+	} catch (error) {
+		console.error('로그인 실패:', error);
+	}
+};
+

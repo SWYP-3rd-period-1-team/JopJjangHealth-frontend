@@ -29,6 +29,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-query", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:5.24.1"],\
           ["@types/add", "npm:2.0.3"],\
           ["@types/node", "npm:20.11.17"],\
+          ["@types/qs", "npm:6.9.11"],\
           ["@types/react", "npm:18.2.55"],\
           ["@types/react-dom", "npm:18.2.19"],\
           ["@types/styled-components", "npm:5.1.34"],\
@@ -38,6 +39,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-next", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:12.3.4"],\
           ["install", "npm:0.13.0"],\
           ["next", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:12.3.4"],\
+          ["qs", "npm:6.11.2"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:18.2.0"],\
           ["react-hook-form", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:7.50.1"],\
@@ -447,6 +449,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../AppData/Local/Yarn/Berry/cache/@types-prop-types-npm-15.7.11-a0a5a0025c-10c0.zip/node_modules/@types/prop-types/",\
         "packageDependencies": [\
           ["@types/prop-types", "npm:15.7.11"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/qs", [\
+      ["npm:6.9.11", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/@types-qs-npm-6.9.11-e12802ac61-10c0.zip/node_modules/@types/qs/",\
+        "packageDependencies": [\
+          ["@types/qs", "npm:6.9.11"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2452,6 +2463,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-query", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:5.24.1"],\
           ["@types/add", "npm:2.0.3"],\
           ["@types/node", "npm:20.11.17"],\
+          ["@types/qs", "npm:6.9.11"],\
           ["@types/react", "npm:18.2.55"],\
           ["@types/react-dom", "npm:18.2.19"],\
           ["@types/styled-components", "npm:5.1.34"],\
@@ -2461,6 +2473,7 @@ const RAW_RUNTIME_STATE =
           ["eslint-config-next", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:12.3.4"],\
           ["install", "npm:0.13.0"],\
           ["next", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:12.3.4"],\
+          ["qs", "npm:6.11.2"],\
           ["react", "npm:18.2.0"],\
           ["react-dom", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:18.2.0"],\
           ["react-hook-form", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:7.50.1"],\
@@ -3054,6 +3067,16 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../AppData/Local/Yarn/Berry/cache/punycode-npm-2.3.1-97543c420d-10c0.zip/node_modules/punycode/",\
         "packageDependencies": [\
           ["punycode", "npm:2.3.1"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["qs", [\
+      ["npm:6.11.2", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/qs-npm-6.11.2-b118bc1c6f-10c0.zip/node_modules/qs/",\
+        "packageDependencies": [\
+          ["qs", "npm:6.11.2"],\
+          ["side-channel", "npm:1.0.5"]\
         ],\
         "linkType": "HARD"\
       }]\

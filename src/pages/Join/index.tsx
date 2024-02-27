@@ -151,6 +151,17 @@ const Join = () => {
                         />&nbsp;@&nbsp;
                         <select
                             value={isOtherDomain ? 'other' : emailDomain}
+                            className={styles.selectDomain}
+                            disabled={true}
+                        >
+                            {emailDomains.map((domain, index) => (
+                                <option key={index} value={domain}>
+                                    {domain === 'other' ? '직접 입력' : domain}
+                                </option>
+                            ))}
+                        </select>
+                        <select
+                            value={isOtherDomain ? 'other' : emailDomain}
                             onChange={handleDomainChange}
                             className={styles.selectDomain}
                         >
@@ -166,10 +177,16 @@ const Join = () => {
                                 value={customDomain}
                                 onChange={(e) => setCustomDomain(e.target.value)}
                                 className={styles.input}
+                                style={{width:"120px"}}
                             />
                         )}
+                        <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
+                                disabled={isVerificationSent}>
+                            인증 하기
+                        </button>
                     </div>
                     {errors.email && <p className={styles.errorText}>{errors.email.message}</p>}
+                    
                     <div className={styles.inputGroup}>
                         <input
                             placeholder="이메일 인증"
@@ -182,10 +199,6 @@ const Join = () => {
                         {errors.email && (
                             <p className={styles.errorText}>{errors.email.message}</p>
                         )}
-                        <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
-                                disabled={isVerificationSent}>
-                            인증 하기
-                        </button>
                     </div>
                     {isVerificationSent && !isVerificationComplete && (
                         <div className={styles.inputGroup}>
