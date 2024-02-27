@@ -28,7 +28,7 @@ const Like = () => {
 									<span className={styles.district}>{hospital.distance} 떨어져 있습니다.</span>
 								</div>
 								
-								<button className={styles.delete}>삭제</button>
+								<div className={styles.delete}>삭제</div>
 							</div>
 						))}
 					</>
