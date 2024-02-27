@@ -18,7 +18,7 @@ const SharePage: React.FC = () => {
 	
 	return (
 		<div>
-			<button className={styles.home_button} onClick={openModal}>
+			<button className={styles.share_button} onClick={openModal}>
 				공유하기 <Image src={share} alt="share" width={16} height={16}/>
 			</button>
 			<Modal show={showModal} onClose={closeModal}>

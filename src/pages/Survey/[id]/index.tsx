@@ -161,7 +161,7 @@ const Index = () => {
 						<Image src={before} alt="before" width={10} height={10}/> 전 단계로 돌아가기
 					</button>
 					{currentStage < 4 && (
-						<button className={styles.share_button} onClick={homeButton}>
+						<button className={styles.home_button} onClick={homeButton}>
 							<Image src={home} alt="home" width={10} height={10}/> 직<b>짱</b>건강
 						</button>
 					)}
@@ -169,7 +169,7 @@ const Index = () => {
 			)}
 			{currentStage === 4 && (
 				<>
-					<button className={styles.share_button} onClick={() => choiceHospitalButton(currentOptions)}>
+					<button className={styles.hospital_button} onClick={() => choiceHospitalButton(currentOptions)}>
 						추천병원 <Image src={hospital} alt="hospital" width={16} height={16}/>
 					</button>
 					<ShareButton/>
