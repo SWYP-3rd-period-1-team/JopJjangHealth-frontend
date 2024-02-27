@@ -1,3 +1,4 @@
+import "../styles/globals.css";
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { RecoilRoot } from 'recoil';
 import React from 'react';
