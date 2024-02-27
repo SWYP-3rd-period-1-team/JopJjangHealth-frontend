@@ -1,10 +1,10 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {signUp, sendEmailVerification, verifyEmailCode} from '../../utils/auth';
-import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
+import {signUp, sendEmailVerification, verifyEmailCode} from '../../../utils/auth';
+import {validatePassword, validateEmail} from '../../../utils/validation';
 
-import styles from '../../styles/Join.module.css';
-import Layout from '../../components/Layout';
+import styles from '../../../styles/ChangePassword.module.css';
+import Layout from '../../../components/Layout';
 
 interface FormData {
     nickname: string;
@@ -16,7 +16,7 @@ interface FormData {
 
 const emailDomains = ["gmail.com", "naver.com", "daum.net", "nate.com", "other"];
 
-const Join: () => JSX.Element = () => {
+const Index: () => JSX.Element = () => {
     const {
         register,
         handleSubmit,
@@ -188,4 +188,4 @@ const Join: () => JSX.Element = () => {
         ;
 };
 
-export default Join;
+export default Index;

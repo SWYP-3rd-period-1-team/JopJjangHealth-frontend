@@ -179,7 +179,7 @@
     white-space: nowrap;
     overflow: hidden;
     width: 0;
-    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite; /* 타이핑 효과와 커서 깜빡임 */
+    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
 }
 
 .question_complete_title {

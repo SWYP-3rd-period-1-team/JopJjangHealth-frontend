@@ -8,9 +8,13 @@ const Header: () => React.JSX.Element = () => {
 	const [loginTrue, setLoginTrue] = useState(true);
 	
 	const isActive = (path: string, baseStyle: string) => {
-		const isActiveRoute = router.pathname === path;
-		return isActiveRoute ? `${baseStyle} ${styles.active}` : baseStyle;
+		const isBaseActive = router.pathname === path; // 기존과 동일한 경로 확인
+		const isSubpageActive = router.pathname.startsWith(`${path}/`); // '/MyPage'로 시작하는 하위 경로 확인
+		
+		// 기존 경로 또는 하위 경로가 활성화된 경우에 진하게 마킹
+		return isBaseActive || isSubpageActive ? `${baseStyle} ${styles.active}` : baseStyle;
 	};
+
 	
 	return (
 		<>
@@ -40,7 +44,7 @@ const Header: () => React.JSX.Element = () => {
 							</Link>
 						</li>
 						<li className={styles.header_link}>
-							<Link href="/MyPage/Profile">
+							<Link href="/MyPage">
 								<a className={isActive('/MyPage', styles.header_link_login_second)}>마이페이지</a>
 							</Link>
 						</li>

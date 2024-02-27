@@ -1,40 +1,47 @@
-import React, {useEffect, useState} from 'react';
-import styles from '../../../../../JopJjangHealth-frontend_stage/src/styles/Find.module.css';
-import FindId from './UserId';
-import FindPassword from './Password';
+import React from 'react';
+import styles from '../../../styles/UserProfile.module.css';
+import Layout from '../../../components/Layout';
+import Link from 'next/link';
 
-const TabComponent: () => JSX.Element = () => {
-	const [activeTab, setActiveTab] = useState('');
-	
-	useEffect(() => {
-		if (typeof window !== 'undefined') {
-			const storedTab = localStorage.getItem('activeTab');
-			setActiveTab(storedTab);
-		}
-	}, []);
-	
-	return (
-		<div className={styles.findContainer}>
-			<div className={styles.tabs}>
-				<div
-					className={`${styles.tabButton} ${activeTab === 'FindId' ? styles.activeTab : ''}`}
-					onClick={() => setActiveTab('FindId')}
-				>
-					기본 사진
-				</div>
-				<div
-					className={`${styles.tabButton} ${activeTab === 'FindPassword' ? styles.activeTab : ''}`}
-					onClick={() => setActiveTab('FindPassword')}
-				>
-					갤러리에서 불러오기
-				</div>
-			</div>
-			<div>
-				{activeTab === 'FindId' && <FindId/>}
-				{activeTab === 'FindPassword' && <FindPassword/>}
-			</div>
-		</div>
-	);
+interface UserProfileProps {
+    username: string;
+    userId: string;
+    email: string;
+}
+
+const UserProfile: React.FC<UserProfileProps> = ({ username, userId, email }) => {
+    const openPopup = (url: string,text:string) => {
+        localStorage.setItem('activeTab',text)
+        window.open(url, 'popup', 'width=600,height=400');
+    };
+    
+    return (
+        <Layout>
+            <div className={styles.profileContainer}>
+                <div>
+                    <div className={styles.profileImage}></div>
+                    <div className={styles.profileEdit} onClick={() => openPopup('/MyPage/ChangeProfileImage',"ChangeBasicImage")}>편집하기</div>
+                </div>
+                <div style={{ marginTop: '20px' }}>
+                    <div className={styles.likedListContainer}>
+                        <span className={styles.userAsk}>닉네임</span>
+                        <span className={styles.userAnswer}>직짱인12345</span>
+                        <button className={styles.userNameChangeButton}>닉네임 변경하기</button>
+                        <p className={styles.hint}>닉네임은 2번 이상 바꿀 수 없고, 8글자이며 똑같은 닉네임이 없을 경우 가능합니다.</p>
+                    </div>
+                    <div className={styles.likedListContainer}>
+                        <span className={styles.userAsk}>아이디</span>
+                        <span className={styles.userAnswer}>jickjjangin12</span>
+                    </div>
+                    <div className={styles.likedListContainer}>
+                        <span className={styles.userAsk}>이메일</span>
+                        <span className={styles.userAnswer}>jobjjang@naver.com</span>
+                    </div>
+                </div>
+                <button className={styles.editButton}>확인</button>
+            </div>
+        </Layout>
+    );
 };
 
-export default TabComponent;
+export default UserProfile;
