@@ -6,6 +6,7 @@ import {useEffect, useState} from 'react';
 import InfoTitleView from './Child/InfoTitleView';
 import {Model_GoogleMapPlace} from '../../../types/PlaceInfo';
 import InfoContentView from './Child/InfoContentView';
+import CommentView from './Child/CommntView';
 
 const Container = styled.main`
     width: 100%;
@@ -31,7 +32,7 @@ const ContentContainer = styled.section`
     border-bottom: 2px solid black;
 `;
 
-const SearchDetail = () => {
+const MapDetail = () => {
     const router = useRouter();
     const {id} = router.query;
     const [placeDetails, setPlaceDetails] = useState<Model_GoogleMapPlace>();
@@ -80,7 +81,7 @@ const SearchDetail = () => {
 
                 <ImageContainer>
                     {!!placeImage && (
-                        <PlaceImage key={1} src={placeImage} alt={`Photo 1`} />
+                        <PlaceImage key={1} src={placeImage} alt={`Photo`} />
                     )}
                 </ImageContainer>
                 {!!placeDetails?.name && (
@@ -89,13 +90,15 @@ const SearchDetail = () => {
                 <ContentContainer>
                     <InfoContentView
                         address={placeDetails?.formatted_address}
-                        openingHour={placeDetails?.opening_hours.weekday_text}
+                        openingHour={placeDetails?.opening_hours?.weekday_text}
                         phoneNumber={placeDetails?.formatted_phone_number}
                     />
                 </ContentContainer>
+
+                <CommentView />
             </Container>
         </Layout>
     );
 };
 
-export default SearchDetail;
+export default MapDetail;
