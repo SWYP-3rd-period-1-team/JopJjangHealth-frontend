@@ -109,20 +109,17 @@ margin-top:50px;
     letter-spacing: -0.48px;
 }
 
-/* Like.module.css */
-
-/* 기존 스타일 이외에 추가할 팝업 관련 스타일 */
 .popupContainer {
-    position: fixed; /* 팝업을 화면 중앙에 고정 */
+    position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 80%; /* 팝업의 폭 */
-    max-width: 400px; /* 팝업의 최대 폭 */
+    width: 80%;
+    max-width: 400px;
     padding: 20px;
     background-color: white;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    z-index: 100; /* 다른 요소들 위에 표시 */
+    z-index: 100;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -134,28 +131,23 @@ margin-top:50px;
     margin-bottom: 10px;
 }
 
-/* 팝업 닫기 버튼 스타일 */
 .popupContainer button {
     padding: 10px 20px;
-    background-color: #f44336; /* 버튼 배경색 */
-    color: white; /* 버튼 텍스트 색상 */
+    background-color: #f44336;
+    color: white;
     border: none;
     cursor: pointer;
 }
 
-/* 팝업 이동 버튼 스타일 */
 .popupContainer button:last-child {
-    background-color: #4caf50; /* 녹색 배경 */
+    background-color: #4caf50;
 }
 
-/* 버튼 호버 효과 */
 .popupContainer button:hover {
     opacity: 0.9;
 }
 
-/* 기존의 스타일 외에 추가할 새로운 스타일 */
+
 .clickedItem {
-    background-color: red; /* 클릭 시 적용할 배경색, 원하는 색상으로 변경 가능 */
+    background-color: red;
 }
-
-
