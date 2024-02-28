@@ -15,16 +15,7 @@ import hospital from '../../../../public/assets/icon/ic_hospital.png';
 import {options} from '../../../../mock/SurveyMock';
 import ShareButton from '../../../components/Share/ShareButton';
 import {IOption} from '../../../types/survey';
-import styled from 'styled-components';
 import axios from 'axios';
-
-const OptionDiv = styled.div`
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 10px;
-    margin-top: 84px;
-`;
 
 const Index = () => {
     const router = useRouter();
@@ -53,16 +44,13 @@ const Index = () => {
     }
     
     useEffect(() => {
-        if (targetBodyPart !== undefined) {
-            setSelectedBodyPart(targetBodyPart);
-        }
-        if (diagnosisPart !== undefined) {
-            setSelectedTargetBodyPart(diagnosisPart);
-        }
-        if (presentedSymptom !== undefined) {
-            setSelectedPresentedSymptom(presentedSymptom);
-        }
-    }, [router.query, setSelectedBodyPart, setSelectedTargetBodyPart, setSelectedPresentedSymptom]);
+        const newTargetBodyPart = typeof targetBodyPart === 'string' ? targetBodyPart : '';
+        const newDiagnosisPart = typeof diagnosisPart === 'string' ? diagnosisPart : '';
+        const newPresentedSymptom = typeof presentedSymptom === 'string' ? presentedSymptom : '';
+        setSelectedBodyPart(newTargetBodyPart);
+        setSelectedTargetBodyPart(newDiagnosisPart);
+        setSelectedPresentedSymptom(newPresentedSymptom);
+    }, [router.query, setSelectedBodyPart, setSelectedTargetBodyPart, setSelectedPresentedSymptom, targetBodyPart, diagnosisPart, presentedSymptom]);
     
     const SurveyAskText = () => {
         switch (currentStage) {

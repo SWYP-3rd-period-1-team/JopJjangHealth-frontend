@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import styles from '../../styles/UserProfile.module.css';
+import Image from 'next/image';
 
 const ChangePathImage = () => {
     const [selectedFile, setSelectedFile] = useState<File | null>(null);
@@ -10,7 +11,6 @@ const ChangePathImage = () => {
             const file = event.target.files[0];
             setSelectedFile(file);
             
-            // FileReader를 사용하여 이미지 미리보기 생성
             const reader = new FileReader();
             reader.onload = () => {
                 setPreviewUrl(reader.result as string);
@@ -26,10 +26,10 @@ const ChangePathImage = () => {
                     className={styles.fileInput}
                     type="file"
                     onChange={handleFileChange}
-                    accept=".png,.jpg,.jpeg,.gif" // PNG, JPG, GIF 파일만 허용
+                    accept=".png,.jpg,.jpeg,.gif"
                 />
                 {selectedFile && <div className={styles.fileName}>{selectedFile.name}</div>}
-                {previewUrl && <img src={previewUrl} alt="Preview" className={styles.imagePreview} />}
+                {previewUrl && <Image src={previewUrl} alt="Preview" className={styles.imagePreview} />}
             </div>
             <button type="submit" className={styles.checkButton}>
                 확인

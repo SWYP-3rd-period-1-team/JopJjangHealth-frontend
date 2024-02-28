@@ -9,7 +9,7 @@ const TabComponent: () => JSX.Element = () => {
     useEffect(() => {
         if (typeof window !== 'undefined') {
             const storedTab = localStorage.getItem('activeTab');
-            setActiveTab(storedTab);
+            setActiveTab(storedTab ? storedTab : '');
         }
     }, []);
     
