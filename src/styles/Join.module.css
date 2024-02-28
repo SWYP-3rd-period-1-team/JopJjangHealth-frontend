@@ -12,8 +12,13 @@
     padding: 15px;
     margin-right:10%;
     margin-bottom:10px;
+    color: #000;
+    text-align: center;
     font-size: 30px;
-    font-weight: 500;
+    font-style: normal;
+    font-weight: normal;
+    line-height: 150%; /* 78px */
+    letter-spacing: -1.04px;
 }
 
 .inputGroup {
@@ -21,8 +26,9 @@
 }
 
 .input, .input_email, .inputError {
-    width: 410px;
+    width:600px;
     padding: 10px 20px;
+    border:none;
     background-color: #ffffff;
 }
 
@@ -48,10 +54,12 @@
 }
 
 .submitButton {
-    background-color: blue;
+    width: 600px;
+    height:60px;
+    flex-shrink: 0;
+    background: #1C3C29;
     color: white;
     padding: 10px 20px;
-    width: 400px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
@@ -64,8 +72,10 @@
 }
 
 .verifyButton {
-    margin-left: 20px;
-    background-color: #ffffff;
-    padding: 8px 20px;
     width: max-content;
+    flex-shrink: 0;
+    margin-left: 20px;
+    border: 1px solid #A8A8A8;
+    background: #00A241;
+    padding: 8px 20px;
 }
