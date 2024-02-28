@@ -54,15 +54,12 @@ const Index = () => {
     
     useEffect(() => {
         if (targetBodyPart !== undefined) {
-            // @ts-ignore
             setSelectedBodyPart(targetBodyPart);
         }
         if (diagnosisPart !== undefined) {
-            // @ts-ignore
             setSelectedTargetBodyPart(diagnosisPart);
         }
         if (presentedSymptom !== undefined) {
-            // @ts-ignore
             setSelectedPresentedSymptom(presentedSymptom);
         }
     }, [router.query, setSelectedBodyPart, setSelectedTargetBodyPart, setSelectedPresentedSymptom]);

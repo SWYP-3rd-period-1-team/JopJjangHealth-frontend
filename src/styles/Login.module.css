@@ -1,0 +1,99 @@
+.loginContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px;
+}
+
+.loginTitle {
+    margin-bottom: 20px;
+    font-size:30px;
+    font-weight:300;
+    color: #000;
+    text-align: center;
+    font-style: normal;
+    line-height: 150%; /* 78px */
+    letter-spacing: -1.04px;
+}
+
+.inputGroup {
+    margin-bottom: 15px;
+}
+
+
+.input,.inputError {
+    border:none;
+    width: 600px;
+    padding: 10px 20px;
+    background-color: #ffffff;
+}
+.inputError {
+    border: 2px solid red;
+}
+
+.errorText {
+    color: red;
+    font-size: 0.75rem;
+    margin-top: 5px;
+}
+
+.submitButton {
+    width: 600px;
+    height:60px;
+    flex-shrink: 0;
+    background: #1C3C29;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.submitButton:disabled {
+    background-color: #cccccc;
+    cursor: not-allowed;
+}
+
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+}
+
+.hr {
+    width: 600px;
+    height: 0;
+    flex-shrink: 0;
+    stroke-width: 2px;
+    stroke: #00A241;
+}
+
+.linkContainer {
+    display: flex;
+    justify-content: space-between; /* 양 끝에 링크를 배치 */
+    margin-top: 20px;
+    margin-left:30%;
+    width: 600px; /* hr과 동일한 길이 */
+}
+
+.join, .findId, .findPassword {
+    cursor: pointer; /* 클릭 가능한 항목임을 나타내는 커서 스타일 */
+    text-decoration: none; /* 링크 밑줄 제거 */
+    color: #1C3C29; /* 텍스트 색상 */
+    font-weight: bold; /* 텍스트를 굵게 */
+}
+
+/* .join 만 왼쪽에 위치하도록 설정 */
+.join {
+    text-align: left;
+}
+
+/* .findId와 .findPassword를 오른쪽에 위치하도록 설정 */
+.findId, .findPassword {
+    text-align: right;
+}
+
+/* .findId와 .findPassword가 같은 줄에 위치하도록 설정 */
+.findId {
+    margin-right: 10px; /* '아이디 찾기'와 '비밀번호 찾기' 사이의 간격 */
+}
