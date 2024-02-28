@@ -22,7 +22,7 @@
 }
 
 .header_link_login, .header_link_login_second {
-    position: absolute;
+   position: absolute;
     z-index: 1;
     right:200px;
     top:115px;
