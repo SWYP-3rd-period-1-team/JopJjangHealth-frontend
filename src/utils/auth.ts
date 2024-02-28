@@ -1,5 +1,6 @@
 import axios from 'axios';
 import qs from "qs";
+import axiosInstance from '../hooks/useAxiosConfig';
 
 interface VerificationResult {
 	success: boolean;
@@ -53,9 +54,9 @@ export const login = async (username:string, password:string) => {
 			password: password,
 		});
 		
-		const url = 'http://3.36.251.109:8080/login';
+		const url = 'login';
 		
-		await axios.post(url, data, {
+		await axiosInstance.post(url, data, {
 			headers: {
 				'Content-Type': 'application/x-www-form-urlencoded',
 			}
