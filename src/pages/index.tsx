@@ -1,7 +1,7 @@
 import styles from '../styles/Survey.module.css';
 import React from 'react';
 import Image from 'next/image';
-import OnBoarding from '../../public/assets/survey/Animation.gif';
+import OnBoarding from '../../public/assets/survey/onBoarding.png';
 import Layout from "../components/Layout";
 import {useRouter} from 'next/router';
 
