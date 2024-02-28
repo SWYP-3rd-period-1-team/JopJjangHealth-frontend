@@ -104,7 +104,7 @@ const Index = () => {
     };
     
     // todo : 로그인이 있어야 함
-    const saveHealthSurvey = async ({disease, department}) => {
+    const saveHealthSurvey = async ({disease, department}: {disease: string, department: string}) => {
         const surveyOption = {
            //  userId,
             disease,
