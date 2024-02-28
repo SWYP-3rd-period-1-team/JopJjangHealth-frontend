@@ -26,8 +26,8 @@ export interface Model_GoogleMapPlace {
     formatted_phone_number: string;
     geometry: {
         location: {
-            lat: number;
-            lng: number;
+            lat: () => number;
+            lng: () => number;
         };
         viewport: {
             south: number;

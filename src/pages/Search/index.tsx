@@ -31,6 +31,12 @@ const Search = () => {
     // 마커 관리 전역 변수
     const [searchList, setSearchList] = useState<Model_GoogleMapPlace[]>([]);
 
+    const [location, setLocation] = useState<{
+        lat: number;
+        lng: number;
+    }>();
+    const [address, setAddress] = useState<string>();
+
     useEffect(() => {
         // Google Maps API 스크립트
         const googleMapScript = document.createElement('script');
@@ -87,6 +93,31 @@ const Search = () => {
                     status === window.google.maps.places.PlacesServiceStatus.OK
                 ) {
                     setSearchList(results);
+                    setLocation({lat: center.lat(), lng: center.lng()});
+                }
+            },
+        );
+
+        const geocoder = new window.google.maps.Geocoder();
+
+        geocoder.geocode(
+            {
+                location: {
+                    lat: center.lat(),
+                    lng: center.lng(),
+                },
+            },
+            function (results: any, status: any) {
+                if (status === 'OK') {
+                    if (results[0]) {
+                        // 첫 번째 결과의 도로명 주소 가져오기
+                        var address = results[0].formatted_address;
+                        setAddress(address);
+                    } else {
+                        console.log('주소를 찾을 수 없습니다.');
+                    }
+                } else {
+                    console.log('Geocoder에러: ' + status);
                 }
             },
         );
@@ -104,7 +135,12 @@ const Search = () => {
                         useSearchQueryState={[searchQuery, setSearchQuery]}
                         onSearch={handleSearch}
                     />
-                    {isSearchList && <SearchList hospitalList={searchList} />}
+                    {isSearchList && (
+                        <SearchList
+                            hospitalList={searchList}
+                            location={location}
+                        />
+                    )}
                 </Container>
             </Layout>
         </>
