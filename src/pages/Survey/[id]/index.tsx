@@ -140,7 +140,7 @@ const Index = () => {
         
         if (diseases.length > 0 && departments.length > 0) {
             router.push({
-                pathname: '/Search',
+                pathname: '/Map',
                 query: {
                     disease: diseases.join(','),
                     department: departments.join(','),
