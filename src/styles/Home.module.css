@@ -46,41 +46,50 @@
     line-height: 70px;
     text-align: center;
     box-sizing: border-box;
+}
 
+.homeImage {
+    width:246px;
+    height:246px;
+    object-fit: contain;
+    padding: 10px;
+    flex-shrink: 0;
 }
 
 .home, .home_right {
-    cursor: pointer;
-    position: relative;
-    margin:20px;
-    background-size: cover;
-    background: url("/assets/late_work.png") no-repeat center;
-    float: left;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     width: 490px;
     height: 550px;
-    flex-shrink: 0;
     border-radius: 10px;
-    overflow: hidden;
+    border: 2px solid #ECECEC;
+    background: #F2FFF7;
+    cursor: pointer;
+    position: relative;
+    margin: 20px;
+    float: left;
 }
 
-.home_right {
-    background: url("/assets/calendar.png") no-repeat center;
+.home:hover, .home_right:hover {
+    background: #B2D7C0;
 }
 
 .home_text, .home_detail {
     position: absolute;
-    top: 72px;
+    top: 26px;
+    left:26px;
     color:#000;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
-    left: 52px;
     line-height: 160%; /* 38.4px */
     letter-spacing: -0.48px;
 }
 
 .home_detail {
-    top: 120px;
+    top: 52px;
 }
 
 .home_title {
@@ -91,6 +100,6 @@
     font-weight: 600;
     line-height: 100%; /* 40px */
     letter-spacing: -0.8px;
-    bottom: 72px;
-    right: 52px;
+    bottom: 26px;
+    right: 26px;
 }
