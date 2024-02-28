@@ -52,7 +52,7 @@ const SearchList = ({hospitalList, location, address}: Props) => {
 
     return (
         <Container>
-            {hospitalList.map(item => (
+            {/* {hospitalList?.map(item => (
                 <SearchItem
                     key={item.place_id}
                     hospitalInfo={item}
@@ -67,7 +67,7 @@ const SearchList = ({hospitalList, location, address}: Props) => {
                         item.geometry.location.lng?.(),
                     )}
                 />
-            ))}
+            ))} */}
         </Container>
     );
 };

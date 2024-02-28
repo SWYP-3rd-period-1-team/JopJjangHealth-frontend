@@ -25,15 +25,15 @@ const SearchButton = styled.button`
 `;
 
 interface Props {
-    useSearchQueryState: [string, Dispatch<SetStateAction<string>>];
+    // useSearchQueryState: [string, Dispatch<SetStateAction<string>>];
     onSearch: () => void;
 }
-const SearchView = ({useSearchQueryState, onSearch}: Props) => {
-    const [searchQuery, setSearchQuery] = useSearchQueryState;
+const SearchView = ({onSearch}: Props) => {
+    // const [searchQuery, setSearchQuery] = useSearchQueryState;
 
-    const onTextHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setSearchQuery(event.target.value);
-    };
+    // const onTextHandler = (event: React.ChangeEvent<HTMLInputElement>) => {
+    //     setSearchQuery(event.target.value);
+    // };
 
     const onSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
@@ -42,13 +42,13 @@ const SearchView = ({useSearchQueryState, onSearch}: Props) => {
 
     return (
         <SearchForm onSubmit={onSubmitSearch}>
-            <SearchInputBox
+            {/* <SearchInputBox
                 type={'text'}
                 value={searchQuery}
                 onChange={onTextHandler}
                 placeholder="찾고자 하는 병원을 검색해보세요!"
                 spellCheck={false}
-            />
+            /> */}
             <SearchButton type={'submit'}>검색</SearchButton>
         </SearchForm>
     );

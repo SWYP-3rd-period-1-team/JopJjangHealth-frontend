@@ -1,11 +1,9 @@
 import React, {Suspense, useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
 import styled from 'styled-components';
-import LoadingView from '../../components/common/LoadingView';
 import {useRouter} from 'next/router';
 import SearchLogoView from './Child/SearchLogoView';
 import {Model_GoogleMapPlace} from '../../types/PlaceInfo';
-import SearchInput from './Child/SearchInput';
 import SearchList from './Child/SearchList';
 
 declare global {
@@ -131,10 +129,10 @@ const Search = () => {
                 <div id="map" style={{display: 'none'}} />
                 <Container>
                     {!isSearchList && <SearchLogoView />}
-                    <SearchInput
+                    {/* <SearchInput
                         useSearchQueryState={[searchQuery, setSearchQuery]}
                         onSearch={handleSearch}
-                    />
+                    /> */}
                     {isSearchList && (
                         <SearchList
                             hospitalList={searchList}
