@@ -1,0 +1,112 @@
+.like_text {
+    color: #000;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 51.2px */
+    letter-spacing: -0.64px;
+    margin: 50px 210px 0 210px;
+}
+
+.like_container {
+    width: 1000px;
+    height: 699px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #ECECEC;
+    background: #FFF;
+    margin: 0 210px 50px 210px;
+}
+
+.like_item_container {
+    width: 960px;
+    height: 100px;
+    border-radius: 10px;
+    background: #91FFBD;
+    margin: 20px;
+    flex-shrink: 0;
+}
+
+.title {
+    color: #000;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 32px */
+    letter-spacing: -0.4px;
+    margin:20px 20px 20px 20px;
+}
+
+.date {
+    margin:-20px 20px 0 0;
+    float:right;
+    color: #757575;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: -0.28px;
+}
+
+.place {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
+}
+
+.district {
+    color: #000;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
+}
+
+.delete {
+    border :none;
+    margin:-35px 20px 0 0;
+    float:right;
+    color: #000;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: -0.28px;
+}
+
+.no_hospitals {
+    margin-top:250px;
+}
+
+.no_like {
+    color: #000;
+    text-align: center;
+    font-size: 40px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 64px */
+    letter-spacing: -0.8px;
+}
+.no_like_text {
+    color: #000;
+    text-align: center;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 64px */
+    letter-spacing: -0.8px;
+}
+.click_survey{
+    color: #000;
+    text-align: center;
+margin-top:50px;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 38.4px */
+    letter-spacing: -0.48px;
+}
