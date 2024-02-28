@@ -132,10 +132,10 @@ const Map = () => {
         <>
             <Layout>
                 <Container>
-                    <SearchView
+                    {/* <SearchView
                         useSearchQueryState={[searchQuery, setSearchQuery]}
                         onSearch={handleSearch}
-                    />
+                    /> */}
                     <Suspense fallback={<LoadingView />}>
                         <MapView />
                     </Suspense>

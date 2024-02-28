@@ -131,10 +131,10 @@ const Search = () => {
                 <div id="map" style={{display: 'none'}} />
                 <Container>
                     {!isSearchList && <SearchLogoView />}
-                    <SearchInput
+                    {/* <SearchInput
                         useSearchQueryState={[searchQuery, setSearchQuery]}
                         onSearch={handleSearch}
-                    />
+                    /> */}
                     {isSearchList && (
                         <SearchList
                             hospitalList={searchList}
