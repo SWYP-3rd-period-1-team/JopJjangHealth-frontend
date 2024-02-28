@@ -3,7 +3,6 @@ import Layout from '../../components/Layout';
 import MapView from './Child/MapView';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';
-import SearchView from './Child/SearchView';
 import {useRouter} from 'next/router';
 
 declare global {
@@ -132,10 +131,6 @@ const Map = () => {
         <>
             <Layout>
                 <Container>
-                    {/* <SearchView
-                        useSearchQueryState={[searchQuery, setSearchQuery]}
-                        onSearch={handleSearch}
-                    /> */}
                     <Suspense fallback={<LoadingView />}>
                         <MapView />
                     </Suspense>
