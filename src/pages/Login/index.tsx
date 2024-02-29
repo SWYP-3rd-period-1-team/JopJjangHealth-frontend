@@ -1,97 +1,136 @@
-import React, { useState } from 'react';
-import { useForm } from 'react-hook-form';
-import { login } from '../../utils/auth';
-import { validatePassword, validateUserId} from '../../utils/validation';
+import React, {useState} from 'react';
+import {useForm} from 'react-hook-form';
+import {login} from '../../utils/auth';
+import {validatePassword, validateUserId} from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
 import Layout from '../../components/Layout';
-import {useRouter} from "next/router";
+import {useRouter} from 'next/router';
+import useToken from '../../hooks/useToken';
 
 interface FormData {
-	username: string;
-	password: string;
+    username: string;
+    password: string;
 }
 
 const Login: () => JSX.Element = () => {
-	const router = useRouter();
-	
-	const {
-		register,
-		handleSubmit,
-		formState: { errors, isValid },
-	} = useForm<FormData>({
-		mode: 'onChange',
-	});
-	
-	const [errorMessage, setErrorMessage] = useState<string | null>(null);
-	
-	
-	const openPopup = (url: string,text:string) => {
-		localStorage.setItem('activeTab',text)
-		window.open(url, 'popup', 'width=600,height=400');
-	};
-	
-	const onSubmit = async (data: FormData) => {
-		const result = await login(data.username, data.password);
-		if (result === undefined) {
-			setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다.');
-		}
-	};
-	
-	return (
-		<Layout>
-			<div className={styles.loginContainer}>
-				<h3 className={styles.loginTitle}>LOGIN</h3>
-				<form onSubmit={handleSubmit(onSubmit)}>
-					<div className={styles.inputGroup}>
-						<input
-							placeholder="아이디"
-							{...register('username', {
-								required: '아이디을 입력해주세요.',
-								validate: validateUserId,
-							})}
-							className={errors.username ? styles.inputError : styles.input}
-						/>
-						{errors.username && <p className={styles.errorText}>{errors.username.message}</p>}
-					</div>
-					
-					<div className={styles.inputGroup}>
-						<input
-							type="password"
-							placeholder="비밀번호"
-							{...register('password', {
-								required: '비밀번호를 입력해주세요.',
-								validate: validatePassword,
-							})}
-							className={errors.password ? styles.inputError : styles.input}
-						/>
-						{errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
-					</div>
-					
-					<button
-						type="submit"
-						className={styles.submitButton}
-						disabled={!isValid}
-					>
-						로그인하기
-					</button>
-					{errorMessage && (
-						<div className={styles.errorMessage}>
-							{errorMessage}
-						</div>
-					)}
-				</form>
-			</div>
-			<hr className={styles.hr} />
-			<div className={styles.linkContainer}>
-				<div className={styles.join} onClick={() => router.push('/Join')}>회원가입</div>
-				<div>
-					<span className={styles.findId} onClick={() => openPopup('/Find', "FindId")}>아이디 찾기</span>
-					<span className={styles.findPassword} onClick={() => openPopup('/Find', "FindPassword")}>비밀번호 찾기
-					</span>
-				</div>
-			</div>
-		</Layout>
-	);
+    const router = useRouter();
+
+    const {
+        register,
+        handleSubmit,
+        formState: {errors, isValid},
+    } = useForm<FormData>({
+        mode: 'onChange',
+    });
+
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+
+    const {loginSaveToken} = useToken();
+
+    const openPopup = (url: string, text: string) => {
+        localStorage.setItem('activeTab', text);
+        window.open(url, 'popup', 'width=600,height=400');
+    };
+
+    const onSubmit = async (data: FormData) => {
+        try {
+            const result = await login(data.username, data.password);
+
+            if (result?.data.accessToken && result?.data.refreshToken)
+                loginSaveToken({
+                    access_token: result.data.accessToken,
+                    refresh_token: result.data.refreshToken,
+                });
+        } catch (error) {
+            setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다.');
+        }
+    };
+
+    return (
+        <Layout>
+            <div className={styles.loginContainer}>
+                <h3 className={styles.loginTitle}>LOGIN</h3>
+                <form onSubmit={handleSubmit(onSubmit)}>
+                    <div className={styles.inputGroup}>
+                        <input
+                            placeholder="아이디"
+                            {...register('username', {
+                                required: '아이디을 입력해주세요.',
+                                validate: validateUserId,
+                            })}
+                            className={
+                                errors.username
+                                    ? styles.inputError
+                                    : styles.input
+                            }
+                        />
+                        {errors.username && (
+                            <p className={styles.errorText}>
+                                {errors.username.message}
+                            </p>
+                        )}
+                    </div>
+
+                    <div className={styles.inputGroup}>
+                        <input
+                            type="password"
+                            placeholder="비밀번호"
+                            {...register('password', {
+                                required: '비밀번호를 입력해주세요.',
+                                validate: validatePassword,
+                            })}
+                            className={
+                                errors.password
+                                    ? styles.inputError
+                                    : styles.input
+                            }
+                        />
+                        {errors.password && (
+                            <p className={styles.errorText}>
+                                {errors.password.message}
+                            </p>
+                        )}
+                    </div>
+
+                    <button
+                        type="submit"
+                        className={styles.submitButton}
+                        disabled={!isValid}
+                    >
+                        로그인하기
+                    </button>
+                    {errorMessage && (
+                        <div className={styles.errorMessage}>
+                            {errorMessage}
+                        </div>
+                    )}
+                </form>
+            </div>
+            <hr className={styles.hr} />
+            <div className={styles.linkContainer}>
+                <div
+                    className={styles.join}
+                    onClick={() => router.push('/Join')}
+                >
+                    회원가입
+                </div>
+                <div>
+                    <span
+                        className={styles.findId}
+                        onClick={() => openPopup('/Find', 'FindId')}
+                    >
+                        아이디 찾기
+                    </span>
+                    <span
+                        className={styles.findPassword}
+                        onClick={() => openPopup('/Find', 'FindPassword')}
+                    >
+                        비밀번호 찾기
+                    </span>
+                </div>
+            </div>
+        </Layout>
+    );
 };
 
 export default Login;

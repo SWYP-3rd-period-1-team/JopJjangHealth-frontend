@@ -13,6 +13,7 @@
     "@tanstack/react-query": "^5.24.1",
     "add": "^2.0.6",
     "axios": "^1.6.7",
+    "crypto-js": "^4.2.0",
     "install": "^0.13.0",
     "next": "12.3.4",
     "qs": "^6.11.2",
@@ -25,6 +26,7 @@
   },
   "devDependencies": {
     "@types/add": "^2",
+    "@types/crypto-js": "^4",
     "@types/node": "20.11.17",
     "@types/qs": "^6",
     "@types/react": "18.2.55",
