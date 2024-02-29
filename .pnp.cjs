@@ -28,6 +28,7 @@ const RAW_RUNTIME_STATE =
         "packageDependencies": [\
           ["@tanstack/react-query", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:5.24.1"],\
           ["@types/add", "npm:2.0.3"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/qs", "npm:6.9.12"],\
           ["@types/react", "npm:18.2.55"],\
@@ -35,6 +36,7 @@ const RAW_RUNTIME_STATE =
           ["@types/styled-components", "npm:5.1.34"],\
           ["add", "npm:2.0.6"],\
           ["axios", "npm:1.6.7"],\
+          ["crypto-js", "npm:4.2.0"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-next", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:12.3.4"],\
           ["install", "npm:0.13.0"],\
@@ -410,6 +412,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../../.yarn/berry/cache/@types-add-npm-2.0.3-965be1f3d8-10c0.zip/node_modules/@types/add/",\
         "packageDependencies": [\
           ["@types/add", "npm:2.0.3"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/crypto-js", [\
+      ["npm:4.2.2", {\
+        "packageLocation": "../../../.yarn/berry/cache/@types-crypto-js-npm-4.2.2-21357d525e-10c0.zip/node_modules/@types/crypto-js/",\
+        "packageDependencies": [\
+          ["@types/crypto-js", "npm:4.2.2"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -1018,6 +1029,15 @@ const RAW_RUNTIME_STATE =
           ["path-key", "npm:3.1.1"],\
           ["shebang-command", "npm:2.0.0"],\
           ["which", "npm:2.0.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["crypto-js", [\
+      ["npm:4.2.0", {\
+        "packageLocation": "../../../.yarn/berry/cache/crypto-js-npm-4.2.0-d6f7744e63-10c0.zip/node_modules/crypto-js/",\
+        "packageDependencies": [\
+          ["crypto-js", "npm:4.2.0"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -2462,6 +2482,7 @@ const RAW_RUNTIME_STATE =
           ["jobjjanghealth_front", "workspace:."],\
           ["@tanstack/react-query", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:5.24.1"],\
           ["@types/add", "npm:2.0.3"],\
+          ["@types/crypto-js", "npm:4.2.2"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/qs", "npm:6.9.12"],\
           ["@types/react", "npm:18.2.55"],\
@@ -2469,6 +2490,7 @@ const RAW_RUNTIME_STATE =
           ["@types/styled-components", "npm:5.1.34"],\
           ["add", "npm:2.0.6"],\
           ["axios", "npm:1.6.7"],\
+          ["crypto-js", "npm:4.2.0"],\
           ["eslint", "npm:8.56.0"],\
           ["eslint-config-next", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:12.3.4"],\
           ["install", "npm:0.13.0"],\
