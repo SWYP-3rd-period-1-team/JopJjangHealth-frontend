@@ -5,6 +5,7 @@ import {useRouter} from 'next/router';
 import SearchLogoView from './Child/SearchLogoView';
 import {Model_GoogleMapPlace} from '../../types/PlaceInfo';
 import SearchList from './Child/SearchList';
+import SearchInput from './Child/SearchInput';
 
 declare global {
     interface Window {
@@ -129,11 +130,12 @@ const Search = () => {
                 <div id="map" style={{display: 'none'}} />
                 <Container>
                     {!isSearchList && <SearchLogoView />}
-                    {/* <SearchInput
-                        useSearchQueryState={[searchQuery, setSearchQuery]}
+                    <SearchInput
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
                         onSearch={handleSearch}
-                    /> */}
-                    {isSearchList && (
+                    />
+                    {isSearchList && searchList.length > 0 && (
                         <SearchList
                             hospitalList={searchList}
                             location={location}
