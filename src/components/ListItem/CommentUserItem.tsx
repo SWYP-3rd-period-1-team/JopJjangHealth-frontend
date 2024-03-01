@@ -41,9 +41,11 @@ const InfoContainer = styled.div`
     flex-direction: column;
 `;
 
-const CommentUserItem = () => {
-    const [score, setScore] = useState<number>(5);
-
+interface Props {
+    score: number;
+    setScore?: (score: number) => void;
+}
+const CommentUserItem = ({score, setScore}: Props) => {
     return (
         <Container>
             <ImageView />
@@ -55,7 +57,7 @@ const CommentUserItem = () => {
                             <StarItem
                                 key={item}
                                 $isactive={score >= item}
-                                onClick={() => setScore(item)}
+                                onClick={() => setScore?.(item)}
                             >
                                 ★
                             </StarItem>

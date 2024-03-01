@@ -7,6 +7,8 @@ import InfoTitleView from './Child/InfoTitleView';
 import {Model_GoogleMapPlace} from '../../../types/PlaceInfo';
 import InfoContentView from './Child/InfoContentView';
 import CommentView from './Child/CommntView';
+import {useQuery} from '@tanstack/react-query';
+import {getHospitalInfo} from '../../../api/Hospital';
 
 const Container = styled.main`
     width: 100%;
@@ -34,9 +36,15 @@ const ContentContainer = styled.section`
 
 const MapDetail = () => {
     const router = useRouter();
-    const {id} = router.query;
+    const {id} = router.query as {id: string};
     const [placeDetails, setPlaceDetails] = useState<Model_GoogleMapPlace>();
     const [placeImage, setPlaceImage] = useState<string>();
+
+    const {data: getHospital, refetch: hospitalRefetch} = useQuery({
+        queryKey: ['HospitalQuery', id],
+        queryFn: () => getHospitalInfo(id),
+    });
+    console.log(getHospital?.data.data);
 
     useEffect(() => {
         if (id) {
@@ -71,33 +79,40 @@ const MapDetail = () => {
         });
     };
 
-    console.log(JSON.stringify(placeDetails, null, 2));
-
     return (
-        <Layout>
-            <Container>
-                {/* map api 활성화 용도 hidden */}
-                <div id="map" style={{display: 'none'}} />
+        !!id &&
+        typeof id === 'string' && (
+            <Layout>
+                <Container>
+                    {/* map api 활성화 용도 hidden */}
+                    <div id="map" style={{display: 'none'}} />
 
-                <ImageContainer>
-                    {!!placeImage && (
-                        <PlaceImage key={1} src={placeImage} alt={`Photo`} />
+                    <ImageContainer>
+                        {!!placeImage && (
+                            <PlaceImage
+                                key={1}
+                                src={placeImage}
+                                alt={`Photo`}
+                            />
+                        )}
+                    </ImageContainer>
+                    {!!placeDetails?.name && (
+                        <InfoTitleView name={placeDetails.name} />
                     )}
-                </ImageContainer>
-                {!!placeDetails?.name && (
-                    <InfoTitleView name={placeDetails.name} />
-                )}
-                <ContentContainer>
-                    <InfoContentView
-                        address={placeDetails?.formatted_address}
-                        openingHour={placeDetails?.opening_hours?.weekday_text}
-                        phoneNumber={placeDetails?.formatted_phone_number}
-                    />
-                </ContentContainer>
+                    <ContentContainer>
+                        <InfoContentView
+                            address={placeDetails?.formatted_address}
+                            openingHour={
+                                placeDetails?.opening_hours?.weekday_text
+                            }
+                            phoneNumber={placeDetails?.formatted_phone_number}
+                        />
+                    </ContentContainer>
 
-                <CommentView />
-            </Container>
-        </Layout>
+                    <CommentView hospitalId={id} />
+                </Container>
+            </Layout>
+        )
     );
 };
 

@@ -38,7 +38,7 @@ const CommentItem = ({depth, firstItem}: Props) => {
     return (
         <CommentListItem $depth={depth} $firstitem={firstItem}>
             <CommentContent>
-                <CommentUserItem />
+                <CommentUserItem score={5} />
                 <CommentListText>댓글 내용</CommentListText>
             </CommentContent>
             <CommentMenu>
