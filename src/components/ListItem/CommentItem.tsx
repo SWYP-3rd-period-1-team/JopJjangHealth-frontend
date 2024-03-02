@@ -33,13 +33,15 @@ const CommentMenuButton = styled.button`
 interface Props {
     depth: number;
     firstItem?: boolean;
+    content: string;
+    score: number;
 }
-const CommentItem = ({depth, firstItem}: Props) => {
+const CommentItem = ({depth, firstItem, content, score}: Props) => {
     return (
         <CommentListItem $depth={depth} $firstitem={firstItem}>
             <CommentContent>
-                <CommentUserItem score={5} />
-                <CommentListText>댓글 내용</CommentListText>
+                <CommentUserItem score={score} />
+                <CommentListText>{content}</CommentListText>
             </CommentContent>
             <CommentMenu>
                 <CommentMenuButton>수정</CommentMenuButton>

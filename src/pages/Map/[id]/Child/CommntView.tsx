@@ -4,6 +4,7 @@ import CommentItem from '../../../../components/ListItem/CommentItem';
 import {useMutation} from '@tanstack/react-query';
 import {useState} from 'react';
 import {postHospitalComment} from '../../../../api/Hospital';
+import {CommentDto} from '../../../../types/server/hospital';
 
 const Title = styled.h3`
     width: 100%;
@@ -44,15 +45,17 @@ const CommentListView = styled.ul`
 
 interface Props {
     hospitalId: string;
+    commentList?: CommentDto[];
+    refetchComment?: () => void;
 }
-const CommentView = ({hospitalId}: Props) => {
+const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
     const [score, setScore] = useState(5);
     const [comment, setComment] = useState('');
 
     const {mutate: postComment} = useMutation({
         mutationFn: postHospitalComment,
         onSuccess: () => {
-            // data refetch
+            refetchComment?.();
         },
     });
 
@@ -67,6 +70,7 @@ const CommentView = ({hospitalId}: Props) => {
             content: comment,
             star: score,
         });
+        setComment('');
     };
 
     return (
@@ -85,10 +89,17 @@ const CommentView = ({hospitalId}: Props) => {
             </FormContainer>
 
             <CommentListView>
-                <CommentItem depth={0} firstItem />
-                <CommentItem depth={0} />
-                <CommentItem depth={1} />
-                <CommentItem depth={0} />
+                {commentList &&
+                    commentList.length > 0 &&
+                    commentList.map(item => (
+                        <CommentItem
+                            key={item.hospitalCommentId}
+                            content={item.content}
+                            score={item.star}
+                            depth={0}
+                            firstItem
+                        />
+                    ))}
             </CommentListView>
         </>
     );

@@ -7,13 +7,15 @@ export interface Param_Post_HospitalComment {
 export interface Response_Get_Hospital {
     success: boolean;
     data: {
-        commentDTOList: {
-            children: any[];
-            content: string;
-            hospitalCommentId: number;
-            memberId: number;
-            reportCount: number;
-            star: number;
-        }[];
+        commentDTOList: CommentDto[];
     };
+}
+
+export interface CommentDto {
+    children: any[];
+    content: string;
+    hospitalCommentId: number;
+    memberId: number;
+    reportCount: number;
+    star: number;
 }

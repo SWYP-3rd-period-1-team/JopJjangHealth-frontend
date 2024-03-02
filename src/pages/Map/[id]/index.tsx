@@ -40,11 +40,11 @@ const MapDetail = () => {
     const [placeDetails, setPlaceDetails] = useState<Model_GoogleMapPlace>();
     const [placeImage, setPlaceImage] = useState<string>();
 
-    const {data: getHospital, refetch: hospitalRefetch} = useQuery({
+    const {data: hospitalData, refetch: hospitalRefetch} = useQuery({
         queryKey: ['HospitalQuery', id],
         queryFn: () => getHospitalInfo(id),
     });
-    console.log(getHospital?.data.data);
+    const hospitalCommentList = hospitalData?.data.data.commentDTOList;
 
     useEffect(() => {
         if (id) {
@@ -109,7 +109,11 @@ const MapDetail = () => {
                         />
                     </ContentContainer>
 
-                    <CommentView hospitalId={id} />
+                    <CommentView
+                        commentList={hospitalCommentList}
+                        hospitalId={id}
+                        refetchComment={hospitalRefetch}
+                    />
                 </Container>
             </Layout>
         )
