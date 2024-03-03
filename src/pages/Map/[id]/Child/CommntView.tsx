@@ -62,18 +62,6 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
             refetchComment?.();
         },
     });
-    const {mutate: deleteComment} = useMutation({
-        mutationFn: deleteHospitalComment,
-        onSuccess: () => {
-            refetchComment?.();
-        },
-    });
-    const {mutate: updateComment} = useMutation({
-        mutationFn: updateHospitalComment,
-        onSuccess: () => {
-            refetchComment?.();
-        },
-    });
 
     const onTextHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setComment(event.target.value);
@@ -109,24 +97,15 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
                     commentList.length > 0 &&
                     commentList.map((item, index) => (
                         <CommentItem
+                            hospitalId={hospitalId}
+                            commentId={item.hospitalCommentId}
+                            refetchList={() => refetchComment?.()}
                             key={item.hospitalCommentId}
                             content={item.content}
                             score={item.star}
                             depth={0}
                             firstItem={index === 0}
-                            onDeleteComment={() =>
-                                deleteComment({
-                                    hospitalId,
-                                    commentId: item.hospitalCommentId,
-                                })
-                            }
-                            onUpdateComment={text => {
-                                updateComment({
-                                    hospitalId,
-                                    commentId: item.hospitalCommentId,
-                                    content: text,
-                                });
-                            }}
+                            childComment={item.children}
                         />
                     ))}
             </CommentListView>

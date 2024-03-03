@@ -42,7 +42,7 @@ const InfoContainer = styled.div`
 `;
 
 interface Props {
-    score: number;
+    score?: number;
     setScore?: (score: number) => void;
 }
 const CommentUserItem = ({score, setScore}: Props) => {
@@ -51,20 +51,22 @@ const CommentUserItem = ({score, setScore}: Props) => {
             <ImageView />
             <InfoContainer>
                 <Name>닉네임</Name>
-                <FlexContainer>
-                    <StarBox>
-                        {[1, 2, 3, 4, 5].map(item => (
-                            <StarItem
-                                key={item}
-                                $isactive={score >= item}
-                                onClick={() => setScore?.(item)}
-                            >
-                                ★
-                            </StarItem>
-                        ))}
-                    </StarBox>
-                    <Date>2024.02.14.</Date>
-                </FlexContainer>
+                {!!score && (
+                    <FlexContainer>
+                        <StarBox>
+                            {[1, 2, 3, 4, 5].map(item => (
+                                <StarItem
+                                    key={item}
+                                    $isactive={score >= item}
+                                    onClick={() => setScore?.(item)}
+                                >
+                                    ★
+                                </StarItem>
+                            ))}
+                        </StarBox>
+                        <Date>2024.02.14.</Date>
+                    </FlexContainer>
+                )}
             </InfoContainer>
         </Container>
     );

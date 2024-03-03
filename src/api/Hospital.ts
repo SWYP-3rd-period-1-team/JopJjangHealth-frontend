@@ -40,6 +40,27 @@ export const updateHospitalComment: (param: {
     );
 };
 
+export const postHospitalReCommnet: (param: {
+    hospitalId: string;
+    commentId: number;
+    content: string;
+}) => Promise<AxiosResponse<any>> = async ({
+    hospitalId,
+    commentId,
+    content,
+}: {
+    hospitalId: string;
+    commentId: number;
+    content: string;
+}) => {
+    return await axiosInstance.post(
+        `/api/hospitals/${hospitalId}/comments/${commentId}/child-comments`,
+        {
+            content,
+        },
+    );
+};
+
 export const deleteHospitalComment: (param: {
     hospitalId: string;
     commentId: number;
