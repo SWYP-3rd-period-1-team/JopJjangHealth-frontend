@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import Image from 'next/image';
 import Layout from '../../../components/Layout';
 import styles from '../../../styles/Survey.module.css';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {
     selectedBodyPartState,
@@ -15,16 +15,19 @@ import hospital from '../../../../public/assets/icon/ic_hospital.png';
 import {options} from '../../../../mock/SurveyMock';
 import ShareButton from '../../../components/Share/ShareButton';
 import {IOption} from '../../../types/survey';
-import axios from 'axios';
+import useToken from '../../../hooks/useToken';
+import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
+import {saveHealthSurvey} from '../../../api/survey';
 
 const Index = () => {
     const router = useRouter();
+    const { getTokenValue } = useToken();
+    const accessToken = getTokenValue('zzgg_at');
     const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
-    
+    const [showLoginConfirm, setShowLoginConfirm] = useState(false);
     const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);
     const [selectedTargetBodyPart, setSelectedTargetBodyPart] = useRecoilState(selectedTargetBodyPartState);
     const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
-    
     const currentStage = parseInt(id as string, 10);
     
     let currentOptions = options.filter(option => option.stage === currentStage);
@@ -88,35 +91,6 @@ const Index = () => {
         }
     };
     
-    // todo : 로그인이 있어야 함
-    const saveHealthSurvey = async ({disease, department}: {disease: string, department: string}) => {
-        const surveyOption = {
-           //  userId,
-            disease,
-            department,
-            diagnosisPart,
-            presentedSymptom,
-            targetBodyPart,
-        };
-
-        try {
-            const refreshToken = localStorage.getItem('refreshToken');
-            if (!refreshToken) {
-                console.error('No refresh token found');
-                return {success: false, message: 'No refresh token found.'};
-            }
-            const response = await axios.post('/api/survey/save', surveyOption, {
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${refreshToken}`,
-                },
-            });
-            console.log('설문조사가 저장되었습니다:', response.data);
-        } catch (error) {
-            console.error('설문조사 저장 중 에러가 발생했습니다:', error);
-        }
-    };
-    
     const goToNextPage = (selectedOption: IOption) => {
         const nextId = currentStage + 1;
         if (nextId <= 4) {
@@ -130,32 +104,52 @@ const Index = () => {
         router.push('/');
     };
     
-    const choiceHospitalButton = (currentOptions: any[]) => {
+    const choiceHospitalButton = (currentOptions: any[], forceRedirect: boolean = false) => {
         const diseases = currentOptions
             .filter((option: {disease?: string}) => option.disease)
             .map((option: {disease: string}) => option.disease);
         const departments = currentOptions
             .filter((option: {department?: string}) => option.department)
             .map((option: {department: string}) => option.department);
-        
-        if (diseases.length > 0 && departments.length > 0) {
-            router.push({
-                pathname: '/Map',
-                query: {
-                    disease: diseases.join(','),
-                    department: departments.join(','),
-                },
-            });
-        }
-		//  todo : 로그인이 있어야함
-        saveHealthSurvey({
+        const surveyOption = {
             disease: diseases.join(','),
             department: departments.join(','),
-        });
+            diagnosisPart,
+            presentedSymptom,
+            targetBodyPart,
+        };
+        
+        if (!accessToken && !forceRedirect) {
+            console.error('No access token found');
+            localStorage.setItem("surveyOption", JSON.stringify(surveyOption));
+            setShowLoginConfirm(true);
+        } else {
+            saveHealthSurvey(surveyOption);
+            if (diseases.length > 0 && departments.length > 0) {
+                router.push({
+                    pathname: '/Map',
+                    query: {
+                        disease: diseases.join(','),
+                        department: departments.join(','),
+                    },
+                });
+            }
+        }
+    };
+    
+    const handleLoginConfirm = () => {
+        router.push('/Login')
+    };
+   
+    const handleCancelLogin = () => {
+        choiceHospitalButton(currentOptions, true);
     };
     
     return (
         <Layout>
+            {showLoginConfirm && (
+                <LoginConfirmPopup onConfirm={handleLoginConfirm} onCancel={handleCancelLogin} />
+            )}
             <div className={styles.quizContainer}>
                 <div
                     className={currentStage < 4 ? styles.question_num : styles.question_complete}>{currentStage < 4 ? currentStage : <>설문

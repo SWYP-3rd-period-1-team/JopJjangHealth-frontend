@@ -12,7 +12,7 @@ import {
     isAgreedState, isVerificationCompleteState,
     isVerificationSentState,
 } from '../../state/join';
-import {useQueryClient} from '@tanstack/react-query';
+import {useRouter} from 'next/router';
 
 interface FormData {
     nickname: string;
@@ -26,7 +26,7 @@ interface FormData {
 const emailDomains = ['gmail.com', 'naver.com', 'daum.net', 'nate.com', 'other'];
 
 const Join = () => {
-    const queryClient = useQueryClient();
+    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -57,19 +57,15 @@ const Join = () => {
     const handleEmailVerificationRequest = async () => {
         const email = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
         const result = await sendEmailVerification(email);
-        if (result.success) {
+        if (result?.success) {
             setIsVerificationSent(true);
-            alert('인증 코드가 발송되었습니다. 이메일을 확인해주세요.');
-        } else {
-            alert('이메일 발송에 실패했습니다. 다시 시도해주세요.');
         }
     };
     
     const handleEmailVerification = async () => {
         const formData = getValues();
         const verificationResult = await verifyEmailCode(formData.email, formData.emailVerificationCode);
-        if (verificationResult.success) {
-            alert('이메일이 성공적으로 인증되었습니다.');
+        if (verificationResult?.success) {
             setIsVerificationComplete(true);
             setIsVerificationSent(false);
         } else {
@@ -94,7 +90,7 @@ const Join = () => {
     return (
         <Layout>
             <div className={styles.joinContainer}>
-                <h3 className={styles.joinTitle}>JOIN</h3>
+                <div className={styles.joinTitle}>JOIN</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputGroup}>
                         <input
@@ -136,7 +132,7 @@ const Join = () => {
                             placeholder="비밀번호 확인"
                             {...register('confirmPassword', {
                                 validate: value =>
-                                    value === watch('password') || '비밀번호가 일치하지 않습니다.'
+                                    value === watch('password') || '비밀번호가 일치하지 않습니다.',
                             })}
                             className={errors.confirmPassword ? styles.inputError : styles.input}
                         />
@@ -177,7 +173,7 @@ const Join = () => {
                                 value={customDomain}
                                 onChange={(e) => setCustomDomain(e.target.value)}
                                 className={styles.input}
-                                style={{width:"120px"}}
+                                style={{width: '120px'}}
                             />
                         )}
                         <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
@@ -207,7 +203,7 @@ const Join = () => {
                                 {...register('emailVerificationCode', {
                                     required: '인증 코드를 입력해주세요.',
                                 })}
-                                className={errors.emailVerificationCode ? styles.inputError : styles.input}
+                                className={errors.emailVerificationCode ? styles.inputError : styles.inputVerification}
                             />
                             {errors.emailVerificationCode && (
                                 <p className={styles.errorText}>{errors.emailVerificationCode.message}</p>

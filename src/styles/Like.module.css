@@ -22,11 +22,12 @@
     height: 100px;
     margin: 20px;
     flex-shrink: 0;
-    background: #F4F4F4;
+    background: #91FFBD;
 }
 
 .title {
     color: #000;
+    font-family: 'SUIT',sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 600;
@@ -36,18 +37,20 @@
 }
 
 .date {
-    margin:-20px 20px 0 0;
-    float:right;
     color: #757575;
+    font-family: 'SUIT',sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 160%; /* 22.4px */
     letter-spacing: -0.28px;
+    margin:-40px 20px 0 0;
+    float:right;
 }
 
 .place {
     color: #000;
+    font-family: 'SUIT',sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -57,6 +60,7 @@
 
 .district {
     color: #000;
+    font-family: 'SUIT',sans-serif;
     font-size: 16px;
     font-style: normal;
     font-weight: 400;
@@ -65,19 +69,35 @@
 }
 
 .delete {
-    border :none;
-    margin:-35px 20px 0 0;
-    float:right;
     color: #000;
+    font-family: 'SUIT',sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 160%; /* 22.4px */
     letter-spacing: -0.28px;
+    border :none;
+    margin:-40px 20px 0 0;
+    float:right;
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: flex-end;
+    margin-right:232px;
+    width: 100%;
 }
 
 .no_hospitals {
-    margin-top:250px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-direction: column;
+    margin-top: 250px;
+}
+
+.no_like_image {
+    flex-shrink: 0;
 }
 
 .no_like {
@@ -98,15 +118,22 @@
     line-height: 160%; /* 64px */
     letter-spacing: -0.8px;
 }
+
 .click_survey{
-    color: #000;
+    width: 240px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: #1C3C29;
+    color: #FFF;
     text-align: center;
-margin-top:50px;
+    font-family: 'SUIT', serif;
     font-size: 24px;
     font-style: normal;
-    font-weight: 700;
-    line-height: 160%; /* 38.4px */
+    font-weight: 500;
+    line-height: 100%; /* 24px */
     letter-spacing: -0.48px;
+    margin-top:39px;
 }
 
 .popupContainer {

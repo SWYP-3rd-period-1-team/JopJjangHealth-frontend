@@ -1,51 +1,58 @@
 import React, { useEffect } from 'react';
 import Image from "next/image";
-import KakaoBtn from "../../../public/assets/share/ico-share-link.svg"
+import KakaoBtn from "../../../public/assets/share/ico-share-kakao.svg"
 import styles from "../../styles/ShareButton.module.css"
+
+interface KakaoShareButtonProps {
+	text: string;
+}
+
 declare global {
 	interface Window {
 		Kakao: any;
 	}
 }
 
-const KakaoShareButton: React.FC = () => {
-	
+const KakaoShareButton: React.FC<KakaoShareButtonProps> = ({ text }) => {
 	useEffect(() => {
-		const kakaoScript = document.getElementById('kakao-sdk');
-		if (!kakaoScript) {
+		if (!window.Kakao) {
 			const script = document.createElement('script');
-			script.id = 'kakao-sdk';
-			script.src = 'https://developers.kakao.com/sdk/js/kakao.min.js';
+			script.src = 'https://developers.kakao.com/sdk/js/kakao.js';
 			script.onload = () => {
-				window.Kakao.init('YOUR_KAKAO_JS_KEY');
+				window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY);
 			};
 			document.head.appendChild(script);
-		} else if (window.Kakao && !window.Kakao.isInitialized()) {
-			window.Kakao.init('YOUR_KAKAO_JS_KEY');
+		} else if (!window.Kakao.isInitialized()) {
+			window.Kakao.init(process.env.NEXT_PUBLIC_KAKAO_KEY);
 		}
 	}, []);
 	
 	const shareKakao = () => {
+		if (!window.Kakao || !window.Kakao.isInitialized()) {
+			console.error('Kakao SDK가 초기화되지 않았습니다.');
+			return;
+		}
+		
 		window.Kakao.Link.sendDefault({
 			objectType: 'feed',
 			content: {
-				title: '공유할 제목',
-				description: '공유할 설명',
-				imageUrl: '공유할 이미지 URL',
+				title: "직짱건강 설문 공유하기",
+				description: '건강 설문을 공유하고 건강을 체크 해보세요!',
+				// todo : 온라인 환경에서만 이미지를 받을 수 있습니다.
+				imageUrl: '/Logo.png',
 				link: {
-					mobileWebUrl: '',
-					webUrl: '',
+					mobileWebUrl: text,
+					webUrl: text,
 				},
 			},
 		});
 	};
 	
 	return (
-		<span className={styles.choice_share_kakao}>
-			<Image src={KakaoBtn} alt="kakao" width={100} height={100} onClick={shareKakao}/>
-		  <p>카카오톡</p>
-		</span>
-	
+		<span className={styles.choice_share_kakao} onClick={shareKakao}>
+            <Image src={KakaoBtn} alt="kakao" width={100} height={100}/>
+            <p>카카오톡</p>
+        </span>
 	);
 };
 

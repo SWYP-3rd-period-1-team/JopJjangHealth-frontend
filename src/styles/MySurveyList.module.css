@@ -1,4 +1,4 @@
-.like_text {
+.mySurvey_text {
     color: #000;
     text-align: center;
     font-size: 40px;
@@ -8,7 +8,8 @@
     letter-spacing: -0.8px;
     margin: 50px 210px 0 210px;
 }
-.like_check_text, .like_check_img {
+
+.mySurvey_check_text, .mySurvey_check_img {
     color: #757575;
     text-align: right;
     font-size: 14px;
@@ -17,11 +18,12 @@
     line-height: 100%;
     letter-spacing: -0.28px;
 }
-.like_check_text {
+
+.mySurvey_check_text {
     margin: 50px 230px 15px 210px;
 }
 
-.like_container {
+.mySurvey_container {
     width: 1000px;
     height: 699px;
     flex-shrink: 0;
@@ -30,17 +32,16 @@
     margin: 0 210px 50px 210px;
 }
 
-.like_item_container,.like_item_container_delete {
+.mySurvey_item_container, .mySurvey_item_container_delete {
     width: 960px;
     height: 140px;
     flex-shrink: 0;
     margin: 20px 20px 20px 20px;
     border-radius: 10px;
     border: 1px solid #A8A8A8;
-    background: #FFFFFF;
 }
 
-.like_item_container_delete {
+.mySurvey_item_container_delete {
     margin: 20px 20px 20px 0;
     width: 900px;
 }
@@ -52,15 +53,15 @@
     font-weight: 600;
     line-height: 160%;
     letter-spacing: -0.48px;
-    margin:20px;
+    margin: 20px;
 }
 
 .date {
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    margin:-35px 20px 0 0;
-    float:right;
+    margin: -35px 20px 0 0;
+    float: right;
     color: #757575;
     font-size: 14px;
     font-style: normal;
@@ -79,7 +80,7 @@
     letter-spacing: -0.4px;
 }
 
-.no_like {
+.no_mySurvey {
     color: #000;
     text-align: center;
     font-size: 40px;
@@ -88,24 +89,33 @@
     line-height: 160%;
     letter-spacing: -0.8px;
 }
-.no_like_text {
+
+.no_mySurvey_text {
     color: #000;
     text-align: center;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 160%;
-    letter-spacing: -0.8px;
-}
-.click_survey{
-    color: #000;
-    text-align: center;
-margin-top:50px;
-    font-size: 24px;
+    font-family: 'SUIT',sans-serif;
+    font-size: 40px;
     font-style: normal;
     font-weight: 700;
-    line-height: 160%;
+    line-height: 160%; /* 64px */
+    letter-spacing: -0.8px;
+}
+
+.click_survey {
+    width: 240px;
+    height: 60px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: #1C3C29;
+    color: #FFF;
+    text-align: center;
+    font-family: 'SUIT', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 24px */
     letter-spacing: -0.48px;
+    margin: 50px 50px 50px 380px;
 }
 
 .popupContainer {
@@ -123,13 +133,13 @@ margin-top:50px;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     z-index: 100;
     display: flex;
-    margin:0;
+    margin: 0;
     justify-content: space-between;
     border: 1px solid #d1d1d1;
 }
 
 .clickedItem {
-    color: #FFFFFF!important;
+    color: #FFFFFF !important;
     background-color: #0F0F0F;
 }
 
@@ -142,21 +152,30 @@ margin-top:50px;
     background: #FFF;
 }
 
-.like_item_wrapper {
+.mySurvey_item_wrapper {
     display: flex;
     align-items: center;
 }
 
 .chice_delete {
-    width: 700px;
-    height: 90px;
+    width: 340px;
+    height: 60px;
     flex-shrink: 0;
-    margin: 20px 0 50px 150px;
-    background: #D9D9D9;
+    border-radius: 100px;
+    background: #1C3C29;
+    color: #FFF;
+    text-align: center;
+    font-family: 'SUIT', sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 24px */
+    letter-spacing: -0.48px;
+    margin: 50px 50px 50px 350px;
 }
 
 .popupText {
-    width:50%;
+    width: 50%;
     color: #F4F4F4;
     text-align: left;
     font-size: 20px;
@@ -169,7 +188,7 @@ margin-top:50px;
 
 .popupClick {
     color: #F4F4F4;
-    width:50%;
+    width: 50%;
     text-align: right;
     font-size: 20px;
     font-style: normal;
@@ -179,15 +198,6 @@ margin-top:50px;
     padding-right: 10px;
 }
 
-.like_container {
-    width: 1000px;
-    height: 699px;
-    flex-shrink: 0;
-    background: #fff;
-    border: 1px solid #A8A8A8;
-    margin: 0 210px 50px 210px;
-}
-
 .title {
     color: #000;
     font-size: 20px;
@@ -195,12 +205,12 @@ margin-top:50px;
     font-weight: 600;
     line-height: 160%;
     letter-spacing: -0.4px;
-    margin:20px 20px 20px 20px;
+    margin: 20px 20px 20px 20px;
 }
 
 .date {
-    margin:-20px 20px 0 0;
-    float:right;
+    margin: -20px 20px 0 0;
+    float: right;
     color: #757575;
     font-size: 14px;
     font-style: normal;
@@ -219,10 +229,10 @@ margin-top:50px;
 }
 
 .image {
-    margin-left : 35%;
+    margin-left: 35%;
 }
 
-.no_like {
+.no_mySurvey {
     color: #000;
     text-align: center;
     font-size: 40px;
@@ -231,7 +241,8 @@ margin-top:50px;
     line-height: 160%;
     letter-spacing: -0.8px;
 }
-.no_like_text {
+
+.no_mySurvey_text {
     color: #000;
     text-align: center;
     font-size: 32px;
@@ -239,20 +250,6 @@ margin-top:50px;
     font-weight: 400;
     line-height: 160%;
     letter-spacing: -0.8px;
-}
-.click_survey{
-    width: 700px;
-    height: 90px;
-    flex-shrink: 0;
-    background: #D9D9D9;
-    color: #000;
-    text-align: center;
-    margin: 50px 50px 50px 150px;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 700;
-    line-height: 160%;
-    letter-spacing: -0.48px;
 }
 
 

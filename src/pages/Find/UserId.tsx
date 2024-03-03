@@ -1,6 +1,6 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {findId} from '../../utils/auth';
+import {findId} from '../../api/find';
 import styles from '../../styles/Find.module.css';
 
 interface FormData {

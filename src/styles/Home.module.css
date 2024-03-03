@@ -11,13 +11,14 @@
     width: 1000px;
     height: 70px;
     flex-shrink: 0;
-    border: 1px solid #A8A8A8;
+    border: 1px solid #ECECEC;
     background: #FFF;
     color: #757575;
+    font-family: SUIT;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
-    line-height: 100%;
+    line-height: 100%; /* 18px */
     letter-spacing: -0.36px;
     margin: 105px 0 20px 0;
 }
@@ -25,7 +26,14 @@
 .input_field {
     width:100%;
     height: 100%;
-    border: 1px solid #A8A8A8;
+    color: #757575;
+    font-family: SUIT;
+    font-size: 18px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 18px */
+    letter-spacing: -0.36px;
+    border: 1px solid #ECECEC;
     border-right: none;
     padding: 0 15px;
     box-sizing: border-box;
@@ -80,7 +88,8 @@
     position: absolute;
     top: 26px;
     left:26px;
-    color:#000;
+    color: #1C3C29;
+    font-family: SUIT;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -94,7 +103,8 @@
 
 .home_title {
     position: absolute;
-    color: #000;
+    color: #1C3C29;
+    font-family: SUIT;
     font-size: 40px;
     font-style: normal;
     font-weight: 600;

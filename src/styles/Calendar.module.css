@@ -1,0 +1,57 @@
+.calendarContainer {
+    font-family: 'Arial', sans-serif;
+    border: 1px solid #ccc;
+    max-width: 600px;
+    margin: 20px auto;
+    text-align: center;
+}
+
+.header {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: #f3f3f3;
+}
+
+.monthDisplay {
+    font-size: 24px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    text-align: center;
+    border-top: 1px solid #ccc;
+}
+
+.day {
+    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    padding: 10px;
+    cursor: pointer;
+}
+
+.day:hover {
+    background-color: #f0f0f0;
+}
+
+.weekday {
+    background-color: #f3f3f3;
+    padding: 10px;
+    border-right: 1px solid #ccc;
+}
+
+.listContainer {
+    margin: 20px;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+}
+
+.listItem {
+    padding: 8px;
+    margin: 4px;
+    background-color: #f7f7f7;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}

@@ -6,7 +6,7 @@ import Image from 'next/image';
 import late_work from "../../../public/assets/home/late_work.png";
 import calendar from "../../../public/assets/home/calendar.png";
 
-const Index: () => React.JSX.Element = () => {
+const Index: React.FC = () => {
 	const router = useRouter();
 	
 	return (

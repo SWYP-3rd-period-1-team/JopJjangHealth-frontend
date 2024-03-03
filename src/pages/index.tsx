@@ -5,7 +5,7 @@ import OnBoarding from '../../public/assets/survey/onBoarding.png';
 import Layout from "../components/Layout";
 import {useRouter} from 'next/router';
 
-const Index: () => React.JSX.Element = () => {
+const Index: React.FC = () => {
 	const router = useRouter();
 	
 	return (
