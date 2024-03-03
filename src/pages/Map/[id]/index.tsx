@@ -97,7 +97,10 @@ const MapDetail = () => {
                         )}
                     </ImageContainer>
                     {!!placeDetails?.name && (
-                        <InfoTitleView name={placeDetails.name} />
+                        <InfoTitleView
+                            name={placeDetails.name}
+                            hospitalId={id}
+                        />
                     )}
                     <ContentContainer>
                         <InfoContentView

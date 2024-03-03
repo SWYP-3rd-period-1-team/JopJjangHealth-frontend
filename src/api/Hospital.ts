@@ -83,3 +83,18 @@ export const getHospitalInfo: (
 ) => {
     return await axiosInstance.get(`/api/hospitals/${hospitalId}`);
 };
+
+export const postHospitalBookmark: (param: {
+    hospitalId: string;
+    bookmark: boolean;
+}) => Promise<AxiosResponse<Response_Get_Hospital>> = async ({
+    hospitalId,
+    bookmark,
+}: {
+    hospitalId: string;
+    bookmark: boolean;
+}) => {
+    return await axiosInstance.post(`/api/hospitals/${hospitalId}/bookmarks`, {
+        bookmark,
+    });
+};

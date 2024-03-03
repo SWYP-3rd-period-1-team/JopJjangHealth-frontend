@@ -1,4 +1,6 @@
+import {useMutation} from '@tanstack/react-query';
 import styled from 'styled-components';
+import {postHospitalBookmark} from '../../../../api/Hospital';
 
 const Container = styled.h1`
     border-bottom: 2px solid black;
@@ -29,8 +31,12 @@ const ButtonText = styled.p`
 
 interface Props {
     name: string;
+    hospitalId: string;
 }
-const InfoTitleView = ({name}: Props) => {
+const InfoTitleView = ({name, hospitalId}: Props) => {
+    const {mutate: setHospitalBookMark} = useMutation({
+        mutationFn: postHospitalBookmark,
+    });
     return (
         <Container>
             <p>{name}</p>
@@ -42,7 +48,14 @@ const InfoTitleView = ({name}: Props) => {
                     />
                     <ButtonText>공유</ButtonText>
                 </ButtonView>
-                <ButtonView>
+                <ButtonView
+                    onClick={() =>
+                        setHospitalBookMark({
+                            hospitalId,
+                            bookmark: true,
+                        })
+                    }
+                >
                     <IconImage
                         src={'/assets/icon/ic_bookmark.png'}
                         alt={'ic_bookmark'}
