@@ -4,6 +4,7 @@ import MapView from './Child/MapView';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';
 import {useRouter} from 'next/router';
+import SearchView from './Child/SearchView';
 
 declare global {
     interface Window {
@@ -31,7 +32,7 @@ const Map = () => {
     useEffect(() => {
         // Google Maps API 스크립트
         const googleMapScript = document.createElement('script');
-        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`;
+        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&loading=async`;
         googleMapScript.onload = initMap;
         document.head.appendChild(googleMapScript);
 
@@ -131,6 +132,11 @@ const Map = () => {
         <>
             <Layout>
                 <Container>
+                    <SearchView
+                        searchQuery={searchQuery}
+                        setSearchQuery={setSearchQuery}
+                        onSearch={handleSearch}
+                    />
                     <Suspense fallback={<LoadingView />}>
                         <MapView />
                     </Suspense>

@@ -52,22 +52,23 @@ const SearchList = ({hospitalList, location, address}: Props) => {
 
     return (
         <Container>
-            {/* {hospitalList?.map(item => (
-                <SearchItem
-                    key={item.place_id}
-                    hospitalInfo={item}
-                    onClick={() => {
-                        console.log(
+            {Array.isArray(hospitalList) &&
+                hospitalList?.map(item => (
+                    <SearchItem
+                        key={item.place_id}
+                        hospitalInfo={item}
+                        onClick={() => {
+                            console.log(
+                                item.geometry.location.lat?.(),
+                                item.geometry.location.lng?.(),
+                            );
+                        }}
+                        distance={getDistance(
                             item.geometry.location.lat?.(),
                             item.geometry.location.lng?.(),
-                        );
-                    }}
-                    distance={getDistance(
-                        item.geometry.location.lat?.(),
-                        item.geometry.location.lng?.(),
-                    )}
-                />
-            ))} */}
+                        )}
+                    />
+                ))}
         </Container>
     );
 };

@@ -1,6 +1,14 @@
 import styled from 'styled-components';
 import CommentUserItem from '../../../../components/ListItem/CommentUserItem';
 import CommentItem from '../../../../components/ListItem/CommentItem';
+import {useMutation} from '@tanstack/react-query';
+import {useState} from 'react';
+import {
+    deleteHospitalComment,
+    postHospitalComment,
+    updateHospitalComment,
+} from '../../../../api/Hospital';
+import {CommentDto} from '../../../../types/server/hospital';
 
 const Title = styled.h3`
     width: 100%;
@@ -23,6 +31,9 @@ const InputView = styled.textarea`
     border: none;
     resize: none;
     min-height: 60px;
+    &:focus {
+        outline: none;
+    }
 `;
 const SubmitButton = styled.button`
     width: 60px;
@@ -36,22 +47,67 @@ const CommentListView = styled.ul`
     padding: 0;
 `;
 
-const CommentView = () => {
+interface Props {
+    hospitalId: string;
+    commentList?: CommentDto[];
+    refetchComment?: () => void;
+}
+const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
+    const [score, setScore] = useState(5);
+    const [comment, setComment] = useState('');
+
+    const {mutate: postComment} = useMutation({
+        mutationFn: postHospitalComment,
+        onSuccess: () => {
+            refetchComment?.();
+        },
+    });
+
+    const onTextHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+        setComment(event.target.value);
+    };
+
+    const onSubmitSearch = (event: React.FormEvent<HTMLFormElement>) => {
+        event.preventDefault();
+        postComment({
+            hospitalId: hospitalId,
+            content: comment,
+            star: score,
+        });
+        setComment('');
+    };
+
     return (
         <>
             <Title>병원 리뷰</Title>
-            <FormContainer>
-                <CommentUserItem />
+            <FormContainer onSubmit={onSubmitSearch}>
+                <CommentUserItem score={score} setScore={setScore} />
                 <TextAreaContainer>
-                    <InputView placeholder="최대 100자 이하" />
+                    <InputView
+                        placeholder="최대 100자 이하"
+                        value={comment}
+                        onChange={onTextHandler}
+                    />
                     <SubmitButton type="submit">등록</SubmitButton>
                 </TextAreaContainer>
             </FormContainer>
+
             <CommentListView>
-                <CommentItem depth={0} firstItem />
-                <CommentItem depth={0} />
-                <CommentItem depth={1} />
-                <CommentItem depth={0} />
+                {commentList &&
+                    commentList.length > 0 &&
+                    commentList.map((item, index) => (
+                        <CommentItem
+                            hospitalId={hospitalId}
+                            commentId={item.hospitalCommentId}
+                            refetchList={() => refetchComment?.()}
+                            key={item.hospitalCommentId}
+                            content={item.content}
+                            score={item.star}
+                            depth={0}
+                            firstItem={index === 0}
+                            childComment={item.children}
+                        />
+                    ))}
             </CommentListView>
         </>
     );
