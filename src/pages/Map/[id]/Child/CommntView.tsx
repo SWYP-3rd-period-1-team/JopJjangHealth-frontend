@@ -6,6 +6,7 @@ import {useState} from 'react';
 import {
     deleteHospitalComment,
     postHospitalComment,
+    updateHospitalComment,
 } from '../../../../api/Hospital';
 import {CommentDto} from '../../../../types/server/hospital';
 
@@ -67,6 +68,12 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
             refetchComment?.();
         },
     });
+    const {mutate: updateComment} = useMutation({
+        mutationFn: updateHospitalComment,
+        onSuccess: () => {
+            refetchComment?.();
+        },
+    });
 
     const onTextHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setComment(event.target.value);
@@ -113,6 +120,13 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
                                     commentId: item.hospitalCommentId,
                                 })
                             }
+                            onUpdateComment={text => {
+                                updateComment({
+                                    hospitalId,
+                                    commentId: item.hospitalCommentId,
+                                    content: text,
+                                });
+                            }}
                         />
                     ))}
             </CommentListView>
