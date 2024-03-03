@@ -5,6 +5,7 @@ import {useMutation} from '@tanstack/react-query';
 import {
     deleteHospitalComment,
     postHospitalReCommnet,
+    reportsHospitalComment,
     updateHospitalComment,
 } from '../../api/Hospital';
 import {CommentDto} from '../../types/server/hospital';
@@ -112,6 +113,12 @@ const CommentItem = ({
             refetchList();
         },
     });
+    const {mutate: reportComment} = useMutation({
+        mutationFn: reportsHospitalComment,
+        onSuccess: () => {
+            refetchList();
+        },
+    });
 
     const onUpdateCommentHandler = (
         event: React.FormEvent<HTMLFormElement>,
@@ -181,7 +188,16 @@ const CommentItem = ({
                     >
                         삭제
                     </CommentMenuButton>
-                    <CommentMenuButton>신고</CommentMenuButton>
+                    <CommentMenuButton
+                        onClick={() =>
+                            reportComment({
+                                hospitalId,
+                                commentId,
+                            })
+                        }
+                    >
+                        신고
+                    </CommentMenuButton>
                 </CommentMenu>
             </CommentListItem>
             {toggleUpdate ? (

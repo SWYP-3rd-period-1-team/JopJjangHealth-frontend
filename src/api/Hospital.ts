@@ -76,6 +76,22 @@ export const deleteHospitalComment: (param: {
     );
 };
 
+export const reportsHospitalComment: (param: {
+    hospitalId: string;
+    commentId: number;
+}) => Promise<AxiosResponse<any>> = async ({
+    hospitalId,
+    commentId,
+}: {
+    hospitalId: string;
+    commentId: number;
+}) => {
+    return await axiosInstance.put(
+        `/api/hospitals/${hospitalId}/comments/${commentId}/reports`,
+        {},
+    );
+};
+
 export const getHospitalInfo: (
     hospitalId: string,
 ) => Promise<AxiosResponse<Response_Get_Hospital>> = async (
