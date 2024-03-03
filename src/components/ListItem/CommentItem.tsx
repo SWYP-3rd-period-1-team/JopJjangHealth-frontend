@@ -28,6 +28,7 @@ const CommentMenuButton = styled.button`
     background-color: transparent;
     border: none;
     color: #999999;
+    cursor: pointer;
 `;
 
 interface Props {
@@ -35,8 +36,15 @@ interface Props {
     firstItem?: boolean;
     content: string;
     score: number;
+    onDeleteComment: () => void;
 }
-const CommentItem = ({depth, firstItem, content, score}: Props) => {
+const CommentItem = ({
+    depth,
+    firstItem,
+    content,
+    score,
+    onDeleteComment,
+}: Props) => {
     return (
         <CommentListItem $depth={depth} $firstitem={firstItem}>
             <CommentContent>
@@ -45,7 +53,9 @@ const CommentItem = ({depth, firstItem, content, score}: Props) => {
             </CommentContent>
             <CommentMenu>
                 <CommentMenuButton>수정</CommentMenuButton>
-                <CommentMenuButton>삭제</CommentMenuButton>
+                <CommentMenuButton onClick={onDeleteComment}>
+                    삭제
+                </CommentMenuButton>
                 <CommentMenuButton>신고</CommentMenuButton>
             </CommentMenu>
         </CommentListItem>

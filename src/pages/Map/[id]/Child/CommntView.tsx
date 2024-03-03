@@ -3,7 +3,10 @@ import CommentUserItem from '../../../../components/ListItem/CommentUserItem';
 import CommentItem from '../../../../components/ListItem/CommentItem';
 import {useMutation} from '@tanstack/react-query';
 import {useState} from 'react';
-import {postHospitalComment} from '../../../../api/Hospital';
+import {
+    deleteHospitalComment,
+    postHospitalComment,
+} from '../../../../api/Hospital';
 import {CommentDto} from '../../../../types/server/hospital';
 
 const Title = styled.h3`
@@ -58,6 +61,12 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
             refetchComment?.();
         },
     });
+    const {mutate: deleteComment} = useMutation({
+        mutationFn: deleteHospitalComment,
+        onSuccess: () => {
+            refetchComment?.();
+        },
+    });
 
     const onTextHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setComment(event.target.value);
@@ -91,13 +100,19 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
             <CommentListView>
                 {commentList &&
                     commentList.length > 0 &&
-                    commentList.map(item => (
+                    commentList.map((item, index) => (
                         <CommentItem
                             key={item.hospitalCommentId}
                             content={item.content}
                             score={item.star}
                             depth={0}
-                            firstItem
+                            firstItem={index === 0}
+                            onDeleteComment={() =>
+                                deleteComment({
+                                    hospitalId,
+                                    commentId: item.hospitalCommentId,
+                                })
+                            }
                         />
                     ))}
             </CommentListView>
