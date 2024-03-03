@@ -76,20 +76,48 @@ const Index = () => {
         }
     };
     
+    const splitTextIntoLinesByTenChars = (text:string) => {
+        // 결과를 저장할 빈 문자열 초기화
+        let result = '';
+        
+        // 문자열의 길이가 10자 이하인 경우, 그대로 반환
+        if (text.length <= 8) return text;
+        
+        // 문자열을 10자 단위로 잘라서 결과에 추가
+        for (let i = 0; i < text.length; i += 8) {
+            // 현재 위치에서 다음 10자를 잘라서 결과에 추가
+            // 문자열의 마지막 부분에서 남은 문자가 10자 미만일 경우, 해당 부분을 모두 추가
+            result += text.substring(i, i + 8);
+            
+            // 마지막 부분이 아닌 경우, 줄바꿈 문자 추가
+            if (i + 10 < text.length) result += '\n';
+        }
+        
+        return result;
+    };
+    
+    
     const SurveyAnswerText = (currentStage: number, option: IOption) => {
+        let text: string | undefined = '';
         switch (currentStage) {
             case 1:
-                return option.targetBodyPart;
+                text = option.targetBodyPart;
+                break;
             case 2:
-                return option.diagnosisPart;
+                text = option.diagnosisPart;
+                break;
             case 3:
-                return option.presentedSymptom;
+                text = option.presentedSymptom;
+                break;
             case 4:
-                return option.disease || option.department;
+                text = option.disease || option.department;
+                break;
             default:
-                return '';
+                text = '';
         }
+        return splitTextIntoLinesByTenChars(text as string);
     };
+
     
     const goToNextPage = (selectedOption: IOption) => {
         const nextId = currentStage + 1;
@@ -159,9 +187,9 @@ const Index = () => {
                 </div>
                 <div className={currentOptions.length > 10 ? styles.max_options : styles.options}>
                     {currentOptions && currentOptions.map(option => (
-                        <div key={option.id} onClick={() => currentStage < 4 ? goToNextPage(option) : ''}>
-                            <Image src={option.image} alt="survey-option" className={styles.option} width={100}
-                                   height={100} />
+                        <div key={option.id} style={{marginLeft:"35px"}} onClick={() => currentStage < 4 ? goToNextPage(option) : ''}>
+                            <Image src={option.image} alt="survey-option" className={styles.option} width={150}
+                                   height={150}/>
                             <br />
                             <div className={styles.survey_text}>
                                 {SurveyAnswerText(currentStage, option)}

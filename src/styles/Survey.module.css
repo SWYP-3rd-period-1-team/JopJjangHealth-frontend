@@ -219,14 +219,13 @@
 }
 
 .max_options {
-    max-width: 950px;
-    margin: 84px 0 0 260px;
+/* todo : 값이 없어도 될까? */
+    max-width: 88vw;
+    margin-top: 84px;
 }
 
 .option {
     padding: 10px 15px;
-    width: 100px;
-    height: 100px;
     border: 1px solid #ccc;
     background-color: #f7f7f7;
     cursor: pointer;
@@ -240,14 +239,21 @@
 
 .home_button {
     float: right;
-    font-weight: 600;
+    color: #FFF;
+    text-align: center;
+    font-family: "GmarketSansMedium", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 14px */
+    letter-spacing: 0.98px;
     margin-right: 50px;
     margin-bottom: 38px;
     width: 124px;
     height: 40px;
     flex-shrink: 0;
     border-radius: 20px;
-    background: #D9D9D9;
+    background: #00A241;
 }
 
 .share_button {
@@ -257,12 +263,13 @@
     border-radius: 20px;
     background: #424242;
     float: right;
-    color: #ffffff;
+    color: #FFF;
     text-align: center;
+    font-family: 'SUIT',sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    line-height: 100%;
+    line-height: 100%; /* 14px */
     letter-spacing: 1px;
     margin-right: 20px;
     margin-bottom: 38px;
@@ -273,34 +280,42 @@
     height: 40px;
     flex-shrink: 0;
     border-radius: 20px;
-    background: #00A241;
-    float: right;
-    color: #ffffff;
+    color: #FFF;
     text-align: center;
+    font-family: 'SUIT',sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 600;
-    line-height: 100%;
+    line-height: 100%; /* 14px */
     letter-spacing: 1px;
+    background: #00A241;
+    float: right;
     margin-right: 50px;
     margin-bottom: 38px;
 }
 
 .before_button {
     float: left;
+    color: #FFF;
+    text-align: center;
+    font-family: 'SUIT',sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 14px */
+    letter-spacing: -0.28px;
     margin-left: 50px;
     margin-bottom: 38px;
-    font-weight: 600;
-    width: 162px;
-    height: 40px;
     flex-shrink: 0;
     border-radius: 20px;
+    width: 162px;
+    height: 40px;
     background: #5B5B5B;
-    color:#ffffff;
 }
 
 .survey_text, .disease, .department {
     word-break: keep-all;
+    white-space: pre-wrap;
     color: #000;
     text-align: center;
     font-size: 20px;
@@ -308,7 +323,7 @@
     font-weight: 600;
     line-height: 160%;
     letter-spacing: -0.4px;
-    width:148px;
+    font-family: 'SUIT',sans-serif;
 }
 
 .disease {
