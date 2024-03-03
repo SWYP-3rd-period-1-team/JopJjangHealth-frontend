@@ -1,7 +1,8 @@
-import {useResetRecoilState, useSetRecoilState} from 'recoil';
+// import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import useSaveLocalContent from './useSaveLocalContent';
 import {useQueryClient} from '@tanstack/react-query';
 import {useRouter} from 'next/router';
+import Cookies from 'js-cookie';
 
 const useToken = () => {
     const queryClient = useQueryClient();
@@ -27,10 +28,15 @@ const useToken = () => {
         queryClient.clear();
         router.push('/');
     };
+    
+    const getTokenValue = (tokenName: string) => {
+        return Cookies.get(tokenName);
+    };
 
     return {
         loginSaveToken,
         logoutDeleteToken,
+        getTokenValue,
     };
 };
 

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {login} from '../../utils/auth';
 import {validatePassword, validateUserId} from '../../utils/validation';
@@ -6,15 +6,23 @@ import styles from '../../styles/Login.module.css';
 import Layout from '../../components/Layout';
 import {useRouter} from 'next/router';
 import useToken from '../../hooks/useToken';
+import {saveHealthSurvey} from '../../api/survey';
 
 interface FormData {
     username: string;
     password: string;
 }
 
-const Login: () => JSX.Element = () => {
+const Login:React.FC = () => {
     const router = useRouter();
-
+    const {loginSaveToken, getTokenValue} = useToken();
+    useEffect(() => {
+        const accessToken = getTokenValue('zzgg_at');
+        if (accessToken) {
+            router.push('/');
+        }
+    }, []);
+    
     const {
         register,
         handleSubmit,
@@ -22,34 +30,45 @@ const Login: () => JSX.Element = () => {
     } = useForm<FormData>({
         mode: 'onChange',
     });
-
+    
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-
-    const {loginSaveToken} = useToken();
-
+    
     const openPopup = (url: string, text: string) => {
         localStorage.setItem('activeTab', text);
-        window.open(url, 'popup', 'width=600,height=400');
+        window.open(url, 'popup', 'width=600,height=600');
     };
-
+    
     const onSubmit = async (data: FormData) => {
         try {
             const result = await login(data.username, data.password);
-
-            if (result?.data.accessToken && result?.data.refreshToken)
+            if (result?.data) {
                 loginSaveToken({
                     access_token: result.data.accessToken,
                     refresh_token: result.data.refreshToken,
                 });
+                const accessToken = getTokenValue('zzgg_at');
+                const surveyOption = localStorage.getItem('surveyOption');
+                if (accessToken && surveyOption) {
+                    const parsedOption = JSON.parse(surveyOption);
+                    await saveHealthSurvey(parsedOption);
+                        localStorage.removeItem("surveyOption")
+                        await router.push('/Map', {
+                            query: {disease: parsedOption.disease, department: parsedOption.department},
+                        });
+                } else {
+                    await router.push('/');
+                }
+            }
         } catch (error) {
+            console.error('로그인 처리 중 오류:', error);
             setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다.');
         }
     };
-
+    
     return (
         <Layout>
             <div className={styles.loginContainer}>
-                <h3 className={styles.loginTitle}>LOGIN</h3>
+                <div className={styles.loginTitle}>LOGIN</div>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputGroup}>
                         <input
@@ -70,7 +89,7 @@ const Login: () => JSX.Element = () => {
                             </p>
                         )}
                     </div>
-
+                    
                     <div className={styles.inputGroup}>
                         <input
                             type="password"
@@ -91,7 +110,7 @@ const Login: () => JSX.Element = () => {
                             </p>
                         )}
                     </div>
-
+                    
                     <button
                         type="submit"
                         className={styles.submitButton}

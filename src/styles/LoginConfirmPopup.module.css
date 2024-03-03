@@ -1,0 +1,75 @@
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+}
+
+.popup {
+    width: 500px;
+    height: 250px;
+    flex-shrink: 0;
+    background: #FFF;
+    text-align: center;
+    padding: 25px 40px;
+    border-radius: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
+    max-width: 500px;
+}
+
+.title {
+    color: #333;
+    text-align: center;
+    margin-bottom: 15px;
+}
+
+.message {
+    color: #333;
+    text-align: center;
+    margin-bottom: 10px;
+    line-height: 1.4;
+}
+
+.loginButton {
+    width: 132px;
+    height: 50px;
+    flex-shrink: 0;
+    background: #1C3C29;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    color: #FFF;
+    font-family: 'SUIT',sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.32px;
+}
+.cancelButton {
+    width: 132px;
+    height: 50px;
+    flex-shrink: 0;
+    background: #4B8060;
+    gap:10px;
+    margin-left: 10px;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 16px;
+    margin-top: 10px;
+    color: #FFF;
+    font-family: 'SUIT',sans-serif;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.32px;
+}

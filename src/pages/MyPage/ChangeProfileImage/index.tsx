@@ -1,9 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../../../styles/Find.module.css';
-import ChangeBasicImage from '../../../components/Mypage/ChangeBasicImage';
-import ChangePathImage from '../../../components/Mypage/ChangePathImage';
+import ChangeBasicImage from '../../../components/MyPage/ChangeBasicImage';
+import ChangePathImage from '../../../components/MyPage/ChangePathImage';
 
-const TabComponent: () => React.JSX.Element = () => {
+const TabComponent:React.FC = () => {
     const [activeTab, setActiveTab] = useState('');
 
     useEffect(() => {

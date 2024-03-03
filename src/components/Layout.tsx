@@ -5,6 +5,7 @@ import Header from './Header';
 import styles from '../styles/Survey.module.css';
 import Image from 'next/image';
 import LogoImage from '../../public/assets/Logo.png';
+import LogoText from '../../public/assets/LogoText.png';
 
 interface LayoutProps {
 	children: React.ReactNode;
@@ -16,13 +17,13 @@ const Layout: React.FC<LayoutProps> = ({ children, title = "직짱건강" }) => 
 	return (
 		<div className={styles.main}>
 			<Head>
-				<title>{title} | Home</title>
+				<title>{title}</title>
 			</Head>
 			<li className={styles.header}>
 				<Link href={"/Home"}>
 					<a className={styles.logo_link}>
 						<Image src={LogoImage} alt="로고" width={100} height={100}/>
-						<div className={styles.logo_text}>직<strong>짱</strong>건강</div>
+						<Image src={LogoText} alt="로고텍스트" width={122} height={32}/>
 					</a>
 				</Link>
 				<Header/>

@@ -24,7 +24,7 @@ const SharePage: React.FC = () => {
 			<Modal show={showModal} onClose={closeModal}>
 				공유하기<br/>
 				<div className={styles.choice_share}>
-					<KakaoShareButton />
+					<KakaoShareButton text={shareUrl}/>
 					<CopyToClipboardButton text={shareUrl} />
 				</div>
 			</Modal>

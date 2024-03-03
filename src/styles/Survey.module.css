@@ -18,7 +18,7 @@
     width: 100vw;
     padding: 50px 50px 30px 50px;
     align-items: center;
-    font-family: 'GmarketSansMedium', serif;
+    font-family: 'SUIT', serif;
     color: #00a241;
     font-size: 20pt;
     user-select: none;
@@ -29,10 +29,6 @@
     align-items: center;
     text-decoration: none;
     color: inherit;
-}
-
-.logo_text {
-    margin-left: 10px;
 }
 
 .content {
@@ -80,14 +76,26 @@
 }
 
 .content_basic {
-    top: 10%;
-    font-size: 20px;
+    top: 5%;
+    color: #000;
+    text-align: center;
+    font-family: 'SUIT', serif;
+    font-size: 32px;
+    font-style: normal;
     font-weight: 500;
+    line-height: 150%; /* 48px */
+    letter-spacing: -0.64px;
 }
 
 .content_bold {
-    top: 20%;
-    font-size: 30px;
+    top: 15%;
+    color: #000;
+    text-align: center;
+    font-family: 'SUIT', serif;
+    font-size: 32px;
+    font-style: normal;
+    line-height: 150%; /* 48px */
+    letter-spacing: -0.64px;
     font-weight: 700;
     border-right: 2px solid black;
     white-space: nowrap;
@@ -97,21 +105,29 @@
 }
 
 .image_container {
+    bottom:20%;
     display: flex;
     justify-content: center;
     margin-top: 160px;
 }
 
 .check {
-    top: 90%;
-    border-radius: 20px;
+    top: 85%;
+    width: 629px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #1C3C29;
     padding: 10px 20px;
     border: none;
-    background-color: #00a241;
-    color: white;
     cursor: pointer;
-    font-size: 16px;
-    font-family: 'GmarketSansMedium', serif;
+    color: #FFF;
+    font-family: 'SUIT', serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 24px */
+    letter-spacing: -0.48px;
 }
 
 .quizContainer {
@@ -163,7 +179,7 @@
         width: 0;
     }
     to {
-        width: 515px;
+        width: 45%;
     }
 }
 
@@ -203,7 +219,7 @@
 }
 
 .max_options {
-    max-width: 900px;
+    max-width: 950px;
     margin: 84px 0 0 260px;
 }
 
@@ -225,7 +241,7 @@
 .home_button {
     float: right;
     font-weight: 600;
-    margin-right: 20px;
+    margin-right: 50px;
     margin-bottom: 38px;
     width: 124px;
     height: 40px;
@@ -292,7 +308,7 @@
     font-weight: 600;
     line-height: 160%;
     letter-spacing: -0.4px;
-    width:130px;
+    width:148px;
 }
 
 .disease {

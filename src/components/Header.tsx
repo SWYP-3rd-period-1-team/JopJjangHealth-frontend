@@ -1,17 +1,32 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import styles from '../styles/Header.module.css';
 import {useRouter} from "next/router";
+import useToken from '../hooks/useToken';
 
-const Header: () => React.JSX.Element = () => {
+const Header: React.FC = () => {
 	const router = useRouter();
-	const [loginTrue, setLoginTrue] = useState(true);
+	const { getTokenValue } = useToken();
+	const [loginTrue, setLoginTrue] = useState(false);
+	
+	const checkLoginStatus = () => {
+		const accessToken = getTokenValue('zzgg_at');
+		setLoginTrue(!!accessToken);
+	};
+	
+	useEffect(() => {
+		checkLoginStatus();
+		router.events.on('routeChangeComplete', checkLoginStatus);
+		
+		return () => {
+			router.events.off('routeChangeComplete', checkLoginStatus);
+		};
+	}, [router.events]);
 	
 	const isActive = (path: string, baseStyle: string) => {
-		const isBaseActive = router.pathname === path; // 기존과 동일한 경로 확인
-		const isSubpageActive = router.pathname.startsWith(`${path}/`); // '/MyPage'로 시작하는 하위 경로 확인
+		const isBaseActive = router.pathname === path;
+		const isSubpageActive = router.pathname.startsWith(`${path}/`);
 		
-		// 기존 경로 또는 하위 경로가 활성화된 경우에 진하게 마킹
 		return isBaseActive || isSubpageActive ? `${baseStyle} ${styles.active}` : baseStyle;
 	};
 
@@ -40,12 +55,12 @@ const Header: () => React.JSX.Element = () => {
 					<>
 						<li className={styles.header_link}>
 							<Link href="/Like">
-								<a className={isActive('/Like', styles.header_link_login)}>찜</a>
+								<a className={isActive('/Like', styles.header_link_login_second)}>찜</a>
 							</Link>
 						</li>
 						<li className={styles.header_link}>
 							<Link href="/MyPage">
-								<a className={isActive('/MyPage', styles.header_link_login_second)}>마이페이지</a>
+								<a className={isActive('/MyPage', styles.header_link_login)}>마이페이지</a>
 							</Link>
 						</li>
 					</>

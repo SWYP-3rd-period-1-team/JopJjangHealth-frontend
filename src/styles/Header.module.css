@@ -1,22 +1,32 @@
 .header_menu {
     float: right;
+    color: #757575;
+    font-family: 'SUIT', serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
     margin: 50px 0 0 100px;
     padding: 0;
     list-style: none;
 }
 
 .header_link {
+    font-family: 'SUIT', serif;
     display: inline;
     padding: 0 20px;
 }
 
 .header_link_a {
+    font-family: 'SUIT', serif;
     color: #757575;
     text-decoration: none;
     font-size: 16px;
 }
 
 .header_link_a:hover {
+    font-family: 'SUIT', serif;
     font-weight: 700;
     color: #000000;
 }
@@ -24,23 +34,30 @@
 .header_link_login, .header_link_login_second {
    position: absolute;
     z-index: 1;
-    right:200px;
-    top:115px;
-    color: #757575;
-    text-decoration: none;
+    color: #000000;
+    font-family: 'SUIT', serif;
     font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
+    right:100px;
+    top:115px;
+    text-decoration: none;
 }
 
 .header_link_login_second {
-    right:100px;
+    right:200px;
 }
 
 .header_link_login:hover, .header_link_login_second:hover {
+    font-family: 'SUIT', serif;
     font-weight: 700;
     color: #000000;
 }
 
 .active {
+    font-family: 'SUIT', serif;
     font-weight: 700;
     color: #000000;
 }

@@ -1,32 +1,30 @@
 .joinContainer {
-    padding: 10px;
+    padding: 30px;
     display: flex;
     justify-content: center;
     flex-direction: column;
     align-items: center;
-    margin-top: -30px;
-    margin-left:10%;
 }
 
 .joinTitle {
-    padding: 15px;
-    margin-right:10%;
-    margin-bottom:10px;
     color: #000;
     text-align: center;
-    font-size: 30px;
+    font-family: 'SUIT';
+    font-size: 32px;
     font-style: normal;
-    font-weight: normal;
+    font-weight: 300;
     line-height: 150%; /* 78px */
     letter-spacing: -1.04px;
+    margin-bottom: 20px;
 }
 
 .inputGroup {
     margin-bottom: 20px;
 }
 
-.input, .input_email, .inputError {
+.input, .input_email, .inputError, .inputVerification {
     width:600px;
+    height:45px;
     padding: 10px 20px;
     border:none;
     background-color: #ffffff;
@@ -35,6 +33,10 @@
 .input_email {
     margin-right:5px;
     width: 190px;
+}
+
+.inputVerification {
+    width: 480px;
 }
 
 .selectDomain {
@@ -55,15 +57,21 @@
 
 .submitButton {
     width: 600px;
-    height:60px;
+    height: 55px;
     flex-shrink: 0;
     background: #1C3C29;
-    color: white;
+    color: #FFF;
+    font-family: SUIT;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -0.48px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    transition: background-color 0.3s ease;
+    transition: background-color 0.3s;
 }
 
 .submitButton:disabled {

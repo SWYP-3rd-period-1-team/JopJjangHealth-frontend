@@ -1,13 +1,14 @@
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
-import { findPassword } from '../../utils/auth';
+import { findPassword } from '../../api/find';
 import styles from '../../styles/Find.module.css';
 
 interface FormData {
     email: string;
+    userId:string;
 }
 
-const FindPassword: () => JSX.Element = () => {
+const FindPassword: React.FC = () => {
     const {
         register,
         handleSubmit,
@@ -17,7 +18,7 @@ const FindPassword: () => JSX.Element = () => {
     const [passwordMessage, setPasswordMessage] = useState<string | null>(null);
     
     const onSubmit = async (data: FormData) => {
-        const result = await findPassword(data.email);
+        const result = await findPassword(data.userId, data.email );
         if (result) {
             setPasswordMessage('임시 비밀번호가 이메일로 전송되었습니다.');
         } else {
@@ -33,6 +34,16 @@ const FindPassword: () => JSX.Element = () => {
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputGroup}>
                     <input
+                        placeholder="아이디를 입력해주세요."
+                        {...register('userId', {
+                            required: '아이디를 입력해주세요.',
+                        })}
+                        className={errors.userId ? styles.inputError : styles.input}
+                    />
+                    {errors.userId && <p className={styles.errorText}>{errors.userId.message}</p>}
+                </div>
+                <div className={styles.inputGroup}>
+                    <input
                         placeholder="이메일을 입력해주세요."
                         {...register('email', {
                             required: '이메일을 입력해주세요.',
@@ -41,7 +52,6 @@ const FindPassword: () => JSX.Element = () => {
                     />
                     {errors.email && <p className={styles.errorText}>{errors.email.message}</p>}
                 </div>
-                
                 <button
                     type="submit"
                     className={styles.findButton}

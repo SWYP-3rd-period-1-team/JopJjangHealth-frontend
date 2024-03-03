@@ -1,19 +1,48 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../styles/MyPage.module.css';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
-import LogoutModal from '../../components/Mypage/Logout';
+import LogoutModal from '../../components/MyPage/Logout';
 import {logout} from '../../utils/auth';
+import useToken from '../../hooks/useToken';
+import axiosInstance from '../../api/axiosInstance';
+// import Image from 'next/image';
 
 const MyPage = () => {
+    const {logoutDeleteToken, getTokenValue} = useToken();
+    const refreshToken = getTokenValue('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useState(false);
-    const userProfile = {
-        username: '직짱인 님',
-        userId: 'abcde123',
+    const [userInfo, setUserInfo] = useState(
+        {
+            profileImage: '',
+            nickname: '',
+            userId: '',
+            email: '',
+        },
+    );
+    
+    useEffect(() => {
+        const fetchUserInfo = async () => {
+            try {
+                const response = await axiosInstance.get('/api/members/my-page');
+                setUserInfo(response.data.data);
+            } catch (error) {
+                console.error('사용자 정보 가져오기 실패:', error);
+            }
+        };
+        fetchUserInfo();
+    }, []);
+    
+    
+    const onLogout = async () => {
+        localStorage.clear();
+        logoutDeleteToken();
+        // todo : 토큰이 안보내지고 있는거 같다.
+        await logout();
     };
     
     const handleLogoutSectionClick = () => {
-        setShowLogoutModal(true); // This will trigger the modal to open
+        setShowLogoutModal(true);
     };
     
     return (
@@ -21,15 +50,19 @@ const MyPage = () => {
             <div className={styles.myPageContainer}>
                 <div className={styles.profileContainer}>
                     <div className={styles.profileInfo}>
-                        <div className={styles.profileImage} />
+                        <img
+                            className={styles.profileImage}
+                            src={userInfo?.profileImage ?? '/default.png'}
+                            alt={'User Profile'}
+                        />
                         <div className={styles.profileText}>
-                            <span className={styles.username}>{userProfile.username}</span>
+                            <span className={styles.username}>{userInfo?.nickname}</span>
                             <span className={styles.username}>
 								<Link href={'/MyPage/ChangeProfile'}>
 									   <button className={styles.userbutton}>프로필 변경하기</button>
 								</Link>
               </span>
-                            <div className={styles.userId}>{userProfile.userId}</div>
+                            <div className={styles.userId}>{userInfo?.userId}</div>
                         </div>
                     </div>
                 </div>
@@ -46,7 +79,7 @@ const MyPage = () => {
                     isOpen={showLogoutModal}
                     onClose={() => setShowLogoutModal(false)}
                     onLogout={() => {
-                        logout()
+                        onLogout();
                         setShowLogoutModal(false);
                     }}
                 />}

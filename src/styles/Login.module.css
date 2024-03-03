@@ -6,26 +6,29 @@
 }
 
 .loginTitle {
-    margin-bottom: 20px;
-    font-size:30px;
-    font-weight:300;
     color: #000;
     text-align: center;
+    font-family: 'SUIT';
+    font-size: 32px;
     font-style: normal;
+    font-weight: 300;
     line-height: 150%; /* 78px */
     letter-spacing: -1.04px;
+    margin-bottom: 20px;
 }
 
 .inputGroup {
-    margin-bottom: 15px;
+    margin-bottom: 20px;
 }
 
 
 .input,.inputError {
-    border:none;
     width: 600px;
+    height: 45px;
+    flex-shrink: 0;
+    border: 1px solid #ECECEC;
+    background: #FFF;
     padding: 10px 20px;
-    background-color: #ffffff;
 }
 .inputError {
     border: 2px solid red;
@@ -39,10 +42,16 @@
 
 .submitButton {
     width: 600px;
-    height:60px;
+    height: 55px;
     flex-shrink: 0;
     background: #1C3C29;
-    color: white;
+    color: #FFF;
+    font-family: 'SUIT';
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%;
+    letter-spacing: -0.48px;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
@@ -70,30 +79,32 @@
 
 .linkContainer {
     display: flex;
-    justify-content: space-between; /* 양 끝에 링크를 배치 */
+    justify-content: space-between;
     margin-top: 20px;
-    margin-left:30%;
-    width: 600px; /* hr과 동일한 길이 */
+    margin-left:29%;
+    width: 600px;
 }
 
 .join, .findId, .findPassword {
-    cursor: pointer; /* 클릭 가능한 항목임을 나타내는 커서 스타일 */
-    text-decoration: none; /* 링크 밑줄 제거 */
-    color: #1C3C29; /* 텍스트 색상 */
-    font-weight: bold; /* 텍스트를 굵게 */
+    color: #757575;
+    font-family: 'SUIT';
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%;
+    letter-spacing: -0.4px;
+    cursor: pointer;
+    text-decoration: none;
 }
 
-/* .join 만 왼쪽에 위치하도록 설정 */
 .join {
     text-align: left;
 }
 
-/* .findId와 .findPassword를 오른쪽에 위치하도록 설정 */
 .findId, .findPassword {
     text-align: right;
 }
 
-/* .findId와 .findPassword가 같은 줄에 위치하도록 설정 */
 .findId {
-    margin-right: 10px; /* '아이디 찾기'와 '비밀번호 찾기' 사이의 간격 */
+    margin-right: 10px;
 }
