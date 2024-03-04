@@ -1,11 +1,13 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {sendEmailVerification, verifyEmailCode} from '../../../utils/auth';
+import {checkUserAuthentication, sendEmailVerification, verifyEmailCode} from '../../../utils/auth';
 import {validatePassword, validateEmail} from '../../../utils/validation';
 
 import styles from '../../../styles/ChangePassword.module.css';
 import Layout from '../../../components/Layout';
 import {ChangePassword} from '../../../api/mypage';
+import {GetServerSideProps} from 'next';
+import useAuth from '../../../hooks/useAuth';
 
 interface FormData {
     password: string;
@@ -15,6 +17,7 @@ interface FormData {
 }
 
 const Index: React.FC = () => {
+    useAuth();
     const {
         register,
         handleSubmit,
@@ -159,3 +162,7 @@ const Index: React.FC = () => {
 };
 
 export default Index;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return checkUserAuthentication(context);
+};

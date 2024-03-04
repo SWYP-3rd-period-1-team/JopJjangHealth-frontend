@@ -29,7 +29,6 @@ const Header: React.FC = () => {
 		
 		return isBaseActive || isSubpageActive ? `${baseStyle} ${styles.active}` : baseStyle;
 	};
-
 	
 	return (
 		<>

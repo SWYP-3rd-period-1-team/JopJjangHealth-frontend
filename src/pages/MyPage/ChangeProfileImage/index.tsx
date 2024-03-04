@@ -2,8 +2,12 @@ import React, {useEffect, useState} from 'react';
 import styles from '../../../styles/Find.module.css';
 import ChangeBasicImage from '../../../components/MyPage/ChangeBasicImage';
 import ChangePathImage from '../../../components/MyPage/ChangePathImage';
+import {checkUserAuthentication} from '../../../utils/auth';
+import {GetServerSideProps} from 'next';
+import useAuth from '../../../hooks/useAuth';
 
 const TabComponent:React.FC = () => {
+    useAuth();
     const [activeTab, setActiveTab] = useState('');
 
     useEffect(() => {
@@ -42,3 +46,7 @@ const TabComponent:React.FC = () => {
 };
 
 export default TabComponent;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return checkUserAuthentication(context);
+};

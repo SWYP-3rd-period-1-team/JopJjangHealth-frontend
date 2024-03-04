@@ -1,7 +1,8 @@
 import qs from "qs";
 import axiosInstance from '../api/axiosInstance';
 import axios from 'axios';
-
+import {GetServerSideProps, GetServerSidePropsContext} from 'next';
+// import Image from 'next/image';
 export const signUp = async (nickname: string, userId: string, email: string, password: string) => {
     try {
         const response = await axiosInstance.post('/api/members/join', { nickname, userId, email, password }, {
@@ -60,3 +61,19 @@ export const logout = async () => {
         return { success: false, message: '로그아웃 실패' };
     }
 };
+
+export const checkUserAuthentication : GetServerSideProps = async (context: GetServerSidePropsContext) => {
+    const token = context.req.cookies['zzgg_rt'];
+    
+    if (!token) {
+        return {
+            redirect: {
+                destination: '/Login',
+                permanent: false,
+            },
+        };
+    }
+    
+    return { props: {} };
+};
+

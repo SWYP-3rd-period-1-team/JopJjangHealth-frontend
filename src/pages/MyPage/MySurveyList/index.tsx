@@ -5,6 +5,9 @@ import styles from '../../../styles/MySurveyList.module.css';
 import Image from 'next/image';
 import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
 import { fetchDiseaseList } from '../../../api/mypage';
+import {checkUserAuthentication} from '../../../utils/auth';
+import {GetServerSideProps} from 'next';
+import useAuth from '../../../hooks/useAuth';
 
 const CalendarPopup = ({ onClose }: { onClose: () => void }) => (
     <div className={styles.popupContainer} onClick={onClose}>
@@ -19,6 +22,7 @@ const CalendarPopup = ({ onClose }: { onClose: () => void }) => (
 );
 
 const SurveyList = () => {
+    useAuth();
     const [diseaseList, setDiseaseList] = useState([
         {
             id: '',
@@ -156,3 +160,7 @@ const SurveyList = () => {
 };
 
 export default SurveyList;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return checkUserAuthentication(context);
+};

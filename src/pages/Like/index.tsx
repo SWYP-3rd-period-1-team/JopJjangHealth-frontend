@@ -5,8 +5,12 @@ import Link from 'next/link';
 import noLikeImage from '../../../public/favicon4.png';
 import Image from 'next/image';
 import {fetchHospitalInfo} from '../../api/like';
+import {checkUserAuthentication} from '../../utils/auth';
+import {GetServerSideProps} from 'next';
+import useAuth from '../../hooks/useAuth';
 
 const Like = () => {
+    useAuth();
     const [hospitalInfo, setHospitalInfo] = useState(
         [{id: '', name: '', date: '', address: '', distance: ''},
         ]);
@@ -66,3 +70,7 @@ const Like = () => {
 };
 
 export default Like;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return checkUserAuthentication(context);
+};
