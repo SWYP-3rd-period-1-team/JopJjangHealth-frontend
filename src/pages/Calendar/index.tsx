@@ -13,6 +13,7 @@ type CalendarProps = {
 const Calendar: React.FC<CalendarProps> = () => {
     const [currentDate, setCurrentDate] = useState(new Date());
     const [currentModal, setCurrentModal] = useState<React.ReactNode>(null); // 모달 상태
+    const [isVisible, setIsVisible] = useState<boolean>(false); // 새로운 상태 추가: 항목의 표시 여부
     
     useEffect(() => {
         setCurrentDate(new Date());
@@ -52,8 +53,8 @@ const Calendar: React.FC<CalendarProps> = () => {
         {label: '+ 일정 수정하기', value: 'editSchedule'},
     ];
     
-    
     const handleItemClick = (value: string) => {
+        setIsVisible(!isVisible); // 항목 클릭 시 표시 상태 토글
         switch (value) {
             case 'addSupplement':
                 setCurrentModal(<AddSupplements />);
@@ -71,7 +72,9 @@ const Calendar: React.FC<CalendarProps> = () => {
     
     const handleCloseModal = () => {
         setCurrentModal(null);
+        setIsVisible(false); // 모달 닫을 때 표시 상태도 변경
     };
+    
     
     return (
         <Layout>
@@ -92,11 +95,28 @@ const Calendar: React.FC<CalendarProps> = () => {
                     {days}
                 </div>
             </div>
-            <div>질병캘린더리스트</div>
-            <button>리스트 모아보기</button>
+            <div className={styles.listText}>질병캘린더리스트</div>
+            <button className={styles.listButton}>리스트 모아보기</button>
+            <br />
             <div className={styles.listContainer}>
-                <div>기본 캘린더</div>
-                {items.map((item, index) => (
+                <div>
+                    <span>기본 캘린더</span>
+                    <span>
+                          {isVisible ?
+                              (
+                                  <div onClick={() => setIsVisible(false)} className={styles.listModalButton}>
+                                      저장
+                                  </div>
+                              )
+                              :
+                              (
+                                  <div onClick={() => setIsVisible(true)} className={styles.listModalButton}>
+                                      추가 및 편집
+                                  </div>
+                              )}
+                    </span>
+                </div>
+                {isVisible && items.map((item, index) => ( // isVisible 상태에 따라 항목 표시
                     <div
                         key={index}
                         className={styles.listItem}
@@ -109,7 +129,6 @@ const Calendar: React.FC<CalendarProps> = () => {
             {currentModal && (
                 <div className={styles.modalContainer} onClick={handleCloseModal}>
                     {currentModal}
-                    <button onClick={handleCloseModal}>모달 닫기</button>
                 </div>
             )}
         </Layout>

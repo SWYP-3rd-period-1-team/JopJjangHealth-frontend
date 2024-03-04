@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './Calendar.module.css';
+import styles from '../../styles/CalendarModal.module.css';
 
 const AddWaterInTake: React.FC = () => {
     const [intakeGoal, setIntakeGoal] = useState(''); // 목표 섭취량을 문자열로 관리합니다.
