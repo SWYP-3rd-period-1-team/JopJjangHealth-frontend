@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './Calendar.module.css';
+import styles from '../../styles/CalendarModal.module.css';
 
 const AddSupplements: React.FC = () => {
     const [supplementName, setSupplementName] = useState('');
@@ -33,9 +33,9 @@ const AddSupplements: React.FC = () => {
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
-                <h2>영양제 추가하기</h2>
+                <div className={styles.inputTitle}>영양제 추가하기</div>
                 <div>
-                    영양제 이름:
+                    <div className={styles.inputText}>영양제 이름:</div>
                     <input
                         type="text"
                         value={supplementName}
@@ -64,7 +64,7 @@ const AddSupplements: React.FC = () => {
                     />
                     알 섭취하고 있어요.
                 </div>
-                <button className={styles.submitButton} onClick={handleSubmit}>전송하기</button>
+                <button className={styles.submitButton} onClick={handleSubmit}>저장하기</button>
             </div>
         </div>
     );

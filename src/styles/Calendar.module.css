@@ -1,16 +1,29 @@
 .calendarContainer {
-    font-family: 'Arial', sans-serif;
-    border: 1px solid #ccc;
+    width: 1200px;
+    height: 850px;
+    flex-shrink: 0;
+    border: 1px solid #A8A8A8;
+    background: #FFF;
+    font-family: 'SUIT', sans-serif;
     max-width: 600px;
-    margin: 20px auto;
+    margin: 0 155px;
     text-align: center;
 }
 
 .header {
+    border: 1px solid #A8A8A8;
     display: flex;
+    width: 1163px;
     justify-content: space-between;
     padding: 10px;
     background-color: #f3f3f3;
+    color: #000;
+    font-family: 'SUIT',sans-serif;
+    font-size: 36px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: 160%; /* 57.6px */
+    letter-spacing: -0.72px;
 }
 
 .monthDisplay {
@@ -25,8 +38,13 @@
 }
 
 .day {
+    text-align: left;
+    width: 166px;
+    height: 110px;
+    flex-shrink: 0;
+    border-bottom: 1px solid #F4F4F4;
+    background: #FFF;
     border-right: 1px solid #ccc;
-    border-bottom: 1px solid #ccc;
     padding: 10px;
     cursor: pointer;
 }
@@ -42,16 +60,58 @@
 }
 
 .listContainer {
-    margin: 20px;
+    margin: 120px;
     padding: 10px;
     border: 1px solid #ccc;
     border-radius: 8px;
 }
 
 .listItem {
+    margin: 10px 0;
     padding: 8px;
-    margin: 4px;
     background-color: #f7f7f7;
     border: 1px solid #ddd;
     border-radius: 4px;
+}
+.listText {
+    float :left;
+    color: #000;
+    font-family: 'SUIT',sans-serif;
+    font-size: 28px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 44.8px */
+    letter-spacing: -0.56px;
+    margin:40px 40px 40px 40px;
+}
+
+.listButton {
+    margin-top: 55px;
+    margin-right:40px;
+    float:right;
+    color: #757575;
+    font-family: 'SUIT',sans-serif;
+    width: 132px;
+    height: 30px;
+    flex-shrink: 0;
+    border-radius: 100px;
+    background: #D9D9D9;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.32px;
+}
+
+.listModalButton {
+    float:right;
+    border:none;
+    color: #757575;
+    font-family: 'SUIT',sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 20px */
+    letter-spacing: -0.4px;
+    text-decoration-line: underline;
 }

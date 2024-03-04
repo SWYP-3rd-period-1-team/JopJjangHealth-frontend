@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import styles from './Calendar.module.css';
+import styles from '../../styles/CalendarModal.module.css';
 
 type OptionType = {
     value: number;
