@@ -1,29 +1,24 @@
-import Document, {DocumentContext} from 'next/document';
-import {ServerStyleSheet} from 'styled-components';
+// _document.tsx
 
-export default class MyDocument extends Document {
-  static async getInitialProps(ctx: DocumentContext) {
-    const sheet = new ServerStyleSheet();
-    const originalRenderPage = ctx.renderPage;
+import { Html, Head, Main, NextScript } from "next/document";
 
-    try {
-      ctx.renderPage = () =>
-        originalRenderPage({
-          enhanceApp: App => props => sheet.collectStyles(<App {...props} />),
-        });
-
-      const initialProps = await Document.getInitialProps(ctx);
-      return {
-        ...initialProps,
-        styles: (
-          <>
-            {initialProps.styles}
-            {sheet.getStyleElement()}
-          </>
-        ),
-      };
-    } finally {
-      sheet.seal();
-    }
-  }
+export default function Document() {
+  return (
+      <Html lang="ko">
+        <Head />
+        <body>
+        <script
+            dangerouslySetInnerHTML={{
+              __html: `
+              var script = document.createElement('script');
+              script.src = '//dapi.kakao.com/v2/maps/sdk.js?appkey=${process.env.NEXT_PUBLIC_KAKAO_MAP_KEY}&libraries=services&autoload=false';
+              document.body.appendChild(script);
+            `,
+            }}
+        />
+        <Main />
+        <NextScript />
+        </body>
+      </Html>
+  );
 }
