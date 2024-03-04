@@ -28,32 +28,41 @@ const Index = () => {
     const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);
     const [selectedTargetBodyPart, setSelectedTargetBodyPart] = useRecoilState(selectedTargetBodyPartState);
     const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
+    const [currentOptions, setCurrentOptions] = useState<IOption[]>([]);
     const currentStage = parseInt(id as string, 10);
     
-    let currentOptions = options.filter(option => option.stage === currentStage);
-    
-    if (currentStage === 2 && selectedBodyPart) {
-        currentOptions = currentOptions.filter(option => option.targetBodyPart === selectedBodyPart);
-    } else if (currentStage === 3 && selectedBodyPart && selectedTargetBodyPart) {
-        currentOptions = currentOptions.filter(option =>
-            option.targetBodyPart === selectedBodyPart &&
-            option.diagnosisPart === selectedTargetBodyPart);
-    } else if (currentStage === 4 && selectedBodyPart && selectedTargetBodyPart && selectedPresentedSymptom) {
-        currentOptions = currentOptions.filter(option =>
-            option.targetBodyPart === selectedBodyPart &&
-            option.diagnosisPart === selectedTargetBodyPart &&
-            option.presentedSymptom === selectedPresentedSymptom,
-        );
-    }
+    useEffect(() => {
+        const { targetBodyPart, diagnosisPart, presentedSymptom } = router.query;
+        
+        if (typeof targetBodyPart === 'string') {
+            setSelectedBodyPart(targetBodyPart);
+        }
+        if (typeof diagnosisPart === 'string') {
+            setSelectedTargetBodyPart(diagnosisPart);
+        }
+        if (typeof presentedSymptom === 'string') {
+            setSelectedPresentedSymptom(presentedSymptom);
+        }
+    }, [router.query, setSelectedBodyPart, setSelectedPresentedSymptom, setSelectedTargetBodyPart]);
     
     useEffect(() => {
-        const newTargetBodyPart = typeof targetBodyPart === 'string' ? targetBodyPart : '';
-        const newDiagnosisPart = typeof diagnosisPart === 'string' ? diagnosisPart : '';
-        const newPresentedSymptom = typeof presentedSymptom === 'string' ? presentedSymptom : '';
-        setSelectedBodyPart(newTargetBodyPart);
-        setSelectedTargetBodyPart(newDiagnosisPart);
-        setSelectedPresentedSymptom(newPresentedSymptom);
-    }, [router.query, setSelectedBodyPart, setSelectedTargetBodyPart, setSelectedPresentedSymptom, targetBodyPart, diagnosisPart, presentedSymptom]);
+        let newFilteredOptions = options.filter(option => option.stage === currentStage);
+        
+        if (currentStage === 2 && selectedBodyPart) {
+            newFilteredOptions = newFilteredOptions.filter(option => option.targetBodyPart === selectedBodyPart);
+        } else if (currentStage === 3 && selectedBodyPart && selectedTargetBodyPart) {
+            newFilteredOptions = newFilteredOptions.filter(option =>
+                option.targetBodyPart === selectedBodyPart &&
+                option.diagnosisPart === selectedTargetBodyPart);
+        } else if (currentStage === 4 && selectedBodyPart && selectedTargetBodyPart && selectedPresentedSymptom) {
+            newFilteredOptions = newFilteredOptions.filter(option =>
+                option.targetBodyPart === selectedBodyPart &&
+                option.diagnosisPart === selectedTargetBodyPart &&
+                option.presentedSymptom === selectedPresentedSymptom);
+        }
+        
+        setCurrentOptions(newFilteredOptions);
+    }, [currentStage, selectedBodyPart, selectedTargetBodyPart, selectedPresentedSymptom]);
     
     const SurveyAskText = () => {
         switch (currentStage) {
@@ -77,25 +86,20 @@ const Index = () => {
     };
     
     const splitTextIntoLinesByTenChars = (text:string) => {
-        // 결과를 저장할 빈 문자열 초기화
         let result = '';
         
-        // 문자열의 길이가 10자 이하인 경우, 그대로 반환
-        if (text.length <= 8) return text;
+        if (!text) return '';
+        if (text.length <= 10) return text;
         
-        // 문자열을 10자 단위로 잘라서 결과에 추가
-        for (let i = 0; i < text.length; i += 8) {
-            // 현재 위치에서 다음 10자를 잘라서 결과에 추가
-            // 문자열의 마지막 부분에서 남은 문자가 10자 미만일 경우, 해당 부분을 모두 추가
-            result += text.substring(i, i + 8);
+        for (let i = 0; i < text.length; i += 10) {
+            const nextChunk = text.substring(i, i + 10);
+            result += nextChunk;
             
-            // 마지막 부분이 아닌 경우, 줄바꿈 문자 추가
             if (i + 10 < text.length) result += '\n';
         }
         
         return result;
     };
-    
     
     const SurveyAnswerText = (currentStage: number, option: IOption) => {
         let text: string | undefined = '';
@@ -173,6 +177,8 @@ const Index = () => {
         choiceHospitalButton(currentOptions, true);
     };
     
+    console.log(currentOptions,"!")
+    
     return (
         <Layout>
             {showLoginConfirm && (
@@ -186,16 +192,28 @@ const Index = () => {
                     <SurveyAskText />
                 </div>
                 <div className={currentOptions.length > 10 ? styles.max_options : styles.options}>
-                    {currentOptions && currentOptions.map(option => (
-                        <div key={option.id} style={{marginLeft:"35px"}} onClick={() => currentStage < 4 ? goToNextPage(option) : ''}>
-                            <Image src={option.image} alt="survey-option" className={styles.option} width={150}
-                                   height={150}/>
-                            <br />
-                            <div className={styles.survey_text}>
-                                {SurveyAnswerText(currentStage, option)}
-                            </div>
-                        </div>
-                    ))}
+                    {currentOptions.map(option => {
+                        const imageSrc = option.image;
+                        const optionText = SurveyAnswerText(currentStage, option);
+                        if (!imageSrc || !optionText) {
+                            return null;
+                        }
+                        
+                        if (imageSrc && optionText) {
+                            return (
+                                <div key={option.id} style={{marginLeft: '35px'}}
+                                     onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
+                                    <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
+                                           height={150} />
+                                    <br />
+                                    <div className={styles.survey_text}>
+                                        {optionText}
+                                    </div>
+                                </div>
+                            );
+                        }
+                        return null;
+                    })}
                 </div>
             </div>
             {currentStage > 1 && (
