@@ -431,7 +431,7 @@ export const options: IOption[] = [
 	{id: 443, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "심한 통증, 붓기", department: "고관절", image: "/assets/survey/고관절.png"},
 	{id: 444, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "심한 통증, 붓기", department: "정형외과", image: "/assets/survey/정형외과.png"},
 	{id: 445, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "심한 통증, 붓기", department: "응급실", image: "/assets/survey/응급실.png"},
-	{id: 446, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "손목을 누르면 심한 통증과 엄지 손가락의 이상", disease: "손목건초염", image: "/assets/survey/손목건초염.png"},
+	{id: 446, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "손목을 누르면 심한 통증과 엄지 손가락의 이상", disease: "손목건초염", image: "/assets/survey/손목 건초염.png"},
 	{id: 447, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "손목을 누르면 심한 통증과 엄지 손가락의 이상", department: "정형외과", image: "/assets/survey/정형외과.png"},
 	{id: 448, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "손목을 누르면 심한 통증과 엄지 손가락의 이상", department: "응급실", image: "/assets/survey/응급실.png"},
 	{id: 449, stage: 4, targetBodyPart: "관절", diagnosisPart: "손목", presentedSymptom: "피부의 통증, 붓기", disease: "피부 감염", image: "/assets/survey/피부 감염.png"},
