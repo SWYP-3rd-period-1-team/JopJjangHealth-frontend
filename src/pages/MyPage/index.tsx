@@ -3,12 +3,15 @@ import styles from '../../styles/MyPage.module.css';
 import Layout from '../../components/Layout';
 import Link from 'next/link';
 import LogoutModal from '../../components/MyPage/Logout';
-import {logout} from '../../utils/auth';
+import {checkUserAuthentication, logout} from '../../utils/auth';
 import useToken from '../../hooks/useToken';
 import axiosInstance from '../../api/axiosInstance';
+import useAuth from '../../hooks/useAuth';
+import {GetServerSideProps} from 'next';
 // import Image from 'next/image';
 
 const MyPage = () => {
+    useAuth();
     const {logoutDeleteToken, getTokenValue} = useToken();
     const refreshToken = getTokenValue('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useState(false);
@@ -89,3 +92,7 @@ const MyPage = () => {
 };
 
 export default MyPage;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return checkUserAuthentication(context);
+};

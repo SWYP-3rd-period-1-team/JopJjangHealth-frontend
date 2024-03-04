@@ -4,9 +4,13 @@ import Layout from '../../../components/Layout';
 import {validateNickname} from '../../../utils/validation';
 import {useRouter} from 'next/router';
 import {changeUserNickname, fetchUserInfo} from '../../../api/mypage';
+import {checkUserAuthentication} from '../../../utils/auth';
+import {GetServerSideProps} from 'next';
+import useAuth from '../../../hooks/useAuth';
 // import Image from 'next/image';
 
 const UserProfile = () => {
+    useAuth();
     const router = useRouter();
     const [userInfo, setUserInfo] = useState(
         {
@@ -139,3 +143,7 @@ const UserProfile = () => {
 };
 
 export default UserProfile;
+
+export const getServerSideProps: GetServerSideProps = async (context) => {
+    return checkUserAuthentication(context);
+};
