@@ -31,6 +31,7 @@ const Like = () => {
     }]);
     const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([]);
     const [isLoading, setIsLoading] = useState(true);
+    const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useState(false);
     
     useEffect(() => {
         const initializeHospitalInfo = async () => {
@@ -92,9 +93,14 @@ const Like = () => {
         };
         
         if (hospitalFirstData.length > 0 && !isLoading) {
-            loadGoogleMapsScript(loadPlaceDetails);
+            loadGoogleMapsScript(() => {
+                loadPlaceDetails();
+                setIsHospitalDetailsLoaded(true); // set to true once hospital details are loaded
+            });
         }
-    }, [hospitalFirstData]);
+    }, [hospitalFirstData, isLoading]);
+    
+    const isStillLoading = isLoading || !isHospitalDetailsLoaded;
     
     const handleDeleteHospital = async (hospitalId: string) => {
         const response = await fetchHospitalDeleteInfo(hospitalId);
@@ -109,7 +115,7 @@ const Like = () => {
     return (
         <Layout>
             <div className={styles.like_text}><b>직짱인 님</b>의 <b>찜한</b> 병원 리스트</div>
-            {isLoading ? <LoadingView />
+            {isStillLoading  ? <LoadingView />
                 :
                 <>
                     <div className={styles.like_container}>
