@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {login} from '../../utils/auth';
-import {validatePassword, validateUserId } from '../../utils/validation';
+import {validatePassword, validateUserId} from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
 import Layout from '../../components/Layout';
 import {useRouter} from 'next/router';
@@ -13,7 +13,7 @@ interface FormData {
     password: string;
 }
 
-const Login:React.FC = () => {
+const Login: React.FC = () => {
     const router = useRouter();
     const {loginSaveToken, getTokenValue} = useToken();
     useEffect(() => {
@@ -51,10 +51,8 @@ const Login:React.FC = () => {
                 if (accessToken && surveyOption) {
                     const parsedOption = JSON.parse(surveyOption);
                     await saveHealthSurvey(parsedOption);
-                        localStorage.removeItem("surveyOption")
-                        await router.push('/Map', {
-                            query: {disease: parsedOption.disease, department: parsedOption.department},
-                        });
+                    localStorage.removeItem('surveyOption');
+                    await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
                 } else {
                     await router.push('/');
                 }

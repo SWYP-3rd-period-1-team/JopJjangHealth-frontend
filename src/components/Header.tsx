@@ -9,19 +9,20 @@ const Header: React.FC = () => {
 	const { getTokenValue } = useToken();
 	const [loginTrue, setLoginTrue] = useState(false);
 	
-	const checkLoginStatus = () => {
-		const accessToken = getTokenValue('zzgg_at');
-		setLoginTrue(!!accessToken);
-	};
-	
 	useEffect(() => {
+		const checkLoginStatus = () => {
+			const accessToken = getTokenValue('zzgg_at');
+			setLoginTrue(!!accessToken);
+		};
+		
 		checkLoginStatus();
+		
 		router.events.on('routeChangeComplete', checkLoginStatus);
 		
 		return () => {
 			router.events.off('routeChangeComplete', checkLoginStatus);
 		};
-	}, [checkLoginStatus, router.events]);
+	}, [router.events, getTokenValue]);
 	
 	const isActive = (path: string, baseStyle: string) => {
 		const isBaseActive = router.pathname === path;

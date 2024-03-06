@@ -36,7 +36,6 @@ export const fetchDiseaseListDelete = async (surveyId:number) => {
 export const changeUserProfileImage = async (imagePath: string) => {
     try {
         const response = await axiosInstance.post('/api/members/change-profile-image', {imageFile: imagePath});
-        console.log(response.data);
         alert('이미지 설정 성공!');
         return response.data;
     } catch (error) {
