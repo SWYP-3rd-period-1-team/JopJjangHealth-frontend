@@ -4,7 +4,7 @@ import styles from '../../styles/Like.module.css';
 import Link from 'next/link';
 import noLikeImage from '../../../public/assets/no/this.png';
 import Image from 'next/image';
-import {fetchHospitalInfo} from '../../api/like';
+import {fetchHospitalDeleteInfo, fetchHospitalInfo} from '../../api/like';
 import {checkUserAuthentication} from '../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../hooks/useAuth';
@@ -29,9 +29,7 @@ const Like = () => {
         googleMapId: '',
         bookmarkDate: ''
     }]);
-    const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([{
-        id: '', name: '', bookmarkDate: '', address: '', distance: ''
-    }]);
+    const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
@@ -98,6 +96,16 @@ const Like = () => {
         }
     }, [hospitalFirstData]);
     
+    const handleDeleteHospital = async (hospitalId: string) => {
+        const response = await fetchHospitalDeleteInfo(hospitalId);
+        if (response.success) {
+            const updatedHospitalInfo = hospitalInfo.filter(hospital => hospital.id !== hospitalId);
+            setHospitalInfo(updatedHospitalInfo);
+        } else {
+            alert(response.message);
+        }
+    };
+    
     return (
         <Layout>
             <div className={styles.like_text}><b>직짱인 님</b>의 <b>찜한</b> 병원 리스트</div>
@@ -118,8 +126,9 @@ const Like = () => {
                                             {' '}|{' '}
                                             <span className={styles.district}>{hospital.distance} 떨어져 있습니다.</span>
                                         </div>
-                                        
-                                        <div className={styles.delete}>삭제</div>
+                                        <div className={styles.delete}
+                                             onClick={() => handleDeleteHospital(hospital.id)}>삭제
+                                        </div>
                                     </div>
                                 ))}
                             </>
