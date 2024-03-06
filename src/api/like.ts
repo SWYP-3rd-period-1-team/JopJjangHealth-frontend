@@ -11,7 +11,9 @@ export const fetchHospitalInfo = async () => {
 
 export const fetchHospitalDeleteInfo = async (hospitalId: string) => {
     try {
-        const response = await axiosInstance.post(`/api/hospitals/${hospitalId}/bookmarks`);
+        const response = await axiosInstance.post(`/api/hospitals/${hospitalId}/bookmarks`,{
+            bookmark: false
+        });
         return { success: true, data: response.data };
     } catch (error) {
         return { success: false, message: "찜한 병원을 삭제하지 못하였습니다." };
