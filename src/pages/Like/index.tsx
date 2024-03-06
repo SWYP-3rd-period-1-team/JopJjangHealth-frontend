@@ -95,7 +95,7 @@ const Like = () => {
         if (hospitalFirstData.length > 0 && !isLoading) {
             loadGoogleMapsScript(() => {
                 loadPlaceDetails();
-                setIsHospitalDetailsLoaded(true); // set to true once hospital details are loaded
+                setIsHospitalDetailsLoaded(true);
             });
         }
     }, [hospitalFirstData, isLoading]);
