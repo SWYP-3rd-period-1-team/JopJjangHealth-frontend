@@ -8,6 +8,7 @@ import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/mypage';
 import {checkUserAuthentication} from '../../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
+import LoadingView from '../../../components/common/LoadingView';
 
 interface DiseaseItem {
     surveyId: string;
@@ -40,15 +41,21 @@ const SurveyList = () => {
     const [isSelectionMode, setIsSelectionMode] = useState(false);
     const [showPopup, setShowPopup] = useState(false);
     const [activeDiseaseId, setActiveDiseaseId] = useState<string | null>(null);
+    const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
         const initFetch = async () => {
-            const response = await fetchDiseaseList();
-            const modifiedData = response.data.data.map((item: DiseaseItem) => {
-                const modifiedDateTime = item.dateTime.split('T')[0];
-                return {...item, dateTime: modifiedDateTime};
-            });
-            setDiseaseList(modifiedData);
+            setIsLoading(true);
+            try {
+                const response = await fetchDiseaseList();
+                const modifiedData = response.data.data.map((item: DiseaseItem) => {
+                    const modifiedDateTime = item.dateTime.split('T')[0];
+                    return {...item, dateTime: modifiedDateTime};
+                });
+                setDiseaseList(modifiedData);
+            } finally {
+                setIsLoading(false);
+            }
         };
         initFetch();
     }, []);
@@ -119,34 +126,37 @@ const SurveyList = () => {
                 />
                 질병 리스트 선택
             </div>
-            {diseaseList.length > 0 ? (
+            {isLoading ? <LoadingView />
+                :
                 <>
-                    <div className={styles.mySurvey_container}>
-                        {diseaseList.map(disease => (
-                            <div key={disease?.surveyId} className={styles.mySurvey_item_wrapper}>
-                                {isSelectionMode && (
-                                    <input
-                                        type="checkbox"
-                                        className={styles.check_survey}
-                                        checked={selectedDiseases.includes(disease?.surveyId)}
-                                        onChange={() => handleCheckboxChange(disease?.surveyId)}
-                                    />
-                                )}
-                                <div
-                                    onClick={() => handleItemClick(disease?.surveyId)}
-                                    className={`${isSelectionMode ? styles.mySurvey_item_container_delete : styles.mySurvey_item_container} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}
-                                >
-                                    <div
-                                        className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
-                                        {disease?.nickname}님이 {disease?.dateTime}에 한 건강 설문입니다.
-                                    </div>
-                                    <div
-                                        className={`${styles.date} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
-                                        <Image src={calendarIcon} alt={'calendar'} />
-                                        {disease?.isLinked ? '질병 캘린더에 연동됨' : '질병 캘린더 연동중'}
-                                    </div>
-                                    <div
-                                        className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
+                    {diseaseList.length > 0 ? (
+                        <>
+                            <div className={styles.mySurvey_container}>
+                                {diseaseList.map(disease => (
+                                    <div key={disease?.surveyId} className={styles.mySurvey_item_wrapper}>
+                                        {isSelectionMode && (
+                                            <input
+                                                type="checkbox"
+                                                className={styles.check_survey}
+                                                checked={selectedDiseases.includes(disease?.surveyId)}
+                                                onChange={() => handleCheckboxChange(disease?.surveyId)}
+                                            />
+                                        )}
+                                        <div
+                                            onClick={() => handleItemClick(disease?.surveyId)}
+                                            className={`${isSelectionMode ? styles.mySurvey_item_container_delete : styles.mySurvey_item_container} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}
+                                        >
+                                            <div
+                                                className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
+                                                {disease?.nickname}님이 {disease?.dateTime}에 한 건강 설문입니다.
+                                            </div>
+                                            <div
+                                                className={`${styles.date} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
+                                                <Image src={calendarIcon} alt={'calendar'} />
+                                                {disease?.isLinked ? '질병 캘린더에 연동됨' : '질병 캘린더 연동중'}
+                                            </div>
+                                            <div
+                                                className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
                                         <span
                                             className={`${styles.place} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
                                             {disease?.targetBody}{' > '}
@@ -155,21 +165,24 @@ const SurveyList = () => {
                                             {disease?.disease}{' > '}
                                             {disease?.department}
                                         </span>
+                                            </div>
+                                        </div>
                                     </div>
-                                </div>
+                                ))}
+                                {isSelectionMode && (
+                                    <button className={styles.chice_delete} onClick={handleDeleteSelected}>
+                                        선택한 질병 리스트 삭제
+                                    </button>
+                                )}
                             </div>
-                        ))}
-                        {isSelectionMode && (
-                            <button className={styles.chice_delete} onClick={handleDeleteSelected}>
-                                선택한 질병 리스트 삭제
-                            </button>
-                        )}
-                    </div>
-                    {showPopup && <CalendarPopup onClose={closePopup} />}
+                            {showPopup && <CalendarPopup onClose={closePopup} />}
+                        </>
+                    ) : (
+                        <NoSurveyList />
+                    )}
                 </>
-            ) : (
-                <NoSurveyList />
-            )}
+            }
+        
         </Layout>
     );
 };

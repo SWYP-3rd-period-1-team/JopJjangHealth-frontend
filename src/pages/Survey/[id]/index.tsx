@@ -158,6 +158,7 @@ const Index = () => {
         } else {
             saveHealthSurvey(surveyOption);
             if (diseases.length > 0 && departments.length > 0) {
+                localStorage.clear();
                 router.push({
                     pathname: '/Map',
                     query: {
