@@ -35,6 +35,7 @@
   "devDependencies": {
     "@types/add": "^2",
     "@types/crypto-js": "^4",
+    "@types/googlemaps": "^3.43.3",
     "@types/js-cookie": "^3",
     "@types/node": "20.11.17",
     "@types/qs": "^6",

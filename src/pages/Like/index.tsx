@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Like.module.css';
 import Link from 'next/link';
@@ -44,8 +44,59 @@ const Like = () => {
             }
         };
         initializeHospitalInfo();
-        // bookmarkDate
     }, []);
+    
+    useEffect(() => {
+        const loadGoogleMapsScript = (callback: () => void) => {
+            if (document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js"]')) {
+                callback();
+            } else {
+                const googleMapScript = document.createElement('script');
+                googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places,geometry`;
+                document.body.appendChild(googleMapScript);
+                googleMapScript.addEventListener('load', callback);
+            }
+        };
+        
+        const loadPlaceDetails = () => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                
+                const service = new window.google.maps.places.PlacesService(document.createElement('div'));
+                
+                hospitalFirstData.forEach(hospital => {
+                    if (hospital.googleMapId) {
+                        service.getDetails({
+                            placeId: hospital.googleMapId,
+                        }, (result: any, status: any) => {
+                            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                                const hospitalLocation = result.geometry.location;
+                                const distanceMeters = window.google.maps.geometry.spherical.computeDistanceBetween(userLocation, hospitalLocation);
+                                const distanceKm = (distanceMeters / 1000).toFixed(2);
+                                
+                                setHospitalInfo(prevHospitalInfo => [
+                                    ...prevHospitalInfo,
+                                    {
+                                        id: result.place_id,
+                                        name: result.name,
+                                        address: result.formatted_address,
+                                        bookmarkDate: hospital.bookmarkDate,
+                                        distance: `${distanceKm} km`,
+                                    }
+                                ]);
+                            } else {
+                                console.error(`병원 호출이 틀렸습니다! ${hospital.googleMapId}:`, status);
+                            }
+                        });
+                    }
+                });
+            });
+        };
+        
+        if (hospitalFirstData.length > 0 && !isLoading) {
+            loadGoogleMapsScript(loadPlaceDetails);
+        }
+    }, [hospitalFirstData]);
     
     return (
         <Layout>
@@ -79,13 +130,11 @@ const Like = () => {
                                 <Link href={'/'}>
                                     <button className={styles.click_survey}>건강 설문하러 가기</button>
                                 </Link>
-                                <div className={styles.imageContainer}> {/* 이미지를 오른쪽으로 정렬하기 위한 새로운 div */}
+                                <div className={styles.imageContainer}>
                                     <Image src={noLikeImage} alt="no_like" width={223} height={156} />
                                 </div>
                             </div>
                         }
-                    
-                    
                     </div>
                 </>
             }
