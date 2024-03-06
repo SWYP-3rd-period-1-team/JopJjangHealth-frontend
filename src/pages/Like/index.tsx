@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Like.module.css';
 import Link from 'next/link';
@@ -27,17 +27,19 @@ const Like = () => {
     useAuth();
     const [hospitalFirstData, setHospitalFirstData] = useState<HospitalFirstData[]>([{
         googleMapId: '',
-        bookmarkDate: ''
+        bookmarkDate: '',
     }]);
     const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useState(false);
+    const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useState(false); // 병원 기본 정보 로딩 상태
     
     useEffect(() => {
         const initializeHospitalInfo = async () => {
             try {
                 const response = await fetchHospitalInfo();
                 setHospitalFirstData(response?.data?.data.bookmarkList);
+                setIsHospitalInfoLoaded(true); // 병원 기본 정보 로딩 완료
             } finally {
                 setIsLoading(false);
             }
@@ -81,7 +83,7 @@ const Like = () => {
                                         address: result.formatted_address,
                                         bookmarkDate: hospital.bookmarkDate,
                                         distance: `${distanceKm} km`,
-                                    }
+                                    },
                                 ]);
                             } else {
                                 console.error(`병원 호출이 틀렸습니다! ${hospital.googleMapId}:`, status);
@@ -100,7 +102,7 @@ const Like = () => {
         }
     }, [hospitalFirstData, isLoading]);
     
-    const isStillLoading = isLoading || !isHospitalDetailsLoaded;
+    const isStillLoading = isLoading || !isHospitalInfoLoaded || !isHospitalDetailsLoaded;
     
     const handleDeleteHospital = async (hospitalId: string) => {
         const response = await fetchHospitalDeleteInfo(hospitalId);
@@ -115,11 +117,11 @@ const Like = () => {
     return (
         <Layout>
             <div className={styles.like_text}><b>직짱인 님</b>의 <b>찜한</b> 병원 리스트</div>
-            {isStillLoading  ? <LoadingView />
+            {isStillLoading ? <LoadingView />
                 :
-                <>
-                    <div className={styles.like_container}>
-                        {hospitalInfo?.length > 0 ?
+                <div className={styles.like_container}>
+                    {
+                        hospitalInfo?.length > 0 ?
                             <>
                                 {hospitalInfo.map(hospital => (
                                     <div key={hospital.id} className={styles.like_item_container}>
@@ -137,9 +139,7 @@ const Like = () => {
                                         </div>
                                     </div>
                                 ))}
-                            </>
-                            :
-                            <div className={styles.no_hospitals}>
+                            </> : <div className={styles.no_hospitals}>
                                 <div className={styles.no_like}>찜한 병원이 없네요!</div>
                                 <div className={styles.no_like_text}><b>건강 설문</b>을 통해 <b>병원을 추천</b>받아볼까요?</div>
                                 <Link href={'/'}>
@@ -149,10 +149,8 @@ const Like = () => {
                                     <Image src={noLikeImage} alt="no_like" width={223} height={156} />
                                 </div>
                             </div>
-                        }
-                    </div>
-                </>
-            }
+                    }
+                </div>}
         </Layout>
     );
 };
