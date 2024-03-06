@@ -44,13 +44,17 @@ const InfoContainer = styled.div`
 interface Props {
     score?: number;
     setScore?: (score: number) => void;
+    createDt?: string;
 }
-const CommentUserItem = ({score, setScore}: Props) => {
+const CommentUserItem = ({score, setScore, createDt}: Props) => {
     return (
         <Container>
             <ImageView />
             <InfoContainer>
-                <Name>닉네임</Name>
+                <FlexContainer>
+                    <Name>닉네임</Name>
+                    {!score && <Date>{createDt}</Date>}
+                </FlexContainer>
                 {!!score && (
                     <FlexContainer>
                         <StarBox>
@@ -64,7 +68,7 @@ const CommentUserItem = ({score, setScore}: Props) => {
                                 </StarItem>
                             ))}
                         </StarBox>
-                        <Date>2024.02.14.</Date>
+                        <Date>{createDt}</Date>
                     </FlexContainer>
                 )}
             </InfoContainer>

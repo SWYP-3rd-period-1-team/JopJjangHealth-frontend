@@ -9,6 +9,8 @@ import {
     updateHospitalComment,
 } from '../../../../api/Hospital';
 import {CommentDto} from '../../../../types/server/hospital';
+import {useQuery_UserInfo} from '../../../../hooks/react-query';
+import {useRouter} from 'next/router';
 
 const Title = styled.h3`
     width: 100%;
@@ -46,6 +48,25 @@ const CommentListView = styled.ul`
     width: 100%;
     padding: 0;
 `;
+const NotLoginButton = styled.button`
+    display: flex;
+    width: 100%;
+    justify-content: space-between;
+    align-items: center;
+    border: none;
+    background-color: #00a241;
+    padding: 26px 20px;
+    color: white;
+    border-radius: 16px;
+    cursor: pointer;
+`;
+const NotLoginTitle = styled.p`
+    font-size: 12px;
+    margin: 0;
+`;
+const NotLoginContent = styled(NotLoginTitle)`
+    font-weight: 700;
+`;
 
 interface Props {
     hospitalId: string;
@@ -53,8 +74,13 @@ interface Props {
     refetchComment?: () => void;
 }
 const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
+    const router = useRouter();
+
     const [score, setScore] = useState(5);
     const [comment, setComment] = useState('');
+
+    const {data: userData} = useQuery_UserInfo();
+    const userInfo = userData?.data?.data;
 
     const {mutate: postComment} = useMutation({
         mutationFn: postHospitalComment,
@@ -80,17 +106,26 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
     return (
         <>
             <Title>병원 리뷰</Title>
-            <FormContainer onSubmit={onSubmitSearch}>
-                <CommentUserItem score={score} setScore={setScore} />
-                <TextAreaContainer>
-                    <InputView
-                        placeholder="최대 100자 이하"
-                        value={comment}
-                        onChange={onTextHandler}
-                    />
-                    <SubmitButton type="submit">등록</SubmitButton>
-                </TextAreaContainer>
-            </FormContainer>
+            {!!userInfo ? (
+                <FormContainer onSubmit={onSubmitSearch}>
+                    <CommentUserItem score={score} setScore={setScore} />
+                    <TextAreaContainer>
+                        <InputView
+                            placeholder="최대 100자 이하"
+                            value={comment}
+                            onChange={onTextHandler}
+                        />
+                        <SubmitButton type="submit">등록</SubmitButton>
+                    </TextAreaContainer>
+                </FormContainer>
+            ) : (
+                <NotLoginButton onClick={() => router.push('/Login')}>
+                    <NotLoginTitle>
+                        로그인 후 이용 가능한 서비스 입니다
+                    </NotLoginTitle>
+                    <NotLoginContent>로그인 하러가기</NotLoginContent>
+                </NotLoginButton>
+            )}
 
             <CommentListView>
                 {commentList &&
@@ -106,6 +141,9 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
                             depth={0}
                             firstItem={index === 0}
                             childComment={item.children}
+                            createDt={item.lastModifyDate}
+                            userId={userInfo?.memberId}
+                            commentUserId={item.memberId}
                         />
                     ))}
             </CommentListView>

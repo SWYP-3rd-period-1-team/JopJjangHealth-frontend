@@ -21,6 +21,7 @@ const CommentListItem = styled.li`
     width: 100%;
     padding: 16px 0;
     align-items: flex-start;
+    position: relative;
 `;
 const CommentContent = styled.div`
     display: flex;
@@ -36,11 +37,17 @@ const CommentMenu = styled.div`
     display: flex;
     align-items: center;
 `;
-const CommentMenuButton = styled.button`
+const CommentMenuButton = styled.button<{
+    $borderright?: boolean;
+    $active?: boolean;
+}>`
     background-color: transparent;
     border: none;
-    color: #999999;
+    color: ${props => (props.$active ? 'black' : '#999999')};
     cursor: pointer;
+    padding: 0 16px;
+    border-right: ${props =>
+        props.$borderright ? '2px solid #dadada' : 'none'};
 `;
 const FormContainer = styled.form`
     margin-top: 12px;
@@ -71,6 +78,21 @@ const SubmitButton = styled.button`
     border: none;
     padding: 8px;
 `;
+const ReportView = styled.div`
+    position: absolute;
+    right: -200px;
+    width: 200px;
+    background-color: white;
+`;
+const RepostItem = styled.div`
+    cursor: pointer;
+    box-sizing: border-box;
+    padding: 16px 8px;
+    color: #666666;
+    &:hover {
+        background-color: #f3f3f3;
+    }
+`;
 
 interface Props {
     hospitalId: string;
@@ -81,6 +103,9 @@ interface Props {
     content: string;
     score?: number;
     childComment?: CommentDto[];
+    createDt?: string;
+    userId?: number;
+    commentUserId?: number;
 }
 const CommentItem = ({
     hospitalId,
@@ -91,11 +116,15 @@ const CommentItem = ({
     content,
     score,
     childComment,
+    createDt,
+    userId,
+    commentUserId,
 }: Props) => {
     const [toggleUpdate, setToggleUpdate] = useState(false);
     const [updateText, setUpdateText] = useState(content);
     const [toggleReComment, setToggleReComment] = useState(false);
     const [reCommentText, setReCommentText] = useState('');
+    const [toggleReport, setToggleReport] = useState(false);
 
     const onTextHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setUpdateText(event.target.value);
@@ -117,6 +146,7 @@ const CommentItem = ({
         mutationFn: reportsHospitalComment,
         onSuccess: () => {
             refetchList();
+            setToggleReport(false);
         },
     });
 
@@ -161,45 +191,71 @@ const CommentItem = ({
         setReCommentText(event.target.value);
     };
 
+    const onClickReport = () => {
+        reportComment({
+            hospitalId,
+            commentId,
+        });
+    };
+
     return (
         <Container $depth={depth} $firstitem={firstItem}>
             <CommentListItem>
                 <CommentContent>
-                    <CommentUserItem score={score} />
+                    <CommentUserItem score={score} createDt={createDt} />
                 </CommentContent>
                 <CommentMenu>
-                    <CommentMenuButton
-                        onClick={() => setToggleReComment(prev => !prev)}
-                    >
-                        리댓
-                    </CommentMenuButton>
-                    <CommentMenuButton
-                        onClick={() => setToggleUpdate(prev => !prev)}
-                    >
-                        수정
-                    </CommentMenuButton>
-                    <CommentMenuButton
-                        onClick={() =>
-                            deleteComment({
-                                hospitalId,
-                                commentId,
-                            })
-                        }
-                    >
-                        삭제
-                    </CommentMenuButton>
-                    <CommentMenuButton
-                        onClick={() =>
-                            reportComment({
-                                hospitalId,
-                                commentId,
-                            })
-                        }
-                    >
-                        신고
-                    </CommentMenuButton>
+                    {!(depth > 0) && !!userId && (
+                        <CommentMenuButton
+                            onClick={() => setToggleReComment(prev => !prev)}
+                            $borderright
+                            $active={toggleReComment}
+                        >
+                            리댓
+                        </CommentMenuButton>
+                    )}
+                    {userId === commentUserId && (
+                        <>
+                            <CommentMenuButton
+                                onClick={() => setToggleUpdate(prev => !prev)}
+                                $borderright
+                                $active={toggleUpdate}
+                            >
+                                수정
+                            </CommentMenuButton>
+                            <CommentMenuButton
+                                onClick={() =>
+                                    deleteComment({
+                                        hospitalId,
+                                        commentId,
+                                    })
+                                }
+                                $borderright
+                            >
+                                삭제
+                            </CommentMenuButton>
+                        </>
+                    )}
+                    {!!userId && (
+                        <CommentMenuButton
+                            onClick={() => setToggleReport(prev => !prev)}
+                            $active={toggleReport}
+                        >
+                            신고
+                        </CommentMenuButton>
+                    )}
                 </CommentMenu>
+                {toggleReport && (
+                    <ReportView>
+                        {REPORT_ITEM.map(item => (
+                            <RepostItem onClick={onClickReport}>
+                                {item}
+                            </RepostItem>
+                        ))}
+                    </ReportView>
+                )}
             </CommentListItem>
+
             {toggleUpdate ? (
                 <FormContainer onSubmit={onUpdateCommentHandler}>
                     <TextAreaContainer>
@@ -238,10 +294,22 @@ const CommentItem = ({
                         content={item.content}
                         depth={1}
                         childComment={item.children}
+                        createDt={item.lastModifyDate}
+                        userId={userId}
+                        commentUserId={item.memberId}
                     />
                 ))}
         </Container>
     );
 };
+
+const REPORT_ITEM = [
+    '부정확한 정보',
+    '광고글',
+    '도배글',
+    '욕설과 비방',
+    '외설적인 내용',
+    '다른 주제의 글',
+];
 
 export default CommentItem;
