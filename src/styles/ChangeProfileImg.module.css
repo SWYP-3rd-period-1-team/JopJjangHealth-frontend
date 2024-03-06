@@ -1,0 +1,50 @@
+.findContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 800px;
+    height: 800px;
+    margin: auto;
+    padding: 40px;
+    background: #fff;
+}
+
+.tabs {
+    color: #000;
+    text-align: center;
+    font-family: 'SUIT',sans-serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 160%; /* 38.4px */
+    letter-spacing: -0.48px;
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    width: 720px;
+    float: left;
+    outline: none;
+    cursor: pointer;
+    transition: 0.3s;
+}
+
+.tabButton {
+    float: left;
+    width: 400px;
+    border-bottom: 3px solid #dddddd;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tabButton:hover {
+    border-bottom: 3px solid #4CAF50;
+}
+
+.activeTab {
+    color: #4CAF50;
+    border-bottom: 3px solid #4CAF50;
+    font-weight: bold;
+}

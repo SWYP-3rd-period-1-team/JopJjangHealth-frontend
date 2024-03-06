@@ -8,16 +8,18 @@ import useToken from '../../hooks/useToken';
 import axiosInstance from '../../api/axiosInstance';
 import useAuth from '../../hooks/useAuth';
 import {GetServerSideProps} from 'next';
-// import Image from 'next/image';
+import defaultImg from "../../../public/assets/myPage/Default.png";
+import Image from 'next/image';
+import {useRouter} from 'next/router';
 
 const MyPage = () => {
     useAuth();
-    const {logoutDeleteToken, getTokenValue} = useToken();
-    const refreshToken = getTokenValue('zzgg_rt');
+    const {logoutDeleteToken} = useToken();
+    const router = useRouter();
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [userInfo, setUserInfo] = useState(
         {
-            profileImage: '',
+            profileImage: defaultImg,
             nickname: '',
             userId: '',
             email: '',
@@ -40,8 +42,9 @@ const MyPage = () => {
     const onLogout = async () => {
         localStorage.clear();
         logoutDeleteToken();
-        // todo : 토큰이 안보내지고 있는거 같다.
+        // todo : 토큰이 안보내지고 있는거 같습니다 401 OR 403.
         await logout();
+        router.push("/")
     };
     
     const handleLogoutSectionClick = () => {
@@ -53,16 +56,20 @@ const MyPage = () => {
             <div className={styles.myPageContainer}>
                 <div className={styles.profileContainer}>
                     <div className={styles.profileInfo}>
-                        <img
-                            className={styles.profileImage}
-                            src={userInfo?.profileImage ?? '/default.png'}
-                            alt={'User Profile'}
-                        />
+                        <div className={styles.imageContainer}>
+                            <Image
+                                className={styles.profileImage}
+                                src={userInfo?.profileImage ?? defaultImg}
+                                alt={'User Profile'}
+                                width={'150px'}
+                                height={'150px'}
+                            />
+                        </div>
                         <div className={styles.profileText}>
                             <span className={styles.username}>{userInfo?.nickname}</span>
                             <span className={styles.username}>
 								<Link href={'/MyPage/ChangeProfile'}>
-									   <button className={styles.userbutton}>프로필 변경하기</button>
+									   <button className={styles.userButton}>프로필 변경하기</button>
 								</Link>
               </span>
                             <div className={styles.userId}>{userInfo?.userId}</div>

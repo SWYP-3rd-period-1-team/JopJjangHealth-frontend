@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {login} from '../../utils/auth';
-import {validatePassword, validateUserId} from '../../utils/validation';
+import {validatePassword, validateUserId } from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
 import Layout from '../../components/Layout';
 import {useRouter} from 'next/router';
@@ -21,7 +21,7 @@ const Login:React.FC = () => {
         if (accessToken) {
             router.push('/');
         }
-    }, []);
+    }, [getTokenValue, router]);
     
     const {
         register,

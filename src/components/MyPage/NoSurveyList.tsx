@@ -2,8 +2,8 @@ import React from 'react';
 import styles from "../../styles/MySurveyList.module.css";
 import Link from 'next/link';
 import Image from 'next/image';
-import LargeImage from "../../../public/favicon2.png"
-import SmallImage from "../../../public/favicon3.png"
+import LargeImage from "../../../public/assets/no/ask.png"
+import SmallImage from "../../../public/assets/no/wow.png"
 const NoSurveyList = () => {
     
     return (

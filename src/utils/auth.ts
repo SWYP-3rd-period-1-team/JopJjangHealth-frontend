@@ -2,7 +2,7 @@ import qs from "qs";
 import axiosInstance from '../api/axiosInstance';
 import axios from 'axios';
 import {GetServerSideProps, GetServerSidePropsContext} from 'next';
-// import Image from 'next/image';
+
 export const signUp = async (nickname: string, userId: string, email: string, password: string) => {
     try {
         const response = await axiosInstance.post('/api/members/join', { nickname, userId, email, password }, {

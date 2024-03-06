@@ -21,7 +21,7 @@ const Header: React.FC = () => {
 		return () => {
 			router.events.off('routeChangeComplete', checkLoginStatus);
 		};
-	}, [router.events]);
+	}, [checkLoginStatus, router.events]);
 	
 	const isActive = (path: string, baseStyle: string) => {
 		const isBaseActive = router.pathname === path;

@@ -1,6 +1,7 @@
 import React, {useState} from 'react';
 import {useForm} from 'react-hook-form';
-import {checkUserAuthentication, sendEmailVerification, verifyEmailCode} from '../../../utils/auth';
+import {checkUserAuthentication } from '../../../utils/auth';
+import {sendEmailVerificationForMyPage } from "../../../api/mypage";
 import {validatePassword, validateEmail} from '../../../utils/validation';
 
 import styles from '../../../styles/ChangePassword.module.css';
@@ -13,7 +14,6 @@ interface FormData {
     password: string;
     confirmPassword: string;
     email: string;
-    emailVerificationCode: string;
 }
 
 const Index: React.FC = () => {
@@ -28,41 +28,24 @@ const Index: React.FC = () => {
     } = useForm<FormData>({
         mode: 'onChange',
     });
-    const emailValue = watch('email');
-    const emailVerificationCodeValue = watch('emailVerificationCode');
     
-    const [emailUsername, setEmailUsername] = useState('');
     const [isVerificationSent, setIsVerificationSent] = useState(false);
-    const [isVerificationComplete, setIsVerificationComplete] = useState(false);
     
     const onSubmit = async (data: FormData) => {
-        if (!isVerificationComplete) {
+        if (!isVerificationSent) {
             alert('이메일 인증을 완료해주세요.');
             return;
         }
         await ChangePassword(data.password, data.confirmPassword);
     };
     
-    // todo :회원가입 때의 이메일 인증과 마이 페이지 기본 인증이 다릅니다.
     const handleEmailVerificationRequest = async () => {
         const formData = getValues();
-        const result = await sendEmailVerification(formData.email);
+        const result = await sendEmailVerificationForMyPage(formData.email);
         if (result?.success) {
             setIsVerificationSent(true);
-            setEmailUsername(formData.email);
         } else {
             alert('이메일 발송에 실패했습니다. 다시 시도해주세요.');
-        }
-    };
-    
-    const handleEmailVerification = async () => {
-        const formData = getValues();
-        const verificationResult = await verifyEmailCode(formData.email, formData.emailVerificationCode);
-        if (verificationResult?.success) {
-            setIsVerificationComplete(true);
-            setIsVerificationSent(false);
-        } else {
-            alert('잘못된 인증 코드입니다. 다시 확인해주세요.');
         }
     };
     
@@ -95,31 +78,7 @@ const Index: React.FC = () => {
                             <p className={styles.errorText}>{errors.email.message}</p>
                         )}
                     </div>
-                    {isVerificationSent && !isVerificationComplete && (
-                        <div className={styles.inputGroup}>
-                            <div className={styles.inputWithButton}>
-                                <input
-                                    placeholder="인증 코드 입력"
-                                    {...register('emailVerificationCode', {
-                                        required: '인증 코드를 입력해주세요.'
-                                    })}
-                                    className={errors.emailVerificationCode ? styles.inputError : styles.input}
-                                />
-                                <button
-                                    type="button"
-                                    onClick={handleEmailVerification}
-                                    className={styles.verifyButton}
-                                    disabled={!emailVerificationCodeValue}
-                                >
-                                    인증 확인
-                                </button>
-                            </div>
-                            {errors.emailVerificationCode && (
-                                <p className={styles.errorText}>{errors.emailVerificationCode.message}</p>
-                            )}
-                        </div>
-                    )}
-                    {isVerificationComplete && (
+                    {isVerificationSent && (
                         <div className={styles.inputGroup}>
                             <p className={styles.successText}>인증 완료되었습니다.</p>
                         </div>
@@ -151,7 +110,7 @@ const Index: React.FC = () => {
                     <button
                         type="submit"
                         className={styles.submitButton}
-                        disabled={!isValid || !isVerificationComplete}
+                        disabled={!isValid || !isVerificationSent}
                     >
                         변경하기
                     </button>
