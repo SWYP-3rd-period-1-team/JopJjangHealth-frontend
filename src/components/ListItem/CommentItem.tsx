@@ -93,6 +93,10 @@ const RepostItem = styled.div`
         background-color: #f3f3f3;
     }
 `;
+const MoreButton = styled.button`
+    border: none;
+    background-color: transparent;
+`;
 
 interface Props {
     hospitalId: string;
@@ -125,6 +129,7 @@ const CommentItem = ({
     const [toggleReComment, setToggleReComment] = useState(false);
     const [reCommentText, setReCommentText] = useState('');
     const [toggleReport, setToggleReport] = useState(false);
+    const [toggleMore, setToggleMore] = useState(false);
 
     const onTextHandler = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
         setUpdateText(event.target.value);
@@ -285,20 +290,29 @@ const CommentItem = ({
             )}
             {!!childComment &&
                 childComment.length > 0 &&
-                childComment.map(item => (
-                    <CommentItem
-                        hospitalId={hospitalId}
-                        commentId={item.hospitalCommentId}
-                        refetchList={refetchList}
-                        key={item.hospitalCommentId}
-                        content={item.content}
-                        depth={1}
-                        childComment={item.children}
-                        createDt={item.lastModifyDate}
-                        userId={userId}
-                        commentUserId={item.memberId}
-                    />
-                ))}
+                (toggleMore ? childComment : childComment.slice(0, 1)).map(
+                    item => (
+                        <CommentItem
+                            hospitalId={hospitalId}
+                            commentId={item.hospitalCommentId}
+                            refetchList={refetchList}
+                            key={item.hospitalCommentId}
+                            content={item.content}
+                            depth={1}
+                            childComment={item.children}
+                            createDt={item.lastModifyDate}
+                            userId={userId}
+                            commentUserId={item.memberId}
+                        />
+                    ),
+                )}
+            {!toggleMore && !!childComment && childComment.length > 1 && (
+                <div style={{display: 'flex', justifyContent: 'flex-end'}}>
+                    <MoreButton onClick={() => setToggleMore(true)}>{`답글(${
+                        childComment.length - 1
+                    }) 더보기`}</MoreButton>
+                </div>
+            )}
         </Container>
     );
 };
