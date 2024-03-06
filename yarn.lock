@@ -699,6 +699,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@types/googlemaps@npm:^3.43.3":
+  version: 3.43.3
+  resolution: "@types/googlemaps@npm:3.43.3"
+  checksum: 10c0/7ad03a8107de0bbfa73d5a96708a3eb52a88cc7ef80d877d018ee16696cab2893614756f430d3ae0ea895e8d40e112f6de658aa3623497b088243fe24d3feb21
+  languageName: node
+  linkType: hard
+
 "@types/hoist-non-react-statics@npm:*":
   version: 3.3.5
   resolution: "@types/hoist-non-react-statics@npm:3.3.5"
@@ -2554,6 +2561,7 @@ __metadata:
     "@tanstack/react-query": "npm:^5.24.1"
     "@types/add": "npm:^2"
     "@types/crypto-js": "npm:^4"
+    "@types/googlemaps": "npm:^3.43.3"
     "@types/js-cookie": "npm:^3"
     "@types/node": "npm:20.11.17"
     "@types/qs": "npm:^6"

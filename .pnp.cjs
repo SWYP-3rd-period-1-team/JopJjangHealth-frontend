@@ -32,6 +32,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-query", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:5.24.1"],\
           ["@types/add", "npm:2.0.3"],\
           ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/googlemaps", "npm:3.43.3"],\
           ["@types/js-cookie", "npm:3.0.6"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/qs", "npm:6.9.12"],\
@@ -981,6 +982,15 @@ const RAW_RUNTIME_STATE =
         "packageLocation": "../../AppData/Local/Yarn/Berry/cache/@types-crypto-js-npm-4.2.2-21357d525e-10c0.zip/node_modules/@types/crypto-js/",\
         "packageDependencies": [\
           ["@types/crypto-js", "npm:4.2.2"]\
+        ],\
+        "linkType": "HARD"\
+      }]\
+    ]],\
+    ["@types/googlemaps", [\
+      ["npm:3.43.3", {\
+        "packageLocation": "../../AppData/Local/Yarn/Berry/cache/@types-googlemaps-npm-3.43.3-939f03d9ce-10c0.zip/node_modules/@types/googlemaps/",\
+        "packageDependencies": [\
+          ["@types/googlemaps", "npm:3.43.3"]\
         ],\
         "linkType": "HARD"\
       }]\
@@ -3249,6 +3259,7 @@ const RAW_RUNTIME_STATE =
           ["@tanstack/react-query", "virtual:34d0fa9c944a22339516853b5c26f6066527f0b184d23fe068748931ebab5a8b2277d1542a27f97d99fcb8c94babe749b47c705ac81c7a3d6a38964f102bf956#npm:5.24.1"],\
           ["@types/add", "npm:2.0.3"],\
           ["@types/crypto-js", "npm:4.2.2"],\
+          ["@types/googlemaps", "npm:3.43.3"],\
           ["@types/js-cookie", "npm:3.0.6"],\
           ["@types/node", "npm:20.11.17"],\
           ["@types/qs", "npm:6.9.12"],\
