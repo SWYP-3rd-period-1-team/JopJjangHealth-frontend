@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import styles from '../../../styles/Find.module.css';
+import styles from '../../../styles/ChangeProfileImg.module.css';
 import ChangeBasicImage from '../../../components/MyPage/ChangeBasicImage';
 import ChangePathImage from '../../../components/MyPage/ChangePathImage';
 import {checkUserAuthentication} from '../../../utils/auth';

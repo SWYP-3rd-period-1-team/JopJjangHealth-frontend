@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Like.module.css';
 import Link from 'next/link';
-import noLikeImage from '../../../public/favicon4.png';
+import noLikeImage from '../../../public/assets/no/this.png';
 import Image from 'next/image';
 import {fetchHospitalInfo} from '../../api/like';
 import {checkUserAuthentication} from '../../utils/auth';

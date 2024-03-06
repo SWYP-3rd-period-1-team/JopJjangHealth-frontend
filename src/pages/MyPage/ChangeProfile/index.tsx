@@ -7,14 +7,15 @@ import {changeUserNickname, fetchUserInfo} from '../../../api/mypage';
 import {checkUserAuthentication} from '../../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
-// import Image from 'next/image';
+import defaultImg from "../../../../public/assets/myPage/Default.png"
+import Image from 'next/image';
 
 const UserProfile = () => {
     useAuth();
     const router = useRouter();
     const [userInfo, setUserInfo] = useState(
         {
-            profileImage: '',
+            profileImage: defaultImg,
             nickname: '',
             userId: '',
             email: '',
@@ -30,10 +31,10 @@ const UserProfile = () => {
             const userInfo = await fetchUserInfo();
             if (userInfo) {
                 setUserInfo({
-                    profileImage: userInfo.data.profileImage || '',
-                    nickname: userInfo.data.nickname || '',
-                    userId: userInfo.data.userId || '',
-                    email: userInfo.data.email || '',
+                    profileImage: userInfo.data.data.profileImage || defaultImg,
+                    nickname: userInfo.data.data.nickname || '',
+                    userId: userInfo.data.data.userId || '',
+                    email: userInfo.data.data.email || '',
                 });
             }
         };
@@ -61,7 +62,6 @@ const UserProfile = () => {
         try {
             const success = await changeUserNickname(newNickname);
             if (success) {
-                console.log('닉네임이 성공적으로 변경되었습니다.');
                 setUserInfo({...userInfo, nickname: newNickname});
                 setNicknameChangeRequested(true);
             }
@@ -74,7 +74,7 @@ const UserProfile = () => {
     
     const openPopup = (url: string, text: string) => {
         localStorage.setItem('activeTab', text);
-        window.open(url, 'popup', 'width=600,height=400');
+        window.open(url, 'popup', 'width=800,height=800');
     };
     
     const onSubmit = async () => {
@@ -85,16 +85,20 @@ const UserProfile = () => {
     return (
         <Layout>
             <div className={styles.profileContainer}>
-                <div>
-                    <img
-                        className={styles.profileImage}
-                        src={userInfo?.profileImage ?? '/default.png'}
-                        alt={'User Profile'}
-                    />
+                <>
+                    <div className={styles.imageContainer}>
+                        <Image
+                            className={styles.profileImage}
+                            src={userInfo?.profileImage ?? defaultImg}
+                            alt={'User Profile'}
+                            width={'150px'}
+                            height={'150px'}
+                        />
+                    </div>
                     <div className={styles.profileEdit}
                          onClick={() => openPopup('/MyPage/ChangeProfileImage', 'ChangeBasicImage')}>편집하기
                     </div>
-                </div>
+                </>
                 <div style={{marginTop: '20px'}}>
                     <div className={styles.likedListContainer}>
                         <span className={styles.userAsk}>닉네임</span>
