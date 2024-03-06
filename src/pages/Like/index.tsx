@@ -10,23 +10,41 @@ import {GetServerSideProps} from 'next';
 import useAuth from '../../hooks/useAuth';
 import LoadingView from '../../components/common/LoadingView';
 
+interface HospitalFirstData {
+    googleMapId: string;
+    bookmarkDate: string;
+}
+
+interface HospitalInfo {
+    id: string;
+    name: string;
+    bookmarkDate: string;
+    address: string;
+    distance: string;
+}
+
 const Like = () => {
     useAuth();
-    const [hospitalInfo, setHospitalInfo] = useState(
-        [{id: '', name: '', date: '', address: '', distance: ''},
-        ]);
+    const [hospitalFirstData, setHospitalFirstData] = useState<HospitalFirstData[]>([{
+        googleMapId: '',
+        bookmarkDate: ''
+    }]);
+    const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([{
+        id: '', name: '', bookmarkDate: '', address: '', distance: ''
+    }]);
     const [isLoading, setIsLoading] = useState(true);
     
     useEffect(() => {
         const initializeHospitalInfo = async () => {
             try {
                 const response = await fetchHospitalInfo();
-                setHospitalInfo(response?.data);
+                setHospitalFirstData(response?.data?.data.bookmarkList);
             } finally {
                 setIsLoading(false);
             }
         };
         initializeHospitalInfo();
+        // bookmarkDate
     }, []);
     
     return (
@@ -43,7 +61,7 @@ const Like = () => {
                                         <div className={styles.title}>
                                             {hospital.name}
                                         </div>
-                                        <div className={styles.date}>{hospital.date} 찜</div>
+                                        <div className={styles.date}>{hospital.bookmarkDate} 찜</div>
                                         <div className={styles.title}>
                                             <span className={styles.place}>{hospital.address}</span>
                                             {' '}|{' '}
