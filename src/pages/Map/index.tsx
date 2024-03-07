@@ -23,11 +23,23 @@ const Container = styled.main`
 
 const Map = () => {
     const router = useRouter();
+    const {disease, department} = router.query;
 
     const [map, setMap] = useState<any>(null);
     const [searchQuery, setSearchQuery] = useState('');
     // 마커 관리 전역 변수
     const [markers, setMarkers] = useState<any[]>([]);
+
+    useEffect(() => {
+        if (map && disease) {
+            getSearchList(
+                typeof disease === 'string' ? disease : disease.join(','),
+                typeof department === 'string'
+                    ? department
+                    : department.join(','),
+            );
+        }
+    }, [map]);
 
     useEffect(() => {
         // Google Maps API 스크립트
@@ -92,6 +104,41 @@ const Map = () => {
                 }
             },
         );
+    };
+
+    const getSearchList = async (
+        searchText: string,
+        secondSearchText?: string,
+    ) => {
+        if (!map || !searchText) return;
+        try {
+            clearMarkers();
+            const center = map.getCenter();
+            const service = new window.google.maps.places.PlacesService(map);
+            await service.textSearch(
+                {
+                    query: searchText,
+                    radius: 5000,
+                    location: {
+                        lat: center.lat(),
+                        lng: center.lng(),
+                    },
+                },
+                (results: any, status: any) => {
+                    if (results.length > 0) {
+                        if (
+                            status ===
+                            window.google.maps.places.PlacesServiceStatus.OK
+                        ) {
+                            setSearchQuery(searchText);
+                            addMarkers(results);
+                        }
+                    } else if (secondSearchText) {
+                        getSearchList(secondSearchText);
+                    }
+                },
+            );
+        } catch (error) {}
     };
 
     // 이전 마커 제거
