@@ -1,43 +1,47 @@
 import React, { useState } from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
-import {uploadProfileImage} from '../../api/mypage';
+import { uploadProfileImage } from '../../api/mypage';
+import defaultProfileImage from '../../../public/assets/myPage/Default.png';
 
-const ChangePathImage = () => {
-    const [selectedFile, setSelectedFile] = useState<File | null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string | null>(null);
+const ChangeProfileImage = () => {
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [previewUrl, setPreviewUrl] = useState(defaultProfileImage);
     
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
-            const file = event.target.files[0];
-            setSelectedFile(file);
+            const file: File = event.target.files[0];
+            // todo : file의 타입을 지정 해줘
+            setSelectedFile(file as any);
             
             const reader = new FileReader();
             reader.onload = () => {
-                setPreviewUrl(reader.result as string);
+                const result = reader.result;
+                // todo : result의 타입을 지정 해줘
+                setPreviewUrl(result as any);
             };
             reader.readAsDataURL(file);
         }
     };
     
+    
     const handleSubmit = async () => {
         if (!selectedFile) {
-            alert('Please select a file.');
+            alert('파일을 선택해주세요.');
             return;
         }
         
         try {
-            const response = await uploadProfileImage(selectedFile);
-            console.log(response.data);
-            alert('File upload successful!');
+            await uploadProfileImage(selectedFile);
+            alert('파일 업로드 성공!');
         } catch (error) {
-            console.error('Upload failed:', error);
-            alert('File upload failed.');
+            console.error('업로드 실패:', error);
+            alert('파일 업로드 실패.');
         }
     };
     
     return (
-        <>
+        <div>
             <div className={styles.images_container_second}>
                 <input
                     className={styles.fileInput}
@@ -45,16 +49,15 @@ const ChangePathImage = () => {
                     onChange={handleFileChange}
                     accept=".png,.jpg,.jpeg,.gif"
                 />
-                {selectedFile && <div className={styles.fileName}>{selectedFile.name}</div>}
-                {previewUrl && (
-                    <Image src={previewUrl} alt="Preview" width={500} height={500} className={styles.imagePreview} />
-                )}
+                <div className={styles.imagePreviewContainer}>
+                    <Image src={previewUrl} alt="미리보기" width={298} height={298} className={styles.profileImage} />
+                </div>
+                <button type="button" style={{marginTop:"100px"}} className={styles.checkButton} onClick={handleSubmit}>
+                    확인
+                </button>
             </div>
-            <button type="button" className={styles.checkButton} onClick={handleSubmit}>
-                확인
-            </button>
-        </>
+        </div>
     );
 };
 
-export default ChangePathImage;
+export default ChangeProfileImage;

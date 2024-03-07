@@ -85,14 +85,14 @@ const Index = () => {
         }
     };
     
-    const splitTextIntoLinesByTenChars = (text:string) => {
+    const splitTextIntoLines = (text:string) => {
         let result = '';
         
         if (!text) return '';
-        if (text.length <= 10) return text;
+        if (text.length <= 9) return text;
         
-        for (let i = 0; i < text.length; i += 10) {
-            const nextChunk = text.substring(i, i + 10);
+        for (let i = 0; i < text.length; i += 9) {
+            const nextChunk = text.substring(i, i + 9);
             result += nextChunk;
             
             if (i + 10 < text.length) result += '\n';
@@ -119,7 +119,7 @@ const Index = () => {
             default:
                 text = '';
         }
-        return splitTextIntoLinesByTenChars(text as string);
+        return splitTextIntoLines(text as string);
     };
 
     
@@ -158,6 +158,7 @@ const Index = () => {
         } else {
             saveHealthSurvey(surveyOption);
             if (diseases.length > 0 && departments.length > 0) {
+                localStorage.clear();
                 router.push({
                     pathname: '/Map',
                     query: {
@@ -176,8 +177,6 @@ const Index = () => {
     const handleCancelLogin = () => {
         choiceHospitalButton(currentOptions, true);
     };
-    
-    console.log(currentOptions,"!")
     
     return (
         <Layout>

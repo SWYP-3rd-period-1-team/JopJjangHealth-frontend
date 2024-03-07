@@ -28,7 +28,7 @@ module.exports = {
     return [
       {
         source: "/api/:path*",
-        destination: "https://3.36.251.109:8080/api/:path*",
+        destination: process.env.NEXT_PUBLIC_API_URL,
       },
     ];
   }

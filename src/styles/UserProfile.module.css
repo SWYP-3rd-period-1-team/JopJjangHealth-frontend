@@ -1,23 +1,33 @@
 .profileContainer {
-    max-width: 1000px;
-    margin: auto;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid #A8A8A8;
+    margin: 25px auto;
+    width: 1000px;
+    height: 800px;
+    flex-shrink: 0;
+    border-radius: 20px;
+    border: 1px solid #ECECEC;
     background: #FFF;
+    padding-left: 20px;
+    box-sizing: border-box;
+}
+
+.imageContainer {
+    display: flex;
+    justify-content: center;
+    margin-top: 50px;
 }
 
 .profileImage {
-    width: 150px;
-    height: 150px;
-    margin: 20px auto;
-    border-radius: 50%;
-    background: #D9D9D9;
+    margin: 0 auto !important;
+    flex-shrink: 0;
+    border-radius: 100px;
+    border: 1px solid #A8A8A8 !important;
     display: block;
 }
 
-.profileEdit{
+.profileEdit {
     color: #757575;
+    cursor: pointer;
+    margin-top: 5px;
     text-align: center;
     font-size: 16px;
     font-style: normal;
@@ -28,7 +38,7 @@
 }
 
 .likedListContainer {
-    margin-bottom:69px;
+    margin-bottom: 69px;
     color: #000;
     font-size: 24px;
     font-style: normal;
@@ -38,53 +48,81 @@
 }
 
 .userAsk, .userAnswer {
+    border: none;
     color: #000;
-    text-align: center;
-    font-size: 24px;
+    width: 250px;
+    height: 55px;
+    flex-shrink: 0;
+    font-family: 'SUIT', sans-serif;
+    font-size: 16px;
     font-style: normal;
-    font-weight: 400;
-    line-height: 160%;
-    letter-spacing: -0.48px;
+    font-weight: 600;
+    line-height: 160%; /* 25.6px */
+    letter-spacing: -0.32px;
 }
 
 .userAnswer {
-    margin-left:85px;
+    cursor: pointer;
+    margin-left: 85px;
+}
+
+.userAnswer:hover {
+    border: 1px solid #ECECEC;
 }
 
 .hint {
     color: #757575;
-    text-align: center;
-    font-size: 16px;
+    font-family: 'SUIT', sans-serif;
+    font-size: 14px;
     font-style: normal;
-    font-weight: 600;
-    margin-right:80px;
-    line-height: 160%;
-    letter-spacing: -0.32px;
+    font-weight: 400;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: -0.28px;
+    text-align: left;
+    margin-left: 125px;
 }
+
 .userNameChangeButton {
-    margin-left:10px;
-    width: 120px;
-    height: 30px;
+    width: 90px;
+    height: 24px;
     flex-shrink: 0;
     border-radius: 100px;
-    background: #D9D9D9;
+    background: #1C3C29;
+    margin-left: 10px;
+    color: #FFF;
+    text-align: center;
+    font-family: 'SUIT', sans-serif;
+    font-size: 10px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 10px */
+    letter-spacing: -0.2px;
 }
 
 .editButton {
-    width: 700px;
-    height: 90px;
+    width: 550px;
+    height: 65px;
     flex-shrink: 0;
-    margin:0 0 55px 130px;
-    background: #D9D9D9;
+    background: #1C3C29;
+    margin: 0 0 55px 210px;
     cursor: pointer;
+    color: #FFF;
+    font-family: 'SUIT', sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 20px */
+    letter-spacing: -0.4px;
 }
 
 .basic_img {
-    width: 100px;
-    height:100px;
-    padding:15px;
-    margin-left:5px;
+    width: 150px;
+    height: 150px;
     flex-shrink: 0;
+    padding: 20px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    margin-left: 20px;
     border-radius: 100px;
     border: 1px solid #A8A8A8;
     background: #FFF;
@@ -97,31 +135,29 @@
 
 .imagePreview {
     width: 100%;
-    height:100px;
-    object-fit:cover;
+    height: 100px;
+    object-fit: cover;
     margin-top: 20px;
     border-radius: 10px;
     border: 1px solid #ccc;
 }
 
 .images_container {
-    width:400px;
-    height:200px;
+    height: 200px;
     justify-content: center;
     display: inline-flex;
 }
 
 .images_container_second {
-    width:400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: start;
-    margin-bottom:20px;
+    justify-content: flex-start;
+    margin-bottom: 20px;
 }
 
 .checkButton {
-    width: 100%;
+    width: 720px;
     padding: 12px;
     font-size: 16px;
     text-transform: uppercase;
@@ -131,9 +167,24 @@
     border-radius: 4px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    margin-top: 300px;
 }
 
 .selected {
     border: 2px solid #000;
 }
+
+.imagePreviewContainer {
+    margin-bottom: 20px;
+    position: relative;
+    overflow: hidden;
+    width: 298px;
+    height: 298px;
+    flex-shrink: 0;
+    border-radius: 199px;
+    border: 1px solid #A8A8A8;
+
+    background: #FFF;
+}
+
 

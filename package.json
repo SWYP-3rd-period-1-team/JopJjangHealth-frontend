@@ -10,12 +10,16 @@
     "vcsBerry:update": "yarn dlx @yarnpkg/sdks vscode"
   },
   "dependencies": {
+    "@emotion/react": "^11.11.4",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.15.11",
     "@tanstack/react-query": "^5.24.1",
     "add": "^2.0.6",
     "axios": "^1.6.7",
     "crypto-js": "^4.2.0",
     "install": "^0.13.0",
     "js-cookie": "^3.0.5",
+    "material": "^0.8.8",
     "next": "12.3.4",
     "qs": "^6.11.2",
     "query-string": "^9.0.0",
@@ -31,6 +35,7 @@
   "devDependencies": {
     "@types/add": "^2",
     "@types/crypto-js": "^4",
+    "@types/googlemaps": "^3.43.3",
     "@types/js-cookie": "^3",
     "@types/node": "20.11.17",
     "@types/qs": "^6",

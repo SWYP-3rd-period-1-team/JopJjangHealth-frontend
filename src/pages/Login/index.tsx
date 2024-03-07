@@ -13,7 +13,7 @@ interface FormData {
     password: string;
 }
 
-const Login:React.FC = () => {
+const Login: React.FC = () => {
     const router = useRouter();
     const {loginSaveToken, getTokenValue} = useToken();
     useEffect(() => {
@@ -21,7 +21,7 @@ const Login:React.FC = () => {
         if (accessToken) {
             router.push('/');
         }
-    }, []);
+    }, [getTokenValue, router]);
     
     const {
         register,
@@ -51,10 +51,8 @@ const Login:React.FC = () => {
                 if (accessToken && surveyOption) {
                     const parsedOption = JSON.parse(surveyOption);
                     await saveHealthSurvey(parsedOption);
-                        localStorage.removeItem("surveyOption")
-                        await router.push('/Map', {
-                            query: {disease: parsedOption.disease, department: parsedOption.department},
-                        });
+                    localStorage.removeItem('surveyOption');
+                    await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
                 } else {
                     await router.push('/');
                 }
