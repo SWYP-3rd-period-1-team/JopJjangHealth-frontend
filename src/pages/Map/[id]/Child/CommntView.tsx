@@ -132,10 +132,10 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
                     commentList.length > 0 &&
                     commentList.map((item, index) => (
                         <CommentItem
+                            key={item.hospitalCommentId}
                             hospitalId={hospitalId}
                             commentId={item.hospitalCommentId}
                             refetchList={() => refetchComment?.()}
-                            key={item.hospitalCommentId}
                             content={item.content}
                             score={item.star}
                             depth={0}

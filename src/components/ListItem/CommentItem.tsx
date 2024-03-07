@@ -253,7 +253,7 @@ const CommentItem = ({
                 {toggleReport && (
                     <ReportView>
                         {REPORT_ITEM.map(item => (
-                            <RepostItem onClick={onClickReport}>
+                            <RepostItem key={item} onClick={onClickReport}>
                                 {item}
                             </RepostItem>
                         ))}
@@ -293,10 +293,10 @@ const CommentItem = ({
                 (toggleMore ? childComment : childComment.slice(0, 1)).map(
                     item => (
                         <CommentItem
+                            key={item.hospitalCommentId}
                             hospitalId={hospitalId}
                             commentId={item.hospitalCommentId}
                             refetchList={refetchList}
-                            key={item.hospitalCommentId}
                             content={item.content}
                             depth={1}
                             childComment={item.children}

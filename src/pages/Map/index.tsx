@@ -33,12 +33,13 @@ const Map = () => {
     useEffect(() => {
         if (map && disease) {
             getSearchList(
-                typeof disease === 'string' ? disease : disease.join(','),
+                typeof disease === 'string' ? disease : disease?.join(','),
                 typeof department === 'string'
                     ? department
-                    : department.join(','),
+                    : department?.join(','),
             );
         }
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [map]);
 
     useEffect(() => {
