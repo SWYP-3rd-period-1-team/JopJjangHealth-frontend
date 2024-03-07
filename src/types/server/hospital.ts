@@ -18,4 +18,5 @@ export interface CommentDto {
     memberId: number;
     reportCount: number;
     star: number;
+    lastModifyDate: string;
 }

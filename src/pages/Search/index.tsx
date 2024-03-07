@@ -39,7 +39,7 @@ const Search = () => {
     useEffect(() => {
         // Google Maps API 스크립트
         const googleMapScript = document.createElement('script');
-        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places`;
+        googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places&loading=async`;
         googleMapScript.onload = initMap;
         document.head.appendChild(googleMapScript);
 

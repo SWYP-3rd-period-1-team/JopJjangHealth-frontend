@@ -1,6 +1,7 @@
 import {useMutation} from '@tanstack/react-query';
 import styled from 'styled-components';
 import {postHospitalBookmark} from '../../../../api/Hospital';
+import {useQuery_BookmarkList} from '../../../../hooks/react-query';
 
 const Container = styled.h1`
     border-bottom: 2px solid black;
@@ -34,9 +35,19 @@ interface Props {
     hospitalId: string;
 }
 const InfoTitleView = ({name, hospitalId}: Props) => {
+    const {data: bookmarkData, refetch} = useQuery_BookmarkList();
+    const bookmarkList = bookmarkData?.data?.data.bookmarkList;
+
     const {mutate: setHospitalBookMark} = useMutation({
         mutationFn: postHospitalBookmark,
+        onSuccess: () => {
+            refetch?.();
+        },
     });
+
+    const isBookmarked = !!bookmarkList?.find(
+        bookmarkItem => bookmarkItem.googleMapId === hospitalId,
+    );
     return (
         <Container>
             <p>{name}</p>
@@ -49,15 +60,26 @@ const InfoTitleView = ({name, hospitalId}: Props) => {
                     <ButtonText>공유</ButtonText>
                 </ButtonView>
                 <ButtonView
-                    onClick={() =>
-                        setHospitalBookMark({
-                            hospitalId,
-                            bookmark: true,
-                        })
-                    }
+                    onClick={() => {
+                        if (isBookmarked) {
+                            setHospitalBookMark({
+                                hospitalId,
+                                bookmark: false,
+                            });
+                        } else {
+                            setHospitalBookMark({
+                                hospitalId,
+                                bookmark: true,
+                            });
+                        }
+                    }}
                 >
                     <IconImage
-                        src={'/assets/icon/ic_bookmark.png'}
+                        src={
+                            isBookmarked
+                                ? '/assets/icon/ic_bookmark.png'
+                                : '/assets/icon/ic_bookmark_white.png'
+                        }
                         alt={'ic_bookmark'}
                     />
                     <ButtonText>찜</ButtonText>
