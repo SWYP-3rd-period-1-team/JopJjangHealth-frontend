@@ -38,7 +38,8 @@ const KakaoShareButton: React.FC<KakaoShareButtonProps> = ({ text }) => {
 			content: {
 				title: "직짱건강 설문 공유하기",
 				description: '건강 설문을 공유하고 건강을 체크 해보세요!',
-				imageUrl: 'https://jop-jjang-health-frontend.vercel.app/Logo.png',
+				// todo : 온라인 환경에서만 이미지를 받을 수 있습니다.
+				imageUrl: '/Logo.png',
 				link: {
 					mobileWebUrl: text,
 					webUrl: text,
