@@ -3,19 +3,21 @@ import styles from '../../../styles/UserProfile.module.css';
 import Layout from '../../../components/Layout';
 import {validateNickname} from '../../../utils/validation';
 import {useRouter} from 'next/router';
-import {changeUserNickname, fetchUserInfo} from '../../../api/mypage';
+import {changeUserNickname, deleteUserProfileImage, fetchUserInfo} from '../../../api/mypage';
 import {checkUserAuthentication} from '../../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 import defaultImg from "../../../../public/assets/myPage/Default.png"
 import Image from 'next/image';
 
+const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
+
 const UserProfile = () => {
     useAuth();
     const router = useRouter();
     const [userInfo, setUserInfo] = useState(
         {
-            profileImage: defaultImg,
+            profileImage: '',
             nickname: '',
             userId: '',
             email: '',
@@ -72,21 +74,55 @@ const UserProfile = () => {
         }
     };
     
-    const openPopup = (url: string, text: string) => {
-        localStorage.setItem('activeTab', text);
-        window.open(url, 'popup', 'width=800,height=800');
+    const refreshUserInfo = async () => {
+        const userInfo = await fetchUserInfo();
+        if (userInfo) {
+            setUserInfo({
+                profileImage: userInfo.data.data.profileImage || defaultImg,
+                nickname: userInfo.data.data.nickname || '',
+                userId: userInfo.data.data.userId || '',
+                email: userInfo.data.data.email || '',
+            });
+        }
     };
+    
+    const openPopup = (url: string, text: string): void => {
+        const isDefaultImage = userInfo.profileImage === DEFAULT_IMAGE_URL;
+        localStorage.setItem('activeTab', text);
+        localStorage.setItem('isDefaultImage', isDefaultImage ? 'true' : 'false');
+        const popup: Window | null = window.open(url, 'popup', 'width=800,height=800');
+        
+        if (popup) {
+            const interval = setInterval(() => {
+                if (popup.closed) {
+                    clearInterval(interval);
+                    refreshUserInfo();
+                }
+            }, 1000);
+        }
+    };
+    
+    
     
     const onSubmit = async () => {
         alert('회원정보가 저장 되었습니다.');
         router.push('/Mypage');
     };
     
+    const deleteProfile = () => {
+        alert("프로필 사진이 삭제 됩니다!")
+        deleteUserProfileImage();
+        refreshUserInfo();
+    }
+    
     return (
         <Layout>
             <div className={styles.profileContainer}>
                 <>
                     <div className={styles.imageContainer}>
+                        <div className={styles.profileBroke} onClick={deleteProfile}>
+                            {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ? <>x</> : ''}
+                        </div>
                         <Image
                             className={styles.profileImage}
                             src={userInfo?.profileImage ?? defaultImg}

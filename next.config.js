@@ -1,8 +1,11 @@
 module.exports = {
-  reactStrictMode: false, // todo : 추후에 true로 진행하기
+  reactStrictMode: false, // 추후에 true로 변경 계획
   swcMinify: true,
   compiler: {
     styledComponents: true,
+  },
+  images: {
+    domains: ['zigzzang.s3.ap-northeast-2.amazonaws.com'],
   },
   async headers() {
     return [
@@ -28,7 +31,7 @@ module.exports = {
     return [
       {
         source: "/api/:path*",
-        destination: process.env.NEXT_PUBLIC_API_URL,
+        destination: process.env.NEXT_PUBLIC_API_URL, // 환경 변수에서 API URL을 가져옴
       },
     ];
   }

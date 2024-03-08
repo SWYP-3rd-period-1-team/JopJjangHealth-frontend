@@ -36,11 +36,13 @@ const Like = () => {
     
     useEffect(() => {
         const initializeHospitalInfo = async () => {
+            setIsLoading(true);
             try {
                 const response = await fetchHospitalInfo();
                 setHospitalFirstData(response?.data?.data.bookmarkList);
                 setIsHospitalInfoLoaded(true); // 병원 기본 정보 로딩 완료
-            } finally {
+            }
+            finally {
                 setIsLoading(false);
             }
         };
@@ -100,10 +102,9 @@ const Like = () => {
                 setIsHospitalDetailsLoaded(true);
             });
         }
-    }, [hospitalFirstData, isLoading]);
+    }, [hospitalFirstData, isHospitalInfoLoaded]);
     
-    const isStillLoading = isLoading || !isHospitalInfoLoaded || !isHospitalDetailsLoaded;
-    
+    const isStillLoading = isLoading || !isHospitalDetailsLoaded;
     const handleDeleteHospital = async (hospitalId: string) => {
         const response = await fetchHospitalDeleteInfo(hospitalId);
         if (response.success) {
