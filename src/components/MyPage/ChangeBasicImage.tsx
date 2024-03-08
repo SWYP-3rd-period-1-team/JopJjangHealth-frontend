@@ -4,10 +4,10 @@ import Image from 'next/image';
 import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
 
 const imageSources = [
-    '/assets/character_one.png',
-    '/assets/character_two.png',
-    '/assets/character_three.png',
-    '/assets/character_four.png',
+    '/assets/myPage/character_one.png',
+    '/assets/myPage/character_two.png',
+    '/assets/myPage/character_three.png',
+    '/assets/myPage/character_four.png',
 ];
 
 const ChangeBasicImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
