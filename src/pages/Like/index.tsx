@@ -32,6 +32,20 @@ const Like = () => {
     const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useState(false);
+    const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useState(false);
+    
+    useEffect(() => {
+        const initializeHospitalInfo = async () => {
+            try {
+                const response = await fetchHospitalInfo();
+                setHospitalFirstData(response?.data?.data.bookmarkList);
+                setIsHospitalInfoLoaded(true);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+        initializeHospitalInfo();
+    }, []);
     
     useEffect(() => {
         const loadGoogleMapsScript = (callback: () => void) => {
@@ -45,49 +59,44 @@ const Like = () => {
             }
         };
         
-        const loadPlaceDetails = async () => {
-            if ("geolocation" in navigator) {
-                navigator.geolocation.getCurrentPosition(async (position) => {
-                    const userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                    const service = new window.google.maps.places.PlacesService(document.createElement('div'));
-                    
-                    // Promise.all을 사용하여 모든 세부 정보 요청이 완료될 때까지 기다림
-                    const detailsPromises = hospitalFirstData.map(hospital => new Promise((resolve, reject) => {
-                        if (hospital.googleMapId) {
-                            service.getDetails({
-                                placeId: hospital.googleMapId,
-                            }, (result: any, status: any) => {
-                                if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                                    const hospitalLocation = result.geometry.location;
-                                    const distanceMeters = window.google.maps.geometry.spherical.computeDistanceBetween(userLocation, hospitalLocation);
-                                    const distanceKm = (distanceMeters / 1000).toFixed(2);
-                                    
-                                    resolve({
-                                        id: result.place_id,
-                                        name: result.name,
-                                        address: result.formatted_address,
-                                        bookmarkDate: hospital.bookmarkDate,
-                                        distance: `${distanceKm} km`,
-                                    });
-                                } else {
-                                    reject(`병원 호출에 실패했습니다: ${hospital.googleMapId}`);
-                                }
-                            });
-                        } else {
-                            resolve(null);
-                        }
-                    }));
-                    
-                    Promise.all(detailsPromises).then(results => {
-                        // null 값을 필터링하고 상태 업데이트
-                        const filteredResults = results.filter(result => result !== null);
-                        setHospitalInfo(filteredResults as HospitalInfo[]);
-                        setIsHospitalDetailsLoaded(true); // 세부 정보 로딩 완료 상태 업데이트
-                    }).catch(error => console.error(error));
-                }, () => {
-                    console.error("Geolocation is not supported by this browser.");
-                });
-            }
+        const loadPlaceDetails = () => {
+            navigator.geolocation.getCurrentPosition((position) => {
+                const userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                const service = new window.google.maps.places.PlacesService(document.createElement('div'));
+                
+                const detailsPromises = hospitalFirstData.map(hospital => new Promise((resolve, reject) => {
+                    if (hospital.googleMapId) {
+                        service.getDetails({ placeId: hospital.googleMapId }, (result:any, status:any) => {
+                            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
+                                const hospitalLocation = result.geometry.location;
+                                const distanceMeters = window.google.maps.geometry.spherical.computeDistanceBetween(userLocation, hospitalLocation);
+                                const distanceKm = (distanceMeters / 1000).toFixed(2);
+                                
+                                resolve({
+                                    id: result.place_id,
+                                    name: result.name,
+                                    address: result.formatted_address,
+                                    bookmarkDate: hospital.bookmarkDate,
+                                    distance: `${distanceKm} km`,
+                                });
+                            } else {
+                                reject(new Error(`Failed to load hospital details for ${hospital.googleMapId}`));
+                            }
+                        });
+                    } else {
+                        reject(new Error('No Google Map ID provided'));
+                    }
+                }));
+                
+                Promise.all(detailsPromises)
+                    .then(details => {
+                        setHospitalInfo(details as HospitalInfo[]);
+                        setIsHospitalDetailsLoaded(true);
+                    })
+                    .catch(error => {
+                        console.error("Error loading hospital details:", error);
+                    });
+            });
         };
         
         if (hospitalFirstData.length > 0 && !isLoading) {
@@ -97,7 +106,8 @@ const Like = () => {
         }
     }, [hospitalFirstData, isLoading]);
     
-    const isStillLoading = isLoading || !isHospitalDetailsLoaded;
+    const isStillLoading = isLoading || !isHospitalInfoLoaded || !isHospitalDetailsLoaded;
+    
     const handleDeleteHospital = async (hospitalId: string) => {
         const response = await fetchHospitalDeleteInfo(hospitalId);
         if (response.success) {
