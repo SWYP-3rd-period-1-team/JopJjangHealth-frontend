@@ -23,34 +23,41 @@ export const fetchDiseaseList = async () => {
     }
 };
 
-export const fetchDiseaseListDelete = async (surveyId:number) => {
+export const fetchDiseaseListDelete = async (surveyId: number) => {
     try {
         const response = await axiosInstance.delete(`/api/survey/delete/${surveyId}`);
-        return { success: true, data: response.data };
+        return {success: true, data: response.data};
     } catch (error) {
-        return { success: false, message: '질병 리스트 삭제 중 에러가 발생했습니다' };
+        return {success: false, message: '질병 리스트 삭제 중 에러가 발생했습니다'};
     }
 };
 
-
-export const changeUserProfileImage = async (imagePath: string) => {
-    try {
-        const response = await axiosInstance.post('/api/members/change-profile-image', {imageFile: imagePath});
-        alert('이미지 설정 성공!');
-        return response.data;
-    } catch (error) {
-        console.error('이미지 설정 실패:', error);
-        alert('이미지 설정에 실패했습니다.');
-    }
+export const changeUserProfileImage = async (file: File) => {
+    const formData = new FormData();
+    formData.append('profileImage', file);
+    
+    return axiosInstance.put('/api/profile/update', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
 };
 
 export const uploadProfileImage = async (file: File) => {
-    // todo : 1. string이 맞나요?
-    // todo : 2. 위 파일과 합칠 수 없나요?
     const formData = new FormData();
-    formData.append('imageFile', file);
+    formData.append('profileImage', file);
     
-    return axiosInstance.post('/api/members/change-profile-image', formData, {
+    const response = await axiosInstance.post('/api/profile/upload', formData, {
+        headers: {
+            'Content-Type': 'multipart/form-data',
+        },
+    });
+    return response.data;
+};
+
+// 프로필 이미지를 삭제합니다.
+export const deleteUserProfileImage = async () => {
+    return axiosInstance.delete('/api/profile/delete', {
         headers: {
             'Content-Type': 'multipart/form-data',
         },

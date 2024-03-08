@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
-import {changeUserProfileImage} from '../../api/mypage';
+import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
 
 const imageSources = [
     '/assets/character_one.png',
@@ -10,7 +10,7 @@ const imageSources = [
     '/assets/character_four.png',
 ];
 
-const ChangeBasicImage: React.FC = () => {
+const ChangeBasicImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     
     const handleSelectImage = (index: number) => {
@@ -19,12 +19,32 @@ const ChangeBasicImage: React.FC = () => {
     
     const handleSubmit = async () => {
         if (selectedIndex === null) {
-            alert('이미지를 선택해주세요.');
+            alert('기본 이미지를 선택해주세요.');
             return;
         }
         
         const selectedImagePath = imageSources[selectedIndex];
-        await changeUserProfileImage(selectedImagePath);
+        try {
+            const response = await fetch(selectedImagePath);
+            const blob = await response.blob();
+            console.log(blob,"blob: ")
+            const file = new File([blob], `selectedImage-${selectedIndex}.png`, { type: 'image/png' });
+            console.log(file,"file: ")
+            const isDefaultImage = localStorage.getItem('isDefaultImage') === 'true';
+            if (isDefaultImage) {
+                await uploadProfileImage(file);
+                console.log(file,"file: ")
+            } else {
+                await changeUserProfileImage(file);
+                console.log(file,"file:")
+            }
+            alert('이미지 업로드에 성공했습니다.');
+            localStorage.clear();
+            window.close();
+        } catch (error) {
+            alert('이미지 업로드에 실패했습니다.');
+            console.error('Upload Error:', error);
+        }
     };
     
     return (

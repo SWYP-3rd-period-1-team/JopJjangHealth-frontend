@@ -38,8 +38,8 @@ const TabComponent:React.FC = () => {
                 </div>
             </div>
             <div>
-                {activeTab === 'ChangeBasicImage' && <ChangeBasicImage />}
-                {activeTab === 'ChangePathImage' && <ChangePathImage />}
+                {activeTab === 'ChangeBasicImage' && <ChangeBasicImage onClose={() => setActiveTab('')} />}
+                {activeTab === 'ChangePathImage' && <ChangePathImage  onClose={() => setActiveTab('')}/>}
             </div>
         </div>
     );
