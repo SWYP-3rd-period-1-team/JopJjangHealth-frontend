@@ -109,11 +109,18 @@ const UserProfile = () => {
         router.push('/Mypage');
     };
     
-    const deleteProfile = () => {
-        alert("프로필 사진이 삭제 됩니다!")
-        deleteUserProfileImage();
-        refreshUserInfo();
-    }
+    const deleteProfile = async () => {
+        alert("프로필 사진이 삭제 됩니다!");
+        try {
+            await deleteUserProfileImage();
+            setUserInfo(userInfo => ({
+                ...userInfo,
+                profileImage: DEFAULT_IMAGE_URL,
+            }));
+        } catch (error) {
+            console.error('프로필 사진 삭제 중 오류 발생:', error);
+        }
+    };
     
     return (
         <Layout>
