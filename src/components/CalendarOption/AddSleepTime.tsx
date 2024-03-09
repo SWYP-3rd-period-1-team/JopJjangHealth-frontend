@@ -11,10 +11,13 @@ const timeOptions: OptionType[] = Array.from({length: 24}, (_, index) => ({
     label: index.toString().padStart(2, '0') + ':00', // Format the label as 'HH:00'
 }));
 
-const AddSleepTime: React.FC = () => {
+interface Props {
+    onClose: () => void;
+}
+const AddSleepTime = ({onClose}: Props) => {
     const [startTime, setStartTime] = useState(0);
     const [endTime, setEndTime] = useState(7);
-    
+
     const calculateDuration = (start: number, end: number) => {
         let duration = end - start;
         if (duration < 0) {
@@ -22,23 +25,24 @@ const AddSleepTime: React.FC = () => {
         }
         return duration;
     };
-    
+
     const handleStartChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newStartTime = parseInt(event.target.value, 10);
         setStartTime(newStartTime);
     };
-    
+
     const handleEndChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
         const newEndTime = parseInt(event.target.value, 10);
         setEndTime(newEndTime);
     };
-    
+
     const duration = calculateDuration(startTime, endTime);
-    
+
     const handleSubmit = () => {
         alert(`제출되었습니다:`);
+        onClose();
     };
-    
+
     return (
         <div className={styles.modal}>
             <div className={styles.modalContent}>
@@ -71,7 +75,9 @@ const AddSleepTime: React.FC = () => {
                 </div>
                 <br />
                 <div>하루에 {duration} 시간씩 수면을 취하고 있어요</div>
-                <button className={styles.submitButton} onClick={handleSubmit}>전송하기</button>
+                <button className={styles.submitButton} onClick={handleSubmit}>
+                    전송하기
+                </button>
             </div>
         </div>
     );

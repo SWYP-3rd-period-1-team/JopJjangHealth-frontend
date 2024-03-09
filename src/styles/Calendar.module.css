@@ -1,52 +1,102 @@
 .calendarContainer {
-    width: 1200px;
+    width: auto;
     height: 850px;
-    flex-shrink: 0;
-    border: 1px solid #A8A8A8;
-    background: #FFF;
+    margin: 30px 130px;
+    border: 2px solid #ffffff;
+    background: #ffffff66;
     font-family: 'SUIT', sans-serif;
-    max-width: 600px;
-    margin: 0 155px;
+    padding: 30px 50px;
+    border-radius: 20px;
+    box-sizing: border-box;
     text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .header {
-    border: 1px solid #A8A8A8;
     display: flex;
-    width: 1163px;
+    align-items: center;
     justify-content: space-between;
     padding: 10px;
-    background-color: #f3f3f3;
     color: #000;
-    font-family: 'SUIT',sans-serif;
+    font-family: 'SUIT', sans-serif;
     font-size: 36px;
     font-style: normal;
-    font-weight: 700;
+    font-weight: 500;
     line-height: 160%; /* 57.6px */
     letter-spacing: -0.72px;
 }
 
+.header_arrow_button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.header_arrow_button img {
+    object-fit: contain;
+}
+
+.header_arrow_button_right {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+}
+.header_arrow_button_right img {
+    object-fit: contain;
+    transform: rotate(180deg);
+}
+
 .monthDisplay {
     font-size: 24px;
+    margin: 0 24px;
 }
 
 .grid {
     display: grid;
+    width: 100%;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    border-top: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .day {
     text-align: left;
-    width: 166px;
+    /* width: 166px; */
     height: 110px;
     flex-shrink: 0;
-    border-bottom: 1px solid #F4F4F4;
-    background: #FFF;
-    border-right: 1px solid #ccc;
+    background: #fff;
+    border-bottom: 1px solid #f4f4f4;
+    border-right: 1px solid #f4f4f4;
     padding: 10px;
     cursor: pointer;
+}
+.day:nth-child(7n) {
+    border-right: none;
+    color: #0000ff;
+}
+.day:nth-child(7n-6) {
+    color: #ff0000;
+}
+.day_notActive {
+    text-align: left;
+    /* width: 166px; */
+    height: 110px;
+    flex-shrink: 0;
+    background: #fff;
+    border-bottom: 1px solid #f4f4f4;
+    border-right: 1px solid #f4f4f4;
+    padding: 10px;
+    cursor: pointer;
+    color: #00000066;
+}
+.day_notActive:nth-child(7n) {
+    border-right: none;
+    color: #0000ff66;
+}
+.day_notActive:nth-child(7n-6) {
+    color: #ff000066;
 }
 
 .day:hover {
@@ -54,16 +104,29 @@
 }
 
 .weekday {
-    background-color: #f3f3f3;
+    background-color: #d1ffe3;
     padding: 10px;
-    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    color: #757575;
+}
+
+.listTitleContainer {
+    width: auto;
+    margin: 30px 130px;
 }
 
 .listContainer {
     margin: 120px;
     padding: 10px;
+    background: #00a24199;
     border: 1px solid #ccc;
     border-radius: 8px;
+}
+.listItemHeader {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 }
 
 .listItem {
@@ -74,41 +137,36 @@
     border-radius: 4px;
 }
 .listText {
-    float :left;
+    float: left;
     color: #000;
-    font-family: 'SUIT',sans-serif;
+    font-family: 'SUIT', sans-serif;
     font-size: 28px;
     font-style: normal;
-    font-weight: 600;
-    line-height: 160%; /* 44.8px */
-    letter-spacing: -0.56px;
-    margin:40px 40px 40px 40px;
+    font-weight: 500;
 }
 
 .listButton {
-    margin-top: 55px;
-    margin-right:40px;
-    float:right;
-    color: #757575;
-    font-family: 'SUIT',sans-serif;
+    float: right;
+    color: white;
+    font-family: 'SUIT', sans-serif;
     width: 132px;
     height: 30px;
     flex-shrink: 0;
     border-radius: 100px;
-    background: #D9D9D9;
+    background: #1c3c29b3;
+    border: none;
     font-size: 16px;
     font-style: normal;
-    font-weight: 500;
     line-height: 100%; /* 16px */
     letter-spacing: -0.32px;
 }
 
 .listModalButton {
-    float:right;
-    border:none;
+    float: right;
+    border: none;
     color: #757575;
-    font-family: 'SUIT',sans-serif;
-    font-size: 20px;
+    font-family: 'SUIT', sans-serif;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 100%; /* 20px */
