@@ -127,9 +127,6 @@ const UserProfile = () => {
             <div className={styles.profileContainer}>
                 <>
                     <div className={styles.imageContainer}>
-                        <div className={styles.profileBroke} onClick={deleteProfile}>
-                            {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ? <>x</> : ''}
-                        </div>
                         <Image
                             className={styles.profileImage}
                             src={userInfo?.profileImage ?? defaultImg}
@@ -137,6 +134,9 @@ const UserProfile = () => {
                             width={'150px'}
                             height={'150px'}
                         />
+                        <div className={styles.profileBroke} onClick={deleteProfile}>
+                            {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ? <>X</> : ''}
+                        </div>
                     </div>
                     <div className={styles.profileEdit}
                          onClick={() => openPopup('/MyPage/ChangeProfileImage', 'ChangeBasicImage')}>편집하기

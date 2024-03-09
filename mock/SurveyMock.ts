@@ -67,7 +67,7 @@ export const options: IOption[] = [
 	{id: 50, stage: 3, targetBodyPart: "생식기", diagnosisPart: "항문, 대변", presentedSymptom: "대변의 불쾌한 냄새", image: "/assets/survey/대변의 불쾌한 냄새.png"},
 	{id: 51, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "계속 마려운 느낌", image: "/assets/survey/계속 마려운 느낌.png"},
 	{id: 52, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "피가 섞여 나옴", image: "/assets/survey/피가 섞여 나옴.png"},
-	{id: 53, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "콜라색이고 거품이 섞여나옴", image: "/assets/survey/콜라색이고 거품이 섞여나옴.png"},
+	{id: 53, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "소변이 콜라색이고 거품이 섞여 나옴", image: "/assets/survey/소변이 콜라색이고 거품이 섞여 나옴.png"},
 	{id: 54, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "작열감", image: "/assets/survey/작열감.png"},
 	{id: 55, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "잘 안나옴", image: "/assets/survey/잘 안나옴.png"},
 	{id: 56, stage: 3, targetBodyPart: "생식기", diagnosisPart: "소변", presentedSymptom: "속옷에 샘", image: "/assets/survey/속옷에 샘.png"},
