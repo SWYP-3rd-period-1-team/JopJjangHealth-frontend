@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useForm } from 'react-hook-form';
-import { findPassword } from '../../api/find';
+import {findPassword} from '../../api/find';
 import styles from '../../styles/Find.module.css';
+import {useRouter} from 'next/router';
 
 interface FormData {
     email: string;
@@ -14,27 +15,27 @@ const FindPassword: React.FC = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<FormData>();
-    
-    const [passwordMessage, setPasswordMessage] = useState<string | null>(null);
+    const router = useRouter();
     
     const onSubmit = async (data: FormData) => {
-        const result = await findPassword(data.userId, data.email );
-        if (result) {
-            setPasswordMessage('임시 비밀번호가 이메일로 전송되었습니다.');
-        } else {
-            setPasswordMessage('해당 이메일로 등록된 계정이 없습니다.');
+        const response = await findPassword(data.userId, data.email);
+        if (response.success) {
+            router.push({
+                pathname: '/Find/Complete',
+                query: {message: response.data.data.message},
+            });
         }
     };
     
     return (
         <div>
             <div className={styles.findPassword}>
-                회원가입 시 등록하신 아이디와 이메일 확인 후 임시 비밀번호를 알려드립니다.
+                회원가입 시 등록하신 아이디와 이메일<br/> 확인 후 임시 비밀번호를 알려드립니다.
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputGroup}>
                     <input
-                        placeholder="아이디를 입력해주세요."
+                        placeholder="아이디"
                         {...register('userId', {
                             required: '아이디를 입력해주세요.',
                         })}
@@ -44,7 +45,7 @@ const FindPassword: React.FC = () => {
                 </div>
                 <div className={styles.inputGroup}>
                     <input
-                        placeholder="이메일을 입력해주세요."
+                        placeholder="@ 까지 입력해 주세요."
                         {...register('email', {
                             required: '이메일을 입력해주세요.',
                         })}
@@ -58,11 +59,6 @@ const FindPassword: React.FC = () => {
                 >
                     임시 비밀번호 받기
                 </button>
-                {passwordMessage && (
-                    <div className={styles.passwordMessage}>
-                        {passwordMessage}
-                    </div>
-                )}
             </form>
         </div>
     );

@@ -35,7 +35,7 @@ const Login: React.FC = () => {
     
     const openPopup = (url: string, text: string) => {
         localStorage.setItem('activeTab', text);
-        window.open(url, 'popup', 'width=600,height=600');
+        window.open(url, 'popup', 'width=580,height=700');
     };
     
     const onSubmit = async (data: FormData) => {
