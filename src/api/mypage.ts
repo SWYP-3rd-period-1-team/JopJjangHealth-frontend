@@ -77,7 +77,7 @@ export const changeUserNickname = async (newNickname: string) => {
     try {
         await axiosInstance.patch('/api/members/change-nickname', {newNickname});
     } catch (error) {
-        return {success: false, message: '회원정보 호출 중 에러가 발생했습니다'};
+        return {success: false, message: '회원정보 변경 중 에러가 발생했습니다'};
     }
 };
 

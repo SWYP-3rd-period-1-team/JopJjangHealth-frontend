@@ -7,7 +7,7 @@ import {changeUserNickname, deleteUserProfileImage, fetchUserInfo} from '../../.
 import {checkUserAuthentication} from '../../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
-import defaultImg from "../../../../public/assets/myPage/Default.png"
+import defaultImg from '../../../../public/assets/myPage/Default.png';
 import Image from 'next/image';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
@@ -61,15 +61,12 @@ const UserProfile = () => {
             return;
         }
         setNicknameValidationPassed(true);
-        try {
-            const success = await changeUserNickname(newNickname);
-            if (success) {
-                setUserInfo({...userInfo, nickname: newNickname});
-                setNicknameChangeRequested(true);
-            }
-        } catch (error) {
-            console.error('닉네임 변경 중 오류 발생:', error);
-            setErrorMessage('닉네임 변경에 실패했습니다.');
+        const response = await changeUserNickname(newNickname);
+        if (response.success) {
+            setUserInfo({...userInfo, nickname: newNickname});
+            setNicknameChangeRequested(true);
+        } else {
+            setErrorMessage('중복된 닉네임입니다. 다른 닉네임으로 저장해주세요.');
             setNicknameChangeRequested(false);
         }
     };
@@ -103,14 +100,13 @@ const UserProfile = () => {
     };
     
     
-    
     const onSubmit = async () => {
         alert('회원정보가 저장 되었습니다.');
         router.push('/Mypage');
     };
     
     const deleteProfile = async () => {
-        alert("프로필 사진이 삭제 됩니다!");
+        alert('프로필 사진이 삭제 됩니다!');
         try {
             await deleteUserProfileImage();
             setUserInfo(userInfo => ({
@@ -121,7 +117,7 @@ const UserProfile = () => {
             console.error('프로필 사진 삭제 중 오류 발생:', error);
         }
     };
-    
+
     return (
         <Layout>
             <div className={styles.profileContainer}>
@@ -156,7 +152,11 @@ const UserProfile = () => {
                             onClick={changeNickname}
                             disabled={!validateNickname(newNickname)}>닉네임 변경하기
                         </button>
-                        {errorMessage && <p className={styles.error}>{errorMessage}</p>}
+                        {errorMessage && (
+                            <div className={styles.errorMessage}>
+                                {errorMessage}
+                            </div>
+                        )}
                         <p className={styles.hint}>닉네임은 영어와 한글을 포함하여 8자 이하이어야 합니다.</p>
                     </div>
                     <div className={styles.likedListContainer}>
