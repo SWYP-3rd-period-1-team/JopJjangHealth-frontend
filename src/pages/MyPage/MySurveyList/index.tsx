@@ -1,9 +1,10 @@
+// todo : 질병 캘린더 자동 부분 잠시 주석 : 사유 (아직 진행 안함)
 import React, {useEffect, useState} from 'react';
 import Layout from '../../../components/Layout';
 import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
-import Image from 'next/image';
-import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
+// import Image from 'next/image';
+//import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
 import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/mypage';
 import {checkUserAuthentication} from '../../../utils/auth';
 import {GetServerSideProps} from 'next';
@@ -22,17 +23,17 @@ interface DiseaseItem {
     isLinked: boolean; // todo : 캘린더 연동?
 }
 
-const CalendarPopup = ({onClose}: {onClose: () => void}) => (
-    <div className={styles.popupContainer} onClick={onClose}>
-        <span className={styles.popupText}>질병 캘린더에 연동 되었습니다.</span>
-        <span
-            className={styles.popupClick}
-            onClick={() => alert('질병 캘린더로 이동합니다.')}
-        >
-            질병 캘린더로 이동하기
-        </span>
-    </div>
-);
+// const CalendarPopup = ({onClose}: {onClose: () => void}) => (
+//     <div className={styles.popupContainer} onClick={onClose}>
+//         <span className={styles.popupText}>질병 캘린더에 연동 되었습니다.</span>
+//         <span
+//             className={styles.popupClick}
+//             onClick={() => alert('질병 캘린더로 이동합니다.')}
+//         >
+//             질병 캘린더로 이동하기
+//         </span>
+//     </div>
+// );
 
 const SurveyList = () => {
     useAuth();
@@ -104,15 +105,15 @@ const SurveyList = () => {
         setActiveDiseaseId(diseaseId);
     };
     
-    useEffect(() => {
-        if (showPopup) {
-            const timer = setTimeout(() => {
-                setShowPopup(false);
-                setActiveDiseaseId(null);
-            }, 3000);
-            return () => clearTimeout(timer);
-        }
-    }, [showPopup]);
+    // useEffect(() => {
+    //     if (showPopup) {
+    //         const timer = setTimeout(() => {
+    //             setShowPopup(false);
+    //             setActiveDiseaseId(null);
+    //         }, 3000);
+    //         return () => clearTimeout(timer);
+    //     }
+    // }, [showPopup]);
     
     return (
         <Layout>
@@ -150,11 +151,11 @@ const SurveyList = () => {
                                                 className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
                                                 {disease?.nickname}님이 {disease?.dateTime}에 한 건강 설문입니다.
                                             </div>
-                                            <div
-                                                className={`${styles.date} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
-                                                <Image src={calendarIcon} alt={'calendar'} />
-                                                {disease?.isLinked ? '질병 캘린더에 연동됨' : '질병 캘린더 연동중'}
-                                            </div>
+                                            {/*<div*/}
+                                            {/*    className={`${styles.date} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>*/}
+                                            {/*    <Image src={calendarIcon} alt={'calendar'} />*/}
+                                            {/*    {disease?.isLinked ? '질병 캘린더에 연동됨' : '질병 캘린더 연동중'}*/}
+                                            {/*</div>*/}
                                             <div
                                                 className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
                                         <span
@@ -175,7 +176,7 @@ const SurveyList = () => {
                                     </button>
                                 )}
                             </div>
-                            {showPopup && <CalendarPopup onClose={closePopup} />}
+                            {/*{showPopup && <CalendarPopup onClose={closePopup} />}*/}
                         </>
                     ) : (
                         <NoSurveyList />

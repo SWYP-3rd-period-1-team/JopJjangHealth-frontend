@@ -150,10 +150,12 @@
     border: 1px solid #d1d1d1;
 }
 
+/*
 .clickedItem {
     color: #FFFFFF !important;
     background-color: #0F0F0F;
 }
+ */
 
 .check_survey {
     accent-color: #5B5B5B;
