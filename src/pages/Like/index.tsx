@@ -2,13 +2,14 @@ import React, {useEffect, useState} from 'react';
 import Layout from '../../components/Layout';
 import styles from '../../styles/Like.module.css';
 import Link from 'next/link';
-import noLikeImage from '../../../public/assets/no/this.png';
 import Image from 'next/image';
 import {fetchHospitalDeleteInfo, fetchHospitalInfo} from '../../api/like';
 import {checkUserAuthentication} from '../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../hooks/useAuth';
 import LoadingView from '../../components/common/LoadingView';
+import likeLeft from '../../../public/assets/like/likeLeft.png';
+import likeRight from '../../../public/assets/like/likeRight.png';
 
 interface HospitalFirstData {
     googleMapId: string;
@@ -66,7 +67,7 @@ const Like = () => {
                 
                 const detailsPromises = hospitalFirstData.map(hospital => new Promise((resolve, reject) => {
                     if (hospital.googleMapId) {
-                        service.getDetails({ placeId: hospital.googleMapId }, (result:any, status:any) => {
+                        service.getDetails({placeId: hospital.googleMapId}, (result: any, status: any) => {
                             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
                                 const hospitalLocation = result.geometry.location;
                                 const distanceMeters = window.google.maps.geometry.spherical.computeDistanceBetween(userLocation, hospitalLocation);
@@ -94,7 +95,7 @@ const Like = () => {
                         setIsHospitalDetailsLoaded(true);
                     })
                     .catch(error => {
-                        console.error("Error loading hospital details:", error);
+                        console.error('Error loading hospital details:', error);
                     });
             });
         };
@@ -120,12 +121,16 @@ const Like = () => {
     
     return (
         <Layout>
-            <div className={styles.like_text}><b>직짱인 님</b>의 <b>찜한</b> 병원 리스트</div>
-            {isStillLoading ? <LoadingView />
-                :
-                <div className={styles.like_container}>
-                    {
-                        hospitalInfo?.length > 0 ?
+            <div className={styles.like_container}>
+                <div className={styles.like_text}>
+                    <Image src={likeLeft} alt={"likeLeft"}/>
+                    <b>직짱인 님</b>의 <b>찜한</b> 병원 리스트
+                    <Image src={likeRight} alt={"likeRight"}/>
+                </div>
+                <div className={styles.like_list_templete}>
+                    {isStillLoading ?
+                        <LoadingView />
+                        : hospitalInfo?.length > 0 ?
                             <>
                                 {hospitalInfo.map(hospital => (
                                     <div key={hospital.id} className={styles.like_item_container}>
@@ -149,12 +154,10 @@ const Like = () => {
                                 <Link href={'/'}>
                                     <button className={styles.click_survey}>건강 설문하러 가기</button>
                                 </Link>
-                                <div className={styles.imageContainer}>
-                                    <Image src={noLikeImage} alt="no_like" width={223} height={156} />
-                                </div>
                             </div>
                     }
-                </div>}
+                </div>
+            </div>
         </Layout>
     );
 };
