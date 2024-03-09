@@ -91,13 +91,13 @@ const Calendar: React.FC<CalendarProps> = () => {
         // setIsVisible(!isVisible); // 항목 클릭 시 표시 상태 토글
         switch (value) {
             case 'addSupplement':
-                setCurrentModal(<AddSupplements />);
+                setCurrentModal(<AddSupplements onClose={handleCloseModal} />);
                 break;
             case 'addWaterIntake':
-                setCurrentModal(<AddWaterIntake />);
+                setCurrentModal(<AddWaterIntake onClose={handleCloseModal} />);
                 break;
             case 'addSleepTime':
-                setCurrentModal(<AddSleepTime />);
+                setCurrentModal(<AddSleepTime onClose={handleCloseModal} />);
                 break;
             default:
                 setCurrentModal(null);
@@ -193,12 +193,7 @@ const Calendar: React.FC<CalendarProps> = () => {
                     )}
             </div>
             {currentModal && (
-                <div
-                    className={styles.modalContainer}
-                    onClick={handleCloseModal}
-                >
-                    {currentModal}
-                </div>
+                <div className={styles.modalContainer}>{currentModal}</div>
             )}
         </Layout>
     );
