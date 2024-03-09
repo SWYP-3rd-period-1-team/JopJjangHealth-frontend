@@ -89,10 +89,10 @@ const Index = () => {
         let result = '';
         
         if (!text) return '';
-        if (text.length <= 9) return text;
+        if (text.length <= 10) return text;
         
-        for (let i = 0; i < text.length; i += 9) {
-            const nextChunk = text.substring(i, i + 9);
+        for (let i = 0; i < text.length; i += 10) {
+            const nextChunk = text.substring(i, i + 10);
             result += nextChunk;
             
             if (i + 10 < text.length) result += '\n';
