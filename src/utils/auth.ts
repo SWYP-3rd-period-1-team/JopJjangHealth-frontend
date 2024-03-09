@@ -1,6 +1,5 @@
 import qs from "qs";
 import axiosInstance from '../api/axiosInstance';
-import axios from 'axios';
 import {GetServerSideProps, GetServerSidePropsContext} from 'next';
 
 export const signUp = async (nickname: string, userId: string, email: string, password: string) => {
@@ -35,7 +34,7 @@ export const login = async (username: string, password: string) => {
 
 export const sendEmailVerification = async (email: string) => {
     try {
-        const response = await axios.post(`/api/emails/verification-requests?email=${email}`, {});
+        const response = await axiosInstance.post(`/api/emails/verification-requests?email=${email}`, {});
         alert(response.data.data.message);
         return { success: true, data: response.data };
     } catch (error) {
@@ -45,7 +44,7 @@ export const sendEmailVerification = async (email: string) => {
 
 export const verifyEmailCode = async (email: string, code: string) => {
     try {
-        const response = await axios.get(`/api/emails/verifications?email=${email}&code=${code}`);
+        const response = await axiosInstance.get(`/api/emails/verifications?email=${email}&code=${code}`);
         alert(response.data.data.message);
         return { success: true, data: response.data };
     } catch (error) {
@@ -76,4 +75,3 @@ export const checkUserAuthentication : GetServerSideProps = async (context: GetS
     
     return { props: {} };
 };
-
