@@ -29,11 +29,12 @@
 }
 
 .like_item_container {
-    width: 960px;
+    width: 915px;
     height: 100px;
     margin: 20px;
     flex-shrink: 0;
-    background: #91FFBD;
+    border-radius: 10px;
+    background: #B5FCD1;
 }
 
 .title {
