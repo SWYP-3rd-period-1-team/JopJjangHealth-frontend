@@ -57,7 +57,8 @@
     width: 100%;
     grid-template-columns: repeat(7, 1fr);
     text-align: center;
-    border-top: 1px solid #ccc;
+    border-radius: 20px;
+    overflow: hidden;
 }
 
 .day {
@@ -65,11 +66,18 @@
     /* width: 166px; */
     height: 110px;
     flex-shrink: 0;
-    border-bottom: 1px solid #f4f4f4;
     background: #fff;
-    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #f4f4f4;
+    border-right: 1px solid #f4f4f4;
     padding: 10px;
     cursor: pointer;
+}
+.day:nth-child(7n) {
+    border-right: none;
+    color: #0000ff;
+}
+.day:nth-child(7n-6) {
+    color: #ff0000;
 }
 
 .day:hover {
@@ -77,9 +85,11 @@
 }
 
 .weekday {
-    background-color: #f3f3f3;
+    background-color: #d1ffe3;
     padding: 10px;
-    border-right: 1px solid #ccc;
+    border-bottom: 1px solid #ccc;
+    font-size: 14px;
+    color: #757575;
 }
 
 .listContainer {
