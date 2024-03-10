@@ -116,21 +116,29 @@ const Map = () => {
             clearMarkers();
             const center = map.getCenter();
             const service = new window.google.maps.places.PlacesService(map);
+            var pyrmont = new window.google.maps.LatLng({
+                lat: center.lat(),
+                lng: center.lng(),
+            });
+
             await service.textSearch(
                 {
                     query: searchText,
-                    radius: 5000,
-                    location: {
-                        lat: center.lat(),
-                        lng: center.lng(),
-                    },
+                    radius: '500',
+                    type: ['hospital'],
+                    location: pyrmont,
                 },
                 (results: any, status: any) => {
+                    console.log(results);
                     if (results.length > 0) {
                         if (
                             status ===
                             window.google.maps.places.PlacesServiceStatus.OK
                         ) {
+                            map.setCenter({
+                                lat: results[0].geometry.location?.lat(),
+                                lng: results[0].geometry.location?.lng(),
+                            });
                             setSearchQuery(searchText);
                             addMarkers(results);
                         }
