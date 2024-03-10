@@ -1,14 +1,10 @@
 // import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import useSaveLocalContent from './useSaveLocalContent';
 import {useQueryClient} from '@tanstack/react-query';
-import {useRouter} from 'next/router';
 import Cookies from 'js-cookie';
 
 const useToken = () => {
     const queryClient = useQueryClient();
-
-    const router = useRouter();
-
     const {setEncryptedCookie} = useSaveLocalContent();
 
     const loginSaveToken = ({
