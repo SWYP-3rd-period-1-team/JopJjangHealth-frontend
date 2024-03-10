@@ -103,7 +103,7 @@ const UserProfile = () => {
     
     const onSubmit = async () => {
         alert('회원정보가 저장 되었습니다.');
-        router.push('/Mypage');
+        router.push('/MyPage');
     };
     
     const deleteProfile = async () => {
