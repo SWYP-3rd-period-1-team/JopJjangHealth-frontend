@@ -89,13 +89,17 @@ const Like = () => {
                     }
                 }));
                 
-                Promise.all(detailsPromises)
-                    .then(details => {
-                        setHospitalInfo(details as HospitalInfo[]);
+                Promise.allSettled(detailsPromises)
+                    .then(results => {
+                        const successfulDetails = results.filter(result => result.status === 'fulfilled').map(result => (result as PromiseFulfilledResult<any>).value);
+                        setHospitalInfo(successfulDetails);
                         setIsHospitalDetailsLoaded(true);
                     })
                     .catch(error => {
                         console.error('Error loading hospital details:', error);
+                    })
+                    .finally(() => {
+                        setIsLoading(false);
                     });
             });
         };
@@ -104,6 +108,8 @@ const Like = () => {
             loadGoogleMapsScript(() => {
                 loadPlaceDetails();
             });
+        } else {
+            setIsLoading(false); // 병원 데이터가 없을 때도 로딩 상태를 false로 설정
         }
     }, [hospitalFirstData, isLoading]);
     
