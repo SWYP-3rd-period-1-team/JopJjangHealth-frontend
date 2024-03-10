@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useForm} from 'react-hook-form';
 import {signUp, sendEmailVerification, verifyEmailCode} from '../../utils/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
@@ -37,7 +37,7 @@ const Join = () => {
     } = useForm<FormData>({
         mode: 'onChange',
     });
-    
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const [emailUsername, setEmailUsername] = useRecoilState(emailUsernameState);
     const [emailDomain, setEmailDomain] = useRecoilState(emailDomainState);
     const [customDomain, setCustomDomain] = useRecoilState(customDomainState);
@@ -51,25 +51,35 @@ const Join = () => {
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
     const onSubmit = async (data: FormData) => {
-        await signUp(data.nickname, data.userId, data.email, data.password);
+        const response = await signUp(data.nickname, data.userId, data.email, data.password);
+        if (response?.success) {
+            alert(response?.data?.data?.message);
+            await router.push(response.data?.data?.surveyUrl)
+        } else {
+            setErrorMessage(response.message);
+        }
     };
     
     const handleEmailVerificationRequest = async () => {
         const email = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
-        const result = await sendEmailVerification(email);
-        if (result?.success) {
+        const response = await sendEmailVerification(email);
+        if (response?.data?.data?.message) {
+            alert(response?.data?.data?.message);
             setIsVerificationSent(true);
+        } else {
+            alert(response?.message.includes('이미 존재하는 이메일 입니다.') ? response.message : '이메일을 확인 해주세요.');
         }
     };
     
     const handleEmailVerification = async () => {
         const formData = getValues();
-        const verificationResult = await verifyEmailCode(formData.email, formData.emailVerificationCode);
-        if (verificationResult?.success) {
+        const response = await verifyEmailCode(formData.email, formData.emailVerificationCode);
+        if (response?.data?.data?.message) {
             setIsVerificationComplete(true);
             setIsVerificationSent(false);
         } else {
-            alert('잘못된 인증 코드입니다. 다시 확인해주세요.');
+            alert('이메일 인증 코드가 올바르지 않습니다.');
+            // todo : alert(response?.message);
         }
     };
     
@@ -187,13 +197,13 @@ const Join = () => {
                         <input
                             placeholder="이메일 인증"
                             {...register('email', {
-                                required: '비밀번호를 입력해주세요.',
+                                required: '이메일 인증을 입력해주세요.',
                                 validate: validateEmail,
                             })}
                             className={errors.email ? styles.inputError : styles.input}
                         />
                         {errors.email && (
-                            <p className={styles.errorText}>{errors.email.message}</p>
+                            <p className={styles.errorText}>{errors.email.message || errorMessage.includes('email')}</p>
                         )}
                     </div>
                     {isVerificationSent && !isVerificationComplete && (
@@ -228,6 +238,9 @@ const Join = () => {
                             개인정보 수집 및 이용 동의
                         </label>
                     </div>
+                    {errorMessage && (
+                        <div className={styles.errorText}>{errorMessage}</div>
+                    )}
                     <button
                         type="submit"
                         className={styles.submitButton}

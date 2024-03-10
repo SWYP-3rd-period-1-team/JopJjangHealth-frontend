@@ -8,7 +8,7 @@
 .loginTitle {
     color: #000;
     text-align: center;
-    font-family: 'SUIT';
+    font-family: 'SUIT',sans-serif;
     font-size: 32px;
     font-style: normal;
     font-weight: 300;

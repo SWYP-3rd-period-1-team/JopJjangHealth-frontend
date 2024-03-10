@@ -10,14 +10,11 @@ export const signUp = async (nickname: string, userId: string, email: string, pa
                 'Accept': 'application/json'
             }
         });
-        alert(response.data?.data?.message);
-        window.location.href = response.data?.data?.surveyUrl;
         return { success: true, data: response.data };
-    } catch (error) {
-        return { success: false, message: '회원가입 실패' };
+    } catch (error:any) {
+        return { success: false, message: error.response?.data?.message || error.message };
     }
 };
-
 export const login = async (username: string, password: string) => {
     try {
         const data = qs.stringify({ username, password });
@@ -27,30 +24,30 @@ export const login = async (username: string, password: string) => {
             }
         });
         return { success: true, data: response.data };
-    } catch (error) {
-        return { success: false, message: '로그인 실패'};
+    } catch (error:any) {
+        return { success: false, message: error.response?.data?.message || error.message };
     }
 };
 
 export const sendEmailVerification = async (email: string) => {
     try {
         const response = await axiosInstance.post(`/api/emails/verification-requests?email=${email}`, {});
-        alert(response.data.data.message);
         return { success: true, data: response.data };
-    } catch (error) {
-        return { success: false, message: '이메일 요청 실패' };
+    } catch (error:any) {
+        return { success: false, message: error.response?.data?.message || error.message };
     }
 };
 
-export const verifyEmailCode = async (email: string, code: string) => {
+export const verifyEmailCode = async (email:string, code:string) => {
     try {
         const response = await axiosInstance.get(`/api/emails/verifications?email=${email}&code=${code}`);
-        alert(response.data.data.message);
         return { success: true, data: response.data };
-    } catch (error) {
-        return { success: false, message: '이메일 요청 확인 실패' };
+    } catch (error:any) {
+        return { success: false, message: error.response?.data?.message || error.message };
     }
 };
+
+
 
 export const logout = async () => {
     try {

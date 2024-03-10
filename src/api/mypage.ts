@@ -75,9 +75,10 @@ export const fetchUserInfo = async () => {
 
 export const changeUserNickname = async (newNickname: string) => {
     try {
-        await axiosInstance.patch('/api/members/change-nickname', {newNickname});
-    } catch (error) {
-        return {success: false, message: '회원정보 호출 중 에러가 발생했습니다'};
+        const response = await axiosInstance.patch('/api/members/change-nickname', {newNickname});
+        return {success: true, data: response.data};
+    } catch (error:any) {
+        return { success: false, message: error.response?.data?.message || error.message };
     }
 };
 

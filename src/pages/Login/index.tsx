@@ -27,11 +27,12 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         formState: {errors, isValid},
+        watch,
     } = useForm<FormData>({
         mode: 'onChange',
     });
     
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const [errorMessage, setErrorMessage] = useState<string>('');
     
     const openPopup = (url: string, text: string) => {
         localStorage.setItem('activeTab', text);
@@ -39,27 +40,24 @@ const Login: React.FC = () => {
     };
     
     const onSubmit = async (data: FormData) => {
-        try {
-            const result = await login(data.username, data.password);
-            if (result?.data) {
-                loginSaveToken({
-                    access_token: result.data.accessToken,
-                    refresh_token: result.data.refreshToken,
-                });
-                const accessToken = getTokenValue('zzgg_at');
-                const surveyOption = localStorage.getItem('surveyOption');
-                if (accessToken && surveyOption) {
-                    const parsedOption = JSON.parse(surveyOption);
-                    await saveHealthSurvey(parsedOption);
-                    localStorage.removeItem('surveyOption');
-                    await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
-                } else {
-                    await router.push('/');
-                }
+        const response = await login(data.username, data.password);
+        if (response?.data) {
+            loginSaveToken({
+                access_token: response.data.accessToken,
+                refresh_token: response.data.refreshToken,
+            });
+            const accessToken = getTokenValue('zzgg_at');
+            const surveyOption = localStorage.getItem('surveyOption');
+            if (accessToken && surveyOption) {
+                const parsedOption = JSON.parse(surveyOption);
+                await saveHealthSurvey(parsedOption);
+                localStorage.removeItem('surveyOption');
+                await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
+            } else {
+                await router.push('/');
             }
-        } catch (error) {
-            console.error('로그인 처리 중 오류:', error);
-            setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다.');
+        } else {
+            setErrorMessage(response.message.includes('406') ? '아이디나 비밀번호가 일치하지 않습니다.' : '\'로그인에 실패했거나 JWT 토큰이 없습니다.\'');
         }
     };
     
