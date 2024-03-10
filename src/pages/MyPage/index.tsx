@@ -22,8 +22,8 @@ interface UserInfo {
 
 const MyPage = () => {
     useAuth();
-    const { logoutDeleteToken } = useToken();
-    const router = useRouter();
+    const { getTokenValue } = useToken();
+    const refreshToken = getTokenValue('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
     const [userInfo, setUserInfo] = useState<UserInfo>({
@@ -51,10 +51,7 @@ const MyPage = () => {
     
     const onLogout = async () => {
         localStorage.clear();
-        logoutDeleteToken();
-        // todo : 토큰이 안보내지고 있는거 같습니다 401 OR 403.
-        await logout();
-        router.push("/")
+        await logout(refreshToken);
     };
     
     const handleLogoutSectionClick = () => {
