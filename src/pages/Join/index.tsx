@@ -78,8 +78,7 @@ const Join = () => {
             setIsVerificationComplete(true);
             setIsVerificationSent(false);
         } else {
-            alert('이메일 인증 코드가 올바르지 않습니다.');
-            // todo : alert(response?.message);
+          alert(response?.message);
         }
     };
     

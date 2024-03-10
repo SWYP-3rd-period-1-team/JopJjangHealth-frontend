@@ -49,9 +49,12 @@ export const verifyEmailCode = async (email:string, code:string) => {
 
 
 
-export const logout = async () => {
+export const logout = async (accessToken:string) => {
     try {
-        const response = await axiosInstance.patch('/api/members/logout');
+        const response = await axiosInstance.patch('/api/members/logout', {
+        }, {
+            accessToken: accessToken
+        });
         return { success: true, data: response.data };
     } catch (error) {
         return { success: false, message: '로그아웃 실패' };
