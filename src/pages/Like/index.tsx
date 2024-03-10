@@ -39,7 +39,7 @@ const Like = () => {
         const initializeHospitalInfo = async () => {
             try {
                 const response = await fetchHospitalInfo();
-                setHospitalFirstData(response?.data?.data.bookmarkList);
+                setHospitalFirstData(response?.data?.data?.bookmarkList);
                 setIsHospitalInfoLoaded(true);
             } finally {
                 setIsLoading(false);
@@ -65,7 +65,7 @@ const Like = () => {
                 const userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
                 const service = new window.google.maps.places.PlacesService(document.createElement('div'));
                 
-                const detailsPromises = hospitalFirstData.map(hospital => new Promise((resolve, reject) => {
+                const detailsPromises = hospitalFirstData?.map(hospital => new Promise((resolve, reject) => {
                     if (hospital.googleMapId) {
                         service.getDetails({placeId: hospital.googleMapId}, (result: any, status: any) => {
                             if (status === window.google.maps.places.PlacesServiceStatus.OK) {
@@ -100,7 +100,7 @@ const Like = () => {
             });
         };
         
-        if (hospitalFirstData.length > 0 && !isLoading) {
+        if (hospitalFirstData?.length > 0 && !isLoading) {
             loadGoogleMapsScript(() => {
                 loadPlaceDetails();
             });
@@ -132,7 +132,7 @@ const Like = () => {
                         <LoadingView />
                         : hospitalInfo?.length > 0 ?
                             <>
-                                {hospitalInfo.map(hospital => (
+                                {hospitalInfo?.map(hospital => (
                                     <div key={hospital.id} className={styles.like_item_container}>
                                         <div className={styles.title}>
                                             {hospital.name}
