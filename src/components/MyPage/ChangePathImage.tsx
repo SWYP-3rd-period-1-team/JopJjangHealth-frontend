@@ -4,7 +4,7 @@ import Image from 'next/image';
 import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
 import defaultProfileImage from '../../../public/assets/myPage/Default.png';
 
-const ChangeProfileImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const ChangeProfileImage: React.FC = () => {
     const [selectedFile, setSelectedFile] = useState<File|null>(null);
     const [previewUrl, setPreviewUrl] = useState<string>(defaultProfileImage.src);
     

@@ -10,7 +10,7 @@ const imageSources = [
     '/assets/myPage/character_four.png',
 ];
 
-const ChangeBasicImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
+const ChangeBasicImage: React.FC = () => {
     const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
     
     const handleSelectImage = (index: number) => {
