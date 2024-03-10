@@ -164,7 +164,7 @@ export const options: IOption[] = [
 	{id: 147, stage: 3, targetBodyPart: "관절", diagnosisPart: "무릎", presentedSymptom:"통증", image: "/assets/survey/무릎 통증.png"},
 	{id: 148, stage: 3, targetBodyPart: "관절", diagnosisPart: "무릎", presentedSymptom:"덩어리가 만져짐", image: "/assets/survey/무릎 덩어리가 만져짐.png"},
 	{id: 149, stage: 3, targetBodyPart: "관절", diagnosisPart: "무릎", presentedSymptom:"앉았다 일어날 때 통증", image: "/assets/survey/무릎 앉았다 일어날 때 통증.png"},
-	{id: 150, stage: 3, targetBodyPart: "관절", diagnosisPart: "무릎", presentedSymptom:"운동장애(안정 시 떨림, 근육강직)", image: "/assets/survey/무릎 운동장애(안정 시 떨림, 근육강직).png"},
+	{id: 150, stage: 3, targetBodyPart: "관절", diagnosisPart: "무릎", presentedSymptom:"운동장애(안정 시 떨림, 근육강직)", image: "/assets/survey/무릎 운동장애(안정 시 떨림, 근육 강직).png"},
 	{id: 151, stage: 3, targetBodyPart: "관절", diagnosisPart: "골반, 엉덩이", presentedSymptom:"통증과 붓기", image: "/assets/survey/엉덩이 통증, 붓기.png"},
 	{id: 152, stage: 3, targetBodyPart: "관절", diagnosisPart: "골반, 엉덩이", presentedSymptom:"통증과 활동제한", image: "/assets/survey/엉덩이 통증과 움직임에 제한.png"},
 	{id: 153, stage: 3, targetBodyPart: "관절", diagnosisPart: "골반, 엉덩이", presentedSymptom:"엉덩이 근육의 통증", image: "/assets/survey/엉덩이 근육의 통증.png"},
