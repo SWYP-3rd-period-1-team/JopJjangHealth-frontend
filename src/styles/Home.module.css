@@ -14,7 +14,7 @@
     border: 1px solid #ECECEC;
     background: #FFF;
     color: #757575;
-    font-family: SUIT;
+    font-family: 'SUIT',sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
@@ -27,7 +27,7 @@
     width:100%;
     height: 100%;
     color: #757575;
-    font-family: SUIT;
+    font-family: 'SUIT',sans-serif;
     font-size: 18px;
     font-style: normal;
     font-weight: 500;
@@ -89,7 +89,7 @@
     top: 26px;
     left:26px;
     color: #1C3C29;
-    font-family: SUIT;
+    font-family: 'SUIT',sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
@@ -104,7 +104,7 @@
 .home_title {
     position: absolute;
     color: #1C3C29;
-    font-family: SUIT;
+    font-family: 'SUIT',sans-serif;
     font-size: 40px;
     font-style: normal;
     font-weight: 600;
@@ -113,3 +113,35 @@
     bottom: 26px;
     right: 26px;
 }
+
+@media (max-width: 768px) {
+    .home_container {
+        flex-direction: column;
+        margin: 0 10px;
+    }
+
+    .input_group {
+        width: 90%;
+        margin: 20px 0;
+    }
+
+    .search_button {
+        width: 70px;
+    }
+
+    .home, .home_right {
+        width: 100%;
+        height: auto;
+        margin: 10px 0;
+    }
+
+    .homeImage {
+        width: 100%;
+        height: auto;
+    }
+
+    .home_text, .home_detail, .home_title {
+        font-size: 20px;
+    }
+}
+

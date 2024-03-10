@@ -13,6 +13,9 @@ import {
     isVerificationSentState,
 } from '../../state/join';
 import {useRouter} from 'next/router';
+import eye from "../../../public/assets/icon/ic_eye.png";
+import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
+import Image from 'next/image';
 
 interface FormData {
     nickname: string;
@@ -38,6 +41,11 @@ const Join = () => {
         mode: 'onChange',
     });
     const [errorMessage, setErrorMessage] = useState<string>('');
+    const [passwordType, setPasswordType] = useState('password');
+    const togglePasswordVisibility = () => {
+        setPasswordType(passwordType === 'password' ? 'text' : 'password');
+    };
+    
     const [emailUsername, setEmailUsername] = useRecoilState(emailUsernameState);
     const [emailDomain, setEmailDomain] = useRecoilState(emailDomainState);
     const [customDomain, setCustomDomain] = useRecoilState(customDomainState);
@@ -126,7 +134,7 @@ const Join = () => {
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="비밀번호 (영문, 숫자 조합 8 ~ 15자리)"
                             {...register('password', {
                                 required: '비밀번호를 입력해주세요.',
@@ -134,11 +142,20 @@ const Join = () => {
                             })}
                             className={errors.password ? styles.inputError : styles.input}
                         />
+                        <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
+                            {passwordType === 'password' ?
+                                <>
+                                    <Image src={eyeSlash} alt={'eye-slash'} />
+                                </> :
+                                <>
+                                    <Image src={eye} alt={'eye'} />
+                                </>}
+                        </div>
                         {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="비밀번호 확인"
                             {...register('confirmPassword', {
                                 validate: value =>

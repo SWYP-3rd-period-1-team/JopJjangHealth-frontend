@@ -76,6 +76,7 @@ const MyPage = () => {
                                         alt={'User Profile'}
                                         width={'150px'}
                                         height={'150px'}
+                                        objectFit={"scale-down"}
                                     />
                                 </div>
                                 <div className={styles.profileText}>

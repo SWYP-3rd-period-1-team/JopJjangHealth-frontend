@@ -11,7 +11,7 @@ const useAuth = () => {
         const userIsLoggedIn = !!accessToken;
         
         if (!userIsLoggedIn) {
-            router.push('/Login');
+            router.push('/Login').catch((error) => console.error('Failed to redirect to /Login', error));
         }
     }, [getTokenValue, router]);
 };

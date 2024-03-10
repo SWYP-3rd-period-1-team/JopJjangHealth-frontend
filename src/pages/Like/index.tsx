@@ -100,7 +100,7 @@ const Like = () => {
             });
         };
         
-        if (hospitalFirstData.length > 0 && !isLoading) {
+        if (hospitalFirstData?.length > 0 && !isLoading) {
             loadGoogleMapsScript(() => {
                 loadPlaceDetails();
             });

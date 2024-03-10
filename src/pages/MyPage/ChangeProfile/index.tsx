@@ -9,6 +9,7 @@ import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 import defaultImg from '../../../../public/assets/myPage/Default.png';
 import Image from 'next/image';
+import cancel from "../../../../public/assets/icon/ic_cancel.png";
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
@@ -33,7 +34,7 @@ const UserProfile = () => {
             const userInfo = await fetchUserInfo();
             if (userInfo) {
                 setUserInfo({
-                    profileImage: userInfo.data.data.profileImage || defaultImg,
+                    profileImage: userInfo.data.data.profileImage || DEFAULT_IMAGE_URL,
                     nickname: userInfo.data.data.nickname || '',
                     userId: userInfo.data.data.userId || '',
                     email: userInfo.data.data.email || '',
@@ -130,9 +131,11 @@ const UserProfile = () => {
                             alt={'User Profile'}
                             width={'150px'}
                             height={'150px'}
+                            objectFit={"scale-down"}
                         />
                         <div className={styles.profileBroke} onClick={deleteProfile}>
-                            {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ? <>X</> : ''}
+                            {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ?
+                                <><Image src={cancel} alt={"cancel"}/></> : ''}
                         </div>
                     </div>
                     <div className={styles.profileEdit}
@@ -158,7 +161,7 @@ const UserProfile = () => {
                                 {errorMessage}
                             </div>
                         )}
-                        <p className={styles.hint}>닉네임은 영어와 한글을 포함하여 8자 이하이어야 합니다.</p>
+                        <p className={styles.hint}>닉네임은 2번 이상 바꿀 수 없고, 8글자이며 똑같은 닉네임이 없을 경우 가능합니다.</p>
                     </div>
                     <div className={styles.likedListContainer}>
                         <span className={styles.userAsk}>아이디</span>

@@ -61,3 +61,42 @@
     font-weight: 700;
     color: #000000;
 }
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    .main {
+        overflow-x: hidden;
+    }
+
+    .header {
+        flex-direction: column;
+        padding: 20px;
+        text-align: center;
+    }
+
+    .header_menu, .header_link_login, .header_link_login_second {
+        float: none;
+        position: static;
+        margin: 20px 0 0 0;
+        text-align: center;
+    }
+
+    .header_link {
+        padding: 0 10px;
+    }
+
+    .section {
+        flex-direction: column;
+        padding: 0 20px;
+    }
+
+    .content {
+        width: auto;
+        margin: 0 20px;
+        height: auto;
+    }
+}
+

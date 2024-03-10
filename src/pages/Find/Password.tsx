@@ -21,8 +21,7 @@ const FindPassword: React.FC = () => {
         const response = await findPassword(data.userId, data.email);
         if (response.success) {
             router.push({
-                pathname: '/Find/Complete',
-                query: {message: response.data.data.message},
+                pathname: '/Find/Complete'
             });
         }
     };

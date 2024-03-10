@@ -9,7 +9,6 @@ const NoSurveyList = () => {
     return (
         <>
             <div className={styles.mySurvey_container}>
-                <div className={styles.mySurvey_text}>나의 질병 리스트</div>
                 <div className={styles.no_hospitals}>
                     <div className={styles.image}>
                         <Image src={LargeImage} alt="favicon2" />
