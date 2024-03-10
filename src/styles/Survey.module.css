@@ -1,62 +1,3 @@
-.container {
-    padding: 0 2rem;
-}
-
-.main {
-    height: 100vh;
-    flex: 1;
-    background: #fff;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    overflow-x: hidden;
-}
-
-.header {
-    position: sticky;
-    display: flex;
-    width: 100vw;
-    padding: 50px 50px 30px 50px;
-    align-items: center;
-    font-family: 'SUIT', serif;
-    color: #00a241;
-    font-size: 20pt;
-    user-select: none;
-}
-
-.logo_link {
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    color: inherit;
-}
-
-.content {
-    flex-shrink: 0;
-    border-radius: 20px;
-    border: 1px solid #ECECEC;
-    background: #E5FFEF;
-    width: 100%;
-    height: 100%;
-    position: relative;
-}
-
-.section {
-    flex: 1;
-    width: 100vw;
-    padding: 0 50px 50px 50px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-}
-
-
-.content_basic, .content_bold, .image_container, .check {
-    position: absolute;
-    left: 50%;
-    transform: translateX(-50%);
-}
-
 @keyframes typing {
     from {
         width: 0;
@@ -73,61 +14,6 @@
     50% {
         border-color: black;
     }
-}
-
-.content_basic {
-    top: 5%;
-    color: #000;
-    text-align: center;
-    font-family: 'SUIT', serif;
-    font-size: 32px;
-    font-style: normal;
-    font-weight: 500;
-    line-height: 150%; /* 48px */
-    letter-spacing: -0.64px;
-}
-
-.content_bold {
-    top: 15%;
-    color: #000;
-    text-align: center;
-    font-family: 'SUIT', serif;
-    font-size: 32px;
-    font-style: normal;
-    line-height: 150%; /* 48px */
-    letter-spacing: -0.64px;
-    font-weight: 700;
-    border-right: 2px solid black;
-    white-space: nowrap;
-    overflow: hidden;
-    width: 0;
-    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
-}
-
-.image_container {
-    bottom:20%;
-    display: flex;
-    justify-content: center;
-    margin-top: 160px;
-}
-
-.check {
-    top: 85%;
-    width: 629px;
-    height: 55px;
-    flex-shrink: 0;
-    border-radius: 10px;
-    background: #1C3C29;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    color: #FFF;
-    font-family: 'SUIT', serif;
-    font-size: 24px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 100%; /* 24px */
-    letter-spacing: -0.48px;
 }
 
 .quizContainer {
@@ -179,8 +65,7 @@
         width: 0;
     }
     to {
-        /*// todo : 길이를 타협선을 어디로 해야할까?*/
-        width: 41%;
+        width: 42%;
     }
 }
 
@@ -220,7 +105,6 @@
 }
 
 .max_options {
-/* todo : 값이 없어도 될까? */
     max-width: 88vw;
     margin-top: 84px;
 }
@@ -334,5 +218,33 @@
 
 .department {
     background-color: green;
+}
+
+@media (max-width: 768px) {
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: max-content;
+        }
+    }
+    .question {
+        margin-bottom: 20px;
+        text-align: center;
+        border-right: 2px solid black;
+        white-space: nowrap;
+        overflow: hidden;
+        width: 0;
+        animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
+    }
+    .quizContainer, .question_complete, .options, .max_options {
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .survey_text, .disease, .department {
+        font-size: 18px;
+    }
 }
 

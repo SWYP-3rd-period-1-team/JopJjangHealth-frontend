@@ -27,16 +27,12 @@ const ChangeBasicImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         try {
             const response = await fetch(selectedImagePath);
             const blob = await response.blob();
-            console.log(blob,"blob: ")
             const file = new File([blob], `selectedImage-${selectedIndex}.png`, { type: 'image/png' });
-            console.log(file,"file: ")
             const isDefaultImage = localStorage.getItem('isDefaultImage') === 'true';
             if (isDefaultImage) {
                 await uploadProfileImage(file);
-                console.log(file,"file: ")
             } else {
                 await changeUserProfileImage(file);
-                console.log(file,"file:")
             }
             alert('이미지 업로드에 성공했습니다.');
             localStorage.clear();

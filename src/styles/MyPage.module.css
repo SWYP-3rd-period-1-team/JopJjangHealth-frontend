@@ -96,3 +96,44 @@
     margin-right:28px;
 }
 
+@media (max-width: 768px) {
+    .myPageContainer {
+        width: 100%;
+        height: auto;
+        margin: 0 20px;
+    }
+
+    .profileContainer {
+        width: calc(100% - 80px);
+        margin: 20px;
+    }
+
+    .profileInfo {
+        display: flex;
+        height:100%;
+        width:100%;
+    }
+
+    .imageContainer {
+        margin: 15px;
+    }
+
+    .profileText {
+        margin-left: 0;
+    }
+
+    .userButton {
+        margin: 10px;
+    }
+
+    .likedListContainer {
+        font-size: 18px;
+        margin: 20px;
+    }
+
+    .likedListContainer:hover::before {
+        margin-right: 10px;
+    }
+}
+
+

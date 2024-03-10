@@ -56,7 +56,13 @@ const ChangeProfileImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
                     accept=".png,.jpg,.jpeg,.gif"
                 />
                 <div className={styles.imagePreviewContainer}>
-                    <Image src={previewUrl} alt="미리보기" width={298} height={298} className={styles.profileImage} />
+                    <Image src={previewUrl}
+                           alt="미리보기"
+                           width={298}
+                           height={298}
+                           className={styles.profileImage}
+                           objectFit="scale-down"
+                    />
                 </div>
                 <button type="button" style={{marginTop:"100px"}} className={styles.checkButton} onClick={handleSubmit}>
                     확인
