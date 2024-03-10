@@ -24,7 +24,7 @@ const UserProfile = () => {
         },
     );
     const [newNickname, setNewNickname] = useState('');
-    const [errorMessage, setErrorMessage] = useState('');
+    const [errorMessage, setErrorMessage] = useState<string>('');
     const [nicknameValidationPassed, setNicknameValidationPassed] = useState(true);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useState(true);
     
@@ -62,11 +62,12 @@ const UserProfile = () => {
         }
         setNicknameValidationPassed(true);
         const response = await changeUserNickname(newNickname);
-        if (response.success) {
+        if (response?.success) {
+            alert(response.data.data.message);
             setUserInfo({...userInfo, nickname: newNickname});
             setNicknameChangeRequested(true);
         } else {
-            setErrorMessage('중복된 닉네임입니다. 다른 닉네임으로 저장해주세요.');
+            setErrorMessage(response.message);
             setNicknameChangeRequested(false);
         }
     };
