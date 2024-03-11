@@ -200,7 +200,7 @@ const Index = () => {
                         
                         if (imageSrc && optionText) {
                             return (
-                                <div key={option.id} style={{marginLeft: '35px'}}
+                                <div key={option.id} style={{marginLeft: '30px'}}
                                      onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
                                     <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
                                            height={150} />
