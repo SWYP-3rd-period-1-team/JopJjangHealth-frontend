@@ -3,6 +3,8 @@ import {UseQueryOptions, UseQueryResult, useQuery} from '@tanstack/react-query';
 import {AxiosError, AxiosResponse} from 'axios';
 import {fetchUserInfo} from '../../api/mypage';
 import {fetchHospitalInfo} from '../../api/like';
+import {getCalendar} from '../../api/calendar';
+import {Response_Calendar} from '../../types/server/calendar';
 
 export const useQuery_UserInfo: () => UseQueryResult<{
     data: {
@@ -37,5 +39,17 @@ export const useQuery_BookmarkList: () => UseQueryResult<{
     return useQuery({
         queryKey: ['bookmark_list'],
         queryFn: () => fetchHospitalInfo(),
+    });
+};
+
+export const useQuery_CalendarList: (calendarDate: string) => UseQueryResult<{
+    data: {
+        success: boolean;
+        data: Response_Calendar;
+    };
+}> = (calendarDate: string) => {
+    return useQuery({
+        queryKey: ['calendar_info', calendarDate],
+        queryFn: () => getCalendar(calendarDate),
     });
 };

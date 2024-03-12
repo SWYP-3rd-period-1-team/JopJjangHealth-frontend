@@ -1,13 +1,33 @@
 import React, {useState} from 'react';
 import styles from '../../styles/CalendarModal.module.css';
+import {useMutation} from '@tanstack/react-query';
+import {
+    postCalendarSupplement,
+    postUpdateCalendarSupplement,
+} from '../../api/calendar';
+import moment from 'moment';
 
+interface SupplementItem {
+    supplementId: number;
+    supplementName: string;
+    supplementNumber: number;
+    supplementFrequency: number;
+}
 interface Props {
+    currentData?: SupplementItem;
+    onRefetch: () => void;
     onClose: () => void;
 }
-const AddSupplements = ({onClose}: Props) => {
-    const [supplementName, setSupplementName] = useState('');
-    const [pillCount, setPillCount] = useState('');
-    const [timesPerDay, setTimesPerDay] = useState('1');
+const AddSupplements = ({currentData, onRefetch, onClose}: Props) => {
+    const [supplementName, setSupplementName] = useState(
+        currentData?.supplementName ?? '',
+    );
+    const [timesPerDay, setTimesPerDay] = useState(
+        currentData?.supplementFrequency ?? '1',
+    );
+    const [pillCount, setPillCount] = useState(
+        currentData?.supplementNumber ?? '1',
+    );
 
     const formatNumberWithCommas = (value: string) => {
         const number = parseInt(value.replace(/,/g, ''), 10);
@@ -23,7 +43,7 @@ const AddSupplements = ({onClose}: Props) => {
     };
 
     const handlePillCountChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
+        event: React.ChangeEvent<HTMLSelectElement>,
     ) => {
         const formattedNumber = formatNumberWithCommas(event.target.value);
         setPillCount(formattedNumber);
@@ -37,12 +57,25 @@ const AddSupplements = ({onClose}: Props) => {
 
     const handleSubmit = () => {
         alert(`제출되었습니다:`);
+        onRefetch();
         onClose();
     };
 
+    const {mutate: onPostSupplement} = useMutation({
+        mutationFn: postCalendarSupplement,
+        onSuccess: handleSubmit,
+    });
+    const {mutate: onUpdateSupplement} = useMutation({
+        mutationFn: postUpdateCalendarSupplement,
+        onSuccess: handleSubmit,
+    });
+
     return (
-        <div className={styles.modal}>
-            <div className={styles.modalContent}>
+        <div className={styles.modal} onClick={onClose}>
+            <div
+                className={styles.modalContent}
+                onClick={event => event.stopPropagation()}
+            >
                 <div className={styles.inputTitle}>영양제 추가하기</div>
                 <div
                     style={{
@@ -76,7 +109,7 @@ const AddSupplements = ({onClose}: Props) => {
                     <select
                         className={styles.dropdown}
                         value={pillCount}
-                        onChange={handleTimesPerDayChange}
+                        onChange={handlePillCountChange}
                     >
                         <option value="1">1</option>
                         <option value="2">2</option>
@@ -86,7 +119,25 @@ const AddSupplements = ({onClose}: Props) => {
                     </select>
                     알 섭취하고 있어요.
                 </div>
-                <button className={styles.submitButton} onClick={handleSubmit}>
+                <button
+                    className={styles.submitButton}
+                    onClick={() => {
+                        if (currentData)
+                            onUpdateSupplement({
+                                supplementID: currentData.supplementId,
+                                supplementName: supplementName,
+                                supplementFrequency: +timesPerDay,
+                                supplementNumber: +pillCount,
+                            });
+                        else
+                            onPostSupplement({
+                                supplementName: supplementName,
+                                supplementFrequency: +timesPerDay,
+                                supplementNumber: +pillCount,
+                                calenderDate: moment().format('YYYY-MM-DD'),
+                            });
+                    }}
+                >
                     저장하기
                 </button>
             </div>
