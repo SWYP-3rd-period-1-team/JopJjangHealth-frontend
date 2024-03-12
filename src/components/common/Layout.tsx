@@ -2,15 +2,11 @@ import React from 'react';
 import Head from 'next/head';
 import Link from 'next/link';
 import Header from './Header';
-import styles from '../styles/Layout.module.css';
+import styles from '../../styles/Layout.module.css';
 import Image from 'next/image';
-import LogoImage from '../../public/assets/Logo.png';
-import LogoText from '../../public/assets/LogoText.png';
-
-interface LayoutProps {
-	children: React.ReactNode;
-	title?: string;
-}
+import LogoImage from '../../../public/assets/Logo.png';
+import LogoText from '../../../public/assets/LogoText.png';
+import {LayoutProps} from '../../types/Layout';
 
 const Layout: React.FC<LayoutProps> = ({ children, title = "직짱건강" }) => {
 	

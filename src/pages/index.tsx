@@ -1,8 +1,8 @@
-import styles from '../styles/onBoarding.module.css';
+import styles from '../styles/OnBoarding.module.css';
 import React from 'react';
 import Image from 'next/image';
 import OnBoarding from '../../public/assets/onBoarding/onBoarding.png';
-import Layout from "../components/Layout";
+import Layout from "../components/common/Layout";
 import {useRouter} from 'next/router';
 
 const Index: React.FC = () => {

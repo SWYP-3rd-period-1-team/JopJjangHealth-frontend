@@ -1,24 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {login} from '../../utils/auth';
 import {validatePassword, validateUserId} from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import {useRouter} from 'next/router';
 import useToken from '../../hooks/useToken';
 import {saveHealthSurvey} from '../../api/survey';
 import eye from "../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
-
-interface FormData {
-    username: string;
-    password: string;
-}
+import {LoginFormData} from "../../types/server/formData";
+import { useRecoilState } from 'recoil';
+import { passwordVisibilityState } from '../../state/login';
+import {errorMessageState} from '../../state';
 
 const Login: React.FC = () => {
     const router = useRouter();
     const {loginSaveToken, getTokenValue} = useToken();
+    
+    const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
+    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
+    
     useEffect(() => {
         const accessToken = getTokenValue('zzgg_at');
         if (accessToken) {
@@ -31,12 +34,10 @@ const Login: React.FC = () => {
         handleSubmit,
         formState: {errors, isValid},
         watch,
-    } = useForm<FormData>({
+    } = useForm<LoginFormData>({
         mode: 'onChange',
     });
     
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [passwordType, setPasswordType] = useState('password');
     const togglePasswordVisibility = () => {
         setPasswordType(passwordType === 'password' ? 'text' : 'password');
     };
@@ -46,7 +47,7 @@ const Login: React.FC = () => {
         window.open(url, 'popup', 'width=580,height=700');
     };
     
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: LoginFormData) => {
         const response = await login(data.username, data.password);
         if (response?.data) {
             loginSaveToken({

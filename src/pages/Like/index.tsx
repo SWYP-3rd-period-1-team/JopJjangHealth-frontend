@@ -1,5 +1,5 @@
-import React, {useEffect, useState} from 'react';
-import Layout from '../../components/Layout';
+import React, {useEffect} from 'react';
+import Layout from '../../components/common/Layout';
 import styles from '../../styles/Like.module.css';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -10,30 +10,22 @@ import useAuth from '../../hooks/useAuth';
 import LoadingView from '../../components/common/LoadingView';
 import likeLeft from '../../../public/assets/like/likeLeft.png';
 import likeRight from '../../../public/assets/like/likeRight.png';
-
-interface HospitalFirstData {
-    googleMapId: string;
-    bookmarkDate: string;
-}
-
-interface HospitalInfo {
-    id: string;
-    name: string;
-    bookmarkDate: string;
-    address: string;
-    distance: string;
-}
+import { useRecoilState } from 'recoil';
+import {
+    hospitalFirstDataState,
+    hospitalInfoState,
+    isLoadingState,
+    isHospitalDetailsLoadedState,
+    isHospitalInfoLoadedState
+} from '../../state/like';
 
 const Like = () => {
     useAuth();
-    const [hospitalFirstData, setHospitalFirstData] = useState<HospitalFirstData[]>([{
-        googleMapId: '',
-        bookmarkDate: '',
-    }]);
-    const [hospitalInfo, setHospitalInfo] = useState<HospitalInfo[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
-    const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useState(false);
-    const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useState(false);
+    const [hospitalFirstData, setHospitalFirstData] = useRecoilState(hospitalFirstDataState);
+    const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+    const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useRecoilState(isHospitalDetailsLoadedState);
+    const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useRecoilState(isHospitalInfoLoadedState);
     
     useEffect(() => {
         const initializeHospitalInfo = async () => {
@@ -109,7 +101,7 @@ const Like = () => {
                 loadPlaceDetails();
             });
         } else {
-            setIsLoading(false); // 병원 데이터가 없을 때도 로딩 상태를 false로 설정
+            setIsLoading(false);
         }
     }, [hospitalFirstData, isLoading]);
     

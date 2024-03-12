@@ -1,38 +1,40 @@
 import {useRouter} from 'next/router';
 import Image from 'next/image';
-import Layout from '../../../components/Layout';
+import Layout from '../../../components/common/Layout';
 import styles from '../../../styles/Survey.module.css';
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useRecoilState} from 'recoil';
 import {
     selectedBodyPartState,
     selectedTargetBodyPartState,
     selectedPresentedSymptomState,
+    showLoginConfirmState,
+    currentOptionsState,
 } from '../../../state/survey';
 import home from '../../../../public/assets/icon/ic_home.png';
 import before from '../../../../public/assets/icon/ic_before.png';
 import hospital from '../../../../public/assets/icon/ic_hospital.png';
 import {options} from '../../../../mock/SurveyMock';
 import ShareButton from '../../../components/Share/ShareButton';
-import {IOption} from '../../../types/survey';
+import {IOption} from '../../../types/server/survey';
 import useToken from '../../../hooks/useToken';
 import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
 import {saveHealthSurvey} from '../../../api/survey';
 
 const Index = () => {
     const router = useRouter();
-    const { getTokenValue } = useToken();
+    const {getTokenValue} = useToken();
     const accessToken = getTokenValue('zzgg_at');
     const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
-    const [showLoginConfirm, setShowLoginConfirm] = useState(false);
+    const [showLoginConfirm, setShowLoginConfirm] = useRecoilState(showLoginConfirmState);
     const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);
     const [selectedTargetBodyPart, setSelectedTargetBodyPart] = useRecoilState(selectedTargetBodyPartState);
     const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
-    const [currentOptions, setCurrentOptions] = useState<IOption[]>([]);
+    const [currentOptions, setCurrentOptions] = useRecoilState(currentOptionsState);
     const currentStage = parseInt(id as string, 10);
     
     useEffect(() => {
-        const { targetBodyPart, diagnosisPart, presentedSymptom } = router.query;
+        const {targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
         
         if (typeof targetBodyPart === 'string') {
             setSelectedBodyPart(targetBodyPart);
@@ -85,7 +87,7 @@ const Index = () => {
         }
     };
     
-    const splitTextIntoLines = (text:string) => {
+    const splitTextIntoLines = (text: string) => {
         let result = '';
         
         if (!text) return '';
@@ -121,7 +123,7 @@ const Index = () => {
         }
         return splitTextIntoLines(text as string);
     };
-
+    
     
     const goToNextPage = (selectedOption: IOption) => {
         const nextId = currentStage + 1;
@@ -153,7 +155,7 @@ const Index = () => {
         
         if (!accessToken && !forceRedirect) {
             console.error('No access token found');
-            localStorage.setItem("surveyOption", JSON.stringify(surveyOption));
+            localStorage.setItem('surveyOption', JSON.stringify(surveyOption));
             setShowLoginConfirm(true);
         } else {
             saveHealthSurvey(surveyOption);
@@ -171,9 +173,9 @@ const Index = () => {
     };
     
     const handleLoginConfirm = () => {
-        router.push('/Login')
+        router.push('/Login');
     };
-   
+    
     const handleCancelLogin = () => {
         choiceHospitalButton(currentOptions, true);
     };

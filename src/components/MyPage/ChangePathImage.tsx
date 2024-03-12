@@ -1,12 +1,13 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
 import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
-import defaultProfileImage from '../../../public/assets/myPage/Default.png';
+import { useRecoilState } from 'recoil';
+import {changeProfileImageSelectedFile, changeProfileImagePreviewUrl} from '../../state/mypage';
 
 const ChangeProfileImage: React.FC = () => {
-    const [selectedFile, setSelectedFile] = useState<File|null>(null);
-    const [previewUrl, setPreviewUrl] = useState<string>(defaultProfileImage.src);
+    const [selectedFile, setSelectedFile] = useRecoilState(changeProfileImageSelectedFile);
+    const [previewUrl, setPreviewUrl] = useRecoilState(changeProfileImagePreviewUrl);
     
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {

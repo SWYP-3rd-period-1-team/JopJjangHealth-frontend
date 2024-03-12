@@ -1,21 +1,3 @@
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 530px;
-    }
-}
-
-@keyframes blink-caret {
-    from, to {
-        border-color: transparent;
-    }
-    50% {
-        border-color: black;
-    }
-}
-
 .quizContainer {
     margin: 100px 0 20px 0;
     padding: 0;
@@ -58,42 +40,16 @@
     position: absolute;
     left: 50%;
     transform: translateX(-50%);
-}
-
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 42%;
-    }
-}
-
-@keyframes blink-caret {
-    from, to {
-        border-color: transparent;
-    }
-    50% {
-        border-color: black;
-    }
-}
-
-.question {
     margin-bottom: 20px;
     font-size: 24px;
     text-align: center;
-    border-right: 2px solid black;
     white-space: nowrap;
-    overflow: hidden;
-    width: 0;
-    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
 }
 
 .question_complete_title {
     margin-bottom: 20px;
     font-size: 24px;
     text-align: center;
-    overflow: hidden;
 }
 
 .options,.max_options {
@@ -104,8 +60,8 @@
 }
 
 .max_options {
-    max-width: 88vw;
-    margin-top: 84px;
+    max-width: 85vw;
+    margin:auto;
 }
 
 .option {
@@ -220,22 +176,10 @@
 }
 
 @media (max-width: 768px) {
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-        to {
-            width: max-content;
-        }
-    }
     .question {
         margin-bottom: 20px;
         text-align: center;
-        border-right: 2px solid black;
         white-space: nowrap;
-        overflow: hidden;
-        width: 0;
-        animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
     }
     .quizContainer, .question_complete, .options, .max_options {
         margin-left: auto;

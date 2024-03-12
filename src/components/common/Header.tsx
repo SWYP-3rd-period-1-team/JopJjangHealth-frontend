@@ -1,13 +1,13 @@
 import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
-import styles from '../styles/Header.module.css';
+import styles from '../../styles/Header.module.css';
 import {useRouter} from "next/router";
-import useToken from '../hooks/useToken';
+import useToken from '../../hooks/useToken';
 
 const Header: React.FC = () => {
 	const router = useRouter();
 	const { getTokenValue } = useToken();
-	const [loginTrue, setLoginTrue] = useState(false);
+	const [loginTrue, setLoginTrue] = useState<boolean>(false);
 	
 	useEffect(() => {
 		const checkLoginStatus = () => {

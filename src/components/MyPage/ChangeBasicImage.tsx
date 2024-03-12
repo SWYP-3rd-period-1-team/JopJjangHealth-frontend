@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
 import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
+import { useRecoilState } from 'recoil';
+import {changeBasicImageSelectedIndex} from '../../state/mypage';
 
 const imageSources = [
     '/assets/myPage/character_one.png',
@@ -11,7 +13,7 @@ const imageSources = [
 ];
 
 const ChangeBasicImage: React.FC = () => {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+    const [selectedIndex, setSelectedIndex] = useRecoilState(changeBasicImageSelectedIndex);
     
     const handleSelectImage = (index: number) => {
         setSelectedIndex(index);

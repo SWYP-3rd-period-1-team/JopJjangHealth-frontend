@@ -1,13 +1,8 @@
 import React from 'react';
 import styles from "../../styles/ShareButton.module.css";
+import {ShareModalProps} from '../../types/Layout';
 
-interface ModalProps {
-	show: boolean;
-	onClose: () => void;
-	children: React.ReactNode;
-}
-
-const Modal: React.FC<ModalProps> = ({ show, onClose, children }) => {
+const Modal: React.FC<ShareModalProps> = ({ show, onClose, children }) => {
 	if (!show) {
 		return null;
 	}

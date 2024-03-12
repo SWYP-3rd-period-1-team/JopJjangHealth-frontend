@@ -2,10 +2,7 @@ import React, { useEffect } from 'react';
 import Image from "next/image";
 import KakaoBtn from "../../../public/assets/share/ico-share-kakao.svg"
 import styles from "../../styles/ShareButton.module.css"
-
-interface KakaoShareButtonProps {
-	text: string;
-}
+import {KakaoShareButtonProps} from '../../types/Layout';
 
 declare global {
 	interface Window {

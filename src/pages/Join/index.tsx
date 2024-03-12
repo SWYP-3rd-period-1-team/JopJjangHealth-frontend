@@ -1,30 +1,25 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
 import {signUp, sendEmailVerification, verifyEmailCode} from '../../utils/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
 import styles from '../../styles/Join.module.css';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import {useRecoilState} from 'recoil';
 import {
     customDomainState,
     emailDomainState,
     emailUsernameState,
-    isAgreedState, isVerificationCompleteState,
+    isAgreedState,
+    isVerificationCompleteState,
     isVerificationSentState,
+    passwordVisibilityState
 } from '../../state/join';
 import {useRouter} from 'next/router';
 import eye from "../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
-
-interface FormData {
-    nickname: string;
-    userId: string;
-    password: string;
-    confirmPassword: string;
-    email: string;
-    emailVerificationCode: string;
-}
+import { JoinFormData } from '../../types/server/formData';
+import {errorMessageState} from '../../state';
 
 const emailDomains = ['gmail.com', 'naver.com', 'daum.net', 'nate.com', 'other'];
 
@@ -37,11 +32,13 @@ const Join = () => {
         setValue,
         getValues,
         formState: {errors, isValid},
-    } = useForm<FormData>({
+    } = useForm<JoinFormData>({
         mode: 'onChange',
     });
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [passwordType, setPasswordType] = useState('password');
+    
+    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
+    const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
+    
     const togglePasswordVisibility = () => {
         setPasswordType(passwordType === 'password' ? 'text' : 'password');
     };
@@ -58,7 +55,7 @@ const Join = () => {
         setValue('email', fullEmail);
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: JoinFormData) => {
         const response = await signUp(data.nickname, data.userId, data.email, data.password);
         if (response?.success) {
             alert(response?.data?.data?.message);

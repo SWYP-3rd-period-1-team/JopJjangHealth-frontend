@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 const SharePage: React.FC = () => {
 	const router = useRouter();
-	const [showModal, setShowModal] = useState(false);
+	const [showModal, setShowModal] = useState<boolean>(false);
 	
 	const openModal = () => setShowModal(true);
 	const closeModal = () => setShowModal(false);

@@ -1,6 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import styles from '../../styles/MyPage.module.css';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import Link from 'next/link';
 import LogoutModal from '../../components/MyPage/Logout';
 import {checkUserAuthentication, logout} from '../../utils/auth';
@@ -8,31 +8,22 @@ import useToken from '../../hooks/useToken';
 import axiosInstance from '../../api/axiosInstance';
 import useAuth from '../../hooks/useAuth';
 import {GetServerSideProps} from 'next';
-import defaultImg from "../../../public/assets/myPage/Default.png";
-import Image, {StaticImageData} from 'next/image';
+import defaultImg from '../../../public/assets/myPage/Default.png';
+import Image from 'next/image';
 import {useRouter} from 'next/router';
 import LoadingView from '../../components/common/LoadingView';
+import {useRecoilState} from 'recoil';
+import {showLogoutModalState, isLoadingState, userInfoState} from '../../state/mypage';
 
-interface UserInfo {
-    profileImage: StaticImageData | string;
-    nickname: string;
-    userId: string;
-    email: string;
-}
 
 const MyPage = () => {
     useAuth();
-    const { getTokenValue, logoutDeleteToken } = useToken();
+    const {getTokenValue, logoutDeleteToken} = useToken();
     const router = useRouter();
     const refreshToken = getTokenValue('zzgg_rt');
-    const [showLogoutModal, setShowLogoutModal] = useState(false);
-    const [isLoading, setIsLoading] = useState(true);
-    const [userInfo, setUserInfo] = useState<UserInfo>({
-        profileImage: defaultImg,
-        nickname: '',
-        userId: '',
-        email: '',
-    });
+    const [showLogoutModal, setShowLogoutModal] = useRecoilState(showLogoutModalState);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     
     useEffect(() => {
         const fetchUserInfo = async () => {
@@ -69,7 +60,7 @@ const MyPage = () => {
     return (
         <Layout>
             {isLoading ?
-                <LoadingView/> :
+                <LoadingView /> :
                 <>
                     <div className={styles.myPageContainer}>
                         <div className={styles.profileContainer}>
@@ -81,7 +72,7 @@ const MyPage = () => {
                                         alt={'User Profile'}
                                         width={'150px'}
                                         height={'150px'}
-                                        objectFit={"scale-down"}
+                                        objectFit={'scale-down'}
                                     />
                                 </div>
                                 <div className={styles.profileText}>

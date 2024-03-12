@@ -1,4 +1,5 @@
 import { atom } from 'recoil';
+import {IOption} from '../types/server/survey';
 export const selectedBodyPartState = atom({
 	key: 'selectedBodyPartState',
 	default: "",
@@ -12,4 +13,14 @@ export const selectedTargetBodyPartState = atom({
 export const selectedPresentedSymptomState = atom({
 	key: 'selectedPresentedSymptomState',
 	default: "",
+});
+
+export const showLoginConfirmState = atom({
+	key: 'showLoginConfirmState',
+	default: false,
+});
+
+export const currentOptionsState = atom<IOption[]>({
+	key: 'currentOptionsState',
+	default: [],
 });
