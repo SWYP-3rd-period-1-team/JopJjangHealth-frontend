@@ -3,21 +3,17 @@ import { useForm } from 'react-hook-form';
 import {findPassword} from '../../api/find';
 import styles from '../../styles/Find.module.css';
 import {useRouter} from 'next/router';
-
-interface FormData {
-    email: string;
-    userId:string;
-}
+import {PasswordFormData} from '../../types/server/formData';
 
 const FindPassword: React.FC = () => {
     const {
         register,
         handleSubmit,
         formState: { errors },
-    } = useForm<FormData>();
+    } = useForm<PasswordFormData>();
     const router = useRouter();
     
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: PasswordFormData) => {
         const response = await findPassword(data.userId, data.email);
         if (response.success) {
             router.push({

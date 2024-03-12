@@ -8,7 +8,7 @@ import useAuth from '../../../hooks/useAuth';
 
 const TabComponent:React.FC = () => {
     useAuth();
-    const [activeTab, setActiveTab] = useState('');
+    const [activeTab, setActiveTab] = useState<string>('');
 
     useEffect(() => {
         if (typeof window !== 'undefined') {

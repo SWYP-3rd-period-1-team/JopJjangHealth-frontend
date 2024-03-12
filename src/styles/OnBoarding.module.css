@@ -4,24 +4,6 @@
     transform: translateX(-50%);
 }
 
-@keyframes typing {
-    from {
-        width: 0;
-    }
-    to {
-        width: 530px;
-    }
-}
-
-@keyframes blink-caret {
-    from, to {
-        border-color: transparent;
-    }
-    50% {
-        border-color: black;
-    }
-}
-
 .content_basic {
     top: 5%;
     color: #000;
@@ -82,7 +64,7 @@
         width: 0;
     }
     to {
-        width: 42%;
+        width: 500px;
     }
 }
 

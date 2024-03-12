@@ -1,6 +1,6 @@
 // todo : 질병 캘린더 자동 부분 잠시 주석 : 사유 (아직 진행 안함)
 import React, {useEffect, useState} from 'react';
-import Layout from '../../../components/Layout';
+import Layout from '../../../components/common/Layout';
 import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
 // import Image from 'next/image';
@@ -10,18 +10,15 @@ import {checkUserAuthentication} from '../../../utils/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 import LoadingView from '../../../components/common/LoadingView';
-
-interface DiseaseItem {
-    surveyId: string;
-    nickname: string;
-    dateTime: string;
-    department: string;
-    targetBody: string;
-    diagnosisPart: string;
-    presentedSymptom: string;
-    disease: string;
-    isLinked: boolean; // todo : 캘린더 연동?
-}
+import { useRecoilState } from 'recoil';
+import {
+    selectedDiseasesState,
+    isSelectionModeState,
+    activeDiseaseIdState,
+    isLoadingState,
+    diseaseListState
+} from '../../../state/surveyList';
+import {DiseaseItem} from '../../../types/server/surveyList';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -37,12 +34,12 @@ interface DiseaseItem {
 
 const SurveyList = () => {
     useAuth();
-    const [diseaseList, setDiseaseList] = useState<DiseaseItem[]>([]);
-    const [selectedDiseases, setSelectedDiseases] = useState<string[]>([]);
-    const [isSelectionMode, setIsSelectionMode] = useState(false);
-    const [showPopup, setShowPopup] = useState(false);
-    const [activeDiseaseId, setActiveDiseaseId] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState(true);
+    const [diseaseList, setDiseaseList] = useRecoilState(diseaseListState);
+    const [selectedDiseases, setSelectedDiseases] = useRecoilState(selectedDiseasesState);
+    const [isSelectionMode, setIsSelectionMode] = useRecoilState(isSelectionModeState);
+    const [activeDiseaseId, setActiveDiseaseId] = useRecoilState(activeDiseaseIdState);
+    const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
+    // const [showPopup, setShowPopup] = useState(false);
     
     useEffect(() => {
         const initFetch = async () => {
@@ -79,29 +76,29 @@ const SurveyList = () => {
         setIsSelectionMode(false);
     };
     
-    const toggleCalendarLink = (diseaseId: string) => {
-        setDiseaseList(diseaseList.map(disease => disease?.surveyId === diseaseId ? {
-            ...disease,
-            isLinked: !disease.isLinked,
-        } : disease));
-        const disease = diseaseList.find(disease => disease?.surveyId === diseaseId);
-        if (disease && !disease.isLinked) {
-            setActiveDiseaseId(diseaseId);
-            setShowPopup(true);
-        }
-    };
+    // const toggleCalendarLink = (diseaseId: string) => {
+    //     setDiseaseList(diseaseList.map(disease => disease?.surveyId === diseaseId ? {
+    //         ...disease,
+    //         isLinked: !disease.isLinked,
+    //     } : disease));
+    //     const disease = diseaseList.find(disease => disease?.surveyId === diseaseId);
+    //     if (disease && !disease.isLinked) {
+    //         setActiveDiseaseId(diseaseId);
+    //         setShowPopup(true);
+    //     }
+    // };
     
     const handleCheckboxChange = (diseaseId: string) => {
         setSelectedDiseases(prevSelected => prevSelected.includes(diseaseId) ? prevSelected.filter(id => id !== diseaseId) : [...prevSelected, diseaseId]);
     };
     
-    const closePopup = () => {
-        setShowPopup(false);
-        setActiveDiseaseId(null);
-    };
+    // const closePopup = () => {
+    //     setShowPopup(false);
+    //     setActiveDiseaseId(null);
+    // };
     
     const handleItemClick = (diseaseId: string) => {
-        toggleCalendarLink(diseaseId);
+        // toggleCalendarLink(diseaseId);
         setActiveDiseaseId(diseaseId);
     };
     

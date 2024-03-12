@@ -1,6 +1,6 @@
 import React, {useState, useEffect} from 'react';
 import styles from '../../../styles/UserProfile.module.css';
-import Layout from '../../../components/Layout';
+import Layout from '../../../components/common/Layout';
 import {validateNickname} from '../../../utils/validation';
 import {useRouter} from 'next/router';
 import {changeUserNickname, deleteUserProfileImage, fetchUserInfo} from '../../../api/mypage';
@@ -10,24 +10,25 @@ import useAuth from '../../../hooks/useAuth';
 import defaultImg from '../../../../public/assets/myPage/Default.png';
 import Image from 'next/image';
 import cancel from "../../../../public/assets/icon/ic_cancel.png";
+import { useRecoilState } from 'recoil';
+import {
+    userInfoState,
+    newNicknameState,
+    errorMessageState,
+    nicknameValidationPassedState,
+    nicknameChangeRequestedState
+} from '../../../state/mypage';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
 const UserProfile = () => {
     useAuth();
     const router = useRouter();
-    const [userInfo, setUserInfo] = useState(
-        {
-            profileImage: '',
-            nickname: '',
-            userId: '',
-            email: '',
-        },
-    );
-    const [newNickname, setNewNickname] = useState('');
-    const [errorMessage, setErrorMessage] = useState<string>('');
-    const [nicknameValidationPassed, setNicknameValidationPassed] = useState(true);
-    const [nicknameChangeRequested, setNicknameChangeRequested] = useState(true);
+    const [userInfo, setUserInfo] = useRecoilState(userInfoState);
+    const [newNickname, setNewNickname] = useRecoilState(newNicknameState);
+    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
+    const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
+    const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
     
     useEffect(() => {
         const loadUserInfo = async () => {

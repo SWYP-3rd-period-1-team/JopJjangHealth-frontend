@@ -1,22 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from 'react-hook-form';
 import {findId} from '../../api/find';
 import styles from '../../styles/Find.module.css';
 import {useRouter} from 'next/router';
+import {FindFormData} from '../../types/server/formData';
 
-interface FormData {
-    email: string;
-}
-
-const FindId: () => JSX.Element = () => {
+const FindId:React.FC = () => {
     const {
         register,
         handleSubmit,
         formState: {errors},
-    } = useForm<FormData>();
+    } = useForm<FindFormData>();
     const router = useRouter();
     
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: FindFormData) => {
         const response = await findId(data.email);
         if (response.success) {
             router.push({

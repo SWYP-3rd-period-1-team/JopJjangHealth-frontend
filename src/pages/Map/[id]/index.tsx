@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useRouter} from 'next/router';
-import Layout from '../../../components/Layout';
+import Layout from '../../../components/common/Layout';
 import styled from 'styled-components';
 import {useEffect, useState} from 'react';
 import InfoTitleView from './Child/InfoTitleView';

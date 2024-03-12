@@ -1,10 +1,5 @@
 import axiosInstance from './axiosInstance';
-
-interface APIResponse<T = any> {
-    success: boolean;
-    message?: string;
-    data?: T;
-}
+import {APIResponse} from '../types';
 
 export async function findPassword(userId: string, email: string): Promise<APIResponse> {
     try {

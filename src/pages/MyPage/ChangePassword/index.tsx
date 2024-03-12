@@ -1,23 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from 'react-hook-form';
 import {checkUserAuthentication } from '../../../utils/auth';
 import {sendEmailVerificationForMyPage } from "../../../api/mypage";
 import {validatePassword, validateEmail} from '../../../utils/validation';
-
 import styles from '../../../styles/ChangePassword.module.css';
-import Layout from '../../../components/Layout';
+import Layout from '../../../components/common/Layout';
 import {ChangePassword} from '../../../api/mypage';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 import eye from "../../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
-
-interface FormData {
-    password: string;
-    confirmPassword: string;
-    email: string;
-}
+import {ChangePasswordFormData} from '../../../types/server/formData';
+import { useRecoilState } from 'recoil';
+import { isVerificationSentState, passwordTypeState } from '../../../state/mypage';
 
 const Index: React.FC = () => {
     useAuth();
@@ -28,17 +24,18 @@ const Index: React.FC = () => {
         getValues,
         watch,
         formState: {errors, isValid}
-    } = useForm<FormData>({
+    } = useForm<ChangePasswordFormData>({
         mode: 'onChange',
     });
     
-    const [isVerificationSent, setIsVerificationSent] = useState(false);
-    const [passwordType, setPasswordType] = useState('password');
+    const [isVerificationSent, setIsVerificationSent] = useRecoilState(isVerificationSentState);
+    const [passwordType, setPasswordType] = useRecoilState(passwordTypeState);
+    
     const togglePasswordVisibility = () => {
         setPasswordType(passwordType === 'password' ? 'text' : 'password');
     };
     
-    const onSubmit = async (data: FormData) => {
+    const onSubmit = async (data: ChangePasswordFormData) => {
         if (!isVerificationSent) {
             alert('이메일 인증을 완료해주세요.');
             return;
