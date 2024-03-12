@@ -154,7 +154,6 @@ const Index = () => {
         };
         
         if (!accessToken && !forceRedirect) {
-            console.error('No access token found');
             localStorage.setItem('surveyOption', JSON.stringify(surveyOption));
             setShowLoginConfirm(true);
         } else {

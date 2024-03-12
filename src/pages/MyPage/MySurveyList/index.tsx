@@ -15,10 +15,10 @@ import {
     selectedDiseasesState,
     isSelectionModeState,
     activeDiseaseIdState,
-    isLoadingState,
     diseaseListState
 } from '../../../state/surveyList';
-import {DiseaseItem} from '../../../types/server/surveyList';
+import {DeleteDiseaseResponse, DiseaseItem, DiseaseListResponse, SurveyIdType} from '../../../types/server/surveyList';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -34,46 +34,46 @@ import {DiseaseItem} from '../../../types/server/surveyList';
 
 const SurveyList = () => {
     useAuth();
+    const queryClient = useQueryClient();
     const [diseaseList, setDiseaseList] = useRecoilState(diseaseListState);
     const [selectedDiseases, setSelectedDiseases] = useRecoilState(selectedDiseasesState);
     const [isSelectionMode, setIsSelectionMode] = useRecoilState(isSelectionModeState);
     const [activeDiseaseId, setActiveDiseaseId] = useRecoilState(activeDiseaseIdState);
-    const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
     // const [showPopup, setShowPopup] = useState(false);
     
+    // @ts-ignore
+    const { data: queriedDiseaseList, isLoading, isError, error } = useQuery<DiseaseListResponse, Error>({
+        queryKey: ['diseaseList'],
+        queryFn: fetchDiseaseList,
+        select: (response): DiseaseItem[] => response.data.data.map(item => ({
+            ...item,
+            dateTime: item.dateTime.split('T')[0],
+        })),
+    });
+    
     useEffect(() => {
-        const initFetch = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetchDiseaseList();
-                const modifiedData = response.data.data.map((item: DiseaseItem) => {
-                    const modifiedDateTime = item.dateTime.split('T')[0];
-                    return {...item, dateTime: modifiedDateTime};
-                });
-                setDiseaseList(modifiedData);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        initFetch();
-    }, []);
+        if (queriedDiseaseList) {
+            // @ts-ignore
+            setDiseaseList(queriedDiseaseList);
+        }
+    }, [queriedDiseaseList, setDiseaseList]);
+    
+    const deleteDiseaseMutation = useMutation<DeleteDiseaseResponse, Error, SurveyIdType>({
+        mutationFn: fetchDiseaseListDelete,
+        onSuccess: () => {
+            // @ts-ignore
+            queryClient.invalidateQueries(['diseaseList']);
+            setSelectedDiseases([]);
+            setIsSelectionMode(false);
+        },
+    });
     
     const handleListClick = () => {
         setIsSelectionMode(!isSelectionMode);
     };
     
     const handleDeleteSelected = async () => {
-        
-        await Promise.all(
-            selectedDiseases.map(surveyId =>
-                fetchDiseaseListDelete(Number(surveyId)),
-            ),
-        );
-        setDiseaseList(diseaseList.filter(disease =>
-            !selectedDiseases.includes(disease?.surveyId),
-        ));
-        setSelectedDiseases([]);
-        setIsSelectionMode(false);
+        await Promise.all(selectedDiseases.map((surveyId) => deleteDiseaseMutation.mutateAsync(Number(surveyId))));
     };
     
     // const toggleCalendarLink = (diseaseId: string) => {
@@ -92,15 +92,15 @@ const SurveyList = () => {
         setSelectedDiseases(prevSelected => prevSelected.includes(diseaseId) ? prevSelected.filter(id => id !== diseaseId) : [...prevSelected, diseaseId]);
     };
     
-    // const closePopup = () => {
-    //     setShowPopup(false);
-    //     setActiveDiseaseId(null);
-    // };
-    
     const handleItemClick = (diseaseId: string) => {
         // toggleCalendarLink(diseaseId);
         setActiveDiseaseId(diseaseId);
     };
+    
+    // const closePopup = () => {
+    //     setShowPopup(false);
+    //     setActiveDiseaseId(null);
+    // };
     
     // useEffect(() => {
     //     if (showPopup) {
@@ -111,6 +111,10 @@ const SurveyList = () => {
     //         return () => clearTimeout(timer);
     //     }
     // }, [showPopup]);
+    
+    
+    if (isLoading) return <LoadingView />;
+    if (isError) return <div>에러가 발생했습니다: {error?.message}</div>;
     
     return (
         <Layout>
@@ -167,11 +171,13 @@ const SurveyList = () => {
                                         </div>
                                     </div>
                                 ))}
-                                {isSelectionMode && (
-                                    <button className={styles.chice_delete} onClick={handleDeleteSelected}>
-                                        선택한 질병 리스트 삭제
-                                    </button>
-                                )}
+                                {
+                                    isSelectionMode && (
+                                        <button className={styles.chice_delete} onClick={handleDeleteSelected}>
+                                            선택한 질병 리스트 삭제
+                                        </button>
+                                    )
+                                }
                             </div>
                             {/*{showPopup && <CalendarPopup onClose={closePopup} />}*/}
                         </>

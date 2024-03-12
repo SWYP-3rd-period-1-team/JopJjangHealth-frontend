@@ -5,16 +5,16 @@ import Link from 'next/link';
 import LogoutModal from '../../components/MyPage/Logout';
 import {checkUserAuthentication, logout} from '../../utils/auth';
 import useToken from '../../hooks/useToken';
-import axiosInstance from '../../api/axiosInstance';
 import useAuth from '../../hooks/useAuth';
-import {GetServerSideProps} from 'next';
-import defaultImg from '../../../public/assets/myPage/Default.png';
 import Image from 'next/image';
 import {useRouter} from 'next/router';
 import LoadingView from '../../components/common/LoadingView';
 import {useRecoilState} from 'recoil';
-import {showLogoutModalState, isLoadingState, userInfoState} from '../../state/mypage';
-
+import {showLogoutModalState, userInfoState} from '../../state/mypage';
+import {GetServerSideProps} from 'next';
+import {fetchUserInfo} from '../../api/mypage';
+import { useQuery } from '@tanstack/react-query';
+import defaultImg from '../../../public/assets/myPage/Default.png';
 
 const MyPage = () => {
     useAuth();
@@ -22,24 +22,18 @@ const MyPage = () => {
     const router = useRouter();
     const refreshToken = getTokenValue('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useRecoilState(showLogoutModalState);
-    const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     
-    useEffect(() => {
-        const fetchUserInfo = async () => {
-            setIsLoading(true);
-            try {
-                const response = await axiosInstance.get('/api/members/my-page');
-                setUserInfo(response.data.data);
-            } catch (error) {
-                console.error('사용자 정보 가져오기 실패:', error);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        fetchUserInfo();
-    }, []);
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['userInfo'],
+        queryFn: fetchUserInfo
+    });
     
+    useEffect(() => {
+        if (data) {
+            setUserInfo(data.data);
+        }
+    }, [data]);
     
     const onLogout = async () => {
         if (refreshToken) {
@@ -53,9 +47,10 @@ const MyPage = () => {
         }
     };
     
-    const handleLogoutSectionClick = () => {
-        setShowLogoutModal(true);
-    };
+    const handleLogoutSectionClick = () => setShowLogoutModal(true);
+    
+    if (isLoading) return <LoadingView />;
+    if (error) return <div>에러가 발생했습니다: {error.message}</div>;
     
     return (
         <Layout>
@@ -113,6 +108,6 @@ const MyPage = () => {
 
 export default MyPage;
 
-export const getServerSideProps: GetServerSideProps = async (context) => {
+export const getServerSideProps:GetServerSideProps  = async (context) => {
     return checkUserAuthentication(context);
 };

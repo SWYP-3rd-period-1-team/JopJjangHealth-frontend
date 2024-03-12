@@ -73,11 +73,11 @@ const Like = () => {
                                     distance: `${distanceKm} km`,
                                 });
                             } else {
-                                reject(new Error(`Failed to load hospital details for ${hospital.googleMapId}`));
+                                reject(new Error(`${hospital.googleMapId}의 구글맵 ID에 에러 발생하였습니다.`));
                             }
                         });
                     } else {
-                        reject(new Error('No Google Map ID provided'));
+                        reject(new Error('구글 맵 ID가 제공되지 않았습니다.'));
                     }
                 }));
                 
@@ -87,8 +87,8 @@ const Like = () => {
                         setHospitalInfo(successfulDetails);
                         setIsHospitalDetailsLoaded(true);
                     })
-                    .catch(error => {
-                        console.error('Error loading hospital details:', error);
+                    .catch(() => {
+                        alert("병원 상세 정보를 가져올 수 없습니다.")
                     })
                     .finally(() => {
                         setIsLoading(false);

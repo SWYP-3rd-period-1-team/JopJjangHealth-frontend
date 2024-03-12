@@ -55,7 +55,6 @@ export const uploadProfileImage = async (file: File) => {
     return response.data;
 };
 
-// 프로필 이미지를 삭제합니다.
 export const deleteUserProfileImage = async () => {
     return axiosInstance.delete('/api/profile/delete', {
         headers: {
@@ -67,7 +66,7 @@ export const deleteUserProfileImage = async () => {
 export const fetchUserInfo = async () => {
     try {
         const response = await axiosInstance.get('/api/members/my-page');
-        return {success: true, data: response.data};
+        return {success: true, data: response.data.data};
     } catch (error) {
         return {success: false, message: '회원정보 호출 중 에러가 발생했습니다'};
     }

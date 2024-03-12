@@ -41,7 +41,6 @@ const ChangeBasicImage: React.FC = () => {
             window.close();
         } catch (error) {
             alert('이미지 업로드에 실패했습니다.');
-            console.error('Upload Error:', error);
         }
     };
     
