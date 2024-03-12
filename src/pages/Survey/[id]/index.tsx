@@ -190,7 +190,8 @@ const Index = () => {
                 <div className={currentStage < 4 ? styles.question : styles.question_complete_title}>
                     <SurveyAskText />
                 </div>
-                <div className={currentOptions.length > 10 ? styles.max_options : styles.options}>
+                <div style={{ marginTop: currentStage === 4 ? '64px' : '122px' }}
+                     className={currentOptions.length > 10 ? styles.max_options : styles.options}>
                     {currentOptions.map(option => {
                         const imageSrc = option.image;
                         const optionText = SurveyAnswerText(currentStage, option);
@@ -200,7 +201,7 @@ const Index = () => {
                         
                         if (imageSrc && optionText) {
                             return (
-                                <div key={option.id} style={{marginLeft: '35px'}}
+                                <div key={option.id} style={{marginLeft: '30px'}}
                                      onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
                                     <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
                                            height={150} />

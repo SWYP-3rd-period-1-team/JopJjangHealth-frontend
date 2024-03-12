@@ -22,7 +22,6 @@ const useToken = () => {
         document.cookie = 'zzgg_at=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         document.cookie = 'zzgg_rt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         queryClient.clear();
-        // router.push('/');
     };
     
     const getTokenValue = (tokenName: string) => {
