@@ -48,7 +48,7 @@ export const verifyEmailCode = async (email: string, code: string) => {
 };
 
 
-export const logout = async (refreshToken: string | undefined) => {
+export const logout = async (refreshToken: string | undefined): Promise<any> => {
     try {
         const response = await axiosInstance.patch(`/api/members/logout`, {}, {
             headers: {
@@ -75,3 +75,4 @@ export const checkUserAuthentication: GetServerSideProps = async (context: GetSe
     
     return {props: {}};
 };
+;

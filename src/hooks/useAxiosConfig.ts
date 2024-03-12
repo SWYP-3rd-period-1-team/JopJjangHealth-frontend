@@ -1,8 +1,7 @@
 // import {useRecoilState, useSetRecoilState} from 'recoil';
-import axios, {AxiosInstance} from 'axios';
+import {AxiosInstance} from 'axios';
 import useSaveLocalContent from './useSaveLocalContent';
 import useToken from './useToken';
-import axiosInstance from '../api/axiosInstance';
 
 const useAxiosConfig = () => {
     const {setEncryptedCookie, getDecryptedCookie} = useSaveLocalContent();
@@ -60,15 +59,18 @@ const useAxiosConfig = () => {
             config.headers['Content-Type'] = Content_Type ?? 'application/json';
             
             const accessToken = getDecryptedCookie('zzgg_at');
+            const refreshToken = getDecryptedCookie('zzgg_rt');
             
             if (
                 !config.headers.Authorization &&
                 accessToken != null &&
                 config.url != REFRESH_URL &&
-                config.url != LOGOUT_URL &&
+                // config.url != LOGOUT_URL &&
                 config.url != '/login'
             ) {
                 config.headers.Authorization = `${accessToken}`;
+            } else if (config.url === LOGOUT_URL){
+                config.headers.Authorization = `${refreshToken}`;
             }
             return config;
         });
@@ -86,6 +88,11 @@ const useAxiosConfig = () => {
                 
                 const errorStatus = response.status ?? error.status ?? 0;
                 const url = originalRequest.url as string;
+                
+                if(url.includes(LOGOUT_URL)) {
+                    const refreshtoken = await getRefreshToken();
+                    config.headers.Authorization = `${refreshtoken}`;
+                }
                 
                 if (
                     (errorStatus === 401 ||
@@ -115,11 +122,6 @@ const useAxiosConfig = () => {
                 } else {
                     // if (error?.response?.data) alert(error.response.data);
                 }
-                if (url.includes(LOGOUT_URL)) {
-                    logoutDeleteToken();
-                    window.location.href = '/Home';
-                }
-                
                 return Promise.reject(error);
             },
         );

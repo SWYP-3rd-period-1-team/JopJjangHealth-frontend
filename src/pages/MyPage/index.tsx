@@ -22,7 +22,8 @@ interface UserInfo {
 
 const MyPage = () => {
     useAuth();
-    const { getTokenValue } = useToken();
+    const { getTokenValue, logoutDeleteToken } = useToken();
+    const router = useRouter();
     const refreshToken = getTokenValue('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useState(false);
     const [isLoading, setIsLoading] = useState(true);
@@ -50,8 +51,15 @@ const MyPage = () => {
     
     
     const onLogout = async () => {
-        localStorage.clear();
-        await logout(refreshToken);
+        if (refreshToken) {
+            const response = await logout(refreshToken);
+            if (response?.data?.blacklist?.length !== 0) {
+                logoutDeleteToken();
+                await router.push('/Home');
+            } else {
+                alert(response?.data?.message);
+            }
+        }
     };
     
     const handleLogoutSectionClick = () => {
