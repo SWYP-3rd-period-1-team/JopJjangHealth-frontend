@@ -2,6 +2,7 @@ import qs from 'qs';
 import axiosInstance from './axiosInstance';
 import {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import {loginUrl, logoutUrl, sendEmailVerificationUrl, signUpUrl, verifyEmailCodeUrl} from './Urls';
+import axios from 'axios';
 
 export const signUp = async (nickname: string, userId: string, email: string, password: string) => {
     try {
@@ -51,7 +52,7 @@ export const verifyEmailCode = async (email: string, code: string) => {
 
 export const logout = async (refreshToken: string | undefined): Promise<any> => {
     try {
-        const response = await axiosInstance.patch(logoutUrl, {}, {
+        const response = await axios.patch(logoutUrl, {}, {
             headers: {
                 'RefreshToken': `Bearer ${refreshToken}`,
             },

@@ -39,14 +39,14 @@ const UserProfile = () => {
     };
     
     const { data, isLoading, error } = useQuery({
-        queryKey: ['userInfo'],
+        queryKey: ['user_info'],
         queryFn: fetchUserInfo,
     });
     
     useEffect(() => {
         if (data) {
-            setUserInfo(data.data);
-            setNewNickname(data.data.nickname);
+            setUserInfo(data.data.data);
+            setNewNickname(data.data.data.nickname);
         }
     }, [data]);
     
@@ -54,7 +54,7 @@ const UserProfile = () => {
         mutationFn: (nickname:string) => changeUserNickname( nickname ),
         onSuccess: () => {
             // @ts-ignore
-            queryClient.invalidateQueries(['userInfo']);
+            queryClient.invalidateQueries(['user_info']);
             setNicknameChangeRequested(true);
         },
         onError: (error) => {
@@ -92,7 +92,7 @@ const UserProfile = () => {
         onSuccess: () => {
             alert("프로필 이미지가 성공적으로 삭제되었습니다.");
             // @ts-ignore
-            queryClient.invalidateQueries(['userInfo']);
+            queryClient.invalidateQueries(['user_info']);
         },
         onError: () => {
             alert("프로필 이미지 삭제 중 오류가 발생했습니다.");
@@ -106,11 +106,12 @@ const UserProfile = () => {
     const refreshUserInfo = async () => {
         const userInfo = await fetchUserInfo();
         if (userInfo) {
+            console.log(userInfo,"userInfo:")
             setUserInfo({
-                profileImage: userInfo.data.profileImage || defaultImg,
-                nickname: userInfo.data.nickname || '',
-                userId: userInfo.data.userId || '',
-                email: userInfo.data.email || '',
+                profileImage: userInfo.data.data.profileImage || defaultImg,
+                nickname: userInfo.data.data.nickname || '',
+                userId: userInfo.data.data.userId || '',
+                email: userInfo.data.data.email || '',
             });
         }
     };

@@ -25,13 +25,13 @@ const MyPage = () => {
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     
     const {data, isLoading, error} = useQuery({
-        queryKey: ['userInfo'],
+        queryKey: ['user_info'],
         queryFn: fetchUserInfo,
     });
     
     useEffect(() => {
         if (data) {
-            setUserInfo(data.data);
+            setUserInfo(data.data.data);
         }
     }, [data]);
     
@@ -39,8 +39,9 @@ const MyPage = () => {
         if (refreshToken) {
             const response = await logout(refreshToken);
             if (response?.data?.blacklist?.length !== 0) {
-                logoutDeleteToken();
-                await router.push('/Home');
+                // todo : 로그아웃
+                // logoutDeleteToken();
+                // await router.push('/Home');
             } else {
                 alert(response?.data?.message);
             }
