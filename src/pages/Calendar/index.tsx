@@ -15,6 +15,12 @@ import {
     Param_Update_Calendar_Water,
 } from '../../types/server/calendar';
 import {useMutation} from '@tanstack/react-query';
+import {
+    deleteCalendarSchedule,
+    deleteCalendarSleep,
+    deleteCalendarSupplement,
+    deleteCalendarWater,
+} from '../../api/calendar';
 
 type CalendarProps = {
     year: number;
@@ -119,13 +125,37 @@ const Calendar: React.FC<CalendarProps> = () => {
         });
     };
 
-    // const {mutate: deleteWater} = useMutation({
-    //     mutationFn: updateCalendarWater,
-    //     onSuccess: () => {
-    //         alert(`제출되었습니다:`);
-    //         calendarRefetch();
-    //     },
-    // });
+    const {mutate: deleteSupplement} = useMutation({
+        mutationFn: deleteCalendarSupplement,
+        onSuccess: () => {
+            alert(`삭제되었습니다:`);
+            calendarRefetch();
+        },
+    });
+
+    const {mutate: deleteWater} = useMutation({
+        mutationFn: deleteCalendarWater,
+        onSuccess: () => {
+            alert(`삭제되었습니다:`);
+            calendarRefetch();
+        },
+    });
+
+    const {mutate: deleteSleep} = useMutation({
+        mutationFn: deleteCalendarSleep,
+        onSuccess: () => {
+            alert(`삭제되었습니다:`);
+            calendarRefetch();
+        },
+    });
+
+    const {mutate: deleteSchedule} = useMutation({
+        mutationFn: deleteCalendarSchedule,
+        onSuccess: () => {
+            alert(`삭제되었습니다:`);
+            calendarRefetch();
+        },
+    });
 
     const handleNextMonth = () => {
         setCurrentDate(prev => {
@@ -316,7 +346,14 @@ const Calendar: React.FC<CalendarProps> = () => {
                                                         })
                                                     }
                                                 >{`[수정]`}</button>
-                                                <button>{`[삭제]`}</button>
+                                                <button
+                                                    onClick={() =>
+                                                        deleteSupplement({
+                                                            supplementID:
+                                                                item.supplementId,
+                                                        })
+                                                    }
+                                                >{`[삭제]`}</button>
                                                 <div
                                                     style={{
                                                         display: 'flex',
@@ -410,7 +447,17 @@ const Calendar: React.FC<CalendarProps> = () => {
                                                         });
                                                 }}
                                             >{`[수정]`}</button>
-                                            <button>{`[삭제]`}</button>
+                                            <button
+                                                onClick={() =>
+                                                    deleteWater({
+                                                        waterIntakeId:
+                                                            calendarInfo
+                                                                .waterIntakeInfo
+                                                                ?.waterIntakeId ??
+                                                            -1,
+                                                    })
+                                                }
+                                            >{`[삭제]`}</button>
                                         </>
                                     )}
                                 </div>
@@ -470,7 +517,17 @@ const Calendar: React.FC<CalendarProps> = () => {
                                                         });
                                                 }}
                                             >{`[수정]`}</button>
-                                            <button>{`[삭제]`}</button>
+                                            <button
+                                                onClick={() =>
+                                                    deleteSleep({
+                                                        sleepScheduleId:
+                                                            calendarInfo
+                                                                .sleepScheduleInfo
+                                                                ?.sleepScheduleId ??
+                                                            -1,
+                                                    })
+                                                }
+                                            >{`[삭제]`}</button>
                                         </>
                                     )}
                                 </div>
@@ -520,7 +577,14 @@ const Calendar: React.FC<CalendarProps> = () => {
                                                         })
                                                     }
                                                 >{`[수정]`}</button>
-                                                <button>{`[삭제]`}</button>
+                                                <button
+                                                    onClick={() =>
+                                                        deleteSchedule({
+                                                            scheduleId:
+                                                                item.scheduleId,
+                                                        })
+                                                    }
+                                                >{`[삭제]`}</button>
                                                 <div
                                                     style={{
                                                         display: 'flex',
