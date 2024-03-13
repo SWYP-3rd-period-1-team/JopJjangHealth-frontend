@@ -21,6 +21,7 @@ import {
     deleteCalendarSupplement,
     deleteCalendarWater,
 } from '../../api/calendar';
+import UpdateDeleteButton from './Child/UpdateDeleteButton';
 
 type CalendarProps = {
     year: number;
@@ -331,45 +332,30 @@ const Calendar: React.FC<CalendarProps> = () => {
                                         ))}
 
                                         {isVisible && (
-                                            <>
-                                                <button
-                                                    onClick={() =>
-                                                        onClickSupplement({
-                                                            supplementId:
-                                                                item.supplementId,
-                                                            supplementName:
-                                                                item.supplementName,
-                                                            supplementFrequency:
-                                                                item.supplementFrequency,
-                                                            supplementNumber:
-                                                                item.supplementNumber,
-                                                        })
-                                                    }
-                                                >{`[수정]`}</button>
-                                                <button
-                                                    onClick={() =>
-                                                        deleteSupplement({
-                                                            supplementID:
-                                                                item.supplementId,
-                                                        })
-                                                    }
-                                                >{`[삭제]`}</button>
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        justifyContent:
-                                                            'flex-end',
-                                                        flex: 1,
-                                                    }}
-                                                    onClick={() =>
-                                                        onClickSupplement()
-                                                    }
-                                                >
-                                                    <div>
-                                                        {'+ 영양제 추가하기'}
-                                                    </div>
-                                                </div>
-                                            </>
+                                            <UpdateDeleteButton
+                                                onUpdate={() =>
+                                                    onClickSupplement({
+                                                        supplementId:
+                                                            item.supplementId,
+                                                        supplementName:
+                                                            item.supplementName,
+                                                        supplementFrequency:
+                                                            item.supplementFrequency,
+                                                        supplementNumber:
+                                                            item.supplementNumber,
+                                                    })
+                                                }
+                                                onDelete={() =>
+                                                    deleteSupplement({
+                                                        supplementID:
+                                                            item.supplementId,
+                                                    })
+                                                }
+                                                onAdd={() =>
+                                                    onClickSupplement()
+                                                }
+                                                addText={`영양제 추가하기`}
+                                            />
                                         )}
                                     </div>
                                 ))}
@@ -421,44 +407,40 @@ const Calendar: React.FC<CalendarProps> = () => {
                                         </div>
                                     ))}
                                     {isVisible && (
-                                        <>
-                                            <button
-                                                onClick={() => {
-                                                    if (
-                                                        calendarInfo.waterIntakeInfo
-                                                    )
-                                                        onClickWater({
-                                                            waterIntakeId:
-                                                                calendarInfo
-                                                                    .waterIntakeInfo
-                                                                    .waterIntakeId,
-                                                            waterFrequency:
-                                                                calendarInfo
-                                                                    .waterIntakeInfo
-                                                                    .waterFrequency,
-                                                            waterRequirement:
-                                                                calendarInfo
-                                                                    .waterIntakeInfo
-                                                                    .waterRequirement,
-                                                            waterCapacity:
-                                                                calendarInfo
-                                                                    .waterIntakeInfo
-                                                                    .waterCapacity,
-                                                        });
-                                                }}
-                                            >{`[수정]`}</button>
-                                            <button
-                                                onClick={() =>
-                                                    deleteWater({
+                                        <UpdateDeleteButton
+                                            onUpdate={() => {
+                                                if (
+                                                    calendarInfo.waterIntakeInfo
+                                                )
+                                                    onClickWater({
                                                         waterIntakeId:
                                                             calendarInfo
                                                                 .waterIntakeInfo
-                                                                ?.waterIntakeId ??
-                                                            -1,
-                                                    })
-                                                }
-                                            >{`[삭제]`}</button>
-                                        </>
+                                                                .waterIntakeId,
+                                                        waterFrequency:
+                                                            calendarInfo
+                                                                .waterIntakeInfo
+                                                                .waterFrequency,
+                                                        waterRequirement:
+                                                            calendarInfo
+                                                                .waterIntakeInfo
+                                                                .waterRequirement,
+                                                        waterCapacity:
+                                                            calendarInfo
+                                                                .waterIntakeInfo
+                                                                .waterCapacity,
+                                                    });
+                                            }}
+                                            onDelete={() =>
+                                                deleteWater({
+                                                    waterIntakeId:
+                                                        calendarInfo
+                                                            .waterIntakeInfo
+                                                            ?.waterIntakeId ??
+                                                        -1,
+                                                })
+                                            }
+                                        />
                                     )}
                                 </div>
                             </div>
@@ -495,40 +477,36 @@ const Calendar: React.FC<CalendarProps> = () => {
                                     <div>{`하루 ${calendarInfo.sleepScheduleInfo.sleepTime}시간 수면`}</div>
 
                                     {isVisible && (
-                                        <>
-                                            <button
-                                                onClick={() => {
-                                                    if (
-                                                        calendarInfo.sleepScheduleInfo
-                                                    )
-                                                        onClickSleep({
-                                                            sleepScheduleId:
-                                                                calendarInfo
-                                                                    .sleepScheduleInfo
-                                                                    .sleepScheduleId,
-                                                            sleepPeriod:
-                                                                calendarInfo
-                                                                    .sleepScheduleInfo
-                                                                    .sleepPeriod,
-                                                            sleepTime:
-                                                                calendarInfo
-                                                                    .sleepScheduleInfo
-                                                                    .sleepTime,
-                                                        });
-                                                }}
-                                            >{`[수정]`}</button>
-                                            <button
-                                                onClick={() =>
-                                                    deleteSleep({
+                                        <UpdateDeleteButton
+                                            onUpdate={() => {
+                                                if (
+                                                    calendarInfo.sleepScheduleInfo
+                                                )
+                                                    onClickSleep({
                                                         sleepScheduleId:
                                                             calendarInfo
                                                                 .sleepScheduleInfo
-                                                                ?.sleepScheduleId ??
-                                                            -1,
-                                                    })
-                                                }
-                                            >{`[삭제]`}</button>
-                                        </>
+                                                                .sleepScheduleId,
+                                                        sleepPeriod:
+                                                            calendarInfo
+                                                                .sleepScheduleInfo
+                                                                .sleepPeriod,
+                                                        sleepTime:
+                                                            calendarInfo
+                                                                .sleepScheduleInfo
+                                                                .sleepTime,
+                                                    });
+                                            }}
+                                            onDelete={() =>
+                                                deleteSleep({
+                                                    sleepScheduleId:
+                                                        calendarInfo
+                                                            .sleepScheduleInfo
+                                                            ?.sleepScheduleId ??
+                                                        -1,
+                                                })
+                                            }
+                                        />
                                     )}
                                 </div>
                             </div>
@@ -562,43 +540,28 @@ const Calendar: React.FC<CalendarProps> = () => {
                                         <div>{item.scheduleTime} 예약</div>
 
                                         {isVisible && (
-                                            <>
-                                                <button
-                                                    onClick={() =>
-                                                        onClickSchedule({
-                                                            scheduleId:
-                                                                item.scheduleId,
-                                                            scheduleName:
-                                                                item.scheduleName,
-                                                            scheduleDate:
-                                                                item.scheduleDate,
-                                                            scheduleTime:
-                                                                item.scheduleTime,
-                                                        })
-                                                    }
-                                                >{`[수정]`}</button>
-                                                <button
-                                                    onClick={() =>
-                                                        deleteSchedule({
-                                                            scheduleId:
-                                                                item.scheduleId,
-                                                        })
-                                                    }
-                                                >{`[삭제]`}</button>
-                                                <div
-                                                    style={{
-                                                        display: 'flex',
-                                                        justifyContent:
-                                                            'flex-end',
-                                                        flex: 1,
-                                                    }}
-                                                    onClick={() =>
-                                                        onClickSchedule()
-                                                    }
-                                                >
-                                                    <div>+ 일정 추가하기</div>
-                                                </div>
-                                            </>
+                                            <UpdateDeleteButton
+                                                onUpdate={() =>
+                                                    onClickSchedule({
+                                                        scheduleId:
+                                                            item.scheduleId,
+                                                        scheduleName:
+                                                            item.scheduleName,
+                                                        scheduleDate:
+                                                            item.scheduleDate,
+                                                        scheduleTime:
+                                                            item.scheduleTime,
+                                                    })
+                                                }
+                                                onDelete={() =>
+                                                    deleteSchedule({
+                                                        scheduleId:
+                                                            item.scheduleId,
+                                                    })
+                                                }
+                                                onAdd={() => onClickSchedule()}
+                                                addText={`일정 추가하기`}
+                                            />
                                         )}
                                     </div>
                                 ))}
