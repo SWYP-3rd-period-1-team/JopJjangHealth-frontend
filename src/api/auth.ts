@@ -52,9 +52,9 @@ export const verifyEmailCode = async (email: string, code: string) => {
 
 export const logout = async (refreshToken: string | undefined): Promise<any> => {
     try {
-        const response = await axios.patch(logoutUrl, {}, {
+        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}${logoutUrl}`, {}, {
             headers: {
-                'RefreshToken': `Bearer ${refreshToken}`,
+                'RefreshToken': `${refreshToken}`,
             },
         });
         return {success: true, data: response.data};

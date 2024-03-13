@@ -12,16 +12,16 @@ import LoadingView from '../../components/common/LoadingView';
 import {useRecoilState} from 'recoil';
 import {showLogoutModalState, userInfoState} from '../../state/mypage';
 import {GetServerSideProps} from 'next';
-import {fetchUserInfo} from '../../api/MyPage';
-import {useQuery} from '@tanstack/react-query';
 import defaultImg from '../../../public/assets/myPage/Default.png';
 import {useQuery_UserInfo} from '../../hooks/react-query';
+import useSaveLocalContent from '../../hooks/useSaveLocalContent';
 
 const MyPage = () => {
     useAuth();
-    const {getTokenValue, logoutDeleteToken} = useToken();
+    const {logoutDeleteToken} = useToken();
     const router = useRouter();
-    const refreshToken = getTokenValue('zzgg_rt');
+    const {getDecryptedCookie} = useSaveLocalContent();
+    const refreshToken = getDecryptedCookie('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useRecoilState(showLogoutModalState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const {data: userData, isLoading} = useQuery_UserInfo();
@@ -36,9 +36,8 @@ const MyPage = () => {
         if (refreshToken) {
             const response = await logout(refreshToken);
             if (response?.data?.blacklist?.length !== 0) {
-                // todo : 로그아웃
-                // logoutDeleteToken();
-                // await router.push('/Home');
+                logoutDeleteToken();
+                await router.push('/Home');
             } else {
                 alert(response?.data?.message);
             }
