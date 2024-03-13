@@ -15,6 +15,7 @@ import {GetServerSideProps} from 'next';
 import {fetchUserInfo} from '../../api/MyPage';
 import {useQuery} from '@tanstack/react-query';
 import defaultImg from '../../../public/assets/myPage/Default.png';
+import {useQuery_UserInfo} from '../../hooks/react-query';
 
 const MyPage = () => {
     useAuth();
@@ -23,17 +24,13 @@ const MyPage = () => {
     const refreshToken = getTokenValue('zzgg_rt');
     const [showLogoutModal, setShowLogoutModal] = useRecoilState(showLogoutModalState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
-    
-    const {data, isLoading, error} = useQuery({
-        queryKey: ['user_info'],
-        queryFn: fetchUserInfo,
-    });
+    const {data: userData, isLoading} = useQuery_UserInfo();
     
     useEffect(() => {
-        if (data) {
-            setUserInfo(data.data.data);
+        if (userData) {
+            setUserInfo(userData?.data);
         }
-    }, [data]);
+    }, [userData]);
     
     const onLogout = async () => {
         if (refreshToken) {

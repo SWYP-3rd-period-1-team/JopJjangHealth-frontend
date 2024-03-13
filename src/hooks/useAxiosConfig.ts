@@ -1,4 +1,4 @@
-// import {useRecoilState, useSetRecoilState} from 'recoil';
+import {useRecoilState, useSetRecoilState} from 'recoil';
 import {AxiosInstance} from 'axios';
 import useSaveLocalContent from './useSaveLocalContent';
 import useToken from './useToken';
@@ -10,7 +10,6 @@ const useAxiosConfig = () => {
     
     const setAxiosInterceptors = (axiosInstance: AxiosInstance) => {
         const REFRESH_URL = `/api/members/refresh`;
-        const LOGOUT_URL = `/api/members/logout`;
         let lock = false;
         let refreshSubscribers: ((token: string) => void)[] = [];
         
@@ -59,18 +58,14 @@ const useAxiosConfig = () => {
             config.headers['Content-Type'] = Content_Type ?? 'application/json';
             
             const accessToken = getDecryptedCookie('zzgg_at');
-            const refreshToken = getDecryptedCookie('zzgg_rt');
             
             if (
                 !config.headers.Authorization &&
                 accessToken != null &&
                 config.url != REFRESH_URL &&
-                // config.url != LOGOUT_URL &&
                 config.url != '/login'
             ) {
                 config.headers.Authorization = `${accessToken}`;
-            } else if (config.url === LOGOUT_URL){
-                config.headers.Authorization = `${refreshToken}`;
             }
             return config;
         });
@@ -89,17 +84,11 @@ const useAxiosConfig = () => {
                 const errorStatus = response.status ?? error.status ?? 0;
                 const url = originalRequest.url as string;
                 
-                if(url.includes(LOGOUT_URL)) {
-                    const refreshtoken = await getRefreshToken();
-                    config.headers.Authorization = `${refreshtoken}`;
-                }
-                
                 if (
                     (errorStatus === 401 ||
                         response.data ===
                         '만료된 토큰입니다. 토큰을 재발급하세요') &&
                     !url.includes(REFRESH_URL) &&
-                    !url.includes(LOGOUT_URL) &&
                     !url.includes('refresh')
                 ) {
                     if (!lock) {
@@ -122,6 +111,7 @@ const useAxiosConfig = () => {
                 } else {
                     // if (error?.response?.data) alert(error.response.data);
                 }
+                
                 return Promise.reject(error);
             },
         );

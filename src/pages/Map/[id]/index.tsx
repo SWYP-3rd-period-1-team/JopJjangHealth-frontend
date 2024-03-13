@@ -6,7 +6,7 @@ import {useEffect, useState} from 'react';
 import InfoTitleView from './Child/InfoTitleView';
 import {Model_GoogleMapPlace} from '../../../types/PlaceInfo';
 import InfoContentView from './Child/InfoContentView';
-import CommentView from './Child/CommntView';
+import CommentView from './Child/CommentView';
 import {useQuery} from '@tanstack/react-query';
 import {getHospitalInfo} from '../../../api/Hospital';
 

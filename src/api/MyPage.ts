@@ -72,8 +72,8 @@ export const deleteUserProfileImage = async () => {
 
 export const fetchUserInfo = async () => {
     try {
-        const response = await axiosInstance.get('/api/members/my-page');
-        return {success: true, data: response.data};
+        const response = await axiosInstance.get(fetchUserInfoUrl);
+        return {success: true, data: response.data.data};
     } catch (error) {
         return {success: false, message: '회원정보 호출 중 에러가 발생했습니다'};
     }

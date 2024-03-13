@@ -19,6 +19,7 @@ import cancel from "../../../../public/assets/icon/ic_cancel.png";
 import useAuth from '../../../hooks/useAuth';
 import { GetServerSideProps } from 'next';
 import { checkUserAuthentication } from '../../../api/auth';
+import {useQuery_UserInfo} from '../../../hooks/react-query';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
@@ -38,17 +39,14 @@ const UserProfile = () => {
         setNicknameChangeRequested(false);
     };
     
-    const { data, isLoading, error } = useQuery({
-        queryKey: ['user_info'],
-        queryFn: fetchUserInfo,
-    });
+    const {data: userData} = useQuery_UserInfo();
     
     useEffect(() => {
-        if (data) {
-            setUserInfo(data.data.data);
-            setNewNickname(data.data.data.nickname);
+        if (userData) {
+            setUserInfo(userData?.data);
+            setNewNickname(userData?.data.nickname);
         }
-    }, [data]);
+    }, [userData]);
     
     const changeNicknameMutation = useMutation({
         mutationFn: (nickname:string) => changeUserNickname( nickname ),
@@ -108,10 +106,10 @@ const UserProfile = () => {
         if (userInfo) {
             console.log(userInfo,"userInfo:")
             setUserInfo({
-                profileImage: userInfo.data.data.profileImage || defaultImg,
-                nickname: userInfo.data.data.nickname || '',
-                userId: userInfo.data.data.userId || '',
-                email: userInfo.data.data.email || '',
+                profileImage: userInfo.data.profileImage || defaultImg,
+                nickname: userInfo.data.nickname || '',
+                userId: userInfo.data.userId || '',
+                email: userInfo.data.email || '',
             });
         }
     };
