@@ -17,14 +17,14 @@ import hospital from '../../../../public/assets/icon/ic_hospital.png';
 import {options} from '../../../../mock/SurveyMock';
 import ShareButton from '../../../components/Share/ShareButton';
 import {IOption} from '../../../types/server/survey';
-import useToken from '../../../hooks/useToken';
 import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
 import {saveHealthSurvey} from '../../../api/Survey';
+import useSaveLocalContent from '../../../hooks/useSaveLocalContent';
 
 const Index = () => {
     const router = useRouter();
-    const {getTokenValue} = useToken();
-    const accessToken = getTokenValue('zzgg_at');
+    const {getDecryptedCookie} = useSaveLocalContent();
+    const accessToken = getDecryptedCookie('zzgg_at');
     const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
     const [showLoginConfirm, setShowLoginConfirm] = useRecoilState(showLoginConfirmState);
     const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);

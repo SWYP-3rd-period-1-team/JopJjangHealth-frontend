@@ -14,20 +14,29 @@ import {LoginFormData} from "../../types/server/formData";
 import { useRecoilState } from 'recoil';
 import { passwordVisibilityState } from '../../state/login';
 import {errorMessageState} from '../../state';
+import useSaveLocalContent from '../../hooks/useSaveLocalContent';
 
 const Login: React.FC = () => {
     const router = useRouter();
-    const {loginSaveToken, getTokenValue} = useToken();
-    
+    const {loginSaveToken} = useToken();
+    const {getDecryptedCookie} = useSaveLocalContent();
+    const accessToken = getDecryptedCookie('zzgg_at');
     const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
     const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     
     useEffect(() => {
-        const accessToken = getTokenValue('zzgg_at');
-        if (accessToken) {
-            router.push('/');
-        }
-    }, [getTokenValue, router]);
+        const checkLoginAndRedirect = async () => {
+            if (accessToken) {
+                try {
+                    await router.push('/');
+                } catch (error) {
+                    console.error('Redirect error:', error);
+                }
+            }
+        };
+        checkLoginAndRedirect();
+    }, [accessToken, router]);
+    
     
     const {
         register,
@@ -54,9 +63,8 @@ const Login: React.FC = () => {
                 access_token: response.data.accessToken,
                 refresh_token: response.data.refreshToken,
             });
-            const accessToken = getTokenValue('zzgg_at');
             const surveyOption = localStorage.getItem('surveyOption');
-            if (accessToken && surveyOption) {
+            if (surveyOption) {
                 const parsedOption = JSON.parse(surveyOption);
                 await saveHealthSurvey(parsedOption);
                 localStorage.removeItem('surveyOption');

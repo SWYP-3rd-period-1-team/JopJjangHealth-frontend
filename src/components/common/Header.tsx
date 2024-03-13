@@ -2,16 +2,16 @@ import React, {useEffect, useState} from 'react';
 import Link from 'next/link';
 import styles from '../../styles/Header.module.css';
 import {useRouter} from "next/router";
-import useToken from '../../hooks/useToken';
+import useSaveLocalContent from '../../hooks/useSaveLocalContent';
 
 const Header: React.FC = () => {
 	const router = useRouter();
-	const { getTokenValue } = useToken();
+	const {getDecryptedCookie} = useSaveLocalContent();
+	const accessToken = getDecryptedCookie('zzgg_at');
 	const [loginTrue, setLoginTrue] = useState<boolean>(false);
 	
 	useEffect(() => {
 		const checkLoginStatus = () => {
-			const accessToken = getTokenValue('zzgg_at');
 			setLoginTrue(!!accessToken);
 		};
 		
@@ -22,7 +22,7 @@ const Header: React.FC = () => {
 		return () => {
 			router.events.off('routeChangeComplete', checkLoginStatus);
 		};
-	}, [router.events, getTokenValue]);
+	}, [router.events]);
 	
 	const isActive = (path: string, baseStyle: string) => {
 		const isBaseActive = router.pathname === path;

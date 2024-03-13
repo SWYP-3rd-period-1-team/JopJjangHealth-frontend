@@ -30,16 +30,18 @@ const useSaveLocalContent = () => {
     };
 
     function getDecryptedCookie(name: string) {
-        const cookies = document.cookie.split(';');
-        for (let i = 0; i < cookies.length; i++) {
-            const cookie = cookies[i].trim();
-            if (cookie.startsWith(`${name}=`)) {
-                const encryptedValue = cookie.substring(name.length + 1); // '=' 이후의 값
-                const decryptedValue = decryptData(encryptedValue); // 데이터를 복호화
-                return decryptedValue;
+            if (typeof window !== "undefined") {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    let cookie = cookies[i].trim();
+                    if (cookie.startsWith(`${name}=`)) {
+                        const encryptedValue = cookie.substring(name.length + 1); // '=' 이후의 값
+                        const decryptedValue = decryptData(encryptedValue); // 데이터를 복호화
+                        return decryptedValue;
+                    }
+                }
             }
-        }
-        return null;
+            return null;
     }
 
     return {

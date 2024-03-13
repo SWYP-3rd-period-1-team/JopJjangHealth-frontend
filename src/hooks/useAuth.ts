@@ -1,19 +1,20 @@
 import { useEffect } from 'react';
 import { useRouter } from 'next/router';
-import useToken from './useToken';
+import useSaveLocalContent from './useSaveLocalContent';
 
 const useAuth = () => {
     const router = useRouter();
-    const { getTokenValue } = useToken();
+    const {getDecryptedCookie} = useSaveLocalContent();
+    const accessToken = getDecryptedCookie('zzgg_at');
     
     useEffect(() => {
-        const accessToken = getTokenValue('zzgg_at');
+    
         const userIsLoggedIn = !!accessToken;
         
         if (!userIsLoggedIn) {
             router.push('/Login').catch((error) => console.error('로그인 페이지로 이동 할 수 없습니다.'));
         }
-    }, [getTokenValue, router]);
+    }, [router]);
 };
 
 export default useAuth;
