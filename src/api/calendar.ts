@@ -1,11 +1,13 @@
 import {AxiosResponse} from 'axios';
 import axiosInstance from './axiosInstance';
 import {
+    Param_Add_Calendar_Sleep,
     Param_Add_Calendar_Water,
     Param_Calendar_Schedules,
     Param_Calendar_Supplement,
     Param_Calendar_UpdateSupplement,
     Param_Update_Calendar_Schedules,
+    Param_Update_Calendar_Sleep,
     Param_Update_Calendar_Water,
     Response_Calendar,
 } from '../types/server/calendar';
@@ -43,6 +45,20 @@ export const postUpdateCalendarSupplement: (
         },
     );
 };
+export const deleteCalendarSupplement: ({
+    supplementID,
+}: {
+    supplementID: number;
+}) => Promise<AxiosResponse<any>> = async ({
+    supplementID,
+}: {
+    supplementID: number;
+}) => {
+    return await axiosInstance.delete(
+        `/api/calenders/supplements/${supplementID}`,
+    );
+};
+
 // 물 섭취량
 export const postCalendarWater: (
     param: Param_Add_Calendar_Water,
@@ -66,6 +82,54 @@ export const updateCalendarWater: (
         },
     );
 };
+export const deleteCalendarWater: ({
+    waterIntakeId,
+}: {
+    waterIntakeId: number;
+}) => Promise<AxiosResponse<any>> = async ({
+    waterIntakeId,
+}: {
+    waterIntakeId: number;
+}) => {
+    return await axiosInstance.delete(
+        `/api/calenders/waterIntakes/${waterIntakeId}`,
+    );
+};
+
+// 수면 정보
+export const postCalendarSleep: (
+    param: Param_Add_Calendar_Sleep,
+) => Promise<AxiosResponse<any>> = async (param: Param_Add_Calendar_Sleep) => {
+    return await axiosInstance.post(`/api/calenders/sleepSchedules`, param);
+};
+export const updateCalendarSleep: (
+    param: Param_Update_Calendar_Sleep,
+) => Promise<AxiosResponse<any>> = async ({
+    sleepScheduleId,
+    sleepPeriod,
+    sleepTime,
+}: Param_Update_Calendar_Sleep) => {
+    return await axiosInstance.put(
+        `/api/calenders/sleepSchedules/${sleepScheduleId}`,
+        {
+            sleepPeriod,
+            sleepTime,
+        },
+    );
+};
+export const deleteCalendarSleep: ({
+    sleepScheduleId,
+}: {
+    sleepScheduleId: number;
+}) => Promise<AxiosResponse<any>> = async ({
+    sleepScheduleId,
+}: {
+    sleepScheduleId: number;
+}) => {
+    return await axiosInstance.delete(
+        `/api/calenders/sleepSchedules/${sleepScheduleId}`,
+    );
+};
 
 // 일정정보
 export const postCalendarSchedule: (
@@ -87,4 +151,13 @@ export const updateCalendarSchedule: (
         scheduleDate,
         scheduleTime,
     });
+};
+export const deleteCalendarSchedule: (param: {
+    scheduleId: number;
+}) => Promise<AxiosResponse<any>> = async ({
+    scheduleId,
+}: {
+    scheduleId: number;
+}) => {
+    return await axiosInstance.delete(`/api/calenders/schedules/${scheduleId}`);
 };

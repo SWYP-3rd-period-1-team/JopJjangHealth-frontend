@@ -10,7 +10,11 @@ import moment from 'moment';
 import {Checkbox} from '@mui/material';
 import AddSchedules from '../../components/CalendarOption/AddSchedules';
 import AddWaterInTake from '../../components/CalendarOption/AddWaterIntake';
-import {Param_Update_Calendar_Water} from '../../types/server/calendar';
+import {
+    Param_Update_Calendar_Sleep,
+    Param_Update_Calendar_Water,
+} from '../../types/server/calendar';
+import {useMutation} from '@tanstack/react-query';
 
 type CalendarProps = {
     year: number;
@@ -25,6 +29,8 @@ const Calendar: React.FC<CalendarProps> = () => {
     const {data: calendarData, refetch: calendarRefetch} =
         useQuery_CalendarList(moment(currentDate).format('YYYY-MM-DD'));
     const calendarInfo = calendarData?.data.data.myCalender;
+
+    console.log(calendarInfo?.sleepScheduleInfo);
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
 
@@ -113,6 +119,14 @@ const Calendar: React.FC<CalendarProps> = () => {
         });
     };
 
+    // const {mutate: deleteWater} = useMutation({
+    //     mutationFn: updateCalendarWater,
+    //     onSuccess: () => {
+    //         alert(`제출되었습니다:`);
+    //         calendarRefetch();
+    //     },
+    // });
+
     const handleNextMonth = () => {
         setCurrentDate(prev => {
             const newDate = new Date(prev);
@@ -120,25 +134,6 @@ const Calendar: React.FC<CalendarProps> = () => {
             return newDate;
         });
     };
-
-    // const handleItemClick = (value: string, prevID?: number) => {
-    //     // setIsVisible(!isVisible); // 항목 클릭 시 표시 상태 토글
-    //     switch (value) {
-    //         case 'supplementInfoList':
-
-    //         case 'waterIntakeInfo':
-    //             setCurrentModal(<AddWaterIntake onClose={handleCloseModal} />);
-    //             break;
-    //         case 'sleepScheduleInfo':
-    //             setCurrentModal(<AddSleepTime onClose={handleCloseModal} />);
-    //             break;
-    //         case 'scheduleInfoList':
-    //             setCurrentModal(<AddSleepTime onClose={handleCloseModal} />);
-    //             break;
-    //         default:
-    //             setCurrentModal(null);
-    //     }
-    // };
 
     const onClickSupplement = (currentData?: {
         supplementId: number;
@@ -158,6 +153,16 @@ const Calendar: React.FC<CalendarProps> = () => {
     const onClickWater = (currentData?: Param_Update_Calendar_Water) => {
         setCurrentModal(
             <AddWaterInTake
+                currentData={currentData}
+                createDate={currentDate}
+                onRefetch={calendarRefetch}
+                onClose={handleCloseModal}
+            />,
+        );
+    };
+    const onClickSleep = (currentData?: Param_Update_Calendar_Sleep) => {
+        setCurrentModal(
+            <AddSleepTime
                 currentData={currentData}
                 createDate={currentDate}
                 onRefetch={calendarRefetch}
@@ -417,6 +422,66 @@ const Calendar: React.FC<CalendarProps> = () => {
                             onClick={() => onClickWater()}
                         >
                             {'+ 물 섭취량 추가하기'}
+                        </div>
+                    ) : null}
+
+                    {!!calendarInfo?.sleepScheduleInfo ? (
+                        <div className={styles.listItem}>
+                            <div style={{width: '100%'}}>
+                                <div
+                                    className={styles.listItem_Content}
+                                    key={
+                                        calendarInfo.sleepScheduleInfo
+                                            .sleepScheduleId
+                                    }
+                                >
+                                    <div
+                                        style={{
+                                            minWidth: '60px',
+                                        }}
+                                    >
+                                        {`목표 수면시간`}
+                                    </div>
+                                    <div>{`${calendarInfo.sleepScheduleInfo.sleepPeriod}`}</div>
+
+                                    <Checkbox style={{padding: 0}} />
+                                    <div>{`하루 ${calendarInfo.sleepScheduleInfo.sleepTime}시간 수면`}</div>
+
+                                    {isVisible && (
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    if (
+                                                        calendarInfo.sleepScheduleInfo
+                                                    )
+                                                        onClickSleep({
+                                                            sleepScheduleId:
+                                                                calendarInfo
+                                                                    .sleepScheduleInfo
+                                                                    .sleepScheduleId,
+                                                            sleepPeriod:
+                                                                calendarInfo
+                                                                    .sleepScheduleInfo
+                                                                    .sleepPeriod,
+                                                            sleepTime:
+                                                                calendarInfo
+                                                                    .sleepScheduleInfo
+                                                                    .sleepTime,
+                                                        });
+                                                }}
+                                            >{`[수정]`}</button>
+                                            <button>{`[삭제]`}</button>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ) : isVisible ? (
+                        <div
+                            className={styles.listItem}
+                            onClick={() => onClickSleep()}
+                        >
+                            {'+ 수면시간 추가하기'}
                         </div>
                     ) : null}
 

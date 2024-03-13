@@ -3,7 +3,7 @@ export interface Response_Calendar {
         calenderId: number;
         sleepScheduleInfo?: {
             sleepScheduleId: number;
-            sleepPeriod: number;
+            sleepPeriod: string;
             sleepTime: number;
             achievement: number;
             calenderDate: string;
@@ -69,4 +69,14 @@ export interface Param_Update_Calendar_Water {
     waterRequirement: number;
     waterFrequency: number;
     waterCapacity: number;
+}
+export interface Param_Add_Calendar_Sleep {
+    sleepPeriod: string;
+    sleepTime: number;
+    calenderDate: string;
+}
+export interface Param_Update_Calendar_Sleep {
+    sleepScheduleId: number;
+    sleepPeriod: string;
+    sleepTime: number;
 }
