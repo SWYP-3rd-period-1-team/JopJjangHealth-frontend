@@ -1,10 +1,12 @@
 import {AxiosResponse} from 'axios';
 import axiosInstance from './axiosInstance';
 import {
+    Param_Add_Calendar_Water,
     Param_Calendar_Schedules,
     Param_Calendar_Supplement,
     Param_Calendar_UpdateSupplement,
     Param_Update_Calendar_Schedules,
+    Param_Update_Calendar_Water,
     Response_Calendar,
 } from '../types/server/calendar';
 
@@ -38,6 +40,29 @@ export const postUpdateCalendarSupplement: (
             supplementName,
             supplementNumber,
             supplementFrequency,
+        },
+    );
+};
+// 물 섭취량
+export const postCalendarWater: (
+    param: Param_Add_Calendar_Water,
+) => Promise<AxiosResponse<any>> = async (param: Param_Add_Calendar_Water) => {
+    return await axiosInstance.post(`/api/calenders/waterIntakes`, param);
+};
+export const updateCalendarWater: (
+    param: Param_Update_Calendar_Water,
+) => Promise<AxiosResponse<any>> = async ({
+    waterIntakeId,
+    waterCapacity,
+    waterFrequency,
+    waterRequirement,
+}: Param_Update_Calendar_Water) => {
+    return await axiosInstance.put(
+        `/api/calenders/waterIntakes/${waterIntakeId}`,
+        {
+            waterCapacity,
+            waterFrequency,
+            waterRequirement,
         },
     );
 };

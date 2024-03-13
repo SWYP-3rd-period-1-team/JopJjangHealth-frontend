@@ -1,12 +1,28 @@
 import React, {useState} from 'react';
 import styles from '../../styles/CalendarModal.module.css';
+import {Param_Update_Calendar_Water} from '../../types/server/calendar';
+import {useMutation} from '@tanstack/react-query';
+import {postCalendarWater, updateCalendarWater} from '../../api/calendar';
+import moment from 'moment';
 
 interface Props {
+    currentData?: Param_Update_Calendar_Water;
+    createDate: Date;
+    onRefetch: () => void;
     onClose: () => void;
 }
-const AddWaterInTake = ({onClose}: Props) => {
-    const [intakeGoal, setIntakeGoal] = useState(''); // 목표 섭취량을 문자열로 관리합니다.
-    const [intakePerGlass, setIntakePerGlass] = useState(''); // 각 잔당 섭취량도 문자열로 관리합니다.
+const AddWaterInTake = ({
+    currentData,
+    createDate,
+    onRefetch,
+    onClose,
+}: Props) => {
+    const [intakeGoal, setIntakeGoal] = useState(
+        `${currentData?.waterRequirement}` ?? '',
+    ); // 목표 섭취량을 문자열로 관리합니다.
+    const [intakeCount, setIntakeCount] = useState(
+        `${currentData?.waterFrequency}` ?? '1',
+    ); // 각 잔당 섭취량도 문자열로 관리합니다.
 
     const formatNumberWithComma = (value: string) => {
         const numericValue = value.replace(/,/g, '');
@@ -20,21 +36,27 @@ const AddWaterInTake = ({onClose}: Props) => {
         setIntakeGoal(formattedNumber);
     };
 
-    const handleIntakePerGlassChange = (
-        event: React.ChangeEvent<HTMLInputElement>,
-    ) => {
-        const formattedNumber = formatNumberWithComma(event.target.value);
-        setIntakePerGlass(formattedNumber);
-    };
-
     const handleSubmit = () => {
         alert(`제출되었습니다:`);
+        onRefetch();
         onClose();
     };
 
+    const {mutate: onPostWater} = useMutation({
+        mutationFn: postCalendarWater,
+        onSuccess: handleSubmit,
+    });
+    const {mutate: onUpdateWater} = useMutation({
+        mutationFn: updateCalendarWater,
+        onSuccess: handleSubmit,
+    });
+
     return (
-        <div className={styles.modal}>
-            <div className={styles.modalContent}>
+        <div className={styles.modal} onClick={onClose}>
+            <div
+                className={styles.modalContent}
+                onClick={event => event.stopPropagation()}
+            >
                 <h2>물 섭취량 추가하기</h2>
                 <div style={{marginTop: '16px'}}>
                     목표 섭취량
@@ -50,21 +72,54 @@ const AddWaterInTake = ({onClose}: Props) => {
                     하루에
                     <input
                         type="text"
-                        value={intakePerGlass}
-                        onChange={handleIntakePerGlassChange}
+                        value={(
+                            +intakeGoal.replace(/,/g, '') / +intakeCount
+                        ).toFixed(0)}
+                        disabled
                         className={styles.input}
                     />{' '}
                     ml씩{' '}
-                    <select className={styles.dropdown} defaultValue="1">
-                        {Array.from({length: 5}, (_, i) => (
-                            <option key={i} value={i + 1}>
-                                {i + 1}
-                            </option>
-                        ))}
+                    <select
+                        className={styles.dropdown}
+                        value={intakeCount}
+                        onChange={event => {
+                            setIntakeCount(event.target.value);
+                        }}
+                    >
+                        {Array.from({length: 5}, (_, idx) => idx + 1).map(
+                            item => (
+                                <option key={item} value={item}>
+                                    {item}
+                                </option>
+                            ),
+                        )}
                     </select>
                     잔 섭취하고 있어요.
                 </div>
-                <button className={styles.submitButton} onClick={handleSubmit}>
+                <button
+                    className={styles.submitButton}
+                    onClick={() => {
+                        if (currentData)
+                            onUpdateWater({
+                                waterIntakeId: currentData.waterIntakeId,
+                                waterRequirement: +intakeGoal.replace(/,/g, ''),
+                                waterFrequency: +intakeCount,
+                                waterCapacity: +(
+                                    +intakeGoal.replace(/,/g, '') / +intakeCount
+                                ).toFixed(0),
+                            });
+                        else
+                            onPostWater({
+                                waterRequirement: +intakeGoal.replace(/,/g, ''),
+                                waterFrequency: +intakeCount,
+                                waterCapacity: +(
+                                    +intakeGoal.replace(/,/g, '') / +intakeCount
+                                ).toFixed(0),
+                                calenderDate:
+                                    moment(createDate).format('YYYY-MM-DD'),
+                            });
+                    }}
+                >
                     전송하기
                 </button>
             </div>

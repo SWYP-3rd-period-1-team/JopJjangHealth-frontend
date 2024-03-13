@@ -9,6 +9,8 @@ import {useQuery_CalendarList} from '../../hooks/react-query';
 import moment from 'moment';
 import {Checkbox} from '@mui/material';
 import AddSchedules from '../../components/CalendarOption/AddSchedules';
+import AddWaterInTake from '../../components/CalendarOption/AddWaterIntake';
+import {Param_Update_Calendar_Water} from '../../types/server/calendar';
 
 type CalendarProps = {
     year: number;
@@ -21,7 +23,7 @@ const Calendar: React.FC<CalendarProps> = () => {
     const [isVisible, setIsVisible] = useState<boolean>(false); // 새로운 상태 추가: 항목의 표시 여부
 
     const {data: calendarData, refetch: calendarRefetch} =
-        useQuery_CalendarList(moment().format('YYYY-MM-DD'));
+        useQuery_CalendarList(moment(currentDate).format('YYYY-MM-DD'));
     const calendarInfo = calendarData?.data.data.myCalender;
 
     const daysOfWeek = ['일', '월', '화', '수', '목', '금', '토'];
@@ -39,7 +41,18 @@ const Calendar: React.FC<CalendarProps> = () => {
         const prevMonthLastDate = new Date(year, month, 0).getDate();
         for (let i = firstDayOfMonth - 1; i >= 0; i--) {
             days.push(
-                <div key={`prev-${i}`} className={styles.day_notActive}>
+                <div
+                    key={`prev-${i}`}
+                    className={styles.day_notActive}
+                    onClick={() =>
+                        setCurrentDate(prev => {
+                            const newDate = new Date(prev);
+                            newDate.setMonth(newDate.getMonth() - 1);
+                            newDate.setDate(prevMonthLastDate - i);
+                            return newDate;
+                        })
+                    }
+                >
                     {prevMonthLastDate - i}
                 </div>,
             );
@@ -48,7 +61,17 @@ const Calendar: React.FC<CalendarProps> = () => {
         // 이번 달의 날짜
         for (let i = 1; i <= daysInMonth; i++) {
             days.push(
-                <div key={`current-${i}`} className={styles.day}>
+                <div
+                    key={`current-${i}`}
+                    className={styles.day}
+                    onClick={() =>
+                        setCurrentDate(prev => {
+                            const newDate = new Date(prev);
+                            newDate.setDate(i);
+                            return newDate;
+                        })
+                    }
+                >
                     {i}
                 </div>,
             );
@@ -59,7 +82,18 @@ const Calendar: React.FC<CalendarProps> = () => {
         if (remainingDays !== 7) {
             for (let i = 1; i <= remainingDays; i++) {
                 days.push(
-                    <div key={`next-${i}`} className={styles.day_notActive}>
+                    <div
+                        key={`next-${i}`}
+                        className={styles.day_notActive}
+                        onClick={() =>
+                            setCurrentDate(prev => {
+                                const newDate = new Date(prev);
+                                newDate.setMonth(newDate.getMonth() + 1);
+                                newDate.setDate(i);
+                                return newDate;
+                            })
+                        }
+                    >
                         {i}
                     </div>,
                 );
@@ -115,6 +149,17 @@ const Calendar: React.FC<CalendarProps> = () => {
         setCurrentModal(
             <AddSupplements
                 currentData={currentData}
+                createDate={currentDate}
+                onRefetch={calendarRefetch}
+                onClose={handleCloseModal}
+            />,
+        );
+    };
+    const onClickWater = (currentData?: Param_Update_Calendar_Water) => {
+        setCurrentModal(
+            <AddWaterInTake
+                currentData={currentData}
+                createDate={currentDate}
                 onRefetch={calendarRefetch}
                 onClose={handleCloseModal}
             />,
@@ -129,6 +174,7 @@ const Calendar: React.FC<CalendarProps> = () => {
         setCurrentModal(
             <AddSchedules
                 currentData={currentData}
+                createDate={currentDate}
                 onRefetch={calendarRefetch}
                 onClose={handleCloseModal}
             />,
@@ -180,6 +226,9 @@ const Calendar: React.FC<CalendarProps> = () => {
                     ))}
                     {monthData}
                 </div>
+            </div>
+            <div style={{margin: '0 130px'}}>
+                {moment(currentDate).format('YYYY-MM-DD')}
             </div>
             <div className={styles.listTitleContainer}>
                 <div className={styles.listText}>질병캘린더 리스트</div>
@@ -285,8 +334,89 @@ const Calendar: React.FC<CalendarProps> = () => {
                             </div>
                         </div>
                     ) : isVisible ? (
-                        <div onClick={() => onClickSupplement()}>
+                        <div
+                            className={styles.listItem}
+                            onClick={() => onClickSupplement()}
+                        >
                             {'+ 영양제 추가하기'}
+                        </div>
+                    ) : null}
+                    {!!calendarInfo?.waterIntakeInfo ? (
+                        <div className={styles.listItem}>
+                            <div style={{width: '100%'}}>
+                                <div
+                                    className={styles.listItem_Content}
+                                    key={
+                                        calendarInfo.waterIntakeInfo
+                                            .waterIntakeId
+                                    }
+                                >
+                                    <div
+                                        style={{
+                                            minWidth: '60px',
+                                        }}
+                                    >
+                                        {`물 목표 섭취량`}
+                                    </div>
+                                    <div>{`${calendarInfo.waterIntakeInfo.waterRequirement}ml`}</div>
+                                    <div>{`하루 ${calendarInfo.waterIntakeInfo.waterFrequency}번`}</div>
+                                    {Array.from(
+                                        {
+                                            length: calendarInfo.waterIntakeInfo
+                                                .waterFrequency,
+                                        },
+                                        (_, idx) => idx + 1,
+                                    ).map(waterItem => (
+                                        <div
+                                            key={`${`water`}-${waterItem}`}
+                                            style={{
+                                                display: 'flex',
+                                                alignItems: 'center',
+                                            }}
+                                        >
+                                            <Checkbox style={{padding: 0}} />
+                                            <div>{`${calendarInfo.waterIntakeInfo?.waterCapacity}ml`}</div>
+                                        </div>
+                                    ))}
+                                    {isVisible && (
+                                        <>
+                                            <button
+                                                onClick={() => {
+                                                    if (
+                                                        calendarInfo.waterIntakeInfo
+                                                    )
+                                                        onClickWater({
+                                                            waterIntakeId:
+                                                                calendarInfo
+                                                                    .waterIntakeInfo
+                                                                    .waterIntakeId,
+                                                            waterFrequency:
+                                                                calendarInfo
+                                                                    .waterIntakeInfo
+                                                                    .waterFrequency,
+                                                            waterRequirement:
+                                                                calendarInfo
+                                                                    .waterIntakeInfo
+                                                                    .waterRequirement,
+                                                            waterCapacity:
+                                                                calendarInfo
+                                                                    .waterIntakeInfo
+                                                                    .waterCapacity,
+                                                        });
+                                                }}
+                                            >{`[수정]`}</button>
+                                            <button>{`[삭제]`}</button>
+                                        </>
+                                    )}
+                                </div>
+                            </div>
+                        </div>
+                    ) : isVisible ? (
+                        <div
+                            className={styles.listItem}
+                            onClick={() => onClickWater()}
+                        >
+                            {'+ 물 섭취량 추가하기'}
                         </div>
                     ) : null}
 
@@ -346,10 +476,11 @@ const Calendar: React.FC<CalendarProps> = () => {
                             </div>
                         </div>
                     ) : isVisible ? (
-                        <div className={styles.listItem}>
-                            <div onClick={() => onClickSchedule()}>
-                                {'+ 일정 추가하기'}
-                            </div>
+                        <div
+                            className={styles.listItem}
+                            onClick={() => onClickSchedule()}
+                        >
+                            {'+ 일정 추가하기'}
                         </div>
                     ) : null}
                 </div>

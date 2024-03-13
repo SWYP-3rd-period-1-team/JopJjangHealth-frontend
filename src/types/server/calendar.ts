@@ -58,3 +58,15 @@ export interface Param_Update_Calendar_Schedules {
     scheduleDate: string;
     scheduleTime: string;
 }
+export interface Param_Add_Calendar_Water {
+    waterRequirement: number;
+    waterFrequency: number;
+    waterCapacity: number;
+    calenderDate: string;
+}
+export interface Param_Update_Calendar_Water {
+    waterIntakeId: number;
+    waterRequirement: number;
+    waterFrequency: number;
+    waterCapacity: number;
+}

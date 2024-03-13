@@ -15,10 +15,16 @@ interface SupplementItem {
 }
 interface Props {
     currentData?: SupplementItem;
+    createDate: Date;
     onRefetch: () => void;
     onClose: () => void;
 }
-const AddSupplements = ({currentData, onRefetch, onClose}: Props) => {
+const AddSupplements = ({
+    currentData,
+    createDate,
+    onRefetch,
+    onClose,
+}: Props) => {
     const [supplementName, setSupplementName] = useState(
         currentData?.supplementName ?? '',
     );
@@ -134,7 +140,8 @@ const AddSupplements = ({currentData, onRefetch, onClose}: Props) => {
                                 supplementName: supplementName,
                                 supplementFrequency: +timesPerDay,
                                 supplementNumber: +pillCount,
-                                calenderDate: moment().format('YYYY-MM-DD'),
+                                calenderDate:
+                                    moment(createDate).format('YYYY-MM-DD'),
                             });
                     }}
                 >

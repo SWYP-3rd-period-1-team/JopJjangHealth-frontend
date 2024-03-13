@@ -1,40 +1,36 @@
 import React, {useState} from 'react';
 import styles from '../../styles/CalendarModal.module.css';
 import {useMutation} from '@tanstack/react-query';
-import {
-    postCalendarSchedule,
-    postCalendarSupplement,
-    postUpdateCalendarSupplement,
-    updateCalendarSchedule,
-} from '../../api/calendar';
+import {postCalendarSchedule, updateCalendarSchedule} from '../../api/calendar';
 import moment from 'moment';
 
 interface ScheduleItem {
     scheduleId: number;
+
     scheduleName: string;
     scheduleDate: string;
     scheduleTime: string;
 }
 interface Props {
     currentData?: ScheduleItem;
+    createDate: Date;
     onRefetch: () => void;
     onClose: () => void;
 }
-const AddSchedules = ({currentData, onRefetch, onClose}: Props) => {
+const AddSchedules = ({currentData, createDate, onRefetch, onClose}: Props) => {
     const [scheduleName, setScheduleName] = useState(
         currentData?.scheduleName ?? '',
     );
     const [date, setDate] = useState(
-        currentData?.scheduleDate ?? moment().format('YYYY-MM-DD'),
+        currentData?.scheduleDate ?? moment(createDate).format('YYYY-MM-DD'),
     );
     const [time, setTime] = useState(
-        currentData?.scheduleTime ?? moment().format('hh:mm'),
+        currentData?.scheduleTime ?? moment(createDate).format('hh:mm'),
     );
 
-    console.log(date.slice(5, 7));
     const years = Array.from({length: 31}, (_, idx) => idx + 2000);
     const months = Array.from({length: 12}, (_, idx) => idx + 1);
-    const daysByMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 10, 31];
+    const daysByMonth = [31, 29, 31, 30, 31, 30, 31, 31, 30, 31, 10, 31];
     const days = Array.from(
         {length: daysByMonth[+date.slice(5, 7) ?? 0]},
         (_, idx) => idx + 1,
