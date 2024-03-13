@@ -80,7 +80,9 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
     const [comment, setComment] = useState('');
 
     const {data: userData} = useQuery_UserInfo();
-    const userInfo = userData?.data?.data;
+    const userInfo = userData?.data;
+
+    console.log(userInfo);
 
     const {mutate: postComment} = useMutation({
         mutationFn: postHospitalComment,

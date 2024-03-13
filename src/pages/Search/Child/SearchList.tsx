@@ -16,9 +16,13 @@ const ItemContainer = styled.li`
     display: flex;
     align-items: center;
     padding: 32px 20px;
-    background-color: #b5fcd1;
+    background-color: white;
     border-radius: 5px;
     margin-top: 16px;
+    border: 1px solid #ececec;
+    &:hover {
+        background: linear-gradient(90deg, #b5fcd1, #b5fcd14d);
+    }
 `;
 const ItemInfoTextContainer = styled.div`
     display: flex;

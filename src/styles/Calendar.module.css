@@ -117,7 +117,7 @@
 }
 
 .listContainer {
-    margin: 120px;
+    margin: 24px 120px;
     padding: 10px;
     background: #00a24199;
     border: 1px solid #ccc;
@@ -135,6 +135,14 @@
     background-color: #f7f7f7;
     border: 1px solid #ddd;
     border-radius: 4px;
+    display: flex;
+    align-items: flex-end;
+}
+.listItem_Content {
+    display: flex;
+    align-items: center;
+    flex: 1;
+    padding: 8px 0;
 }
 .listText {
     float: left;
