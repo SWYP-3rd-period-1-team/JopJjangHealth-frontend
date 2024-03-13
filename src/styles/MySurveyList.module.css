@@ -150,10 +150,12 @@
     border: 1px solid #d1d1d1;
 }
 
+/*
 .clickedItem {
     color: #FFFFFF !important;
     background-color: #0F0F0F;
 }
+ */
 
 .check_survey {
     accent-color: #5B5B5B;
@@ -265,6 +267,55 @@
     line-height: 160%;
     letter-spacing: -0.8px;
 }
+
+@media (max-width: 768px) {
+    .mySurvey_text {
+        font-size: 24px;
+        margin: 20px;
+    }
+
+    .mySurvey_check_text {
+        font-size: 12px;
+        margin: 20px;
+    }
+
+    .mySurvey_container {
+        width: calc(100% - 40px);
+        height: calc(100% - 140px);
+        margin: 20px;
+    }
+
+    .mySurvey_item_container, .mySurvey_item_container_delete {
+        width: calc(100% - 40px);
+        margin: 10px;
+    }
+
+    .mySurvey_item_container_delete {
+        width: calc(100% - 110px);
+    }
+
+    .click_survey, .chice_delete {
+        width: 80%;
+        margin: 20px 10%;
+    }
+
+    .popupContainer {
+        width: 90%;
+        height: auto;
+        padding: 10px;
+    }
+
+    .title, .date, .place, .no_mySurvey, .no_mySurvey_text {
+        font-size: reduce(20%);
+        margin: 10px;
+    }
+
+    .image {
+        margin: 10px auto;
+        text-align: center;
+    }
+}
+
 
 
 

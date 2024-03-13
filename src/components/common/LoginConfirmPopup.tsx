@@ -1,12 +1,8 @@
 import React from 'react';
 import styles from '../../styles/LoginConfirmPopup.module.css';
+import {LoginConfirmPopupProps} from '../../types/Layout';
 
-interface Props {
-    onConfirm: () => void;
-    onCancel: () => void;
-}
-
-const LoginConfirmPopup: React.FC<Props> = ({ onConfirm, onCancel }) => {
+const LoginConfirmPopup: React.FC<LoginConfirmPopupProps> = ({ onConfirm, onCancel }) => {
     return (
         <div className={styles.overlay}>
             <div className={styles.popup}>

@@ -1,20 +1,19 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from 'react-hook-form';
-import {checkUserAuthentication } from '../../../utils/auth';
-import {sendEmailVerificationForMyPage } from "../../../api/mypage";
+import {checkUserAuthentication } from '../../../api/auth';
+import {sendEmailVerificationForMyPage } from "../../../api/MyPage";
 import {validatePassword, validateEmail} from '../../../utils/validation';
-
 import styles from '../../../styles/ChangePassword.module.css';
-import Layout from '../../../components/Layout';
-import {ChangePassword} from '../../../api/mypage';
+import Layout from '../../../components/common/Layout';
+import {changePassword} from '../../../api/MyPage';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
-
-interface FormData {
-    password: string;
-    confirmPassword: string;
-    email: string;
-}
+import eye from "../../../../public/assets/icon/ic_eye.png";
+import eyeSlash from '../../../../public/assets/icon/ic_eye_slash.png';
+import Image from 'next/image';
+import {ChangePasswordFormData} from '../../../types/server/formData';
+import { useRecoilState } from 'recoil';
+import { isVerificationSentState, passwordTypeState } from '../../../state/mypage';
 
 const Index: React.FC = () => {
     useAuth();
@@ -25,18 +24,23 @@ const Index: React.FC = () => {
         getValues,
         watch,
         formState: {errors, isValid}
-    } = useForm<FormData>({
+    } = useForm<ChangePasswordFormData>({
         mode: 'onChange',
     });
     
-    const [isVerificationSent, setIsVerificationSent] = useState(false);
+    const [isVerificationSent, setIsVerificationSent] = useRecoilState(isVerificationSentState);
+    const [passwordType, setPasswordType] = useRecoilState(passwordTypeState);
     
-    const onSubmit = async (data: FormData) => {
+    const togglePasswordVisibility = () => {
+        setPasswordType(passwordType === 'password' ? 'text' : 'password');
+    };
+    
+    const onSubmit = async (data: ChangePasswordFormData) => {
         if (!isVerificationSent) {
             alert('이메일 인증을 완료해주세요.');
             return;
         }
-        await ChangePassword(data.password, data.confirmPassword);
+        await changePassword(data.password, data.confirmPassword);
     };
     
     const handleEmailVerificationRequest = async () => {
@@ -85,19 +89,28 @@ const Index: React.FC = () => {
                     )}
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="새 비밀번호 (영문, 숫자 조합 8 ~ 15자리)"
                             {...register('password', {
                                 required: '비밀번호를 입력해주세요.',
-                                validate: validatePassword
+                                validate: validatePassword,
                             })}
                             className={errors.password ? styles.inputError : styles.input}
                         />
+                        <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
+                            {passwordType === 'password' ?
+                                <>
+                                    <Image src={eyeSlash} alt={'eye-slash'} />
+                                </> :
+                                <>
+                                    <Image src={eye} alt={'eye'} />
+                                </>}
+                        </div>
                         {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="비밀번호 확인"
                             {...register('confirmPassword', {
                                 validate: value =>

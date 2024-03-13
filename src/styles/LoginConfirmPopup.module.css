@@ -73,3 +73,48 @@
     line-height: 100%; /* 16px */
     letter-spacing: -0.32px;
 }
+
+@media (max-width: 768px) {
+    .container, .section {
+        padding: 0 1rem;
+    }
+
+    .main {
+        padding: 0;
+    }
+
+    .header {
+        padding: 20px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .header_menu {
+        float: none;
+        margin: 20px 0 0;
+    }
+
+    .header_link, .header_link_login, .header_link_login_second {
+        padding: 0 10px;
+        font-size: 14px;
+    }
+
+    .header_link_login, .header_link_login_second {
+        position: relative;
+        right: 0;
+        top: 0;
+        margin-top: 10px;
+    }
+
+    .popup {
+        width: 90%;
+        height: auto;
+        padding: 20px;
+    }
+
+    .loginButton, .cancelButton {
+        width: 100%;
+        margin-top: 10px;
+    }
+}
+

@@ -1,39 +1,37 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {useForm} from 'react-hook-form';
-import {findId} from '../../api/find';
+import {findId} from '../../api/Find';
 import styles from '../../styles/Find.module.css';
+import {useRouter} from 'next/router';
+import {FindFormData} from '../../types/server/formData';
 
-interface FormData {
-    email: string;
-}
-
-const FindId: () => JSX.Element = () => {
+const FindId:React.FC = () => {
     const {
         register,
         handleSubmit,
         formState: {errors},
-    } = useForm<FormData>();
+    } = useForm<FindFormData>();
+    const router = useRouter();
     
-    const [idMessage, setIdMessage] = useState<string | null>(null);
-    
-    const onSubmit = async (data: FormData) => {
-        const id = await findId(data.email);
-        if (id) {
-            setIdMessage(`회원님의 아이디는 ${id} 입니다.`);
-        } else {
-            setIdMessage('해당 이메일로 등록된 아이디가 없습니다.');
+    const onSubmit = async (data: FindFormData) => {
+        const response = await findId(data.email);
+        if (response.success) {
+            router.push({
+                pathname: '/Find/Complete',
+                query: {userId: response.data.data.userId},
+            });
         }
     };
     
     return (
         <div>
             <div className={styles.findId}>
-                회원가입 시 등록하신 이메일로 아이디를 확인 하실 수 있습니다.
+                회원가입 시 등록하신 이메일로<br />아이디를 확인 하실 수 있습니다.
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
                 <div className={styles.inputGroup}>
                     <input
-                        placeholder="이메일을 입력해주세요."
+                        placeholder="@ 까지 입력해 주세요."
                         {...register('email', {
                             required: '이메일을 입력해주세요.',
                         })}
@@ -48,11 +46,6 @@ const FindId: () => JSX.Element = () => {
                 >
                     확인
                 </button>
-                {idMessage && (
-                    <div className={styles.idMessage}>
-                        {idMessage}
-                    </div>
-                )}
             </form>
         </div>
     );

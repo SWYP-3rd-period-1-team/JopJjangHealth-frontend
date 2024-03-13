@@ -5,17 +5,27 @@
     font-weight: 600;
     line-height: 160%; /* 51.2px */
     letter-spacing: -0.64px;
-    margin: 50px 210px 0 210px;
+    margin: 24px 210px;
 }
 
 .like_container {
     width: 1000px;
-    height: 699px;
+    height: 760px;
     flex-shrink: 0;
-    background: #fff;
+    border-radius: 10px;
+    border: 2px solid #FFFEFE;
+    background: linear-gradient(116deg, rgba(255, 255, 255, 0.60) 0.7%, rgba(255, 255, 255, 0.18) 98.16%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(30px);
+    margin: 45px 210px 45px 210px;
+}
+
+.like_list_templete {
+    flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid #ECECEC;
-    margin: 0 210px 50px 210px;
+    background: #FFF;
+    margin: 0 20px;
 }
 
 .like_item_container {
@@ -23,7 +33,8 @@
     height: 100px;
     margin: 20px;
     flex-shrink: 0;
-    background: #91FFBD;
+    border-radius: 10px;
+    background: #B5FCD1;
 }
 
 .title {
@@ -90,11 +101,16 @@
 }
 
 .no_hospitals {
+    width:960px;
+    height:560px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    border: 1px solid #ECECEC;
+    background: #FFF;
     display: flex;
-    justify-content: flex-end;
+    justify-content: center;
     align-items: center;
     flex-direction: column;
-    margin-top: 250px;
 }
 
 .no_like_image {
@@ -178,4 +194,37 @@
 
 .clickedItem {
     background-color: red;
+}
+
+@media (max-width: 768px) {
+    .like_container, .like_list_templete, .like_item_container, .no_hospitals, .imageContainer, .click_survey {
+        width: max-content;
+        margin: 20px 20px 20px 20px;
+        padding: 0 10px;
+    }
+
+    .like_text, .title, .date, .place, .district, .delete, .no_like, .no_like_text {
+        font-size: reduce(20%);
+        margin: 10px 10px;
+    }
+
+    .date, .delete {
+        float: none;
+        text-align: center;
+        margin: 10px auto;
+    }
+
+    .imageContainer {
+        justify-content: center;
+        margin: 0 auto;
+    }
+
+    .click_survey {
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    .popupContainer {
+        width: 90%;
+    }
 }

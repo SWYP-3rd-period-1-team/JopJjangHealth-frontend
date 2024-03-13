@@ -8,7 +8,7 @@
 .loginTitle {
     color: #000;
     text-align: center;
-    font-family: 'SUIT';
+    font-family: 'SUIT',sans-serif;
     font-size: 32px;
     font-style: normal;
     font-weight: 300;
@@ -18,9 +18,18 @@
 }
 
 .inputGroup {
+    position: relative;
     margin-bottom: 20px;
 }
 
+.visibilityToggle {
+    position: absolute;
+    right: 20px;
+    top: 15px;
+    border: none;
+    background: none;
+    cursor: pointer;
+}
 
 .input,.inputError {
     width: 600px;
@@ -46,7 +55,7 @@
     flex-shrink: 0;
     background: #1C3C29;
     color: #FFF;
-    font-family: 'SUIT';
+    font-family: 'SUIT',sans-serif;
     font-size: 24px;
     font-style: normal;
     font-weight: 600;
@@ -87,7 +96,7 @@
 
 .join, .findId, .findPassword {
     color: #757575;
-    font-family: 'SUIT';
+    font-family: 'SUIT',sans-serif;
     font-size: 20px;
     font-style: normal;
     font-weight: 400;
@@ -108,3 +117,44 @@
 .findId {
     margin-right: 10px;
 }
+
+@media (max-width: 768px) {
+    .loginContainer {
+        padding: 20px;
+    }
+
+    .loginTitle, .submitButton, .input, .inputError, .hr, .linkContainer {
+        width: 100%;
+    }
+
+    .input, .inputError {
+        height: 40px;
+        padding: 8px 15px;
+    }
+
+    .submitButton {
+        height: 50px;
+        font-size: 20px;
+        padding: 8px 15px;
+    }
+
+    .errorText {
+        font-size: 0.65rem;
+    }
+
+    .linkContainer {
+        flex-direction: column;
+        align-items: center;
+        margin-left: 0;
+    }
+
+    .join, .findId, .findPassword {
+        font-size: 18px;
+        margin: 5px 0;
+    }
+
+    .findId, .findPassword {
+        text-align: center;
+    }
+}
+

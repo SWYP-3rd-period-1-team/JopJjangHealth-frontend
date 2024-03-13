@@ -3,8 +3,8 @@ import styles from '../../styles/Find.module.css';
 import FindId from './UserId';
 import FindPassword from './Password';
 
-const TabComponent: () => JSX.Element = () => {
-    const [activeTab, setActiveTab] = useState('');
+const TabComponent: React.FC = () => {
+    const [activeTab, setActiveTab] = useState<string>('');
     
     useEffect(() => {
         if (typeof window !== 'undefined') {

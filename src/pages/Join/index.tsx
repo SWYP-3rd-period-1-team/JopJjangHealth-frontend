@@ -1,27 +1,25 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {signUp, sendEmailVerification, verifyEmailCode} from '../../utils/auth';
+import {signUp, sendEmailVerification, verifyEmailCode} from '../../api/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
 import styles from '../../styles/Join.module.css';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import {useRecoilState} from 'recoil';
 import {
     customDomainState,
     emailDomainState,
     emailUsernameState,
-    isAgreedState, isVerificationCompleteState,
+    isAgreedState,
+    isVerificationCompleteState,
     isVerificationSentState,
+    passwordVisibilityState
 } from '../../state/join';
 import {useRouter} from 'next/router';
-
-interface FormData {
-    nickname: string;
-    userId: string;
-    password: string;
-    confirmPassword: string;
-    email: string;
-    emailVerificationCode: string;
-}
+import eye from "../../../public/assets/icon/ic_eye.png";
+import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
+import Image from 'next/image';
+import { JoinFormData } from '../../types/server/formData';
+import {errorMessageState} from '../../state';
 
 const emailDomains = ['gmail.com', 'naver.com', 'daum.net', 'nate.com', 'other'];
 
@@ -34,9 +32,16 @@ const Join = () => {
         setValue,
         getValues,
         formState: {errors, isValid},
-    } = useForm<FormData>({
+    } = useForm<JoinFormData>({
         mode: 'onChange',
     });
+    
+    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
+    const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
+    
+    const togglePasswordVisibility = () => {
+        setPasswordType(passwordType === 'password' ? 'text' : 'password');
+    };
     
     const [emailUsername, setEmailUsername] = useRecoilState(emailUsernameState);
     const [emailDomain, setEmailDomain] = useRecoilState(emailDomainState);
@@ -50,26 +55,35 @@ const Join = () => {
         setValue('email', fullEmail);
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
-    const onSubmit = async (data: FormData) => {
-        await signUp(data.nickname, data.userId, data.email, data.password);
+    const onSubmit = async (data: JoinFormData) => {
+        const response = await signUp(data.nickname, data.userId, data.email, data.password);
+        if (response?.success) {
+            alert(response?.data?.data?.message);
+            await router.push(response.data?.data?.surveyUrl)
+        } else {
+            setErrorMessage(response.message);
+        }
     };
     
     const handleEmailVerificationRequest = async () => {
         const email = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
-        const result = await sendEmailVerification(email);
-        if (result?.success) {
+        const response = await sendEmailVerification(email);
+        if (response?.data?.data?.message) {
+            alert(response?.data?.data?.message);
             setIsVerificationSent(true);
+        } else {
+            alert(response?.message.includes('이미 존재하는 이메일 입니다.') ? response.message : '이메일을 확인 해주세요.');
         }
     };
     
     const handleEmailVerification = async () => {
         const formData = getValues();
-        const verificationResult = await verifyEmailCode(formData.email, formData.emailVerificationCode);
-        if (verificationResult?.success) {
+        const response = await verifyEmailCode(formData.email, formData.emailVerificationCode);
+        if (response?.data?.data?.message) {
             setIsVerificationComplete(true);
             setIsVerificationSent(false);
         } else {
-            alert('잘못된 인증 코드입니다. 다시 확인해주세요.');
+          alert(response?.message);
         }
     };
     
@@ -116,7 +130,7 @@ const Join = () => {
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="비밀번호 (영문, 숫자 조합 8 ~ 15자리)"
                             {...register('password', {
                                 required: '비밀번호를 입력해주세요.',
@@ -124,11 +138,20 @@ const Join = () => {
                             })}
                             className={errors.password ? styles.inputError : styles.input}
                         />
+                        <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
+                            {passwordType === 'password' ?
+                                <>
+                                    <Image src={eyeSlash} alt={'eye-slash'} />
+                                </> :
+                                <>
+                                    <Image src={eye} alt={'eye'} />
+                                </>}
+                        </div>
                         {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="비밀번호 확인"
                             {...register('confirmPassword', {
                                 validate: value =>
@@ -187,13 +210,13 @@ const Join = () => {
                         <input
                             placeholder="이메일 인증"
                             {...register('email', {
-                                required: '비밀번호를 입력해주세요.',
+                                required: '이메일 인증을 입력해주세요.',
                                 validate: validateEmail,
                             })}
                             className={errors.email ? styles.inputError : styles.input}
                         />
                         {errors.email && (
-                            <p className={styles.errorText}>{errors.email.message}</p>
+                            <p className={styles.errorText}>{errors.email.message || errorMessage.includes('email')}</p>
                         )}
                     </div>
                     {isVerificationSent && !isVerificationComplete && (
@@ -228,6 +251,9 @@ const Join = () => {
                             개인정보 수집 및 이용 동의
                         </label>
                     </div>
+                    {errorMessage && (
+                        <div className={styles.errorText}>{errorMessage}</div>
+                    )}
                     <button
                         type="submit"
                         className={styles.submitButton}

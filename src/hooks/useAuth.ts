@@ -11,7 +11,7 @@ const useAuth = () => {
         const userIsLoggedIn = !!accessToken;
         
         if (!userIsLoggedIn) {
-            router.push('/Login');
+            router.push('/Login').catch((error) => console.error('로그인 페이지로 이동 할 수 없습니다.'));
         }
     }, [getTokenValue, router]);
 };

@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import styles from '../../styles/Calendar.module.css';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import AddSupplements from '../../components/CalendarOption/AddSupplements';
 import AddWaterIntake from '../../components/CalendarOption/AddWaterIntake';
 import AddSleepTime from '../../components/CalendarOption/AddSleepTime';

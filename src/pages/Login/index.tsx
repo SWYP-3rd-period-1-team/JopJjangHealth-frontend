@@ -1,21 +1,27 @@
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {login} from '../../utils/auth';
+import {login} from '../../api/auth';
 import {validatePassword, validateUserId} from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import {useRouter} from 'next/router';
 import useToken from '../../hooks/useToken';
-import {saveHealthSurvey} from '../../api/survey';
-
-interface FormData {
-    username: string;
-    password: string;
-}
+import {saveHealthSurvey} from '../../api/Survey';
+import eye from "../../../public/assets/icon/ic_eye.png";
+import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
+import Image from 'next/image';
+import {LoginFormData} from "../../types/server/formData";
+import { useRecoilState } from 'recoil';
+import { passwordVisibilityState } from '../../state/login';
+import {errorMessageState} from '../../state';
 
 const Login: React.FC = () => {
     const router = useRouter();
     const {loginSaveToken, getTokenValue} = useToken();
+    
+    const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
+    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
+    
     useEffect(() => {
         const accessToken = getTokenValue('zzgg_at');
         if (accessToken) {
@@ -27,39 +33,39 @@ const Login: React.FC = () => {
         register,
         handleSubmit,
         formState: {errors, isValid},
-    } = useForm<FormData>({
+        watch,
+    } = useForm<LoginFormData>({
         mode: 'onChange',
     });
     
-    const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const togglePasswordVisibility = () => {
+        setPasswordType(passwordType === 'password' ? 'text' : 'password');
+    };
     
     const openPopup = (url: string, text: string) => {
         localStorage.setItem('activeTab', text);
-        window.open(url, 'popup', 'width=600,height=600');
+        window.open(url, 'popup', 'width=580,height=700');
     };
     
-    const onSubmit = async (data: FormData) => {
-        try {
-            const result = await login(data.username, data.password);
-            if (result?.data) {
-                loginSaveToken({
-                    access_token: result.data.accessToken,
-                    refresh_token: result.data.refreshToken,
-                });
-                const accessToken = getTokenValue('zzgg_at');
-                const surveyOption = localStorage.getItem('surveyOption');
-                if (accessToken && surveyOption) {
-                    const parsedOption = JSON.parse(surveyOption);
-                    await saveHealthSurvey(parsedOption);
-                    localStorage.removeItem('surveyOption');
-                    await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
-                } else {
-                    await router.push('/');
-                }
+    const onSubmit = async (data: LoginFormData) => {
+        const response = await login(data.username, data.password);
+        if (response?.data) {
+            loginSaveToken({
+                access_token: response.data.accessToken,
+                refresh_token: response.data.refreshToken,
+            });
+            const accessToken = getTokenValue('zzgg_at');
+            const surveyOption = localStorage.getItem('surveyOption');
+            if (accessToken && surveyOption) {
+                const parsedOption = JSON.parse(surveyOption);
+                await saveHealthSurvey(parsedOption);
+                localStorage.removeItem('surveyOption');
+                await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
+            } else {
+                await router.push('/');
             }
-        } catch (error) {
-            console.error('로그인 처리 중 오류:', error);
-            setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다.');
+        } else {
+            setErrorMessage(response.message.includes('406') ? '아이디나 비밀번호가 일치하지 않습니다.' : '\'로그인에 실패했거나 JWT 토큰이 없습니다.\'');
         }
     };
     
@@ -90,7 +96,7 @@ const Login: React.FC = () => {
                     
                     <div className={styles.inputGroup}>
                         <input
-                            type="password"
+                            type={passwordType}
                             placeholder="비밀번호"
                             {...register('password', {
                                 required: '비밀번호를 입력해주세요.',
@@ -102,6 +108,15 @@ const Login: React.FC = () => {
                                     : styles.input
                             }
                         />
+                        <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
+                            {passwordType === 'password' ?
+                                <>
+                                    <Image src={eyeSlash} alt={"eye-slash"}/>
+                                </> :
+                                <>
+                                    <Image src={eye} alt={"eye"}/>
+                                </>}
+                        </div>
                         {errors.password && (
                             <p className={styles.errorText}>
                                 {errors.password.message}

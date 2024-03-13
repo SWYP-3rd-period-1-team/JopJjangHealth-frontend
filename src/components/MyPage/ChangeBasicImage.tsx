@@ -1,7 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
-import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
+import {changeUserProfileImage, uploadProfileImage} from '../../api/MyPage';
+import { useRecoilState } from 'recoil';
+import {changeBasicImageSelectedIndex} from '../../state/mypage';
 
 const imageSources = [
     '/assets/myPage/character_one.png',
@@ -10,8 +12,8 @@ const imageSources = [
     '/assets/myPage/character_four.png',
 ];
 
-const ChangeBasicImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
-    const [selectedIndex, setSelectedIndex] = useState<number | null>(null);
+const ChangeBasicImage: React.FC = () => {
+    const [selectedIndex, setSelectedIndex] = useRecoilState(changeBasicImageSelectedIndex);
     
     const handleSelectImage = (index: number) => {
         setSelectedIndex(index);
@@ -27,23 +29,18 @@ const ChangeBasicImage: React.FC<{ onClose: () => void }> = ({ onClose }) => {
         try {
             const response = await fetch(selectedImagePath);
             const blob = await response.blob();
-            console.log(blob,"blob: ")
             const file = new File([blob], `selectedImage-${selectedIndex}.png`, { type: 'image/png' });
-            console.log(file,"file: ")
             const isDefaultImage = localStorage.getItem('isDefaultImage') === 'true';
             if (isDefaultImage) {
                 await uploadProfileImage(file);
-                console.log(file,"file: ")
             } else {
                 await changeUserProfileImage(file);
-                console.log(file,"file:")
             }
             alert('이미지 업로드에 성공했습니다.');
             localStorage.clear();
             window.close();
         } catch (error) {
             alert('이미지 업로드에 실패했습니다.');
-            console.error('Upload Error:', error);
         }
     };
     

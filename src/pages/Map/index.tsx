@@ -1,5 +1,5 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import MapView from './Child/MapView';
 import styled from 'styled-components';
 import LoadingView from '../../components/common/LoadingView';

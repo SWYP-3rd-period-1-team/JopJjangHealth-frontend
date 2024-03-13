@@ -1,14 +1,10 @@
 // import {useResetRecoilState, useSetRecoilState} from 'recoil';
 import useSaveLocalContent from './useSaveLocalContent';
 import {useQueryClient} from '@tanstack/react-query';
-import {useRouter} from 'next/router';
 import Cookies from 'js-cookie';
 
 const useToken = () => {
     const queryClient = useQueryClient();
-
-    const router = useRouter();
-
     const {setEncryptedCookie} = useSaveLocalContent();
 
     const loginSaveToken = ({
@@ -26,7 +22,6 @@ const useToken = () => {
         document.cookie = 'zzgg_at=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         document.cookie = 'zzgg_rt=; expires=Thu, 01 Jan 1970 00:00:01 GMT;';
         queryClient.clear();
-        // router.push('/');
     };
     
     const getTokenValue = (tokenName: string) => {

@@ -1,0 +1,108 @@
+.content_basic, .content_bold, .image_container, .check {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.content_basic {
+    top: 5%;
+    color: #000;
+    text-align: center;
+    font-family: 'SUIT', serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%; /* 48px */
+    letter-spacing: -0.64px;
+}
+
+.content_bold {
+    top: 15%;
+    color: #000;
+    text-align: center;
+    font-family: 'SUIT', serif;
+    font-size: 32px;
+    font-style: normal;
+    line-height: 150%; /* 48px */
+    letter-spacing: -0.64px;
+    font-weight: 700;
+    border-right: 2px solid black;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 0;
+    animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
+}
+
+.image_container {
+    bottom:20%;
+    display: flex;
+    justify-content: center;
+    margin-top: 160px;
+}
+
+.check {
+    top: 85%;
+    width: 629px;
+    height: 55px;
+    flex-shrink: 0;
+    border-radius: 10px;
+    background: #1C3C29;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    color: #FFF;
+    font-family: 'SUIT', serif;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 24px */
+    letter-spacing: -0.48px;
+}
+
+@keyframes typing {
+    from {
+        width: 0;
+    }
+    to {
+        width: 500px;
+    }
+}
+
+@keyframes blink-caret {
+    from, to {
+        border-color: transparent;
+    }
+    50% {
+        border-color: black;
+    }
+}
+
+@media (max-width: 768px) {
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: max-content;
+        }
+    }
+
+    .content_basic, .content_bold, .question, .check, .question_complete, .question_complete_title {
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        font-size: 24px;
+    }
+
+    .content_bold, .question {
+        animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
+        width: auto;
+    }
+
+    .image_container {
+        margin-top: 80px;
+        width:90%;
+        height: auto;
+    }
+}
+

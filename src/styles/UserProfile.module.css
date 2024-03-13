@@ -28,6 +28,7 @@
     color: #757575;
     cursor: pointer;
     margin-top: 5px;
+    margin-right:20px;
     text-align: center;
     font-size: 16px;
     font-style: normal;
@@ -50,7 +51,7 @@
 .userAsk, .userAnswer {
     border: none;
     color: #000;
-    width: 250px;
+    width: auto;
     height: 55px;
     flex-shrink: 0;
     font-family: 'SUIT', sans-serif;
@@ -64,6 +65,19 @@
 .userAnswer {
     cursor: pointer;
     margin-left: 85px;
+}
+
+.errorMessage {
+    color: red;
+    margin-top: 10px;
+    font-family: 'SUIT', sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 160%; /* 22.4px */
+    letter-spacing: -0.28px;
+    text-align: left;
+    margin-left: 125px;
 }
 
 .userAnswer:hover {
@@ -187,4 +201,46 @@
     background: #FFF;
 }
 
+@media (max-width: 768px) {
+    .profileContainer {
+        width: 90%;
+        height: auto;
+        padding-left: 10px;
+        margin: 20px auto;
+    }
 
+    .imageContainer, .images_container, .images_container_second {
+        display: block;
+        margin-top: 20px;
+        text-align: center;
+    }
+
+    .profileImage, .basic_img, .imagePreviewContainer {
+        width: 100px;
+        height: 100px;
+        margin: 0 auto;
+        border-radius: 50px;
+    }
+
+    .userAsk, .userAnswer {
+        width: 90%;
+        margin: 10px auto;
+    }
+
+    .userAnswer {
+        margin-left: 0;
+    }
+
+    .editButton, .checkButton {
+        width: 90%;
+        margin: 20px auto;
+    }
+
+    .errorMessage, .hint {
+        margin-left: 10px;
+    }
+
+    .userNameChangeButton {
+        margin-left: 5px;
+    }
+}

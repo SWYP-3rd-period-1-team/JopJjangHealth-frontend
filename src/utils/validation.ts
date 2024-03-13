@@ -6,10 +6,11 @@ export const validateEmail = (email: string): string | true => {
 	return true;
 };
 
-export const validatePassword = (password: string): string | true => {
-	const regex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[A-Za-z\d@$!%*?&]{8,15}$/;
+export const validatePassword = (password:string) => {
+	const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
+	
 	if (!regex.test(password)) {
-		return '비밀번호는 대소문자, 숫자를 모두 포함하고, 8자 이상 15자 이하이어야 합니다.';
+		return '비밀번호는 영문, 숫자 조합 8~15자리여야 합니다.';
 	}
 	return true;
 };

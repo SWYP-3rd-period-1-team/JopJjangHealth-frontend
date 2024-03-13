@@ -1,5 +1,5 @@
 import React, {Suspense, useEffect, useState} from 'react';
-import Layout from '../../components/Layout';
+import Layout from '../../components/common/Layout';
 import styled from 'styled-components';
 import {useRouter} from 'next/router';
 import SearchLogoView from './Child/SearchLogoView';

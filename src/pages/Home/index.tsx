@@ -1,6 +1,6 @@
 import styles from '../../styles/Home.module.css';
 import React from 'react';
-import Layout from "../../components/Layout";
+import Layout from "../../components/common/Layout";
 import {useRouter} from 'next/router';
 import Image from 'next/image';
 import late_work from "../../../public/assets/home/late_work.png";
