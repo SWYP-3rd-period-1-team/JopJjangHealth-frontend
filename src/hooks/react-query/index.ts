@@ -7,15 +7,13 @@ import {getCalendar} from '../../api/calendar';
 import {Response_Calendar} from '../../types/server/calendar';
 
 export const useQuery_UserInfo: () => UseQueryResult<{
+    success: boolean;
     data: {
-        success: boolean;
-        data: {
-            email: string;
-            memberId: number;
-            nickname: string;
-            profileImage: string;
-            userId: string;
-        };
+        email: string;
+        memberId: number;
+        nickname: string;
+        profileImage: string;
+        userId: string;
     };
 }> = () => {
     return useQuery({
