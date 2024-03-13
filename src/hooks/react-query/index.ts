@@ -1,8 +1,6 @@
-import {options} from './../../../mock/SurveyMock';
-import {UseQueryOptions, UseQueryResult, useQuery} from '@tanstack/react-query';
-import {AxiosError, AxiosResponse} from 'axios';
-import {fetchUserInfo} from '../../api/mypage';
-import {fetchHospitalInfo} from '../../api/like';
+import {UseQueryResult, useQuery} from '@tanstack/react-query';
+import {fetchUserInfo} from '../../api/MyPage';
+import {fetchHospitalInfo} from '../../api/Like';
 import {getCalendar} from '../../api/calendar';
 import {Response_Calendar} from '../../types/server/calendar';
 
