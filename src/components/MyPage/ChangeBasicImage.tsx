@@ -1,7 +1,7 @@
 import React from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
-import {changeUserProfileImage, uploadProfileImage} from '../../api/mypage';
+import {changeUserProfileImage, uploadProfileImage} from '../../api/MyPage';
 import { useRecoilState } from 'recoil';
 import {changeBasicImageSelectedIndex} from '../../state/mypage';
 

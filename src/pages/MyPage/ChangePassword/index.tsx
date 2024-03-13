@@ -1,11 +1,11 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {checkUserAuthentication } from '../../../utils/auth';
-import {sendEmailVerificationForMyPage } from "../../../api/mypage";
+import {checkUserAuthentication } from '../../../api/auth';
+import {sendEmailVerificationForMyPage } from "../../../api/MyPage";
 import {validatePassword, validateEmail} from '../../../utils/validation';
 import styles from '../../../styles/ChangePassword.module.css';
 import Layout from '../../../components/common/Layout';
-import {ChangePassword} from '../../../api/mypage';
+import {changePassword} from '../../../api/MyPage';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 import eye from "../../../../public/assets/icon/ic_eye.png";
@@ -40,7 +40,7 @@ const Index: React.FC = () => {
             alert('이메일 인증을 완료해주세요.');
             return;
         }
-        await ChangePassword(data.password, data.confirmPassword);
+        await changePassword(data.password, data.confirmPassword);
     };
     
     const handleEmailVerificationRequest = async () => {

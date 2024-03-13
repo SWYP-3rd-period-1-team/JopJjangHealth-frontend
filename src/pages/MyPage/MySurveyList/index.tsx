@@ -5,8 +5,8 @@ import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
 // import Image from 'next/image';
 //import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
-import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/mypage';
-import {checkUserAuthentication} from '../../../utils/auth';
+import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/MyPage';
+import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 import LoadingView from '../../../components/common/LoadingView';
@@ -111,10 +111,6 @@ const SurveyList = () => {
     //         return () => clearTimeout(timer);
     //     }
     // }, [showPopup]);
-    
-    
-    if (isLoading) return <LoadingView />;
-    if (isError) return <div>에러가 발생했습니다: {error?.message}</div>;
     
     return (
         <Layout>

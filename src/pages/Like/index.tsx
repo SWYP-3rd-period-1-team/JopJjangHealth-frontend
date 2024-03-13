@@ -1,111 +1,21 @@
-import React, {useEffect} from 'react';
+import React from 'react';
 import Layout from '../../components/common/Layout';
 import styles from '../../styles/Like.module.css';
-import Link from 'next/link';
 import Image from 'next/image';
-import {fetchHospitalDeleteInfo, fetchHospitalInfo} from '../../api/like';
-import {checkUserAuthentication} from '../../utils/auth';
+import {checkUserAuthentication} from '../../api/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../hooks/useAuth';
 import LoadingView from '../../components/common/LoadingView';
 import likeLeft from '../../../public/assets/like/likeLeft.png';
 import likeRight from '../../../public/assets/like/likeRight.png';
-import { useRecoilState } from 'recoil';
-import {
-    hospitalFirstDataState,
-    hospitalInfoState,
-    isLoadingState,
-    isHospitalDetailsLoadedState,
-    isHospitalInfoLoadedState
-} from '../../state/like';
+import NoLike from '../../components/Like/NoLike';
+import LikeList from '../../components/Like/LikeList';
+import useHospitalInfo from '../../hooks/useLikeHospitalInfo';
+import { fetchHospitalDeleteInfo } from '../../api/Like';
 
 const Like = () => {
     useAuth();
-    const [hospitalFirstData, setHospitalFirstData] = useRecoilState(hospitalFirstDataState);
-    const [hospitalInfo, setHospitalInfo] = useRecoilState(hospitalInfoState);
-    const [isLoading, setIsLoading] = useRecoilState(isLoadingState);
-    const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useRecoilState(isHospitalDetailsLoadedState);
-    const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useRecoilState(isHospitalInfoLoadedState);
-    
-    useEffect(() => {
-        const initializeHospitalInfo = async () => {
-            try {
-                const response = await fetchHospitalInfo();
-                setHospitalFirstData(response?.data?.data?.bookmarkList);
-                setIsHospitalInfoLoaded(true);
-            } finally {
-                setIsLoading(false);
-            }
-        };
-        initializeHospitalInfo();
-    }, []);
-    
-    useEffect(() => {
-        const loadGoogleMapsScript = (callback: () => void) => {
-            if (document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js"]')) {
-                callback();
-            } else {
-                const googleMapScript = document.createElement('script');
-                googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places,geometry`;
-                document.body.appendChild(googleMapScript);
-                googleMapScript.addEventListener('load', callback);
-            }
-        };
-        
-        const loadPlaceDetails = () => {
-            navigator.geolocation.getCurrentPosition((position) => {
-                const userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                const service = new window.google.maps.places.PlacesService(document.createElement('div'));
-                
-                const detailsPromises = hospitalFirstData?.map(hospital => new Promise((resolve, reject) => {
-                    if (hospital.googleMapId) {
-                        service.getDetails({placeId: hospital.googleMapId}, (result: any, status: any) => {
-                            if (status === window.google.maps.places.PlacesServiceStatus.OK) {
-                                const hospitalLocation = result.geometry.location;
-                                const distanceMeters = window.google.maps.geometry.spherical.computeDistanceBetween(userLocation, hospitalLocation);
-                                const distanceKm = (distanceMeters / 1000).toFixed(2);
-                                
-                                resolve({
-                                    id: result.place_id,
-                                    name: result.name,
-                                    address: result.formatted_address,
-                                    bookmarkDate: hospital.bookmarkDate,
-                                    distance: `${distanceKm} km`,
-                                });
-                            } else {
-                                reject(new Error(`${hospital.googleMapId}의 구글맵 ID에 에러 발생하였습니다.`));
-                            }
-                        });
-                    } else {
-                        reject(new Error('구글 맵 ID가 제공되지 않았습니다.'));
-                    }
-                }));
-                
-                Promise.allSettled(detailsPromises)
-                    .then(results => {
-                        const successfulDetails = results.filter(result => result.status === 'fulfilled').map(result => (result as PromiseFulfilledResult<any>).value);
-                        setHospitalInfo(successfulDetails);
-                        setIsHospitalDetailsLoaded(true);
-                    })
-                    .catch(() => {
-                        alert("병원 상세 정보를 가져올 수 없습니다.")
-                    })
-                    .finally(() => {
-                        setIsLoading(false);
-                    });
-            });
-        };
-        
-        if (hospitalFirstData?.length > 0 && !isLoading) {
-            loadGoogleMapsScript(() => {
-                loadPlaceDetails();
-            });
-        } else {
-            setIsLoading(false);
-        }
-    }, [hospitalFirstData, isLoading]);
-    
-    const isStillLoading = isLoading || !isHospitalInfoLoaded || !isHospitalDetailsLoaded;
+    const { hospitalInfo, setHospitalInfo, isLoading, isHospitalDetailsLoaded, isHospitalInfoLoaded } = useHospitalInfo();
     
     const handleDeleteHospital = async (hospitalId: string) => {
         const response = await fetchHospitalDeleteInfo(hospitalId);
@@ -116,43 +26,22 @@ const Like = () => {
             alert(response.message);
         }
     };
+    const isStillLoading = isLoading || !isHospitalInfoLoaded || !isHospitalDetailsLoaded;
     
     return (
         <Layout>
             <div className={styles.like_container}>
                 <div className={styles.like_text}>
-                    <Image src={likeLeft} alt={"likeLeft"}/>
+                    <Image src={likeLeft} alt={'likeLeft'} />
                     <b>직짱인 님</b>의 <b>찜한</b> 병원 리스트
-                    <Image src={likeRight} alt={"likeRight"}/>
+                    <Image src={likeRight} alt={'likeRight'} />
                 </div>
-                <div className={styles.like_list_templete}>
+                <div className={styles.like_list_template}>
                     {isStillLoading ?
                         <LoadingView />
                         : hospitalInfo?.length > 0 ?
-                            <>
-                                {hospitalInfo?.map(hospital => (
-                                    <div key={hospital.id} className={styles.like_item_container}>
-                                        <div className={styles.title}>
-                                            {hospital.name}
-                                        </div>
-                                        <div className={styles.date}>{hospital.bookmarkDate} 찜</div>
-                                        <div className={styles.title}>
-                                            <span className={styles.place}>{hospital.address}</span>
-                                            {' '}|{' '}
-                                            <span className={styles.district}>{hospital.distance} 떨어져 있습니다.</span>
-                                        </div>
-                                        <div className={styles.delete}
-                                             onClick={() => handleDeleteHospital(hospital.id)}>삭제
-                                        </div>
-                                    </div>
-                                ))}
-                            </> : <div className={styles.no_hospitals}>
-                                <div className={styles.no_like}>찜한 병원이 없네요!</div>
-                                <div className={styles.no_like_text}><b>건강 설문</b>을 통해 <b>병원을 추천</b>받아볼까요?</div>
-                                <Link href={'/'}>
-                                    <button className={styles.click_survey}>건강 설문하러 가기</button>
-                                </Link>
-                            </div>
+                            <LikeList hospitalInfo={hospitalInfo} onDeleteHospital={handleDeleteHospital} />
+                            : <NoLike />
                     }
                 </div>
             </div>

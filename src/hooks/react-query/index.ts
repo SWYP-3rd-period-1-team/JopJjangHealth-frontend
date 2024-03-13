@@ -1,8 +1,8 @@
 import {options} from './../../../mock/SurveyMock';
 import {UseQueryOptions, UseQueryResult, useQuery} from '@tanstack/react-query';
 import {AxiosError, AxiosResponse} from 'axios';
-import {fetchUserInfo} from '../../api/mypage';
-import {fetchHospitalInfo} from '../../api/like';
+import {fetchUserInfo} from '../../api/MyPage';
+import {fetchHospitalInfo} from '../../api/Like';
 
 export const useQuery_UserInfo: () => UseQueryResult<{
     data: {

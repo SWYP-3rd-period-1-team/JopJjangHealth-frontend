@@ -1,8 +1,15 @@
 import axiosInstance from './axiosInstance';
+import {
+    changePasswordUrl, changeUserNicknameUrl,
+    changeUserProfileImageUrl, deleteUserProfileImageUrl,
+    fetchDiseaseListDeleteUrl,
+    fetchDiseaseListUrl, fetchUserInfoUrl, sendEmailVerificationForMyPageUrl,
+    uploadProfileImageUrl,
+} from './Urls';
 
-export const ChangePassword = async (password: string, confirmPassword: string) => {
+export const changePassword = async (password: string, confirmPassword: string) => {
     try {
-        await axiosInstance.patch('/api/members/change-password',
+        await axiosInstance.patch(changePasswordUrl,
             {
                 newPassword: password,
                 confirmPassword: confirmPassword,
@@ -16,7 +23,7 @@ export const ChangePassword = async (password: string, confirmPassword: string) 
 
 export const fetchDiseaseList = async () => {
     try {
-        const response = await axiosInstance.get('/api/survey/list');
+        const response = await axiosInstance.get(fetchDiseaseListUrl);
         return {success: true, data: response.data};
     } catch (error) {
         return {success: false, message: '질병 리스트 호출 중 에러가 발생했습니다'};
@@ -25,7 +32,7 @@ export const fetchDiseaseList = async () => {
 
 export const fetchDiseaseListDelete = async (surveyId: number) => {
     try {
-        const response = await axiosInstance.delete(`/api/survey/delete/${surveyId}`);
+        const response = await axiosInstance.delete(fetchDiseaseListDeleteUrl(surveyId));
         return {success: true, data: response.data};
     } catch (error) {
         return {success: false, message: '질병 리스트 삭제 중 에러가 발생했습니다'};
@@ -36,7 +43,7 @@ export const changeUserProfileImage = async (file: File) => {
     const formData = new FormData();
     formData.append('profileImage', file);
     
-    return axiosInstance.put('/api/profile/update', formData, {
+    return axiosInstance.put(changeUserProfileImageUrl, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -47,7 +54,7 @@ export const uploadProfileImage = async (file: File) => {
     const formData = new FormData();
     formData.append('profileImage', file);
     
-    const response = await axiosInstance.post('/api/profile/upload', formData, {
+    const response = await axiosInstance.post(uploadProfileImageUrl, formData, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -56,7 +63,7 @@ export const uploadProfileImage = async (file: File) => {
 };
 
 export const deleteUserProfileImage = async () => {
-    return axiosInstance.delete('/api/profile/delete', {
+    return axiosInstance.delete(deleteUserProfileImageUrl, {
         headers: {
             'Content-Type': 'multipart/form-data',
         },
@@ -65,7 +72,7 @@ export const deleteUserProfileImage = async () => {
 
 export const fetchUserInfo = async () => {
     try {
-        const response = await axiosInstance.get('/api/members/my-page');
+        const response = await axiosInstance.get(fetchUserInfoUrl);
         return {success: true, data: response.data.data};
     } catch (error) {
         return {success: false, message: '회원정보 호출 중 에러가 발생했습니다'};
@@ -74,7 +81,7 @@ export const fetchUserInfo = async () => {
 
 export const changeUserNickname = async (newNickname: string) => {
     try {
-        const response = await axiosInstance.patch('/api/members/change-nickname', {newNickname});
+        const response = await axiosInstance.patch(changeUserNicknameUrl, {newNickname});
         return {success: true, data: response.data};
     } catch (error:any) {
         return { success: false, message: error.response?.data?.message || error.message };
@@ -83,7 +90,7 @@ export const changeUserNickname = async (newNickname: string) => {
 
 export const sendEmailVerificationForMyPage = async (email: string) => {
     try {
-        const response = await axiosInstance.post(`/api/members/verify-email`, {email: email});
+        const response = await axiosInstance.post(sendEmailVerificationForMyPageUrl, {email: email});
         alert(response.data.data);
         return {success: true, data: response.data};
     } catch (error) {

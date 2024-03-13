@@ -1,10 +1,11 @@
 import qs from 'qs';
-import axiosInstance from '../api/axiosInstance';
+import axiosInstance from './axiosInstance';
 import {GetServerSideProps, GetServerSidePropsContext} from 'next';
+import {loginUrl, logoutUrl, sendEmailVerificationUrl, signUpUrl, verifyEmailCodeUrl} from './Urls';
 
 export const signUp = async (nickname: string, userId: string, email: string, password: string) => {
     try {
-        const response = await axiosInstance.post('/api/members/join', {nickname, userId, email, password}, {
+        const response = await axiosInstance.post(signUpUrl, {nickname, userId, email, password}, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': 'application/json',
@@ -18,7 +19,7 @@ export const signUp = async (nickname: string, userId: string, email: string, pa
 export const login = async (username: string, password: string) => {
     try {
         const data = qs.stringify({username, password});
-        const response = await axiosInstance.post('/login', data, {
+        const response = await axiosInstance.post(loginUrl, data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
@@ -31,7 +32,7 @@ export const login = async (username: string, password: string) => {
 
 export const sendEmailVerification = async (email: string) => {
     try {
-        const response = await axiosInstance.post(`/api/emails/verification-requests?email=${email}`, {});
+        const response = await axiosInstance.post(sendEmailVerificationUrl(email), {});
         return {success: true, data: response.data};
     } catch (error: any) {
         return {success: false, message: error.response?.data?.message || error.message};
@@ -40,7 +41,7 @@ export const sendEmailVerification = async (email: string) => {
 
 export const verifyEmailCode = async (email: string, code: string) => {
     try {
-        const response = await axiosInstance.get(`/api/emails/verifications?email=${email}&code=${code}`);
+        const response = await axiosInstance.get(verifyEmailCodeUrl(email,code));
         return {success: true, data: response.data};
     } catch (error: any) {
         return {success: false, message: error.response?.data?.message || error.message};
@@ -50,7 +51,7 @@ export const verifyEmailCode = async (email: string, code: string) => {
 
 export const logout = async (refreshToken: string | undefined): Promise<any> => {
     try {
-        const response = await axiosInstance.patch(`/api/members/logout`, {}, {
+        const response = await axiosInstance.patch(logoutUrl, {}, {
             headers: {
                 'RefreshToken': `Bearer ${refreshToken}`,
             },

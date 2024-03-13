@@ -1,10 +1,11 @@
 import React, { useEffect } from 'react';
 import Image from 'next/image';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
 import { useRecoilState } from 'recoil';
 import Layout from '../../../components/common/Layout';
 import { validateNickname } from '../../../utils/validation';
-import { changeUserNickname, deleteUserProfileImage, fetchUserInfo } from '../../../api/mypage';
+import { changeUserNickname, deleteUserProfileImage, fetchUserInfo } from '../../../api/MyPage';
 import {
     userInfoState,
     newNicknameState,
@@ -17,45 +18,50 @@ import defaultImg from '../../../../public/assets/myPage/Default.png';
 import cancel from "../../../../public/assets/icon/ic_cancel.png";
 import useAuth from '../../../hooks/useAuth';
 import { GetServerSideProps } from 'next';
-import { checkUserAuthentication } from '../../../utils/auth';
+import { checkUserAuthentication } from '../../../api/auth';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
 const UserProfile = () => {
     useAuth();
     const router = useRouter();
+    const queryClient = useQueryClient();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [newNickname, setNewNickname] = useRecoilState(newNicknameState);
     const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
-    const refreshUserInfo = async () => {
-        try {
-            const response = await fetchUserInfo();
-            if (response.success) {
-                setUserInfo({
-                    profileImage: response.data.profileImage || DEFAULT_IMAGE_URL,
-                    nickname: response.data.nickname,
-                    userId: response.data.userId,
-                    email: response.data.email,
-                });
-                setNewNickname(response.data.nickname);
-            } else {
-                setErrorMessage('사용자 정보를 불러오는 데 실패했습니다.');
-            }
-        } catch (error) {
-            setErrorMessage('서버 오류가 발생했습니다.');
-        }
-    };
-    
-    useEffect(() => {
-        refreshUserInfo();
-    }, []);
     
     const handleNickNameChange = (event: {target: {value: React.SetStateAction<string>;};}) => {
         setNewNickname(event.target.value);
         setErrorMessage('');
+        setNicknameChangeRequested(false);
     };
+    
+    const { data, isLoading, error } = useQuery({
+        queryKey: ['userInfo'],
+        queryFn: fetchUserInfo,
+    });
+    
+    useEffect(() => {
+        if (data) {
+            setUserInfo(data.data);
+            setNewNickname(data.data.nickname);
+        }
+    }, [data]);
+    
+    const changeNicknameMutation = useMutation({
+        mutationFn: (nickname:string) => changeUserNickname( nickname ),
+        onSuccess: () => {
+            // @ts-ignore
+            queryClient.invalidateQueries(['userInfo']);
+            setNicknameChangeRequested(true);
+        },
+        onError: (error) => {
+            setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
+            setNicknameChangeRequested(false);
+        },
+    });
     
     const handleSubmitChangeNickname = async () => {
         const validationResult = validateNickname(newNickname);
@@ -65,6 +71,7 @@ const UserProfile = () => {
             return;
         }
         setNicknameValidationPassed(true);
+        changeNicknameMutation.mutate(newNickname);
         try {
             const response = await changeUserNickname(newNickname);
             if (response?.success) {
@@ -80,13 +87,31 @@ const UserProfile = () => {
         }
     };
     
-    const handleDeleteProfileImage = async () => {
-        try {
-            await deleteUserProfileImage();
-            alert('프로필 이미지가 성공적으로 삭제되었습니다.');
-            setUserInfo(prev => ({ ...prev, profileImage: DEFAULT_IMAGE_URL }));
-        } catch (error) {
-            alert('프로필 이미지 삭제 중 오류가 발생했습니다.');
+    const deleteUserImageMutation = useMutation({
+        mutationFn: deleteUserProfileImage,
+        onSuccess: () => {
+            alert("프로필 이미지가 성공적으로 삭제되었습니다.");
+            // @ts-ignore
+            queryClient.invalidateQueries(['userInfo']);
+        },
+        onError: () => {
+            alert("프로필 이미지 삭제 중 오류가 발생했습니다.");
+        },
+    });
+    
+    const handleDeleteProfileImage = () => {
+        deleteUserImageMutation.mutate();
+    };
+    
+    const refreshUserInfo = async () => {
+        const userInfo = await fetchUserInfo();
+        if (userInfo) {
+            setUserInfo({
+                profileImage: userInfo.data.profileImage || defaultImg,
+                nickname: userInfo.data.nickname || '',
+                userId: userInfo.data.userId || '',
+                email: userInfo.data.email || '',
+            });
         }
     };
     
@@ -122,11 +147,11 @@ const UserProfile = () => {
                             alt={'User Profile'}
                             width={'150px'}
                             height={'150px'}
-                            objectFit={"scale-down"}
+                            objectFit={'scale-down'}
                         />
-                        <div className={styles.profileBroke} onClick={handleDeleteProfileImage }>
+                        <div className={styles.profileBroke} onClick={handleDeleteProfileImage}>
                             {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ?
-                                <><Image src={cancel} alt={"cancel"}/></> : ''}
+                                <><Image src={cancel} alt={'cancel'} /></> : ''}
                         </div>
                     </div>
                     <div className={styles.profileEdit}

@@ -1,9 +1,9 @@
-export interface HospitalFirstData {
+export interface HospitalBookmark {
     googleMapId: string;
     bookmarkDate: string;
 }
 
-export interface HospitalInfo {
+export interface HospitalDetail {
     id: string;
     name: string;
     bookmarkDate: string;

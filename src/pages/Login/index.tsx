@@ -1,12 +1,12 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {login} from '../../utils/auth';
+import {login} from '../../api/auth';
 import {validatePassword, validateUserId} from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
 import Layout from '../../components/common/Layout';
 import {useRouter} from 'next/router';
 import useToken from '../../hooks/useToken';
-import {saveHealthSurvey} from '../../api/survey';
+import {saveHealthSurvey} from '../../api/Survey';
 import eye from "../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
