@@ -40,7 +40,7 @@ export const options: IOption[] = [
 	{id: 34, stage: 2, targetBodyPart: "관절", diagnosisPart: "골반, 엉덩이", image: "/assets/survey/골반, 엉덩이.png"},
 	{id: 35, stage: 2, targetBodyPart: "관절", diagnosisPart: "허리", image: "/assets/survey/허리.png"},
 	{id: 36, stage: 2, targetBodyPart: "관절", diagnosisPart: "목", image: "/assets/survey/목.png"},
-	{id: 37, stage: 2, targetBodyPart: "정서적, 신경적", diagnosisPart: "정서적", image: "/assets/survey/정서적.png"},
+	{id: 37, stage: 2, targetBodyPart: "정서적, 신경적", diagnosisPart: "정서적", image: "/assets/survey/정서적, 신경적.png"},
 	{id: 38, stage: 2, targetBodyPart: "정서적, 신경적", diagnosisPart: "신경적", image: "/assets/survey/신경적.png"},
 	
 	// 3단계 옵션: 질병 및 상세 증상 예시
