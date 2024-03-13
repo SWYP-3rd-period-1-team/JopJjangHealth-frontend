@@ -19,7 +19,7 @@ import ShareButton from '../../../components/Share/ShareButton';
 import {IOption} from '../../../types/server/survey';
 import useToken from '../../../hooks/useToken';
 import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
-import {saveHealthSurvey} from '../../../api/survey';
+import {saveHealthSurvey} from '../../../api/Survey';
 
 const Index = () => {
     const router = useRouter();
@@ -154,7 +154,6 @@ const Index = () => {
         };
         
         if (!accessToken && !forceRedirect) {
-            console.error('No access token found');
             localStorage.setItem('surveyOption', JSON.stringify(surveyOption));
             setShowLoginConfirm(true);
         } else {

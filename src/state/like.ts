@@ -1,7 +1,7 @@
 import { atom } from 'recoil';
-import { HospitalFirstData, HospitalInfo } from '../types/server/like';
+import { HospitalBookmark, HospitalDetail } from '../types/server/like';
 
-export const hospitalFirstDataState = atom<HospitalFirstData[]>({
+export const hospitalFirstDataState = atom<HospitalBookmark[]>({
     key: 'hospitalFirstData',
     default: [{
         googleMapId: '',
@@ -9,7 +9,7 @@ export const hospitalFirstDataState = atom<HospitalFirstData[]>({
     }],
 });
 
-export const hospitalInfoState = atom<HospitalInfo[]>({
+export const hospitalInfoState = atom<HospitalDetail[]>({
     key: 'hospitalInfo',
     default: [],
 });

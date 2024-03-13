@@ -16,11 +16,6 @@ export const activeDiseaseIdState = atom<string | null>({
     default: null,
 });
 
-export const isLoadingState = atom<boolean>({
-    key: 'isLoadingState',
-    default: true,
-});
-
 export const diseaseListState = atom<DiseaseItem[]>({
     key: 'diseaseListState',
     default: [],

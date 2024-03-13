@@ -1,6 +1,6 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import {findPassword} from '../../api/find';
+import {findPassword} from '../../api/Find';
 import styles from '../../styles/Find.module.css';
 import {useRouter} from 'next/router';
 import {PasswordFormData} from '../../types/server/formData';

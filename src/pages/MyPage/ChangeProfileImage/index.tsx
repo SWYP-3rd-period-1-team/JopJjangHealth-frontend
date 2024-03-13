@@ -2,7 +2,7 @@ import React, {useEffect, useState} from 'react';
 import styles from '../../../styles/ChangeProfileImg.module.css';
 import ChangeBasicImage from '../../../components/MyPage/ChangeBasicImage';
 import ChangePathImage from '../../../components/MyPage/ChangePathImage';
-import {checkUserAuthentication} from '../../../utils/auth';
+import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
 import useAuth from '../../../hooks/useAuth';
 

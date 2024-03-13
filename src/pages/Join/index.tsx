@@ -1,6 +1,6 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {signUp, sendEmailVerification, verifyEmailCode} from '../../utils/auth';
+import {signUp, sendEmailVerification, verifyEmailCode} from '../../api/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
 import styles from '../../styles/Join.module.css';
 import Layout from '../../components/common/Layout';
