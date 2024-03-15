@@ -15,46 +15,50 @@ import {
 import styles from '../../../styles/UserProfile.module.css';
 import defaultImg from '../../../../public/assets/myPage/Default.png';
 import cancel from "../../../../public/assets/icon/ic_cancel.png";
-import useAuthRedirect from '../../../hooks/useAuthRedirect';
+import useAuth from '../../../hooks/useAuthRedirect';
 import { GetServerSideProps } from 'next';
 import { checkUserAuthentication } from '../../../api/auth';
-import {useQuery_UserInfo} from '../../../hooks/react-query';
+import {errorMessageState} from '../../../state';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
 const UserProfile = () => {
-    useAuthRedirect();
+    useAuth();
     const router = useRouter();
     const queryClient = useQueryClient();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [newNickname, setNewNickname] = useRecoilState(newNicknameState);
+    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
     
     const handleNickNameChange = (event: {target: {value: React.SetStateAction<string>;};}) => {
         setNewNickname(event.target.value);
-        // setErrorMessage('');
+        setErrorMessage('');
         setNicknameChangeRequested(false);
     };
     
-    const {data: userData} = useQuery_UserInfo();
+    const { data } = useQuery({
+        queryKey: ['userInfo'],
+        queryFn: fetchUserInfo,
+    });
     
     useEffect(() => {
-        if (userData) {
-            setUserInfo(userData?.data);
-            setNewNickname(userData?.data.nickname);
+        if (data) {
+            setUserInfo(data.data);
+            setNewNickname(data.data.nickname);
         }
-    }, [userData]);
+    }, [data]);
     
     const changeNicknameMutation = useMutation({
         mutationFn: (nickname:string) => changeUserNickname( nickname ),
         onSuccess: () => {
             // @ts-ignore
-            queryClient.invalidateQueries(['user_info']);
+            queryClient.invalidateQueries(['userInfo']);
             setNicknameChangeRequested(true);
         },
         onError: (error) => {
-            // setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
+            setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
             setNicknameChangeRequested(false);
         },
     });
@@ -62,7 +66,7 @@ const UserProfile = () => {
     const handleSubmitChangeNickname = async () => {
         const validationResult = validateNickname(newNickname);
         if (!validationResult) {
-            // setErrorMessage(validationResult);
+            setErrorMessage(validationResult);
             setNicknameValidationPassed(false);
             return;
         }
@@ -75,11 +79,11 @@ const UserProfile = () => {
                 await refreshUserInfo();
                 setNicknameChangeRequested(true);
             } else {
-                // setErrorMessage(response.message);
+                setErrorMessage(response.message);
                 setNicknameChangeRequested(false);
             }
         } catch (error) {
-            // setErrorMessage('닉네임 변경 중 서버 오류가 발생했습니다.');
+            setErrorMessage('닉네임 변경 중 서버 오류가 발생했습니다.');
         }
     };
     
@@ -88,7 +92,7 @@ const UserProfile = () => {
         onSuccess: () => {
             alert("프로필 이미지가 성공적으로 삭제되었습니다.");
             // @ts-ignore
-            queryClient.invalidateQueries(['user_info']);
+            queryClient.invalidateQueries(['userInfo']);
         },
         onError: () => {
             alert("프로필 이미지 삭제 중 오류가 발생했습니다.");
@@ -102,7 +106,6 @@ const UserProfile = () => {
     const refreshUserInfo = async () => {
         const userInfo = await fetchUserInfo();
         if (userInfo) {
-            console.log(userInfo,"userInfo:")
             setUserInfo({
                 profileImage: userInfo.data.profileImage || defaultImg,
                 nickname: userInfo.data.nickname || '',
@@ -130,7 +133,7 @@ const UserProfile = () => {
     
     const onSubmit = async () => {
         alert('회원정보가 저장 되었습니다.');
-        router.push('/MyPage');
+        await router.push('/MyPage');
     };
     
     return (
@@ -169,11 +172,11 @@ const UserProfile = () => {
                             onClick={handleSubmitChangeNickname}
                             disabled={!validateNickname(newNickname)}>닉네임 변경하기
                         </button>
-                        {/*{errorMessage && (*/}
-                        {/*    <div className={styles.errorMessage}>*/}
-                        {/*        {errorMessage}*/}
-                        {/*    </div>*/}
-                        {/*)}*/}
+                        {errorMessage && (
+                            <div className={styles.errorMessage}>
+                                {errorMessage}
+                            </div>
+                        )}
                         <p className={styles.hint}>닉네임은 2번 이상 바꿀 수 없고, 8글자이며 똑같은 닉네임이 없을 경우 가능합니다.</p>
                     </div>
                     <div className={styles.likedListContainer}>

@@ -4,12 +4,12 @@ import {uploadProfileImage} from '../../api/MyPage';
 export const useUploadProfileImage = () => {
     const { mutate } = useMutation({
         mutationFn: (file: File) => uploadProfileImage(file),
-        onSuccess: (response) => {
+        onSuccess: () => {
             alert('이미지 업로드에 성공했습니다.')
             localStorage.clear();
             window.close();
         },
-        onError: (error) => {
+        onError: () => {
             alert('이미지 업로드에 실패했습니다.');
         }
     });
@@ -20,12 +20,12 @@ export const useUploadProfileImage = () => {
 export const useChangeUserProfileImage = () => {
     const { mutate } = useMutation({
         mutationFn: (file: File) => uploadProfileImage(file),
-        onSuccess: (response) => {
+        onSuccess: () => {
             alert('이미지 업로드에 성공했습니다.')
             localStorage.clear();
             window.close();
         },
-        onError: (error) => {
+        onError: () => {
             alert('이미지 업로드에 실패했습니다.');
         }
     });

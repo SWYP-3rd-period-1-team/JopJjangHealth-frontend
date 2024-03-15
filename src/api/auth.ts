@@ -77,4 +77,3 @@ export const checkUserAuthentication: GetServerSideProps = async (context: GetSe
     
     return {props: {}};
 };
-;

@@ -6,7 +6,6 @@ export const useChangePassword = () => {
     const { mutate } = useMutation({
         mutationFn: (data: ChangePasswordFormData) => changePassword(data.password, data.confirmPassword),
     });
-    
     return { mutate };
 };
 
@@ -14,6 +13,5 @@ export const useEmailVerification = () => {
     const { mutate } = useMutation({
         mutationFn: (email:string) => sendEmailVerificationForMyPage(email),
     });
-    
     return { mutate };
 };

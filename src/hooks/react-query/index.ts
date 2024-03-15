@@ -1,10 +1,9 @@
 import {UseQueryResult, useQuery} from '@tanstack/react-query';
-import {fetchDiseaseList, fetchUserInfo} from '../../api/MyPage';
+import {fetchUserInfo} from '../../api/MyPage';
 import {fetchHospitalInfo} from '../../api/Like';
 import {getCalendar} from '../../api/calendar';
 import {Response_Calendar} from '../../types/server/calendar';
 import useSaveLocalContent from '../useSaveLocalContent';
-import {DiseaseItem} from '../../types/server/surveyList';
 
 export const useQuery_UserInfo: () => UseQueryResult<{
     success: boolean;
@@ -37,9 +36,12 @@ export const useQuery_BookmarkList: () => UseQueryResult<{
         };
     };
 }> = () => {
+    const { getDecryptedCookie } = useSaveLocalContent();
+    const refreshToken = getDecryptedCookie('zzgg_rt');
     return useQuery({
         queryKey: ['bookmark_list'],
         queryFn: () => fetchHospitalInfo(),
+        enabled: !!refreshToken,
     });
 };
 
