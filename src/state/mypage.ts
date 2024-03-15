@@ -22,11 +22,6 @@ export const showLogoutModalState = atom({
     default: false,
 });
 
-export const isLoadingState = atom({
-    key: 'isLoadingState',
-    default: true,
-});
-
 export const userInfoState = atom<UserInfo>({
     key: 'userInfoState',
     default: {
@@ -42,11 +37,6 @@ export const newNicknameState = atom({
     default: '',
 });
 
-export const errorMessageState = atom({
-    key: 'errorMessageState',
-    default: '',
-});
-
 export const nicknameValidationPassedState = atom({
     key: 'nicknameValidationPassedState',
     default: true,
@@ -57,12 +47,7 @@ export const nicknameChangeRequestedState = atom({
     default: true,
 });
 
-export const isVerificationSentState = atom({
-    key: 'isVerificationSentState',
+export const isVerificationSentForMyPageState = atom({
+    key: 'isVerificationSentForMyPageState',
     default: false,
-});
-
-export const passwordTypeState = atom({
-    key: 'passwordTypeState',
-    default: 'password',
 });

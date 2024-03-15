@@ -3,25 +3,20 @@ import styles from '../../styles/MyPage.module.css';
 import Layout from '../../components/common/Layout';
 import Link from 'next/link';
 import LogoutModal from '../../components/MyPage/Logout';
-import {checkUserAuthentication, logout} from '../../api/auth';
-import useToken from '../../hooks/useToken';
-import useAuth from '../../hooks/useAuth';
+import {checkUserAuthentication} from '../../api/auth';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 import Image from 'next/image';
-import {useRouter} from 'next/router';
 import LoadingView from '../../components/common/LoadingView';
 import {useRecoilState} from 'recoil';
 import {showLogoutModalState, userInfoState} from '../../state/mypage';
 import {GetServerSideProps} from 'next';
 import defaultImg from '../../../public/assets/myPage/Default.png';
 import {useQuery_UserInfo} from '../../hooks/react-query';
-import useSaveLocalContent from '../../hooks/useSaveLocalContent';
+import {useLogout} from '../../hooks/react-query/useAuth';
 
 const MyPage = () => {
-    useAuth();
-    const {logoutDeleteToken} = useToken();
-    const router = useRouter();
-    const {getDecryptedCookie} = useSaveLocalContent();
-    const refreshToken = getDecryptedCookie('zzgg_rt');
+    useAuthRedirect();
+    const { mutate: logout } = useLogout();
     const [showLogoutModal, setShowLogoutModal] = useRecoilState(showLogoutModalState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const {data: userData, isLoading} = useQuery_UserInfo();
@@ -32,16 +27,8 @@ const MyPage = () => {
         }
     }, [userData]);
     
-    const onLogout = async () => {
-        if (refreshToken) {
-            const response = await logout(refreshToken);
-            if (response?.data?.blacklist?.length !== 0) {
-                logoutDeleteToken();
-                await router.push('/Home');
-            } else {
-                alert(response?.data?.message);
-            }
-        }
+    const onLogout = () => {
+        logout();
     };
     
     const handleLogoutSectionClick = () => setShowLogoutModal(true);

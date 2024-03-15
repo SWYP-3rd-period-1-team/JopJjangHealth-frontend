@@ -2,13 +2,12 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/router';
 import useSaveLocalContent from './useSaveLocalContent';
 
-const useAuth = () => {
+const useAuthRedirect = () => {
     const router = useRouter();
     const {getDecryptedCookie} = useSaveLocalContent();
     const accessToken = getDecryptedCookie('zzgg_at');
     
     useEffect(() => {
-    
         const userIsLoggedIn = !!accessToken;
         
         if (!userIsLoggedIn) {
@@ -17,4 +16,4 @@ const useAuth = () => {
     }, [router]);
 };
 
-export default useAuth;
+export default useAuthRedirect;

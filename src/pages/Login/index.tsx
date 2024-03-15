@@ -1,28 +1,25 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {login} from '../../api/auth';
 import {validatePassword, validateUserId} from '../../utils/validation';
 import styles from '../../styles/Login.module.css';
 import Layout from '../../components/common/Layout';
 import {useRouter} from 'next/router';
-import useToken from '../../hooks/useToken';
-import {saveHealthSurvey} from '../../api/Survey';
 import eye from "../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
 import {LoginFormData} from "../../types/server/formData";
 import { useRecoilState } from 'recoil';
-import { passwordVisibilityState } from '../../state/login';
-import {errorMessageState} from '../../state';
+import { passwordVisibilityState } from '../../state';
 import useSaveLocalContent from '../../hooks/useSaveLocalContent';
+import {useLogin} from '../../hooks/react-query/useAuth';
 
 const Login: React.FC = () => {
     const router = useRouter();
-    const {loginSaveToken} = useToken();
     const {getDecryptedCookie} = useSaveLocalContent();
     const accessToken = getDecryptedCookie('zzgg_at');
     const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
-    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
+    
+    const { mutate: login, errorMessage } = useLogin();
     
     useEffect(() => {
         const checkLoginAndRedirect = async () => {
@@ -57,24 +54,7 @@ const Login: React.FC = () => {
     };
     
     const onSubmit = async (data: LoginFormData) => {
-        const response = await login(data.username, data.password);
-        if (response?.data) {
-            loginSaveToken({
-                access_token: response.data.accessToken,
-                refresh_token: response.data.refreshToken,
-            });
-            const surveyOption = localStorage.getItem('surveyOption');
-            if (surveyOption) {
-                const parsedOption = JSON.parse(surveyOption);
-                await saveHealthSurvey(parsedOption);
-                localStorage.removeItem('surveyOption');
-                await router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
-            } else {
-                await router.push('/');
-            }
-        } else {
-            setErrorMessage(response.message.includes('406') ? '아이디나 비밀번호가 일치하지 않습니다.' : '\'로그인에 실패했거나 JWT 토큰이 없습니다.\'');
-        }
+        login(data);
     };
     
     return (

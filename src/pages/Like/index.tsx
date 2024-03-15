@@ -4,17 +4,17 @@ import styles from '../../styles/Like.module.css';
 import Image from 'next/image';
 import {checkUserAuthentication} from '../../api/auth';
 import {GetServerSideProps} from 'next';
-import useAuth from '../../hooks/useAuth';
+import useAuthRedirect from '../../hooks/useAuthRedirect';
 import LoadingView from '../../components/common/LoadingView';
 import likeLeft from '../../../public/assets/like/likeLeft.png';
 import likeRight from '../../../public/assets/like/likeRight.png';
 import NoLike from '../../components/Like/NoLike';
 import LikeList from '../../components/Like/LikeList';
-import useHospitalInfo from '../../hooks/useLikeHospitalInfo';
+import useHospitalInfo from '../../hooks/react-query/useLikeHospitalInfo';
 import { fetchHospitalDeleteInfo } from '../../api/Like';
 
 const Like = () => {
-    useAuth();
+    useAuthRedirect();
     const { hospitalInfo, setHospitalInfo, isLoading, isHospitalDetailsLoaded, isHospitalInfoLoaded } = useHospitalInfo();
     
     const handleDeleteHospital = async (hospitalId: string) => {

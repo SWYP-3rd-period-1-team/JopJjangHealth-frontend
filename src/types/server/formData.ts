@@ -26,3 +26,8 @@ export interface ChangePasswordFormData {
 export interface FindFormData {
     email: string;
 }
+
+export interface VerifyEmailFormData {
+    email: string;
+    emailVerificationCode: string;
+}

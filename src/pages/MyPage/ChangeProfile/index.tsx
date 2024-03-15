@@ -9,14 +9,13 @@ import { changeUserNickname, deleteUserProfileImage, fetchUserInfo } from '../..
 import {
     userInfoState,
     newNicknameState,
-    errorMessageState,
     nicknameValidationPassedState,
     nicknameChangeRequestedState,
 } from '../../../state/mypage';
 import styles from '../../../styles/UserProfile.module.css';
 import defaultImg from '../../../../public/assets/myPage/Default.png';
 import cancel from "../../../../public/assets/icon/ic_cancel.png";
-import useAuth from '../../../hooks/useAuth';
+import useAuthRedirect from '../../../hooks/useAuthRedirect';
 import { GetServerSideProps } from 'next';
 import { checkUserAuthentication } from '../../../api/auth';
 import {useQuery_UserInfo} from '../../../hooks/react-query';
@@ -24,18 +23,17 @@ import {useQuery_UserInfo} from '../../../hooks/react-query';
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
 const UserProfile = () => {
-    useAuth();
+    useAuthRedirect();
     const router = useRouter();
     const queryClient = useQueryClient();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const [newNickname, setNewNickname] = useRecoilState(newNicknameState);
-    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
     
     const handleNickNameChange = (event: {target: {value: React.SetStateAction<string>;};}) => {
         setNewNickname(event.target.value);
-        setErrorMessage('');
+        // setErrorMessage('');
         setNicknameChangeRequested(false);
     };
     
@@ -56,7 +54,7 @@ const UserProfile = () => {
             setNicknameChangeRequested(true);
         },
         onError: (error) => {
-            setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
+            // setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
             setNicknameChangeRequested(false);
         },
     });
@@ -64,7 +62,7 @@ const UserProfile = () => {
     const handleSubmitChangeNickname = async () => {
         const validationResult = validateNickname(newNickname);
         if (!validationResult) {
-            setErrorMessage(validationResult);
+            // setErrorMessage(validationResult);
             setNicknameValidationPassed(false);
             return;
         }
@@ -77,11 +75,11 @@ const UserProfile = () => {
                 await refreshUserInfo();
                 setNicknameChangeRequested(true);
             } else {
-                setErrorMessage(response.message);
+                // setErrorMessage(response.message);
                 setNicknameChangeRequested(false);
             }
         } catch (error) {
-            setErrorMessage('닉네임 변경 중 서버 오류가 발생했습니다.');
+            // setErrorMessage('닉네임 변경 중 서버 오류가 발생했습니다.');
         }
     };
     
@@ -171,11 +169,11 @@ const UserProfile = () => {
                             onClick={handleSubmitChangeNickname}
                             disabled={!validateNickname(newNickname)}>닉네임 변경하기
                         </button>
-                        {errorMessage && (
-                            <div className={styles.errorMessage}>
-                                {errorMessage}
-                            </div>
-                        )}
+                        {/*{errorMessage && (*/}
+                        {/*    <div className={styles.errorMessage}>*/}
+                        {/*        {errorMessage}*/}
+                        {/*    </div>*/}
+                        {/*)}*/}
                         <p className={styles.hint}>닉네임은 2번 이상 바꿀 수 없고, 8글자이며 똑같은 닉네임이 없을 경우 가능합니다.</p>
                     </div>
                     <div className={styles.likedListContainer}>

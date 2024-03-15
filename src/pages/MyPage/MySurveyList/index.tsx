@@ -1,5 +1,5 @@
 // todo : 질병 캘린더 자동 부분 잠시 주석 : 사유 (아직 진행 안함)
-import React, {useEffect, useState} from 'react';
+import React, {useEffect} from 'react';
 import Layout from '../../../components/common/Layout';
 import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
@@ -8,7 +8,7 @@ import styles from '../../../styles/MySurveyList.module.css';
 import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/MyPage';
 import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
-import useAuth from '../../../hooks/useAuth';
+import useAuthRedirect from '../../../hooks/useAuthRedirect';
 import LoadingView from '../../../components/common/LoadingView';
 import { useRecoilState } from 'recoil';
 import {
@@ -17,8 +17,9 @@ import {
     activeDiseaseIdState,
     diseaseListState
 } from '../../../state/surveyList';
-import {DeleteDiseaseResponse, DiseaseItem, DiseaseListResponse, SurveyIdType} from '../../../types/server/surveyList';
-import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {DeleteDiseaseResponse, SurveyIdType} from '../../../types/server/surveyList';
+import {useMutation, useQueryClient} from '@tanstack/react-query';
+import {useQuery_DiseaseList} from '../../../hooks/react-query';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -33,7 +34,7 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 // );
 
 const SurveyList = () => {
-    useAuth();
+    useAuthRedirect();
     const queryClient = useQueryClient();
     const [diseaseList, setDiseaseList] = useRecoilState(diseaseListState);
     const [selectedDiseases, setSelectedDiseases] = useRecoilState(selectedDiseasesState);
@@ -41,19 +42,10 @@ const SurveyList = () => {
     const [activeDiseaseId, setActiveDiseaseId] = useRecoilState(activeDiseaseIdState);
     // const [showPopup, setShowPopup] = useState(false);
     
-    // @ts-ignore
-    const { data: queriedDiseaseList, isLoading, isError, error } = useQuery<DiseaseListResponse, Error>({
-        queryKey: ['diseaseList'],
-        queryFn: fetchDiseaseList,
-        select: (response): DiseaseItem[] => response.data.data.map(item => ({
-            ...item,
-            dateTime: item.dateTime.split('T')[0],
-        })),
-    });
+    const { data: queriedDiseaseList, isLoading } = useQuery_DiseaseList();
     
     useEffect(() => {
         if (queriedDiseaseList) {
-            // @ts-ignore
             setDiseaseList(queriedDiseaseList);
         }
     }, [queriedDiseaseList, setDiseaseList]);

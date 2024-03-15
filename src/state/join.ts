@@ -29,8 +29,3 @@ export const isAgreedState = atom({
     key: 'isAgreedState',
     default: false,
 });
-
-export const passwordVisibilityState = atom({
-    key: 'passwordVisibilityState',
-    default: 'password',
-});

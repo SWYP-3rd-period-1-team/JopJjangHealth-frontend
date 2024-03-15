@@ -1,8 +1,10 @@
 import {UseQueryResult, useQuery} from '@tanstack/react-query';
-import {fetchUserInfo} from '../../api/MyPage';
+import {fetchDiseaseList, fetchUserInfo} from '../../api/MyPage';
 import {fetchHospitalInfo} from '../../api/Like';
 import {getCalendar} from '../../api/calendar';
 import {Response_Calendar} from '../../types/server/calendar';
+import useSaveLocalContent from '../useSaveLocalContent';
+import {DiseaseItem} from '../../types/server/surveyList';
 
 export const useQuery_UserInfo: () => UseQueryResult<{
     success: boolean;
@@ -14,9 +16,12 @@ export const useQuery_UserInfo: () => UseQueryResult<{
         userId: string;
     };
 }> = () => {
+    const { getDecryptedCookie } = useSaveLocalContent();
+    const refreshToken = getDecryptedCookie('zzgg_rt');
     return useQuery({
         queryKey: ['user_info'],
         queryFn: () => fetchUserInfo(),
+        enabled: !!refreshToken,
     });
 };
 
@@ -47,5 +52,16 @@ export const useQuery_CalendarList: (calendarDate: string) => UseQueryResult<{
     return useQuery({
         queryKey: ['calendar_info', calendarDate],
         queryFn: () => getCalendar(calendarDate),
+    });
+};
+
+export const useQuery_DiseaseList = () => {
+    return useQuery({
+        queryKey: ['diseaseList'],
+        queryFn: fetchDiseaseList,
+        select: (response): DiseaseItem[] => response.data.data.map((item: { dateTime: string; }) => ({
+            ...item,
+            dateTime: item.dateTime.split('T')[0],
+        })),
     });
 };

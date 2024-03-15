@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {signUp, sendEmailVerification, verifyEmailCode} from '../../api/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
 import styles from '../../styles/Join.module.css';
 import Layout from '../../components/common/Layout';
@@ -11,20 +10,18 @@ import {
     emailUsernameState,
     isAgreedState,
     isVerificationCompleteState,
-    isVerificationSentState,
-    passwordVisibilityState
+    isVerificationSentState
 } from '../../state/join';
-import {useRouter} from 'next/router';
 import eye from "../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
 import { JoinFormData } from '../../types/server/formData';
-import {errorMessageState} from '../../state';
+import {useSendEmailVerification, useSignUp, useVerifyEmailCode} from '../../hooks/react-query/useAuth';
+import {passwordVisibilityState} from '../../state';
 
 const emailDomains = ['gmail.com', 'naver.com', 'daum.net', 'nate.com', 'other'];
 
 const Join = () => {
-    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -35,8 +32,10 @@ const Join = () => {
     } = useForm<JoinFormData>({
         mode: 'onChange',
     });
+    const { mutate: signUp, errorMessage } = useSignUp();
+    const { mutate: sendEmailVerification } = useSendEmailVerification();
+    const { mutate: verifyEmailCode } = useVerifyEmailCode();
     
-    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
     
     const togglePasswordVisibility = () => {
@@ -46,8 +45,8 @@ const Join = () => {
     const [emailUsername, setEmailUsername] = useRecoilState(emailUsernameState);
     const [emailDomain, setEmailDomain] = useRecoilState(emailDomainState);
     const [customDomain, setCustomDomain] = useRecoilState(customDomainState);
-    const [isVerificationSent, setIsVerificationSent] = useRecoilState(isVerificationSentState);
-    const [isVerificationComplete, setIsVerificationComplete] = useRecoilState(isVerificationCompleteState);
+    const [isVerificationSent, ] = useRecoilState(isVerificationSentState);
+    const [isVerificationComplete, ] = useRecoilState(isVerificationCompleteState);
     const [isAgreed, setIsAgreed] = useRecoilState(isAgreedState);
     
     useEffect(() => {
@@ -56,35 +55,17 @@ const Join = () => {
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
     const onSubmit = async (data: JoinFormData) => {
-        const response = await signUp(data.nickname, data.userId, data.email, data.password);
-        if (response?.success) {
-            alert(response?.data?.data?.message);
-            await router.push(response.data?.data?.surveyUrl)
-        } else {
-            setErrorMessage(response.message);
-        }
+        signUp(data);
     };
     
     const handleEmailVerificationRequest = async () => {
         const email = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
-        const response = await sendEmailVerification(email);
-        if (response?.data?.data?.message) {
-            alert(response?.data?.data?.message);
-            setIsVerificationSent(true);
-        } else {
-            alert(response?.message.includes('이미 존재하는 이메일 입니다.') ? response.message : '이메일을 확인 해주세요.');
-        }
+        sendEmailVerification(email);
     };
     
     const handleEmailVerification = async () => {
         const formData = getValues();
-        const response = await verifyEmailCode(formData.email, formData.emailVerificationCode);
-        if (response?.data?.data?.message) {
-            setIsVerificationComplete(true);
-            setIsVerificationSent(false);
-        } else {
-          alert(response?.message);
-        }
+        verifyEmailCode(formData);
     };
     
     const handleDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {

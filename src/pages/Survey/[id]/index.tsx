@@ -18,8 +18,8 @@ import {options} from '../../../../mock/SurveyMock';
 import ShareButton from '../../../components/Share/ShareButton';
 import {IOption} from '../../../types/server/survey';
 import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
-import {saveHealthSurvey} from '../../../api/Survey';
 import useSaveLocalContent from '../../../hooks/useSaveLocalContent';
+import {useSaveHealthSurvey} from '../../../hooks/react-query/useSurvey';
 
 const Index = () => {
     const router = useRouter();
@@ -32,6 +32,8 @@ const Index = () => {
     const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
     const [currentOptions, setCurrentOptions] = useRecoilState(currentOptionsState);
     const currentStage = parseInt(id as string, 10);
+    
+    const { mutate: saveHealthSurvey } = useSaveHealthSurvey();
     
     useEffect(() => {
         const {targetBodyPart, diagnosisPart, presentedSymptom} = router.query;

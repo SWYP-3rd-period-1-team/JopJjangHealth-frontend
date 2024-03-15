@@ -10,12 +10,6 @@ export interface DiseaseItem {
     // isLinked: boolean; // todo : 캘린더 연동?
 }
 
-export interface DiseaseListResponse {
-    data: {
-        data: DiseaseItem[];
-    };
-}
-
 export interface DeleteDiseaseResponse {
     success: boolean;
     message?: string;
