@@ -54,14 +54,3 @@ export const useQuery_CalendarList: (calendarDate: string) => UseQueryResult<{
         queryFn: () => getCalendar(calendarDate),
     });
 };
-
-export const useQuery_DiseaseList = () => {
-    return useQuery({
-        queryKey: ['diseaseList'],
-        queryFn: fetchDiseaseList,
-        select: (response): DiseaseItem[] => response.data.data.map((item: { dateTime: string; }) => ({
-            ...item,
-            dateTime: item.dateTime.split('T')[0],
-        })),
-    });
-};

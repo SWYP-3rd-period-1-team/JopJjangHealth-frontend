@@ -5,7 +5,7 @@ import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
 // import Image from 'next/image';
 //import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
-import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/MyPage';
+import {fetchDiseaseListDelete} from '../../../api/MyPage';
 import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
 import useAuthRedirect from '../../../hooks/useAuthRedirect';
@@ -19,7 +19,7 @@ import {
 } from '../../../state/surveyList';
 import {DeleteDiseaseResponse, SurveyIdType} from '../../../types/server/surveyList';
 import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {useQuery_DiseaseList} from '../../../hooks/react-query';
+import {useQuery_DiseaseList} from '../../../hooks/react-query/useSurvey';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
