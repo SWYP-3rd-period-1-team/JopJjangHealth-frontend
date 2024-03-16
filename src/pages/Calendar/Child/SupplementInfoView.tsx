@@ -17,7 +17,7 @@ interface Props {
     calendarRefetch: () => void;
     supplementInfo: {
         supplementId: number;
-        supplementName: string;
+        supplementName?: string;
         supplementNumber: number;
         supplementFrequency: number;
         achievement: number;
@@ -71,7 +71,7 @@ const SupplementInfoView = ({
                     minWidth: '60px',
                 }}
             >
-                {supplementInfo.supplementName}
+                {supplementInfo.supplementName ?? ''}
             </div>
             <div>{`하루 ${supplementInfo.supplementFrequency}번`}</div>
             {Array.from(
@@ -81,7 +81,9 @@ const SupplementInfoView = ({
                 (_, idx) => idx + 1,
             ).map(supplementItem => (
                 <div
-                    key={`${supplementInfo.supplementName}-${supplementItem}`}
+                    key={`${
+                        supplementInfo.supplementName ?? ''
+                    }-${supplementItem}`}
                     style={{
                         display: 'flex',
                         alignItems: 'center',
@@ -105,7 +107,7 @@ const SupplementInfoView = ({
                     onUpdate={() =>
                         onClickSupplement({
                             supplementId: supplementInfo.supplementId,
-                            supplementName: supplementInfo.supplementName,
+                            supplementName: supplementInfo.supplementName ?? '',
                             supplementFrequency:
                                 supplementInfo.supplementFrequency,
                             supplementNumber: supplementInfo.supplementNumber,

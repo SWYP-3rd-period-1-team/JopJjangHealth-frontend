@@ -14,7 +14,7 @@ interface Props {
     calendarRefetch: () => void;
     waterInfo: {
         waterIntakeId: number;
-        waterRequirement: number;
+        waterRequirement?: number;
         waterFrequency: number;
         waterCapacity: number;
         achievement: number;
@@ -75,9 +75,9 @@ const WaterInfoView = ({
                     >
                         {`물 목표 섭취량`}
                     </div>
-                    <div
-                        style={{marginLeft: '8px'}}
-                    >{`${waterInfo.waterRequirement}ml`}</div>
+                    <div style={{marginLeft: '8px'}}>{`${
+                        waterInfo.waterRequirement ?? '0'
+                    }ml`}</div>
                     <div
                         style={{marginLeft: '8px'}}
                     >{`하루 ${waterInfo.waterFrequency}번`}</div>
@@ -115,7 +115,7 @@ const WaterInfoView = ({
                                         waterFrequency:
                                             waterInfo.waterFrequency,
                                         waterRequirement:
-                                            waterInfo.waterRequirement,
+                                            waterInfo.waterRequirement ?? 0,
                                         waterCapacity: waterInfo.waterCapacity,
                                     });
                             }}

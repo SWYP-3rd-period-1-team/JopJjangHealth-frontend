@@ -359,7 +359,7 @@ const Calendar: React.FC<CalendarProps> = () => {
                                                 sleepScheduleId:
                                                     calendarInfo
                                                         .sleepScheduleInfo
-                                                        ?.sleepScheduleId,
+                                                        ?.sleepScheduleId ?? -1,
                                                 achievement: !checkinfo,
                                             });
                                         }}
