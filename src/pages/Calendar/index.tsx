@@ -1,8 +1,7 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import styles from '../../styles/Calendar.module.css';
 import Layout from '../../components/common/Layout';
 import AddSupplements from '../../components/CalendarOption/AddSupplements';
-import AddWaterIntake from '../../components/CalendarOption/AddWaterIntake';
 import AddSleepTime from '../../components/CalendarOption/AddSleepTime';
 import Image from 'next/image';
 import {useQuery_CalendarList} from '../../hooks/react-query';
@@ -18,10 +17,11 @@ import {useMutation} from '@tanstack/react-query';
 import {
     deleteCalendarSchedule,
     deleteCalendarSleep,
-    deleteCalendarSupplement,
-    deleteCalendarWater,
+    updateCalendarSleepArchivement,
 } from '../../api/calendar';
 import UpdateDeleteButton from './Child/UpdateDeleteButton';
+import WaterInfoView from './Child/WaterInfoView';
+import SupplementInfoView from './Child/SupplementInfoView';
 
 type CalendarProps = {
     year: number;
@@ -126,26 +126,16 @@ const Calendar: React.FC<CalendarProps> = () => {
         });
     };
 
-    const {mutate: deleteSupplement} = useMutation({
-        mutationFn: deleteCalendarSupplement,
-        onSuccess: () => {
-            alert(`삭제되었습니다:`);
-            calendarRefetch();
-        },
-    });
-
-    const {mutate: deleteWater} = useMutation({
-        mutationFn: deleteCalendarWater,
-        onSuccess: () => {
-            alert(`삭제되었습니다:`);
-            calendarRefetch();
-        },
-    });
-
     const {mutate: deleteSleep} = useMutation({
         mutationFn: deleteCalendarSleep,
         onSuccess: () => {
             alert(`삭제되었습니다:`);
+            calendarRefetch();
+        },
+    });
+    const {mutate: updateSleepArchivement} = useMutation({
+        mutationFn: updateCalendarSleepArchivement,
+        onSuccess: () => {
             calendarRefetch();
         },
     });
@@ -299,65 +289,13 @@ const Calendar: React.FC<CalendarProps> = () => {
                         <div className={styles.listItem}>
                             <div style={{width: '100%'}}>
                                 {calendarInfo?.supplementInfoList?.map(item => (
-                                    <div
-                                        className={styles.listItem_Content}
+                                    <SupplementInfoView
                                         key={item.supplementId}
-                                    >
-                                        <div
-                                            style={{
-                                                minWidth: '60px',
-                                            }}
-                                        >
-                                            {item.supplementName}
-                                        </div>
-                                        <div>{`하루 ${item.supplementFrequency}번`}</div>
-                                        {Array.from(
-                                            {
-                                                length: item.supplementFrequency,
-                                            },
-                                            (_, idx) => idx + 1,
-                                        ).map(supplementItem => (
-                                            <div
-                                                key={`${item.supplementName}-${supplementItem}`}
-                                                style={{
-                                                    display: 'flex',
-                                                    alignItems: 'center',
-                                                }}
-                                            >
-                                                <Checkbox
-                                                    style={{padding: 0}}
-                                                />
-                                                <div>{`${item.supplementNumber}알`}</div>
-                                            </div>
-                                        ))}
-
-                                        {isVisible && (
-                                            <UpdateDeleteButton
-                                                onUpdate={() =>
-                                                    onClickSupplement({
-                                                        supplementId:
-                                                            item.supplementId,
-                                                        supplementName:
-                                                            item.supplementName,
-                                                        supplementFrequency:
-                                                            item.supplementFrequency,
-                                                        supplementNumber:
-                                                            item.supplementNumber,
-                                                    })
-                                                }
-                                                onDelete={() =>
-                                                    deleteSupplement({
-                                                        supplementID:
-                                                            item.supplementId,
-                                                    })
-                                                }
-                                                onAdd={() =>
-                                                    onClickSupplement()
-                                                }
-                                                addText={`영양제 추가하기`}
-                                            />
-                                        )}
-                                    </div>
+                                        onClickSupplement={onClickSupplement}
+                                        calendarRefetch={calendarRefetch}
+                                        supplementInfo={item}
+                                        isVisible={isVisible}
+                                    />
                                 ))}
                             </div>
                         </div>
@@ -370,81 +308,12 @@ const Calendar: React.FC<CalendarProps> = () => {
                         </div>
                     ) : null}
                     {!!calendarInfo?.waterIntakeInfo ? (
-                        <div className={styles.listItem}>
-                            <div style={{width: '100%'}}>
-                                <div
-                                    className={styles.listItem_Content}
-                                    key={
-                                        calendarInfo.waterIntakeInfo
-                                            .waterIntakeId
-                                    }
-                                >
-                                    <div
-                                        style={{
-                                            minWidth: '60px',
-                                        }}
-                                    >
-                                        {`물 목표 섭취량`}
-                                    </div>
-                                    <div>{`${calendarInfo.waterIntakeInfo.waterRequirement}ml`}</div>
-                                    <div>{`하루 ${calendarInfo.waterIntakeInfo.waterFrequency}번`}</div>
-                                    {Array.from(
-                                        {
-                                            length: calendarInfo.waterIntakeInfo
-                                                .waterFrequency,
-                                        },
-                                        (_, idx) => idx + 1,
-                                    ).map(waterItem => (
-                                        <div
-                                            key={`${`water`}-${waterItem}`}
-                                            style={{
-                                                display: 'flex',
-                                                alignItems: 'center',
-                                            }}
-                                        >
-                                            <Checkbox style={{padding: 0}} />
-                                            <div>{`${calendarInfo.waterIntakeInfo?.waterCapacity}ml`}</div>
-                                        </div>
-                                    ))}
-                                    {isVisible && (
-                                        <UpdateDeleteButton
-                                            onUpdate={() => {
-                                                if (
-                                                    calendarInfo.waterIntakeInfo
-                                                )
-                                                    onClickWater({
-                                                        waterIntakeId:
-                                                            calendarInfo
-                                                                .waterIntakeInfo
-                                                                .waterIntakeId,
-                                                        waterFrequency:
-                                                            calendarInfo
-                                                                .waterIntakeInfo
-                                                                .waterFrequency,
-                                                        waterRequirement:
-                                                            calendarInfo
-                                                                .waterIntakeInfo
-                                                                .waterRequirement,
-                                                        waterCapacity:
-                                                            calendarInfo
-                                                                .waterIntakeInfo
-                                                                .waterCapacity,
-                                                    });
-                                            }}
-                                            onDelete={() =>
-                                                deleteWater({
-                                                    waterIntakeId:
-                                                        calendarInfo
-                                                            .waterIntakeInfo
-                                                            ?.waterIntakeId ??
-                                                        -1,
-                                                })
-                                            }
-                                        />
-                                    )}
-                                </div>
-                            </div>
-                        </div>
+                        <WaterInfoView
+                            waterInfo={calendarInfo.waterIntakeInfo}
+                            onClickWater={onClickWater}
+                            calendarRefetch={calendarRefetch}
+                            isVisible={isVisible}
+                        />
                     ) : isVisible ? (
                         <div
                             className={styles.listItem}
@@ -473,7 +342,28 @@ const Calendar: React.FC<CalendarProps> = () => {
                                     </div>
                                     <div>{`${calendarInfo.sleepScheduleInfo.sleepPeriod}`}</div>
 
-                                    <Checkbox style={{padding: 0}} />
+                                    <Checkbox
+                                        style={{padding: 0}}
+                                        checked={
+                                            calendarInfo.sleepScheduleInfo
+                                                .sleepScheduleAchievement ??
+                                            false
+                                        }
+                                        onChange={() => {
+                                            console.log();
+                                            const checkinfo =
+                                                calendarInfo.sleepScheduleInfo
+                                                    ?.sleepScheduleAchievement ??
+                                                false;
+                                            updateSleepArchivement({
+                                                sleepScheduleId:
+                                                    calendarInfo
+                                                        .sleepScheduleInfo
+                                                        ?.sleepScheduleId,
+                                                achievement: !checkinfo,
+                                            });
+                                        }}
+                                    />
                                     <div>{`하루 ${calendarInfo.sleepScheduleInfo.sleepTime}시간 수면`}</div>
 
                                     {isVisible && (
