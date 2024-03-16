@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -15,15 +15,23 @@ import {
 import styles from '../../../styles/UserProfile.module.css';
 import defaultImg from '../../../../public/assets/myPage/Default.png';
 import cancel from "../../../../public/assets/icon/ic_cancel.png";
-import useAuth from '../../../hooks/useAuthRedirect';
+import useAuthRedirect from '../../../hooks/useAuthRedirect';
 import { GetServerSideProps } from 'next';
 import { checkUserAuthentication } from '../../../api/auth';
 import {errorMessageState} from '../../../state';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
+interface AlertInfo {
+    open: boolean;
+    message: string;
+    severity: 'error' | 'warning' | 'info' | 'success';
+}
+
 const UserProfile = () => {
-    useAuth();
+    useAuthRedirect();
     const router = useRouter();
     const queryClient = useQueryClient();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -31,6 +39,27 @@ const UserProfile = () => {
     const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
+    
+    const [alertInfo, setAlertInfo] = useState<AlertInfo>({
+        open: false,
+        message: '',
+        severity: 'info',
+    });
+    
+    const showAlert = (message:any, severity:any) => {
+        setAlertInfo({
+            open: true,
+            message,
+            severity:'info',
+        });
+    };
+    
+    const handleCloseAlert = (event: Event | SyntheticEvent<Element, Event>, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setAlertInfo({ ...alertInfo, open: false });
+    };
     
     const handleNickNameChange = (event: {target: {value: React.SetStateAction<string>;};}) => {
         setNewNickname(event.target.value);
@@ -90,12 +119,12 @@ const UserProfile = () => {
     const deleteUserImageMutation = useMutation({
         mutationFn: deleteUserProfileImage,
         onSuccess: () => {
-            alert("프로필 이미지가 성공적으로 삭제되었습니다.");
+            showAlert("프로필 이미지가 성공적으로 삭제되었습니다.", 'success');
             // @ts-ignore
             queryClient.invalidateQueries(['userInfo']);
         },
         onError: () => {
-            alert("프로필 이미지 삭제 중 오류가 발생했습니다.");
+            showAlert("프로필 이미지 삭제 중 오류가 발생했습니다.", 'error');
         },
     });
     
@@ -132,7 +161,7 @@ const UserProfile = () => {
     };
     
     const onSubmit = async () => {
-        alert('회원정보가 저장 되었습니다.');
+        showAlert('회원정보가 저장 되었습니다.', 'success');
         await router.push('/MyPage');
     };
     
@@ -204,6 +233,11 @@ const UserProfile = () => {
                     disabled={!nicknameValidationPassed || !nicknameChangeRequested}>확인
                 </button>
             </div>
+            <Snackbar open={alertInfo.open} autoHideDuration={1500} onClose={handleCloseAlert}>
+                <Alert onClose={handleCloseAlert} severity={alertInfo.severity} sx={{ width: '100%' }}>
+                    {alertInfo.message}
+                </Alert>
+            </Snackbar>
         </Layout>
     );
 };

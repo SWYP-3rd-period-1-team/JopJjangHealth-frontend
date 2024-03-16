@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {useForm} from 'react-hook-form';
 import {checkUserAuthentication } from '../../../api/auth';
 import {validatePassword, validateEmail} from '../../../utils/validation';
@@ -14,6 +14,7 @@ import { useRecoilState } from 'recoil';
 import { isVerificationSentForMyPageState } from '../../../state/mypage';
 import {useChangePassword, useEmailVerification} from '../../../hooks/react-query/useChangePassword';
 import {passwordTypeState} from '../../../state';
+import {Snackbar, Alert, SnackbarCloseReason} from '@mui/material';
 
 const Index: React.FC = () => {
     useAuthRedirect();
@@ -34,13 +35,18 @@ const Index: React.FC = () => {
     const { mutate: changePassword } = useChangePassword();
     const { mutate: sendEmailVerificationForMyPage } = useEmailVerification();
     
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'warning' | 'info' | 'success'>('success');
+    
     const togglePasswordVisibility = () => {
         setPasswordType(passwordType === 'password' ? 'text' : 'password');
     };
     
     const onSubmit = async (data: ChangePasswordFormData) => {
         if (!isVerificationSent) {
-            alert('이메일 인증을 완료해주세요.');
+            setSnackbarMessage('이메일 인증을 완료해주세요.');
+            setSnackbarSeverity('error');
             return;
         }
         changePassword(data);
@@ -50,14 +56,24 @@ const Index: React.FC = () => {
         const email = getValues('email');
         sendEmailVerificationForMyPage(email, {
             onSuccess: (response) => {
-                if(response.success) {
+                if (response.success) {
                     setIsVerificationSent(response.data);
                 } else {
-                    alert(response.message)
+                    setOpenSnackbar(false);
+                    setTimeout(() => {
+                        setSnackbarMessage(response.message);
+                        setSnackbarSeverity('error');
+                        setOpenSnackbar(true);
+                    }, 100);
                 }
             },
             onError: () => {
-                alert('이메일 발송에 실패했습니다. 잠시 후 시도 해주세요.');
+                setOpenSnackbar(false);
+                setTimeout(() => {
+                    setSnackbarMessage('이메일 발송에 실패했습니다. 잠시 후 시도 해주세요.');
+                    setSnackbarSeverity('error');
+                    setOpenSnackbar(true);
+                }, 100);
             }
         });
     };
@@ -65,9 +81,24 @@ const Index: React.FC = () => {
     const email = watch('email','');
     const isEmailValid = !!email && !errors.email;
     
+    const handleCloseSnackbar = (
+        event: React.SyntheticEvent<any> | Event,
+        reason?: string
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
+    
     return (
         <Layout>
             <div className={styles.changeContainer}>
+                <Snackbar open={openSnackbar} autoHideDuration={1500} onClose={handleCloseSnackbar}>
+                    <Alert onClose={handleCloseSnackbar} severity={snackbarSeverity} sx={{ width: '100%' }}>
+                        {snackbarMessage}
+                    </Alert>
+                </Snackbar>
                 <h3 className={styles.changeTitle}>비밀번호 변경</h3>
                 <form onSubmit={handleSubmit(onSubmit)}>
                     <div className={styles.inputGroup}>

@@ -5,7 +5,7 @@ export const fetchHospitalInfo = async () => {
     try {
         const response = await axiosInstance.get(fetchHospitalInfoUrl);
         if (response.data.success === "true") {
-            return { success: true, data: response.data.data };
+            return { success: true, data: response.data };
         } else {
             return { success: false, message: "예상치 못한 응답 형식입니다." };
         }
@@ -65,7 +65,6 @@ export const fetchHospitalDeleteInfo = async (hospitalId: string) => {
                 case 404:
                     message = "삭제하려는 병원 정보를 찾을 수 없습니다.";
                     break;
-                // 추가적인 상태 코드에 따른 케이스를 여기에 구현
             }
             return {
                 success: false,

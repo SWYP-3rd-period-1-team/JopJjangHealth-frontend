@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from '../../components/common/Layout';
 import styles from '../../styles/Like.module.css';
 import Image from 'next/image';
@@ -12,18 +12,33 @@ import NoLike from '../../components/Like/NoLike';
 import LikeList from '../../components/Like/LikeList';
 import useHospitalInfo from '../../hooks/react-query/useLikeHospitalInfo';
 import { fetchHospitalDeleteInfo } from '../../api/Like';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const Like = () => {
     useAuthRedirect();
     const { hospitalInfo, setHospitalInfo, isLoading, isHospitalDetailsLoaded, isHospitalInfoLoaded } = useHospitalInfo();
+    const [snackbarOpen, setSnackbarOpen] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+    
+    const showSnackbar = (message:string) => {
+        setSnackbarMessage(message);
+        setSnackbarOpen(true);
+    };
+    
+    const handleSnackbarClose = () => {
+        setSnackbarOpen(false);
+    };
+    
     
     const handleDeleteHospital = async (hospitalId: string) => {
         const response = await fetchHospitalDeleteInfo(hospitalId);
         if (response.success) {
             const updatedHospitalInfo = hospitalInfo.filter(hospital => hospital.id !== hospitalId);
             setHospitalInfo(updatedHospitalInfo);
+            showSnackbar('병원이 성공적으로 삭제되었습니다.');
         } else {
-            alert(response.message);
+            showSnackbar(response.message);
         }
     };
     const isStillLoading = isLoading || !isHospitalInfoLoaded || !isHospitalDetailsLoaded;
@@ -45,6 +60,11 @@ const Like = () => {
                     }
                 </div>
             </div>
+            <Snackbar open={snackbarOpen} autoHideDuration={1500} onClose={handleSnackbarClose}>
+                <Alert onClose={handleSnackbarClose} severity="success" sx={{ width: '100%' }}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Layout>
     );
 };

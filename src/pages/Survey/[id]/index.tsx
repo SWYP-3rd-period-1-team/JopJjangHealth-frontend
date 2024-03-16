@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import Image from 'next/image';
 import Layout from '../../../components/common/Layout';
 import styles from '../../../styles/Survey.module.css';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {
     selectedBodyPartState,
@@ -20,11 +20,17 @@ import {IOption} from '../../../types/server/survey';
 import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
 import useSaveLocalContent from '../../../hooks/useSaveLocalContent';
 import {useSaveHealthSurvey} from '../../../hooks/react-query/useSurvey';
+import Alert, {AlertColor} from '@mui/material/Alert';
 
 const Index = () => {
     const router = useRouter();
     const {getDecryptedCookie} = useSaveLocalContent();
     const accessToken = getDecryptedCookie('zzgg_at');
+    const [alertInfo, setAlertInfo] = useState<{ show: boolean; message: string; severity: AlertColor }>({
+        show: false,
+        message: '',
+        severity: 'success'
+    });
     const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
     const [showLoginConfirm, setShowLoginConfirm] = useRecoilState(showLoginConfirmState);
     const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);
@@ -110,7 +116,7 @@ const Index = () => {
     };
     
     const SurveyAnswerText = (currentStage: number, option: IOption) => {
-        let text: string | undefined = '';
+        let text: string | undefined;
         switch (currentStage) {
             case 1:
                 text = option.targetBodyPart;
@@ -140,8 +146,8 @@ const Index = () => {
     };
     
     const homeButton = () => {
-        alert('건강설문 데이터가 없어집니다!');
-        router.push('/');
+        setAlertInfo({ show: true, message: '건강설문 데이터가 없어집니다!', severity: 'warning' });
+        // router.push('/');
     };
     
     const choiceHospitalButton = (currentOptions: any[], forceRedirect: boolean = false) => {
@@ -174,12 +180,12 @@ const Index = () => {
                             },
                         });
                     } else {
-                        alert('건강 설문 저장을 실패하였습니다. 잠시 후 시도 해주세요.');
+                        setAlertInfo({ show: true, message: '건강 설문 저장을 실패하였습니다. 잠시 후 시도 해주세요.', severity: 'error' });
                     }
                 },
                 onError: (error) => {
                     console.error('건강 설문 저장 중 오류 발생:', error);
-                    alert('건강 설문 저장 중 문제가 발생했습니다. 잠시 후 시도 해주세요.');
+                    setAlertInfo({ show: true, message: '건강 설문 저장 중 문제가 발생했습니다. 잠시 후 시도 해주세요.', severity: 'error' });
                 },
             });
         } else {
@@ -204,8 +210,31 @@ const Index = () => {
         choiceHospitalButton(currentOptions, true);
     };
     
+    const handleCloseAlert = () => {
+        setAlertInfo({ ...alertInfo, show: false });
+    };
+    
+    useEffect(() => {
+        let timer:any;
+        if (alertInfo.show) {
+            timer = setTimeout(() => {
+                setAlertInfo({ ...alertInfo, show: false });
+            }, 1500);
+        }
+        return () => clearTimeout(timer);
+    }, [alertInfo.show]);
+    
     return (
         <Layout>
+            {alertInfo.show && (
+                <Alert
+                    severity={alertInfo.severity}
+                    onClose={handleCloseAlert}
+                    style={{ position: 'fixed', top: 200, left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}
+                >
+                    {alertInfo.message}
+                </Alert>
+            )}
             {showLoginConfirm && (
                 <LoginConfirmPopup onConfirm={handleLoginConfirm} onCancel={handleCancelLogin} />
             )}
@@ -264,7 +293,6 @@ const Index = () => {
                     <ShareButton />
                 </>
             )}
-        
         </Layout>
     );
 };

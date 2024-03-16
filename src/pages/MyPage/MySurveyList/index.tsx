@@ -1,5 +1,5 @@
 // todo : 질병 캘린더 자동 부분 잠시 주석 : 사유 (아직 진행 안함)
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import Layout from '../../../components/common/Layout';
 import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
@@ -19,6 +19,7 @@ import {
 } from '../../../state/surveyList';
 import {DeleteDiseaseResponse, DiseaseItem, DiseaseListResponse, SurveyIdType} from '../../../types/server/surveyList';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {Snackbar, Alert} from '@mui/material';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -40,6 +41,9 @@ const SurveyList = () => {
     const [isSelectionMode, setIsSelectionMode] = useRecoilState(isSelectionModeState);
     const [activeDiseaseId, setActiveDiseaseId] = useRecoilState(activeDiseaseIdState);
     // const [showPopup, setShowPopup] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'warning' | 'info' | 'success'>('success');
     
     // @ts-ignore
     const { data: queriedDiseaseList, isLoading, isError, error } = useQuery<DiseaseListResponse, Error>({
@@ -67,12 +71,21 @@ const SurveyList = () => {
                 queryClient.invalidateQueries(['diseaseList']);
                 setSelectedDiseases([]);
                 setIsSelectionMode(false);
+                setSnackbarMessage('성공적으로 삭제되었습니다.');
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);
             } else {
-                alert(response.message)
+                // @ts-ignore
+                setSnackbarMessage(response.message);
+                setSnackbarSeverity('error');
+                setOpenSnackbar(true);
             }
         },
         onError: (error, variables, context) => {
             console.error('질병 리스트 삭제 중 에러 발생:', error);
+            setSnackbarMessage('오류가 발생했습니다. 다시 시도해 주세요.');
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
         },
     });
     
@@ -119,6 +132,16 @@ const SurveyList = () => {
     //         return () => clearTimeout(timer);
     //     }
     // }, [showPopup]);
+    
+    const handleCloseSnackbar = (
+        event: React.SyntheticEvent<any> | Event,
+        reason?: string
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
     
     return (
         <Layout>
@@ -190,7 +213,13 @@ const SurveyList = () => {
                     )}
                 </>
             }
-        
+            <Snackbar open={openSnackbar} autoHideDuration={1500} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar}
+                       severity={snackbarSeverity}
+                       sx={{width: '100%'}}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Layout>
     );
 };

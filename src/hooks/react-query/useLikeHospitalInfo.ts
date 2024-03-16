@@ -1,14 +1,14 @@
 import {useEffect} from 'react';
+
 import {useRecoilState} from 'recoil';
-import {HospitalBookmark, HospitalDetail} from '../../types/server/like';
 import {
     hospitalFirstDataState,
     hospitalInfoState,
-    isHospitalDetailsLoadedState,
-    isHospitalInfoLoadedState,
-    isLoadingState,
+    isHospitalDetailsLoadedState, isHospitalInfoLoadedState,
+    isLoadingState
 } from '../../state/like';
-import {useQuery_BookmarkList} from './index';
+import {HospitalBookmark, HospitalDetail} from '../../types/server/like';
+import {fetchHospitalInfo} from '../../api/Like';
 
 const useHospitalInfo = () => {
     const [hospitalFirstData, setHospitalFirstData] = useRecoilState<HospitalBookmark[]>(hospitalFirstDataState);
@@ -17,31 +17,31 @@ const useHospitalInfo = () => {
     const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useRecoilState<boolean>(isHospitalDetailsLoadedState);
     const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useRecoilState<boolean>(isHospitalInfoLoadedState);
     
-    const {data: bookmarkData} = useQuery_BookmarkList();
-    
     useEffect(() => {
         const initializeHospitalInfo = async () => {
-            // @ts-ignore
-            const bookmarkList = bookmarkData?.data?.bookmarkList;
-            setIsLoading(true)
+            setIsLoading(true);
             try {
-                if (bookmarkList.length > 0) {
-                    setHospitalFirstData(bookmarkList);
+                const response = await fetchHospitalInfo();
+                if (response.success) {
+                    const bookmarkList = response.data.data.bookmarkList;
+                    setHospitalFirstData(bookmarkList.length > 0 ? bookmarkList : '');
                     setIsHospitalInfoLoaded(true);
                 } else {
-                    setIsHospitalInfoLoaded(true);
-                    setIsHospitalDetailsLoaded(true);
                     setHospitalFirstData([]);
+                    setIsHospitalDetailsLoaded(true);
+                    setIsHospitalInfoLoaded(true);
                 }
             } catch (error) {
-                console.error('매칭 되는 병원 정보가 없습니다.', error);
-                setIsLoading(false);
-            }finally {
+                setHospitalFirstData([]);
+                setIsHospitalDetailsLoaded(true);
+                setIsHospitalInfoLoaded(true);
+            } finally {
                 setIsLoading(false);
             }
+            
         };
         initializeHospitalInfo();
-    }, [bookmarkData]);
+    }, []);
     
     const loadPlaceDetails = () => {
         if (!window.google || !navigator.geolocation) {
@@ -59,30 +59,36 @@ const useHospitalInfo = () => {
                     new Promise<HospitalDetail | null>((resolve, reject) => {
                         if (hospital.googleMapId) {
                             service.getDetails({placeId: hospital.googleMapId}, (result: any, status) => {
-                                if (status === google.maps.places.PlacesServiceStatus.OK && result) {
+                                if (status === google.maps.places.PlacesServiceStatus.OK && result && result.geometry && result.geometry.location) {
                                     const hospitalLocation = result.geometry.location;
-                                    const distanceMeters = google.maps.geometry?.spherical.computeDistanceBetween(
-                                        userLocation,
-                                        hospitalLocation,
-                                    );
-                                    const distanceKm = (distanceMeters / 1000).toFixed(2);
-                                    
-                                    resolve({
-                                        id: result.place_id,
-                                        name: result.name,
-                                        address: result.formatted_address,
-                                        bookmarkDate: hospital.bookmarkDate,
-                                        distance: `${distanceKm} km`,
-                                    });
+                                    if (userLocation && hospitalLocation) {
+                                        const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(
+                                            userLocation,
+                                            hospitalLocation,
+                                        );
+                                        if (!isNaN(distanceMeters)) {
+                                            const distanceKm = !isNaN(distanceMeters) ? (distanceMeters / 1000).toFixed(2) : '거리 정보 없음';
+                                            resolve({
+                                                id: result.place_id,
+                                                name: result.name,
+                                                address: result.formatted_address,
+                                                bookmarkDate: hospital.bookmarkDate,
+                                                distance: `${distanceKm} km`,
+                                            });
+                                        } else {
+                                            resolve(null);
+                                        }
+                                    } else {
+                                        reject(new Error('위치 정보가 유효하지 않습니다.'));
+                                    }
                                 } else {
                                     reject(new Error(`${hospital.googleMapId}의 구글맵 ID에 에러 발생하였습니다.`));
-                                    setIsLoading(false);
                                 }
                             });
                         } else {
                             reject(new Error('구글 맵 ID가 제공되지 않았습니다.'));
-                            setIsLoading(false);
                         }
+                        
                     }),
                 );
                 
