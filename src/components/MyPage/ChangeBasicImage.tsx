@@ -1,9 +1,9 @@
 import React from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
-import {changeUserProfileImage, uploadProfileImage} from '../../api/MyPage';
 import { useRecoilState } from 'recoil';
 import {changeBasicImageSelectedIndex} from '../../state/mypage';
+import {useChangeUserProfileImage, useUploadProfileImage} from '../../hooks/react-query/useProfileImage';
 
 const imageSources = [
     '/assets/myPage/character_one.png',
@@ -14,6 +14,8 @@ const imageSources = [
 
 const ChangeBasicImage: React.FC = () => {
     const [selectedIndex, setSelectedIndex] = useRecoilState(changeBasicImageSelectedIndex);
+    const { mutate: uploadImage } = useUploadProfileImage();
+    const { mutate: changeImage } = useChangeUserProfileImage();
     
     const handleSelectImage = (index: number) => {
         setSelectedIndex(index);
@@ -32,15 +34,12 @@ const ChangeBasicImage: React.FC = () => {
             const file = new File([blob], `selectedImage-${selectedIndex}.png`, { type: 'image/png' });
             const isDefaultImage = localStorage.getItem('isDefaultImage') === 'true';
             if (isDefaultImage) {
-                await uploadProfileImage(file);
+                uploadImage(file);
             } else {
-                await changeUserProfileImage(file);
+                changeImage(file);
             }
-            alert('이미지 업로드에 성공했습니다.');
-            localStorage.clear();
-            window.close();
         } catch (error) {
-            alert('이미지 업로드에 실패했습니다.');
+            alert('이미지 업로드에 실패했습니다. 잠시 후 시도 해주세요.');
         }
     };
     

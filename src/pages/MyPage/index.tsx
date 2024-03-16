@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import styles from '../../styles/MyPage.module.css';
 import Layout from '../../components/common/Layout';
 import Link from 'next/link';
@@ -16,10 +16,15 @@ import {useLogout} from '../../hooks/react-query/useAuth';
 
 const MyPage = () => {
     useAuthRedirect();
-    const { mutate: logout } = useLogout();
+    const [isClient, setIsClient] = useState<boolean>(false);
+    const {mutate: logout} = useLogout();
     const [showLogoutModal, setShowLogoutModal] = useRecoilState(showLogoutModalState);
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
     const {data: userData, isLoading} = useQuery_UserInfo();
+    
+    useEffect(() => {
+        setIsClient(true);
+    }, []);
     
     useEffect(() => {
         if (userData) {
@@ -36,31 +41,34 @@ const MyPage = () => {
     return (
         <Layout>
             <div className={styles.myPageContainer}>
-                {isLoading ? <LoadingView /> : <>
-                    <div className={styles.profileContainer}>
-                        <div className={styles.profileInfo}>
-                            <div className={styles.imageContainer}>
-                                <Image
-                                    className={styles.profileImage}
-                                    src={userInfo?.profileImage ?? defaultImg}
-                                    alt={'User Profile'}
-                                    width={'150px'}
-                                    height={'150px'}
-                                    objectFit={'scale-down'}
-                                />
-                            </div>
-                            <div className={styles.profileText}>
-                                <span className={styles.username}>{userInfo?.nickname}</span>
-                                <span className={styles.username}>
+                {isClient && isLoading ? <LoadingView /> : (
+                    <>
+                        <div className={styles.profileContainer}>
+                            <div className={styles.profileInfo}>
+                                <div className={styles.imageContainer}>
+                                    <Image
+                                        className={styles.profileImage}
+                                        src={userInfo?.profileImage ?? defaultImg}
+                                        alt={'User Profile'}
+                                        width={'150px'}
+                                        height={'150px'}
+                                        objectFit={'scale-down'}
+                                        priority
+                                    />
+                                </div>
+                                <div className={styles.profileText}>
+                                    <span className={styles.username}>{userInfo?.nickname}</span>
+                                    <span className={styles.username}>
 								<Link href={'/MyPage/ChangeProfile'}>
 									   <button className={styles.userButton}>프로필 변경하기</button>
 								</Link>
               </span>
-                                <div className={styles.userId}>{userInfo?.userId}</div>
+                                    <div className={styles.userId}>{userInfo?.userId}</div>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </>}
+                    </>
+                )}
                 <Link href={'/MyPage/MySurveyList'}>
                     <div className={styles.likedListContainer}>나의 질병 리스트</div>
                 </Link>

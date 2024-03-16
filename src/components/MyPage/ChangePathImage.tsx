@@ -33,7 +33,6 @@ const ChangeProfileImage: React.FC = () => {
         }
         
         const isDefaultImage = localStorage.getItem('isDefaultImage') === 'true';
-        
         try {
             if (isDefaultImage) {
                 uploadImage(selectedFile);
@@ -41,7 +40,7 @@ const ChangeProfileImage: React.FC = () => {
                 changeImage(selectedFile);
             }
         } catch (error) {
-            alert('이미지 업로드에 실패했습니다.');
+            alert('이미지 업로드에 실패했습니다. 잠시 후 시도 해주세요.');
         }
     };
     

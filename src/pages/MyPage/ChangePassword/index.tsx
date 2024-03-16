@@ -51,16 +51,19 @@ const Index: React.FC = () => {
         sendEmailVerificationForMyPage(email, {
             onSuccess: (response) => {
                 if(response.success) {
-                    setIsVerificationSent(true);
+                    setIsVerificationSent(response.data);
                 } else {
-                    alert("가입된 이메일이 아닙니다. 확인해주세요.")
+                    alert(response.message)
                 }
             },
             onError: () => {
-                alert('이메일 발송에 실패했습니다. 다시 시도해주세요.');
+                alert('이메일 발송에 실패했습니다. 잠시 후 시도 해주세요.');
             }
         });
     };
+    
+    const email = watch('email','');
+    const isEmailValid = !!email && !errors.email;
     
     return (
         <Layout>
@@ -75,14 +78,13 @@ const Index: React.FC = () => {
                                     required: '이메일을 입력해주세요.',
                                     validate: validateEmail
                                 })}
-                                disabled={isVerificationSent}
                                 className={errors.email ? styles.inputError : styles.input}
                             />
                             <button
                                 type="button"
                                 onClick={handleEmailVerificationRequest}
                                 className={styles.verifyButton}
-                                disabled={isVerificationSent}
+                                disabled={!isEmailValid || !!isVerificationSent}
                             >
                                 인증하기
                             </button>
@@ -93,7 +95,7 @@ const Index: React.FC = () => {
                     </div>
                     {isVerificationSent && (
                         <div className={styles.inputGroup}>
-                            <p className={styles.successText}>인증 완료되었습니다.</p>
+                            <p className={styles.successText}>{isVerificationSent}</p>
                         </div>
                     )}
                     <div className={styles.inputGroup}>

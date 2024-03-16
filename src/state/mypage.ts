@@ -49,5 +49,5 @@ export const nicknameChangeRequestedState = atom({
 
 export const isVerificationSentForMyPageState = atom({
     key: 'isVerificationSentForMyPageState',
-    default: false,
+    default: '',
 });

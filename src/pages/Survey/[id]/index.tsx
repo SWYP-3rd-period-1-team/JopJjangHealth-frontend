@@ -33,6 +33,10 @@ const Index = () => {
     const [currentOptions, setCurrentOptions] = useRecoilState(currentOptionsState);
     const currentStage = parseInt(id as string, 10);
     
+    useEffect(() => {
+        setShowLoginConfirm(false);
+    }, [setShowLoginConfirm]);
+    
     const { mutate: saveHealthSurvey } = useSaveHealthSurvey();
     
     useEffect(() => {
@@ -158,10 +162,28 @@ const Index = () => {
         if (!accessToken && !forceRedirect) {
             localStorage.setItem('surveyOption', JSON.stringify(surveyOption));
             setShowLoginConfirm(true);
+        } else if (accessToken) {
+            saveHealthSurvey(surveyOption, {
+                onSuccess: (response) => {
+                    if (response.success) {
+                        router.push({
+                            pathname: '/Map',
+                            query: {
+                                disease: diseases.join(','),
+                                department: departments.join(','),
+                            },
+                        });
+                    } else {
+                        alert('건강 설문 저장을 실패하였습니다. 잠시 후 시도 해주세요.');
+                    }
+                },
+                onError: (error) => {
+                    console.error('건강 설문 저장 중 오류 발생:', error);
+                    alert('건강 설문 저장 중 문제가 발생했습니다. 잠시 후 시도 해주세요.');
+                },
+            });
         } else {
-            saveHealthSurvey(surveyOption);
             if (diseases.length > 0 && departments.length > 0) {
-                localStorage.clear();
                 router.push({
                     pathname: '/Map',
                     query: {
@@ -178,6 +200,7 @@ const Index = () => {
     };
     
     const handleCancelLogin = () => {
+        setShowLoginConfirm(false);
         choiceHospitalButton(currentOptions, true);
     };
     
@@ -207,7 +230,9 @@ const Index = () => {
                                 <div key={option.id} style={{marginLeft: '30px'}}
                                      onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
                                     <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
-                                           height={150} />
+                                           height={150}
+                                           priority
+                                    />
                                     <br />
                                     <div className={styles.survey_text}>
                                         {optionText}

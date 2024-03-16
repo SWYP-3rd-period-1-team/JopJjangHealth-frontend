@@ -18,14 +18,19 @@ export const useLogout = () => {
     
     const {mutate} = useMutation({
         mutationFn: () => logout(refreshToken),
-        onSuccess: () => {
-            logoutDeleteToken();
-            localStorage.clear();
-            queryClient.clear();
-            router.push('/Home');
+        onSuccess: (data) => {
+            if (data.success) {
+                logoutDeleteToken();
+                localStorage.clear();
+                queryClient.clear();
+                router.push('/Home');
+            } else {
+                alert(data.message || '로그아웃에 실패하였습니다. 잠시 후 시도 해주세요.');
+            }
         },
         onError: (error) => {
-            console.error('Logout failed:', error);
+            alert('로그아웃에 실패하였습니다. 잠시 후 시도 해주세요.');
+            console.error('로그아웃 failed:', error);
         },
     });
     return {mutate};
@@ -33,22 +38,43 @@ export const useLogout = () => {
 
 export const useLogin = () => {
     const router = useRouter();
-    const { mutate: saveHealthSurvey } = useSaveHealthSurvey();
+    const queryClient = useQueryClient();
+    const {mutate: saveHealthSurvey} = useSaveHealthSurvey();
     const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const {loginSaveToken} = useToken();
     
     const {mutate} = useMutation({
-        mutationFn: (data: LoginFormData) => login(data.username, data.password),
+        mutationFn: (data: LoginFormData) => login(data.username, data.password),// useLogin 함수 내부의 onSuccess를 수정합니다.
         onSuccess: (response) => {
-            if(response.success) {
+            if (response.success) {
                 loginSaveToken({
                     access_token: response.data.accessToken,
                     refresh_token: response.data.refreshToken,
                 });
+                queryClient.invalidateQueries();
+                
                 const surveyOption = localStorage.getItem('surveyOption');
                 if (surveyOption) {
                     const parsedOption = JSON.parse(surveyOption);
-                    saveHealthSurvey(parsedOption);
+                    saveHealthSurvey(parsedOption, {
+                        onSuccess: (response) => {
+                            if (response.success) {
+                                router.push({
+                                    pathname: '/Map',
+                                    query: {
+                                        disease: parsedOption.disease.join(','),
+                                        department: parsedOption.department.join(','),
+                                    },
+                                });
+                            } else {
+                                alert('건강 설문 불러오기를 실패하였습니다. 잠시 후 시도 해주세요.');
+                            }
+                        },
+                        onError: (error) => {
+                            console.error('건강 설문 불러오기를 실패:', error);
+                            alert('건강 설문 불러오기를 실패하였습니다. 잠시 후 시도 해주세요.');
+                        },
+                    });
                     localStorage.removeItem('surveyOption');
                     router.push(`/Map?disease=${parsedOption.disease}&department=${parsedOption.department}`);
                 } else {
@@ -59,7 +85,7 @@ export const useLogin = () => {
             }
         },
         onError: () => {
-            setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다. 다시 시도해주세요.');
+            setErrorMessage('로그인에 실패했거나 JWT 토큰이 없습니다. 다시 로그인을 시도해주세요.');
         },
     });
     
@@ -75,7 +101,7 @@ export const useSignUp = () => {
         onSuccess: (response) => {
             if (response?.success) {
                 alert(response?.data?.data?.message);
-                router.push(response.data?.data?.surveyUrl)
+                router.push(response.data?.data?.surveyUrl);
             } else {
                 setErrorMessage(response.message);
             }
@@ -101,7 +127,7 @@ export const useSendEmailVerification = () => {
             }
         },
         onError: () => {
-            alert('이메일 확인 요청이 정상적으로 되지 않았습니다. 추후 재시도 바랍니다.');
+            alert('이메일 확인 요청이 정상적으로 되지 않았습니다. 잠시 후 시도 해주세요.');
         },
     });
     
@@ -113,7 +139,7 @@ export const useVerifyEmailCode = () => {
     const [, setIsVerificationComplete] = useRecoilState(isVerificationCompleteState);
     
     const {mutate} = useMutation({
-        mutationFn: (formData:VerifyEmailFormData) => verifyEmailCode(formData.email, formData.emailVerificationCode),
+        mutationFn: (formData: VerifyEmailFormData) => verifyEmailCode(formData.email, formData.emailVerificationCode),
         onSuccess: (response) => {
             if (response?.data?.data?.message) {
                 setIsVerificationComplete(true);

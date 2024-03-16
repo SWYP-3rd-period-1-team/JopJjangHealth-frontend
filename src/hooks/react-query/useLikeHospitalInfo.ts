@@ -21,16 +21,17 @@ const useHospitalInfo = () => {
     
     useEffect(() => {
         const initializeHospitalInfo = async () => {
-            const bookmarkList = bookmarkData?.data?.data.bookmarkList ?? [];
+            // @ts-ignore
+            const bookmarkList = bookmarkData?.data?.bookmarkList;
             setIsLoading(true)
             try {
-                if (bookmarkList === null) {
+                if (bookmarkList.length > 0) {
+                    setHospitalFirstData(bookmarkList);
+                    setIsHospitalInfoLoaded(true);
+                } else {
                     setIsHospitalInfoLoaded(true);
                     setIsHospitalDetailsLoaded(true);
                     setHospitalFirstData([]);
-                } else {
-                    setHospitalFirstData(bookmarkList);
-                    setIsHospitalInfoLoaded(true);
                 }
             } catch (error) {
                 console.error('매칭 되는 병원 정보가 없습니다.', error);

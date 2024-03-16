@@ -2,64 +2,62 @@ import qs from 'qs';
 import axiosInstance from './axiosInstance';
 import {GetServerSideProps, GetServerSidePropsContext} from 'next';
 import {loginUrl, logoutUrl, sendEmailVerificationUrl, signUpUrl, verifyEmailCodeUrl} from './Urls';
-import axios from 'axios';
-
 export const signUp = async (nickname: string, userId: string, email: string, password: string) => {
     try {
-        const response = await axiosInstance.post(signUpUrl, {nickname, userId, email, password}, {
+        const response = await axiosInstance.post(signUpUrl, { nickname, userId, email, password }, {
             headers: {
                 'Content-Type': 'application/json; charset=UTF-8',
                 'Accept': 'application/json',
             },
         });
-        return {success: true, data: response.data};
+        return { success: true, data: response.data };
     } catch (error: any) {
-        return {success: false, message: error.response?.data?.message || error.message};
+        return { success: false, message: error.response?.data?.message || "회원가입 중 문제가 발생했습니다." };
     }
 };
+
 export const login = async (username: string, password: string) => {
     try {
-        const data = qs.stringify({username, password});
+        const data = qs.stringify({ username, password });
         const response = await axiosInstance.post(loginUrl, data, {
             headers: {
                 'Content-Type': 'application/x-www-form-urlencoded',
             },
         });
-        return {success: true, data: response.data};
+        return { success: true, data: response.data };
     } catch (error: any) {
-        return {success: false, message: error.response?.data?.message || error.message};
+        return { success: false, message: error.response?.data?.message || "로그인 중 문제가 발생했습니다." };
     }
 };
 
 export const sendEmailVerification = async (email: string) => {
     try {
         const response = await axiosInstance.post(sendEmailVerificationUrl(email), {});
-        return {success: true, data: response.data};
+        return { success: true, data: response.data };
     } catch (error: any) {
-        return {success: false, message: error.response?.data?.message || error.message};
+        return { success: false, message: error.response?.data?.message || "이메일 인증 중 문제가 발생했습니다." };
     }
 };
 
 export const verifyEmailCode = async (email: string, code: string) => {
     try {
-        const response = await axiosInstance.get(verifyEmailCodeUrl(email,code));
-        return {success: true, data: response.data};
+        const response = await axiosInstance.get(verifyEmailCodeUrl(email, code));
+        return { success: true, data: response.data };
     } catch (error: any) {
-        return {success: false, message: error.response?.data?.message || error.message};
+        return { success: false, message: error.response?.data?.message || "이메일 코드 검증 중 문제가 발생했습니다." };
     }
 };
 
-
-export const logout = async (refreshToken: string | null): Promise<any> => {
+export const logout = async (refreshToken: string | null) => {
     try {
-        const response = await axios.patch(`${process.env.NEXT_PUBLIC_API_URL}${logoutUrl}`, {}, {
+        const response = await axiosInstance.patch(logoutUrl, {}, {
             headers: {
                 'RefreshToken': `${refreshToken}`,
             },
         });
-        return {success: true, data: response.data};
-    } catch (error) {
-        return {success: false, message: '로그아웃이 정상적으로 되지 않았습니다. 다시 시도해주세요.'};
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        return { success: false, message: error.response?.data?.message || "로그아웃 중 문제가 발생했습니다." };
     }
 };
 

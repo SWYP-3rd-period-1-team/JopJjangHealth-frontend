@@ -15,7 +15,7 @@ export const useFindId = () => {
             });
         },
         onError: (error) => {
-            console.error('Find ID failed:', error);
+            console.error('아이디 찾기 failed:', error);
         }
     });
     
@@ -31,6 +31,9 @@ export const useFindPassword = () => {
             router.push({
                 pathname: '/Find/Complete',
             });
+        },
+        onError: (error) => {
+            console.error('비밀번호 찾기 failed:', error);
         }
     });
     

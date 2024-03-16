@@ -58,7 +58,7 @@ const UserProfile = () => {
             setNicknameChangeRequested(true);
         },
         onError: (error) => {
-            setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
+            setErrorMessage("닉네임 변경 중 오류가 발생했습니다.");
             setNicknameChangeRequested(false);
         },
     });
@@ -116,7 +116,7 @@ const UserProfile = () => {
     };
     
     const openPopup = (url: string, text: string): void => {
-        const isDefaultImage = userInfo.profileImage === DEFAULT_IMAGE_URL;
+        const isDefaultImage = userInfo.profileImage === null;
         localStorage.setItem('activeTab', text);
         localStorage.setItem('isDefaultImage', isDefaultImage ? 'true' : 'false');
         const popup: Window | null = window.open(url, 'popup', 'width=800,height=800');

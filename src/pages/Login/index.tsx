@@ -27,13 +27,12 @@ const Login: React.FC = () => {
                 try {
                     await router.push('/');
                 } catch (error) {
-                    console.error('Redirect error:', error);
+                    console.error('로그인 후 로그인 페이지로 진입시 리다이렉트 중 오류 발생:', error);
                 }
             }
         };
         checkLoginAndRedirect();
     }, [accessToken, router]);
-    
     
     const {
         register,

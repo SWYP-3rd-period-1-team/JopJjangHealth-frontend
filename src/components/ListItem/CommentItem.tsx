@@ -4,7 +4,7 @@ import CommentUserItem from './CommentUserItem';
 import {useMutation} from '@tanstack/react-query';
 import {
     deleteHospitalComment,
-    postHospitalReCommnet,
+    postHospitalReComment,
     reportsHospitalComment,
     updateHospitalComment,
 } from '../../api/Hospital';
@@ -169,7 +169,7 @@ const CommentItem = ({
     };
 
     const {mutate: postReComment} = useMutation({
-        mutationFn: postHospitalReCommnet,
+        mutationFn: postHospitalReComment,
         onSuccess: () => {
             setReCommentText('');
             setToggleReComment(false);

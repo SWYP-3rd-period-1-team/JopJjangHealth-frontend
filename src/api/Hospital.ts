@@ -40,7 +40,7 @@ export const updateHospitalComment: (param: {
     );
 };
 
-export const postHospitalReCommnet: (param: {
+export const postHospitalReComment: (param: {
     hospitalId: string;
     commentId: number;
     content: string;

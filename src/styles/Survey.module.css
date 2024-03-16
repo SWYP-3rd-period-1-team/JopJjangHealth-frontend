@@ -15,24 +15,17 @@
     background: #1C3C29;
     margin-bottom: 20px;
     margin-left: 48%;
-    padding-top:10px;
+    padding:10px;
     text-align: center;
     font-size: 30px;
 }
 
 .question_complete {
-    text-align: center;
-    color: #ffffff;
     font-size: 28px;
     font-weight: 600;
     line-height: normal;
-    padding: 10px;
     letter-spacing: -0.56px;
     width: 180px;
-    height: 60px;
-    flex-shrink: 0;
-    border-radius: 100px;
-    background: #1C3C29;
     margin-left: 40vw;
 }
 

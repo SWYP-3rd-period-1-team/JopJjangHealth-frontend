@@ -5,7 +5,7 @@ import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
 // import Image from 'next/image';
 //import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
-import {fetchDiseaseListDelete} from '../../../api/MyPage';
+import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/MyPage';
 import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
 import useAuthRedirect from '../../../hooks/useAuthRedirect';
@@ -17,9 +17,8 @@ import {
     activeDiseaseIdState,
     diseaseListState
 } from '../../../state/surveyList';
-import {DeleteDiseaseResponse, SurveyIdType} from '../../../types/server/surveyList';
-import {useMutation, useQueryClient} from '@tanstack/react-query';
-import {useQuery_DiseaseList} from '../../../hooks/react-query/useSurvey';
+import {DeleteDiseaseResponse, DiseaseItem, DiseaseListResponse, SurveyIdType} from '../../../types/server/surveyList';
+import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -42,30 +41,47 @@ const SurveyList = () => {
     const [activeDiseaseId, setActiveDiseaseId] = useRecoilState(activeDiseaseIdState);
     // const [showPopup, setShowPopup] = useState(false);
     
-    const { data: queriedDiseaseList, isLoading } = useQuery_DiseaseList();
+    // @ts-ignore
+    const { data: queriedDiseaseList, isLoading, isError, error } = useQuery<DiseaseListResponse, Error>({
+        queryKey: ['diseaseList'],
+        queryFn: fetchDiseaseList,
+        select: (response): DiseaseItem[] => response.data.data.map(item => ({
+            ...item,
+            dateTime: item.dateTime.split('T')[0],
+        })),
+    });
     
     useEffect(() => {
         if (queriedDiseaseList) {
+            // @ts-ignore
             setDiseaseList(queriedDiseaseList);
         }
     }, [queriedDiseaseList, setDiseaseList]);
     
+    
     const deleteDiseaseMutation = useMutation<DeleteDiseaseResponse, Error, SurveyIdType>({
         mutationFn: fetchDiseaseListDelete,
-        onSuccess: () => {
-            // @ts-ignore
-            queryClient.invalidateQueries(['diseaseList']);
-            setSelectedDiseases([]);
-            setIsSelectionMode(false);
+        onSuccess: (response) => {
+            if(response.success) {
+                // @ts-ignore
+                queryClient.invalidateQueries(['diseaseList']);
+                setSelectedDiseases([]);
+                setIsSelectionMode(false);
+            } else {
+                alert(response.message)
+            }
+        },
+        onError: (error, variables, context) => {
+            console.error('질병 리스트 삭제 중 에러 발생:', error);
         },
     });
     
-    const handleListClick = () => {
-        setIsSelectionMode(!isSelectionMode);
-    };
-    
     const handleDeleteSelected = async () => {
         await Promise.all(selectedDiseases.map((surveyId) => deleteDiseaseMutation.mutateAsync(Number(surveyId))));
+    };
+    
+    const handleListClick = () => {
+        setIsSelectionMode(!isSelectionMode);
     };
     
     // const toggleCalendarLink = (diseaseId: string) => {
