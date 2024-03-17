@@ -9,6 +9,7 @@ import {
     updateHospitalComment,
 } from '../../api/Hospital';
 import {CommentDto} from '../../types/server/hospital';
+import {useQuery_UserInfo} from '../../hooks/react-query';
 
 const Container = styled.div<{$depth: number; $firstitem?: boolean}>`
     padding-left: ${props => `${props.$depth * 48}px`};
@@ -110,6 +111,8 @@ interface Props {
     createDt?: string;
     userId?: number;
     commentUserId?: number;
+    nickName: string;
+    imageUrl?: string;
 }
 const CommentItem = ({
     hospitalId,
@@ -123,6 +126,8 @@ const CommentItem = ({
     createDt,
     userId,
     commentUserId,
+    nickName,
+    imageUrl,
 }: Props) => {
     const [toggleUpdate, setToggleUpdate] = useState(false);
     const [updateText, setUpdateText] = useState(content);
@@ -203,11 +208,19 @@ const CommentItem = ({
         });
     };
 
+    const {data: userData} = useQuery_UserInfo();
+    const userInfo = userData?.data;
+
     return (
         <Container $depth={depth} $firstitem={firstItem}>
             <CommentListItem>
                 <CommentContent>
-                    <CommentUserItem score={score} createDt={createDt} />
+                    <CommentUserItem
+                        imageUrl={imageUrl}
+                        nickName={nickName}
+                        score={score}
+                        createDt={createDt}
+                    />
                 </CommentContent>
                 <CommentMenu>
                     {!(depth > 0) && !!userId && (
@@ -277,7 +290,10 @@ const CommentItem = ({
             )}
             {toggleReComment && (
                 <FormContainer onSubmit={onPostReCommentHandler}>
-                    <CommentUserItem />
+                    <CommentUserItem
+                        nickName={userInfo?.nickname ?? ''}
+                        imageUrl={userInfo?.profileImage}
+                    />
                     <TextAreaContainer>
                         <InputView
                             placeholder="최대 100자 이하"
@@ -303,6 +319,8 @@ const CommentItem = ({
                             createDt={item.lastModifyDate}
                             userId={userId}
                             commentUserId={item.memberId}
+                            nickName={item.nickName}
+                            imageUrl={item.imageUrl}
                         />
                     ),
                 )}

@@ -19,4 +19,6 @@ export interface CommentDto {
     reportCount: number;
     star: number;
     lastModifyDate: string;
+    nickName: string;
+    imageUrl?: string;
 }

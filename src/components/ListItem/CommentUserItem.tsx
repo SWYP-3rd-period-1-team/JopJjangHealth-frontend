@@ -6,7 +6,7 @@ const Container = styled.div`
     display: flex;
     align-items: center;
 `;
-const ImageView = styled.div`
+const ImageView = styled.img`
     width: 70px;
     height: 70px;
     object-fit: cover;
@@ -42,17 +42,25 @@ const InfoContainer = styled.div`
 `;
 
 interface Props {
+    nickName: string;
+    imageUrl?: string;
     score?: number;
     setScore?: (score: number) => void;
     createDt?: string;
 }
-const CommentUserItem = ({score, setScore, createDt}: Props) => {
+const CommentUserItem = ({
+    nickName,
+    imageUrl,
+    score,
+    setScore,
+    createDt,
+}: Props) => {
     return (
         <Container>
-            <ImageView />
+            <ImageView src={imageUrl} />
             <InfoContainer>
                 <FlexContainer>
-                    <Name>닉네임</Name>
+                    <Name>{nickName}</Name>
                     {!score && <Date>{createDt}</Date>}
                 </FlexContainer>
                 {!!score && (
