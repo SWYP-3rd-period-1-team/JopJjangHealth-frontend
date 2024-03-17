@@ -13,12 +13,7 @@ export const changePassword = async (password: string, confirmPassword: string) 
         alert('비밀번호가 성공적으로 변경되었습니다.');
         window.location.href = '/MyPage';
     } catch (error: any) {
-        let errorMessage = '비밀번호 변경 중 에러가 발생했습니다. 다시 시도 해주세요.';
-        if (error.response) {
-            errorMessage = error.response.data.message || errorMessage;
-        } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
-        }
+        const errorMessage = error.response?.data?.message || '비밀번호 변경 중 에러가 발생했습니다. 다시 시도 해주세요.';
         alert(errorMessage);
         return { success: false, message: errorMessage };
     }
@@ -29,13 +24,8 @@ export const fetchDiseaseList = async () => {
         const response = await axiosInstance.get(fetchDiseaseListUrl);
         return { success: true, data: response.data };
     } catch (error: any) {
-        let errorMessage = '질병 리스트 호출 중 에러가 발생했습니다.';
-        if (error.response) {
-            alert(errorMessage)
-            errorMessage = error.response.data.message || errorMessage;
-        } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
-        }
+        const errorMessage = error.response?.data?.message || '질병 리스트 호출 중 에러가 발생했습니다.';
+        alert(errorMessage);
         return { success: false, message: errorMessage };
     }
 };
@@ -45,12 +35,7 @@ export const fetchDiseaseListDelete = async (surveyId: number) => {
         const response = await axiosInstance.delete(fetchDiseaseListDeleteUrl(surveyId));
         return { success: true, data: response.data };
     } catch (error: any) {
-        let errorMessage = '질병 리스트 삭제 중 에러가 발생했습니다.';
-        if (error.response) {
-            errorMessage = error.response.data.message || errorMessage;
-        } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
-        }
+        const errorMessage = error.response?.data?.message || '질병 리스트 삭제 중 에러가 발생했습니다.';
         return { success: false, message: errorMessage };
     }
 };
@@ -67,7 +52,9 @@ export const changeUserProfileImage = async (file: File) => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "프로필 이미지 변경 중 문제가 발생했습니다." };
+        const errorMessage = error.response?.data?.message || '프로필 이미지 변경 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -83,7 +70,9 @@ export const uploadProfileImage = async (file: File) => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "프로필 이미지 업로드 중 문제가 발생했습니다." };
+        const errorMessage = error.response?.data?.message || '프로필 이미지 업로드 중 문제가 발생했습니다.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -96,7 +85,9 @@ export const deleteUserProfileImage = async () => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "프로필 이미지 삭제 중 문제가 발생했습니다." };
+        const errorMessage = error.response?.data?.message || '프로필 이미지 삭제 중 문제가 발생했습니다.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -109,7 +100,9 @@ export const fetchUserInfo = async () => {
             return { success: false, message: "예상치 못한 응답 형식입니다." };
         }
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "회원 정보 조회 중 문제가 발생했습니다." };
+        const errorMessage = error.response?.data?.message || '회원 정보 조회 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -122,19 +115,23 @@ export const changeUserNickname = async (newNickname: string) => {
             return { success: false, message: "예상치 못한 응답 형식입니다." };
         }
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "닉네임 변경 중 문제가 발생했습니다." };
+        const errorMessage = error.response?.data?.message || '닉네임 변경 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
 export const sendEmailVerificationForMyPage = async (email: string) => {
     try {
-        const response = await axiosInstance.post(sendEmailVerificationForMyPageUrl, { email: email });
+        const response = await axiosInstance.post(sendEmailVerificationForMyPageUrl, { email });
         if (response.data.success === "true") {
             return { success: true, data: response.data.data };
         } else {
             return { success: false, message: "예상치 못한 응답 형식입니다." };
         }
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "이메일 인증 발송 중 문제가 발생했습니다." };
+        const errorMessage = error.response?.data?.message || '이메일 인증 발송 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };

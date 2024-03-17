@@ -12,31 +12,19 @@ export const fetchHospitalInfo = async () => {
     } catch (error: any) {
         if (error.response) {
             const errData = error.response.data;
-            let message = "찜한 병원 정보를 가져오는 중 에러가 발생했습니다.";
-            switch (error.response.status) {
-                case 400:
-                    message = "잘못된 요청입니다.";
-                    break;
-                case 401:
-                    message = "인증에 실패했습니다.";
-                    break;
-                case 404:
-                    message = "찾을 수 없는 정보입니다.";
-                    break;
-            }
-            alert(message);
+            alert(errData.message || '찜한 병원 정보를 가져오는 중 에러가 발생했습니다. 다시 시도 해주세요.');
             return {
                 success: false,
-                message: errData.message || message,
-                errorCode: errData.errCode
+                message: errData.message || '찜한 병원 정보를 가져오는 중 에러가 발생했습니다. 다시 시도 해주세요.',
+                errorCode: errData.errorCode
             };
         } else if (error.request) {
             return { success: false, message: "서버로부터 응답이 없습니다." };
         } else {
-            return { success: false, message: "네트워크 연결을 확인해주세요." };
+            return { success: false, message: error.message };
         }
     }
-};
+}
 
 export const fetchHospitalDeleteInfo = async (hospitalId: string) => {
     try {
@@ -51,30 +39,16 @@ export const fetchHospitalDeleteInfo = async (hospitalId: string) => {
     } catch (error: any) {
         if (error.response) {
             const errData = error.response.data;
-            let message = "찜한 병원 삭제 중 에러가 발생했습니다.";
-            switch (error.response.status) {
-                case 400:
-                    message = "잘못된 요청입니다. 병원 ID를 확인해주세요.";
-                    break;
-                case 401:
-                    message = "로그인이 필요합니다.";
-                    break;
-                case 403:
-                    message = "접근 권한이 없습니다.";
-                    break;
-                case 404:
-                    message = "삭제하려는 병원 정보를 찾을 수 없습니다.";
-                    break;
-            }
+            alert(errData.message || '찜한 병원을 삭제하지 못하였습니다. 다시 시도 해주세요.');
             return {
                 success: false,
-                message: errData.message || message,
-                errorCode: errData.errCode
+                message: errData.message || '찜한 병원을 삭제하지 못하였습니다. 다시 시도 해주세요.',
+                errorCode: errData.errorCode
             };
         } else if (error.request) {
             return { success: false, message: "서버로부터 응답이 없습니다." };
         } else {
-            return { success: false, message: "네트워크 연결을 확인해주세요." };
+            return { success: false, message: error.message };
         }
     }
 };

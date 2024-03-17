@@ -12,13 +12,18 @@ export const signUp = async (nickname: string, userId: string, email: string, pa
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        let errorMessage = '';
         if (error.response) {
-            errorMessage = error.response.data || errorMessage;
+            const errData = error.response.data;
+            return {
+                success: false,
+                message: errData.message || "회원가입 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                errorCode: errData.errorCode
+            };
         } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
+            return { success: false, message: "서버로부터 응답이 없습니다." };
+        } else {
+            return { success: false, message: error.message };
         }
-        return { success: false, message: errorMessage };
     }
 };
 
@@ -32,13 +37,18 @@ export const login = async (username: string, password: string) => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        let errorMessage = '';
         if (error.response) {
-            errorMessage = error.response.data || errorMessage;
+            const errData = error.response.data;
+            return {
+                success: false,
+                message: errData.message || "로그인 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                errorCode: errData.errorCode
+            };
         } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
+            return { success: false, message: "서버로부터 응답이 없습니다." };
+        } else {
+            return { success: false, message: error.message };
         }
-        return { success: false, message: errorMessage };
     }
 };
 
@@ -47,13 +57,18 @@ export const sendEmailVerification = async (email: string) => {
         const response = await axiosInstance.post(sendEmailVerificationUrl(email), {});
         return { success: true, data: response.data };
     } catch (error: any) {
-        let errorMessage = '';
         if (error.response) {
-            errorMessage = error.response.data || errorMessage;
+            const errData = error.response.data;
+            return {
+                success: false,
+                message: errData.message || "이메일 인증 요청 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                errorCode: errData.errorCode
+            };
         } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
+            return { success: false, message: "서버로부터 응답이 없습니다." };
+        } else {
+            return { success: false, message: error.message };
         }
-        return { success: false, message: errorMessage };
     }
 };
 
@@ -62,14 +77,18 @@ export const verifyEmailCode = async (email: string, code: string) => {
         const response = await axiosInstance.get(verifyEmailCodeUrl(email, code));
         return { success: true, data: response.data };
     } catch (error: any) {
-        console.log(error,"error 지금 시간 3시 30분!!!")
-        let errorMessage = '';
         if (error.response) {
-            errorMessage = error.response.data || errorMessage;
+            const errData = error.response.data;
+            return {
+                success: false,
+                message: errData.message || "이메일 코드 검증 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                errorCode: errData.errorCode
+            };
         } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
+            return { success: false, message: "서버로부터 응답이 없습니다." };
+        } else {
+            return { success: false, message: error.message };
         }
-        return { success: false, message: errorMessage };
     }
 };
 
@@ -82,13 +101,18 @@ export const logout = async (refreshToken: string | null) => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        let errorMessage = '';
         if (error.response) {
-            errorMessage = error.response.data || errorMessage;
+            const errData = error.response.data;
+            return {
+                success: false,
+                message: errData.message || "로그아웃 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                errorCode: errData.errorCode
+            };
         } else if (error.request) {
-            errorMessage = '서버로부터 응답이 없습니다.';
+            return { success: false, message: "서버로부터 응답이 없습니다." };
+        } else {
+            return { success: false, message: error.message };
         }
-        return { success: false, message: errorMessage };
     }
 };
 
