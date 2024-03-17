@@ -150,3 +150,8 @@
     }
 }
 
+@media (min-width: 1600px) {
+    .home_container {
+        margin: 0 14%;
+    }
+}

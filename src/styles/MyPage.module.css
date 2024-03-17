@@ -136,4 +136,11 @@
     }
 }
 
+@media (min-width: 1600px) {
+    .myPageContainer {
+        margin: 0 14%;
+    }
+}
 
+@media (min-width: 1200px) {
+}

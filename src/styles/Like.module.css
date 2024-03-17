@@ -228,3 +228,12 @@
         width: 90%;
     }
 }
+
+@media (min-width: 1600px) {
+    .like_container {
+        margin: 45px 14%;
+    }
+}
+
+@media (min-width: 1200px) {
+}

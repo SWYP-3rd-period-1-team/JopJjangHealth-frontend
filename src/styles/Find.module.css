@@ -216,3 +216,10 @@
     line-height: 100%; /* 16px */
     letter-spacing: -0.32px;
 }
+
+@media (min-width: 1600px) {
+
+}
+
+@media (min-width: 1200px) {
+}

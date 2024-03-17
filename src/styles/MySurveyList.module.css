@@ -316,7 +316,11 @@
     }
 }
 
+@media (min-width: 1600px) {
+    .mySurvey_container {
+        margin: 0 14% 50px 14%;
+    }
+}
 
-
-
-
+@media (min-width: 1200px) {
+}

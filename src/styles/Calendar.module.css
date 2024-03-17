@@ -181,3 +181,10 @@
     letter-spacing: -0.4px;
     text-decoration-line: underline;
 }
+
+@media (min-width: 1600px) {
+
+}
+
+@media (min-width: 1200px) {
+}
