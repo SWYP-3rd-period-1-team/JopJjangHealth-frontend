@@ -5,7 +5,7 @@ export interface Response_Calendar {
             sleepScheduleId: number;
             sleepPeriod: string;
             sleepTime: number;
-            achievement: number;
+            sleepScheduleAchievement: boolean;
             calenderDate: string;
         };
         scheduleInfoList?: {
@@ -22,6 +22,7 @@ export interface Response_Calendar {
             supplementFrequency: number;
             achievement: number;
             calenderDate: string;
+            supplementAchieveArray?: boolean[];
         }[];
         waterIntakeInfo?: {
             waterIntakeId: number;
@@ -30,6 +31,7 @@ export interface Response_Calendar {
             waterCapacity: number;
             achievement: number;
             calenderDate: string;
+            supplementAchieveArray?: boolean[];
         };
     };
 }

@@ -58,6 +58,23 @@ export const deleteCalendarSupplement: ({
         `/api/calenders/supplements/${supplementID}`,
     );
 };
+export const updateCalendarSupplementArchivement: (param: {
+    supplementId: number;
+    achieveArray: boolean[];
+}) => Promise<AxiosResponse<any>> = async ({
+    supplementId,
+    achieveArray,
+}: {
+    supplementId: number;
+    achieveArray: boolean[];
+}) => {
+    return await axiosInstance.put(
+        `/api/calenders/supplements/${supplementId}/achievement`,
+        {
+            achieveArray,
+        },
+    );
+};
 
 // 물 섭취량
 export const postCalendarWater: (
@@ -95,6 +112,23 @@ export const deleteCalendarWater: ({
         `/api/calenders/waterIntakes/${waterIntakeId}`,
     );
 };
+export const updateCalendarWaterArchivement: (param: {
+    waterIntakeId: number;
+    achieveArray: boolean[];
+}) => Promise<AxiosResponse<any>> = async ({
+    waterIntakeId,
+    achieveArray,
+}: {
+    waterIntakeId: number;
+    achieveArray: boolean[];
+}) => {
+    return await axiosInstance.put(
+        `/api/calenders/waterIntakes/${waterIntakeId}/achievement`,
+        {
+            achieveArray,
+        },
+    );
+};
 
 // 수면 정보
 export const postCalendarSleep: (
@@ -128,6 +162,21 @@ export const deleteCalendarSleep: ({
 }) => {
     return await axiosInstance.delete(
         `/api/calenders/sleepSchedules/${sleepScheduleId}`,
+    );
+};
+export const updateCalendarSleepArchivement: (param: {
+    sleepScheduleId: number;
+    achievement: boolean;
+}) => Promise<AxiosResponse<any>> = async ({
+    sleepScheduleId,
+    achievement,
+}: {
+    sleepScheduleId: number;
+    achievement: boolean;
+}) => {
+    return await axiosInstance.put(
+        `/api/calenders/sleepSchedules/${sleepScheduleId}/achievement`,
+        {achievement},
     );
 };
 
