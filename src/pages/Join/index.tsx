@@ -17,9 +17,19 @@ import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
 import { JoinFormData } from '../../types/server/formData';
 import {useSendEmailVerification, useSignUp, useVerifyEmailCode} from '../../hooks/react-query/useAuth';
-import {passwordVisibilityState} from '../../state';
+import {errorMessageState, passwordVisibilityState} from '../../state';
 
-const emailDomains = ['gmail.com', 'naver.com', 'daum.net', 'nate.com', 'other'];
+const emailDomains = [
+    '',
+    'gmail.com',
+    'naver.com',
+    'daum.net',
+    'nate.com',
+    'hotmail.com',
+    'yahoo.com',
+    'outlook.com',
+    'icloud.com',
+];
 
 const Join = () => {
     const {
@@ -48,9 +58,14 @@ const Join = () => {
     const [isVerificationSent, ] = useRecoilState(isVerificationSentState);
     const [isVerificationComplete, ] = useRecoilState(isVerificationCompleteState);
     const [isAgreed, setIsAgreed] = useRecoilState(isAgreedState);
+    const [, setErrorMessage] = useRecoilState(errorMessageState);
     
     useEffect(() => {
-        const fullEmail = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
+        setErrorMessage('');
+    }, [setErrorMessage]);
+    
+    useEffect(() => {
+        const fullEmail = emailDomain === '' ? `${emailUsername}${customDomain}` : `${emailUsername}@${emailDomain || customDomain}`;
         setValue('email', fullEmail);
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
@@ -59,7 +74,7 @@ const Join = () => {
     };
     
     const handleEmailVerificationRequest = async () => {
-        const email = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
+        const email = `${emailUsername}@${emailDomain === '' ? customDomain : emailDomain}`;
         sendEmailVerification(email);
     };
     
@@ -71,12 +86,12 @@ const Join = () => {
     const handleDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         setEmailDomain(value);
-        if (value === 'other') {
+        if (value === '') {
             setCustomDomain('');
         }
     };
     
-    const isOtherDomain = emailDomain === 'other';
+    const isOtherDomain = emailDomain === '';
     
     const handleAgreementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsAgreed(e.target.checked);
@@ -122,10 +137,10 @@ const Join = () => {
                         <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
                             {passwordType === 'password' ?
                                 <>
-                                    <Image src={eyeSlash} alt={'eye-slash'} />
+                                    <Image src={eyeSlash} alt={'eye-slash'} priority/>
                                 </> :
                                 <>
-                                    <Image src={eye} alt={'eye'} />
+                                    <Image src={eye} alt={'eye'} priority/>
                                 </>}
                         </div>
                         {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
@@ -144,49 +159,33 @@ const Join = () => {
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            placeholder="Email ID"
+                            placeholder="이메일"
                             value={emailUsername}
                             onChange={(e) => setEmailUsername(e.target.value)}
+                            style={{width:"180px"}}
                             className={errors.email ? styles.inputError : styles.input_email}
-                        />&nbsp;@&nbsp;
+                        />
+                        {" "}@{" "}
+                        <input
+                            placeholder="직접 입력"
+                            value={emailDomain}
+                            onChange={(e) => setCustomDomain(e.target.value)}
+                            className={styles.input}
+                            style={{width: "180px"}}
+                        />
                         <select
-                            value={isOtherDomain ? 'other' : emailDomain}
-                            className={styles.selectDomain}
-                            disabled={true}
-                        >
-                            {emailDomains.map((domain, index) => (
-                                <option key={index} value={domain}>
-                                    {domain === 'other' ? '직접 입력' : domain}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            value={isOtherDomain ? 'other' : emailDomain}
+                            value={isOtherDomain ? '' : emailDomain}
                             onChange={handleDomainChange}
                             className={styles.selectDomain}
                         >
                             {emailDomains.map((domain, index) => (
                                 <option key={index} value={domain}>
-                                    {domain === 'other' ? '직접 입력' : domain}
+                                    {domain === '' ? '선택' : domain}
                                 </option>
                             ))}
                         </select>
-                        {isOtherDomain && (
-                            <input
-                                placeholder="이메일 도메인 직접 입력"
-                                value={customDomain}
-                                onChange={(e) => setCustomDomain(e.target.value)}
-                                className={styles.input}
-                                style={{width: '120px'}}
-                            />
-                        )}
-                        <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
-                                disabled={isVerificationSent}>
-                            인증 하기
-                        </button>
                     </div>
                     {errors.email && <p className={styles.errorText}>{errors.email.message}</p>}
-                    
                     <div className={styles.inputGroup}>
                         <input
                             placeholder="이메일 인증"
@@ -194,14 +193,19 @@ const Join = () => {
                                 required: '이메일 인증을 입력해주세요.',
                                 validate: validateEmail,
                             })}
-                            className={errors.email ? styles.inputError : styles.input}
+                            style={{width: '390px'}}
+                            className={errors.email ? styles.inputError : styles.input_email_text}
                         />
+                        <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
+                                disabled={isVerificationSent}>
+                            인증하기
+                        </button>
                         {errors.email && (
                             <p className={styles.errorText}>{errors.email.message || errorMessage.includes('email')}</p>
                         )}
                     </div>
                     {isVerificationSent && !isVerificationComplete && (
-                        <div className={styles.inputGroup}>
+                        <div className={`${styles.inputGroup} ${styles.emailInputGroup}`}>
                             <input
                                 placeholder="인증 코드 입력"
                                 {...register('emailVerificationCode', {
@@ -209,9 +213,6 @@ const Join = () => {
                                 })}
                                 className={errors.emailVerificationCode ? styles.inputError : styles.inputVerification}
                             />
-                            {errors.emailVerificationCode && (
-                                <p className={styles.errorText}>{errors.emailVerificationCode.message}</p>
-                            )}
                             <button type="button" onClick={handleEmailVerification} className={styles.verifyButton}>
                                 인증 확인
                             </button>

@@ -31,7 +31,7 @@ const FindPassword: React.FC = () => {
                         className={errors.userId ? styles.inputError : styles.input}
                     />
                     {errors.userId && <p className={styles.errorText}>{errors.userId.message}</p>}
-                </div>
+                </div><br/>
                 <div className={styles.inputGroup}>
                     <input
                         placeholder="@ 까지 입력해 주세요."

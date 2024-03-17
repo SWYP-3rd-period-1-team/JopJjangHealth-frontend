@@ -5,7 +5,7 @@
 }
 
 .content_basic {
-    top: 15%;
+    top: 13%;
     color: #000;
     text-align: center;
     font-family: 'SUIT', serif;
@@ -17,7 +17,7 @@
 }
 
 .content_bold {
-    top: 23%;
+    top: 18.5%;
     color: #000;
     text-align: center;
     font-family: 'SUIT', serif;
@@ -34,14 +34,13 @@
 }
 
 .image_container {
-    bottom:20%;
+    bottom:25%;
     display: flex;
     justify-content: center;
-    margin-top: 160px;
 }
 
 .check {
-    top: 85%;
+    top: 80%;
     width: 629px;
     height: 55px;
     flex-shrink: 0;

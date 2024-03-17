@@ -27,10 +27,10 @@ export const useFindPassword = () => {
     
     const { mutate } = useMutation({
         mutationFn: (data:PasswordFormData) => findPassword(data.userId, data.email),
-        onSuccess: () => {
-            router.push({
-                pathname: '/Find/Complete',
-            });
+        onSuccess: (data) => {
+            if(data.success){
+                router.push('/Find/Complete');
+            }
         },
         onError: (error) => {
             console.error('비밀번호 찾기 failed:', error);

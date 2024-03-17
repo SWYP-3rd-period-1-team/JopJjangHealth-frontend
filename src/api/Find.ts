@@ -9,7 +9,7 @@ export async function findPassword(userId: string, email: string): Promise<APIRe
     } catch (error: any) {
         if (error.response) {
             const errData = error.response.data;
-            alert(errData.message);
+            alert(errData.data.message);
             return {
                 success: false,
                 message: errData.message || "비밀번호 찾기 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
@@ -30,7 +30,7 @@ export async function findId(email: string): Promise<APIResponse> {
     } catch (error: any) {
         if (error.response) {
             const errData = error.response.data;
-            alert(errData.message);
+            alert(errData.data.message);
             return {
                 success: false,
                 message: errData.message || "아이디 찾기 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",

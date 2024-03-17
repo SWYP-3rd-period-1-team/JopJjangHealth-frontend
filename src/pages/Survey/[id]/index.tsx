@@ -147,7 +147,7 @@ const Index = () => {
     
     const homeButton = () => {
         setAlertInfo({ show: true, message: '건강설문 데이터가 없어집니다!', severity: 'warning' });
-        // router.push('/');
+        router.push('/');
     };
     
     const choiceHospitalButton = (currentOptions: any[], forceRedirect: boolean = false) => {
@@ -256,7 +256,7 @@ const Index = () => {
                         
                         if (imageSrc && optionText) {
                             return (
-                                <div key={option.id} style={{marginLeft: '30px'}}
+                                <div key={option.id} style={{marginLeft: '35px'}}
                                      onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
                                     <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
                                            height={150}
@@ -276,11 +276,13 @@ const Index = () => {
             {currentStage > 1 && (
                 <>
                     <button className={styles.before_button} onClick={() => router.back()}>
-                        <Image src={before} alt="before" width={10} height={10} /> 전 단계로 돌아가기
+                        <Image src={before} alt="before" width={8} height={15} />
+                        <span className={styles.text}>전 단계로 돌아가기 </span>
                     </button>
                     {currentStage < 4 && (
                         <button className={styles.home_button} onClick={homeButton}>
-                            <Image src={home} alt="home" width={10} height={10} /> 직<b>짱</b>건강
+                            <Image src={home} alt="home" width={14} height={16} />
+                            <span className={styles.text}>직<b>짱</b>건강</span>
                         </button>
                     )}
                 </>
@@ -288,7 +290,8 @@ const Index = () => {
             {currentStage === 4 && (
                 <>
                     <button className={styles.hospital_button} onClick={() => choiceHospitalButton(currentOptions)}>
-                        추천병원 <Image src={hospital} alt="hospital" width={16} height={16} />
+                        <span className={styles.text}>추천병원</span>
+                        <Image src={hospital} alt="hospital" width={16} height={16} />
                     </button>
                     <ShareButton />
                 </>

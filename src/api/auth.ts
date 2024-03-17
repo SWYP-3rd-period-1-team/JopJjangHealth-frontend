@@ -12,7 +12,13 @@ export const signUp = async (nickname: string, userId: string, email: string, pa
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "회원가입 중 문제가 발생했습니다." };
+        let errorMessage = '';
+        if (error.response) {
+            errorMessage = error.response.data || errorMessage;
+        } else if (error.request) {
+            errorMessage = '서버로부터 응답이 없습니다.';
+        }
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -26,7 +32,13 @@ export const login = async (username: string, password: string) => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "로그인 중 문제가 발생했습니다." };
+        let errorMessage = '';
+        if (error.response) {
+            errorMessage = error.response.data || errorMessage;
+        } else if (error.request) {
+            errorMessage = '서버로부터 응답이 없습니다.';
+        }
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -35,7 +47,13 @@ export const sendEmailVerification = async (email: string) => {
         const response = await axiosInstance.post(sendEmailVerificationUrl(email), {});
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "이메일 인증 중 문제가 발생했습니다." };
+        let errorMessage = '';
+        if (error.response) {
+            errorMessage = error.response.data || errorMessage;
+        } else if (error.request) {
+            errorMessage = '서버로부터 응답이 없습니다.';
+        }
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -44,7 +62,14 @@ export const verifyEmailCode = async (email: string, code: string) => {
         const response = await axiosInstance.get(verifyEmailCodeUrl(email, code));
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "이메일 코드 검증 중 문제가 발생했습니다." };
+        console.log(error,"error 지금 시간 3시 30분!!!")
+        let errorMessage = '';
+        if (error.response) {
+            errorMessage = error.response.data || errorMessage;
+        } else if (error.request) {
+            errorMessage = '서버로부터 응답이 없습니다.';
+        }
+        return { success: false, message: errorMessage };
     }
 };
 
@@ -57,7 +82,13 @@ export const logout = async (refreshToken: string | null) => {
         });
         return { success: true, data: response.data };
     } catch (error: any) {
-        return { success: false, message: error.response?.data?.message || "로그아웃 중 문제가 발생했습니다." };
+        let errorMessage = '';
+        if (error.response) {
+            errorMessage = error.response.data || errorMessage;
+        } else if (error.request) {
+            errorMessage = '서버로부터 응답이 없습니다.';
+        }
+        return { success: false, message: errorMessage };
     }
 };
 

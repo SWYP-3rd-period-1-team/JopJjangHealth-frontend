@@ -7,7 +7,7 @@ export const emailUsernameState = atom({
 
 export const emailDomainState = atom({
     key: 'emailDomainState',
-    default: 'gmail.com',
+    default: '',
 });
 
 export const customDomainState = atom({

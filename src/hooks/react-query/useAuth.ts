@@ -22,7 +22,6 @@ export const useLogout = () => {
             if (data.success) {
                 logoutDeleteToken();
                 localStorage.clear();
-                queryClient.clear();
                 router.push('/Home');
             } else {
                 alert(data.message || '로그아웃에 실패하였습니다. 잠시 후 시도 해주세요.');
@@ -44,7 +43,7 @@ export const useLogin = () => {
     const {loginSaveToken} = useToken();
     
     const {mutate} = useMutation({
-        mutationFn: (data: LoginFormData) => login(data.username, data.password),// useLogin 함수 내부의 onSuccess를 수정합니다.
+        mutationFn: (data: LoginFormData) => login(data.username, data.password),
         onSuccess: (response) => {
             if (response.success) {
                 loginSaveToken({
@@ -80,8 +79,10 @@ export const useLogin = () => {
                 } else {
                     router.push('/');
                 }
-            } else {
-                setErrorMessage(response.message.includes('406') ? '아이디나 비밀번호가 일치하지 않습니다.' : '로그인에 실패했거나 JWT 토큰이 없습니다.');
+            }
+            else {
+                // @ts-ignore
+                setErrorMessage(response.message)
             }
         },
         onError: () => {
@@ -103,6 +104,7 @@ export const useSignUp = () => {
                 alert(response?.data?.data?.message);
                 router.push(response.data?.data?.surveyUrl);
             } else {
+                // @ts-ignore
                 setErrorMessage(response.message);
             }
         },
@@ -119,15 +121,15 @@ export const useSendEmailVerification = () => {
     const {mutate} = useMutation({
         mutationFn: (email: string) => sendEmailVerification(email),
         onSuccess: (response) => {
-            if (response?.data?.data?.message) {
+            if (response?.success) {
                 alert(response?.data?.data?.message);
                 setIsVerificationSent(true);
             } else {
-                alert(response?.message.includes('이미 존재하는 이메일 입니다.') ? response.message : '이메일을 확인 해주세요.');
+                alert(response?.message?.message);
             }
         },
         onError: () => {
-            alert('이메일 확인 요청이 정상적으로 되지 않았습니다. 잠시 후 시도 해주세요.');
+            alert('이메일 요청이 정상적으로 되지 않았습니다. 잠시 후 시도 해주세요.');
         },
     });
     
@@ -145,11 +147,11 @@ export const useVerifyEmailCode = () => {
                 setIsVerificationComplete(true);
                 setIsVerificationSent(false);
             } else {
-                alert(response?.message);
+                alert(response?.message?.message);
             }
         },
         onError: () => {
-            alert('이메일 요청이 확인되지 않았습니다. 추후 재시도 바랍니다.');
+            alert('이메일 확인 요청이 정상적으로 되지 않았습니다. 잠시 후 시도 해주세요.');
         },
     });
     

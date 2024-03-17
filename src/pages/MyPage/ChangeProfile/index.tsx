@@ -40,6 +40,10 @@ const UserProfile = () => {
     const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
     
+    useEffect(() => {
+        setErrorMessage('');
+    }, [setErrorMessage]);
+    
     const [alertInfo, setAlertInfo] = useState<AlertInfo>({
         open: false,
         message: '',
@@ -177,6 +181,7 @@ const UserProfile = () => {
                             width={'150px'}
                             height={'150px'}
                             objectFit={'scale-down'}
+                            priority
                         />
                         <div className={styles.profileBroke} onClick={handleDeleteProfileImage}>
                             {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ?

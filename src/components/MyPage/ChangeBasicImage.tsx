@@ -52,7 +52,7 @@ const ChangeBasicImage: React.FC = () => {
                         className={`${styles.basic_img} ${selectedIndex === index ? styles.selected : ''}`}
                         onClick={() => handleSelectImage(index)}
                     >
-                        <Image src={src} alt={`기본사진 ${index + 1}`} width={150} height={150} />
+                        <Image src={src} alt={`기본사진 ${index + 1}`} width={150} height={150} priority/>
                     </div>
                 ))}
             </div>

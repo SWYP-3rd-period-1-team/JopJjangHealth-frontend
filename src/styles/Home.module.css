@@ -3,7 +3,7 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    margin: 0 auto;
+    margin: 0 20%;
 }
 
 .input_group {
@@ -78,6 +78,11 @@
     position: relative;
     margin: 20px;
     float: left;
+}
+
+.homeImageWrapper {
+    width: 95%;
+    margin: auto;
 }
 
 .home:hover, .home_right:hover {

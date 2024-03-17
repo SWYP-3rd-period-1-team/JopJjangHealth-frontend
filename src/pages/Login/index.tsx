@@ -9,7 +9,7 @@ import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
 import {LoginFormData} from "../../types/server/formData";
 import { useRecoilState } from 'recoil';
-import { passwordVisibilityState } from '../../state';
+import {errorMessageState, passwordVisibilityState} from '../../state';
 import useSaveLocalContent from '../../hooks/useSaveLocalContent';
 import {useLogin} from '../../hooks/react-query/useAuth';
 
@@ -17,9 +17,14 @@ const Login: React.FC = () => {
     const router = useRouter();
     const {getDecryptedCookie} = useSaveLocalContent();
     const accessToken = getDecryptedCookie('zzgg_at');
+    const [, setErrorMessage] = useRecoilState(errorMessageState);
     const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
     
     const { mutate: login, errorMessage } = useLogin();
+    
+    useEffect(() => {
+        setErrorMessage('');
+    }, [setErrorMessage]);
     
     useEffect(() => {
         const checkLoginAndRedirect = async () => {
@@ -98,10 +103,10 @@ const Login: React.FC = () => {
                         <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
                             {passwordType === 'password' ?
                                 <>
-                                    <Image src={eyeSlash} alt={"eye-slash"}/>
+                                    <Image src={eyeSlash} alt={"eye-slash"} priority/>
                                 </> :
                                 <>
-                                    <Image src={eye} alt={"eye"}/>
+                                    <Image src={eye} alt={"eye"} priority/>
                                 </>}
                         </div>
                         {errors.password && (

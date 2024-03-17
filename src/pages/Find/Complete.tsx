@@ -18,13 +18,13 @@ const Complete: React.FC = () => {
                         <div className={styles.find_complete_Main}>
                             회원가입 시 등록하신 이메일로 임시 비밀번호를 발송했습니다.
                         </div>
-                        <div className={styles.find_complete}>로그인 후에 꼭 비밀번호를 변경해주세요</div>
+                        <div className={styles.find_complete_password}>로그인 후에 꼭 비밀번호를 변경해주세요</div>
                     </>
             }
-            <button className={styles.findButton} onClick={() => {
+            <button className={styles.findCompleteButton} onClick={() => {
                 localStorage.clear();
                 window.close()
-            }}>로그인 하기</button>
+            }}>로그인하기</button>
         </div>
     );
 };
