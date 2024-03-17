@@ -5,7 +5,7 @@
     font-weight: 600;
     line-height: 160%; /* 51.2px */
     letter-spacing: -0.64px;
-    margin: 24px 210px;
+    margin: 24px 21%;
 }
 
 .like_container {
@@ -17,7 +17,7 @@
     background: linear-gradient(116deg, rgba(255, 255, 255, 0.60) 0.7%, rgba(255, 255, 255, 0.18) 98.16%);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(30px);
-    margin: 45px 210px 45px 210px;
+    margin: 45px 25%;
 }
 
 .like_list_templete {

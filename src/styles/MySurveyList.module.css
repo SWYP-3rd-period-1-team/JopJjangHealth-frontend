@@ -6,7 +6,7 @@
     font-weight: 600;
     line-height: 160%;
     letter-spacing: -0.8px;
-    margin: 50px 210px 0 210px;
+    margin: 50px 25%;
 }
 
 .mySurvey_check_text, .mySurvey_check_img {
@@ -21,7 +21,7 @@
 }
 
 .mySurvey_check_text {
-    margin: 50px 230px 15px 210px;
+    margin: 50px 20% 15px 25%;
 }
 
 .mySurvey_container {
@@ -31,7 +31,7 @@
     border-radius: 5px;
     border: 1px solid #ECECEC;
     background: #FFF;
-    margin: 0 210px 50px 210px;
+    margin: 0 25% 50px 25%;
     overflow-y: scroll;
 }
 
