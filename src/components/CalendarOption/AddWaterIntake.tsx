@@ -18,10 +18,10 @@ const AddWaterInTake = ({
     onClose,
 }: Props) => {
     const [intakeGoal, setIntakeGoal] = useState(
-        `${currentData?.waterRequirement}` ?? '',
+        currentData?.waterRequirement ? `${currentData?.waterRequirement}` : '',
     ); // 목표 섭취량을 문자열로 관리합니다.
     const [intakeCount, setIntakeCount] = useState(
-        `${currentData?.waterFrequency}` ?? '1',
+        currentData?.waterFrequency ? `${currentData?.waterFrequency}` : '1',
     ); // 각 잔당 섭취량도 문자열로 관리합니다.
 
     const formatNumberWithComma = (value: string) => {

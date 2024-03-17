@@ -81,7 +81,7 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
 
     const {data: userData} = useQuery_UserInfo();
     const userInfo = userData?.data;
-    
+
     const {mutate: postComment} = useMutation({
         mutationFn: postHospitalComment,
         onSuccess: () => {
@@ -108,7 +108,12 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
             <Title>병원 리뷰</Title>
             {!!userInfo ? (
                 <FormContainer onSubmit={onSubmitSearch}>
-                    <CommentUserItem score={score} setScore={setScore} />
+                    <CommentUserItem
+                        nickName={userInfo.nickname}
+                        imageUrl={userInfo.profileImage}
+                        score={score}
+                        setScore={setScore}
+                    />
                     <TextAreaContainer>
                         <InputView
                             placeholder="최대 100자 이하"
@@ -144,6 +149,8 @@ const CommentView = ({hospitalId, commentList, refetchComment}: Props) => {
                             createDt={item.lastModifyDate}
                             userId={userInfo?.memberId}
                             commentUserId={item.memberId}
+                            nickName={item.nickName}
+                            imageUrl={item.imageUrl}
                         />
                     ))}
             </CommentListView>
