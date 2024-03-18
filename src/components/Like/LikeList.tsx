@@ -18,7 +18,7 @@ const LikeList: React.FC<LikeListProps> = ({ hospitalInfo, onDeleteHospital }) =
                     <div className={styles.date}>{hospital.bookmarkDate} 찜</div>
                     <div className={styles.title}>
                         <span className={styles.place}>{hospital.address}</span>
-                        {' '}|{' '}
+                        {'  '} | {'  '}
                         <span className={styles.district}>{hospital.distance} 떨어져 있습니다.</span>
                     </div>
                     <div className={styles.delete}

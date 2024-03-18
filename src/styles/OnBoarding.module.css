@@ -42,7 +42,7 @@
 .check {
     top: 80%;
     width: 629px;
-    height: 55px;
+    height: 75px;
     flex-shrink: 0;
     border-radius: 10px;
     background: #1C3C29;
@@ -76,38 +76,131 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     @keyframes typing {
         from {
             width: 0;
         }
         to {
-            width: max-content;
+            width: 450px;
         }
     }
 
-    .content_basic, .content_bold, .question, .check, .question_complete, .question_complete_title {
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        font-size: 24px;
+    @keyframes blink-caret {
+        from, to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: black;
+        }
     }
 
-    .content_bold, .question {
-        animation: typing 4s steps(30, end) 1s forwards, blink-caret .75s step-end infinite;
-        width: auto;
+    .content_basic {
+        font-size: 28px;
+        letter-spacing: -0.56px;
+    }
+
+    .content_bold {
+        font-size: 28px;
+        letter-spacing: -0.56px;
     }
 
     .image_container {
-        margin-top: 80px;
-        width:90%;
-        height: auto;
+        bottom:25%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .check {
+        width: 530px;
+        height: 65px;
+        font-size: 20px;
+        letter-spacing: -0.4px;
     }
 }
 
 @media (min-width: 1600px) {
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 450px;
+        }
+    }
 
+    @keyframes blink-caret {
+        from, to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: black;
+        }
+    }
+
+    .content_basic {
+        font-size: 28px;
+        letter-spacing: -0.56px;
+    }
+
+    .content_bold {
+        font-size: 28px;
+        letter-spacing: -0.56px;
+    }
+
+    .image_container {
+        bottom:25%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .check {
+        width: 530px;
+        height: 65px;
+        font-size: 20px;
+        letter-spacing: -0.4px;
+    }
 }
 
 @media (min-width: 1200px) {
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 450px;
+        }
+    }
+
+    @keyframes blink-caret {
+        from, to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: black;
+        }
+    }
+
+    .content_basic {
+        font-size: 28px;
+        letter-spacing: -0.56px;
+    }
+
+    .content_bold {
+        font-size: 28px;
+        letter-spacing: -0.56px;
+    }
+
+    .image_container {
+        bottom:25%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .check {
+        width: 530px;
+        height: 65px;
+        font-size: 20px;
+        letter-spacing: -0.4px;
+    }
 }

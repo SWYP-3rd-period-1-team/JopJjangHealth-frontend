@@ -118,49 +118,333 @@
     margin-right: 10px;
 }
 
-@media (max-width: 768px) {
+@media (min-width: 768px) {
     .loginContainer {
-        padding: 20px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        margin-top :9%;
     }
 
-    .loginTitle, .submitButton, .input, .inputError, .hr, .linkContainer {
-        width: 100%;
+    .loginTitle {
+        color: #000;
+        text-align: center;
+        font-family: 'SUIT',sans-serif;
+        font-size: 52px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 150%; /* 78px */
+        letter-spacing: -1.04px;
+        margin-bottom: 20px;
     }
 
-    .input, .inputError {
-        height: 40px;
-        padding: 8px 15px;
+    .inputGroup {
+        position: relative;
+        margin-bottom: 20px;
     }
 
-    .submitButton {
-        height: 50px;
-        font-size: 20px;
-        padding: 8px 15px;
+    .visibilityToggle {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    .input,.inputError {
+        width: 500px;
+        height: 45px;
+        flex-shrink: 0;
+        border: 1px solid #ECECEC;
+        background: #FFF;
+        padding: 10px 20px;
+    }
+    .inputError {
+        border: 2px solid red;
     }
 
     .errorText {
-        font-size: 0.65rem;
+        color: red;
+        font-size: 0.75rem;
+        margin-top: 5px;
+    }
+
+    .submitButton {
+        width: 500px;
+        height: 55px;
+        flex-shrink: 0;
+        background: #1C3C29;
+        color: #FFF;
+        font-family: 'SUIT',sans-serif;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        letter-spacing: -0.48px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .submitButton:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+    .errorMessage {
+        color: red;
+        margin-top: 10px;
+    }
+
+    .hr {
+        width: 500px;
+        height: 0;
+        flex-shrink: 0;
+        border: 2px solid #00A241;
     }
 
     .linkContainer {
-        flex-direction: column;
-        align-items: center;
-        margin-left: 0;
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-left:36%;
+        width: 500px;
     }
 
     .join, .findId, .findPassword {
-        font-size: 18px;
-        margin: 5px 0;
+        color: #757575;
+        font-family: 'SUIT',sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 100%;
+        letter-spacing: -0.4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .join {
+        text-align: left;
     }
 
     .findId, .findPassword {
-        text-align: center;
+        text-align: right;
+    }
+
+    .findId {
+        margin-right: 10px;
     }
 }
 
 @media (min-width: 1600px) {
+    .loginContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        margin-top :9%;
+    }
 
+    .loginTitle {
+        color: #000;
+        text-align: center;
+        font-family: 'SUIT',sans-serif;
+        font-size: 52px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 150%; /* 78px */
+        letter-spacing: -1.04px;
+        margin-bottom: 20px;
+    }
+
+    .inputGroup {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .visibilityToggle {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    .input,.inputError {
+        width: 500px;
+        height: 45px;
+        flex-shrink: 0;
+        border: 1px solid #ECECEC;
+        background: #FFF;
+        padding: 10px 20px;
+    }
+    .inputError {
+        border: 2px solid red;
+    }
+
+    .errorText {
+        color: red;
+        font-size: 0.75rem;
+        margin-top: 5px;
+    }
+
+    .submitButton {
+        width: 500px;
+        height: 55px;
+        flex-shrink: 0;
+        background: #1C3C29;
+        color: #FFF;
+        font-family: 'SUIT',sans-serif;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: 500;
+        line-height: 100%;
+        letter-spacing: -0.48px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .submitButton:disabled {
+        background-color: #cccccc;
+        cursor: not-allowed;
+    }
+
+    .errorMessage {
+        color: red;
+        margin-top: 10px;
+    }
+
+    .hr {
+        width: 500px;
+        height: 0;
+        flex-shrink: 0;
+        border: 2px solid #00A241;
+    }
+
+    .linkContainer {
+        display: flex;
+        justify-content: space-between;
+        margin-top: 20px;
+        margin-left:36%;
+        width: 500px;
+    }
+
+    .join, .findId, .findPassword {
+        color: #757575;
+        font-family: 'SUIT',sans-serif;
+        font-size: 20px;
+        font-style: normal;
+        font-weight: 400;
+        line-height: 100%;
+        letter-spacing: -0.4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .join {
+        text-align: left;
+    }
+
+    .findId, .findPassword {
+        text-align: right;
+    }
+
+    .findId {
+        margin-right: 10px;
+    }
 }
 
 @media (min-width: 1200px) {
+    .loginContainer {
+        padding: 30px;
+        margin-top :9%;
+    }
+
+    .loginTitle {
+        font-size: 52px;
+        line-height: 150%; /* 78px */
+        letter-spacing: -1.04px;
+        margin-bottom: 20px;
+    }
+
+    .inputGroup {
+        margin-bottom: 20px;
+    }
+
+    .visibilityToggle {
+        right: 20px;
+        top: 15px;
+    }
+
+    .input,.inputError {
+        width: 500px;
+        height: 45px;
+        padding: 10px 20px;
+    }
+    .inputError {
+        border: 2px solid red;
+    }
+
+    .errorText {
+        color: red;
+        font-size: 0.75rem;
+        margin-top: 5px;
+    }
+
+    .submitButton {
+        width: 500px;
+        height: 55px;
+        font-size: 24px;
+        line-height: 100%;
+        letter-spacing: -0.48px;
+        padding: 10px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s;
+    }
+
+    .errorMessage {
+        color: red;
+        margin-top: 10px;
+    }
+
+    .hr {
+        width: 500px;
+        height: 0;
+    }
+
+    .linkContainer {
+        margin-top: 20px;
+        margin-left:36%;
+        width: 500px;
+    }
+
+    .join, .findId, .findPassword {
+        font-size: 20px;
+        line-height: 100%;
+        letter-spacing: -0.4px;
+        cursor: pointer;
+        text-decoration: none;
+    }
+
+    .join {
+        text-align: left;
+    }
+
+    .findId, .findPassword {
+        text-align: right;
+    }
+
+    .findId {
+        margin-right: 10px;
+    }
 }

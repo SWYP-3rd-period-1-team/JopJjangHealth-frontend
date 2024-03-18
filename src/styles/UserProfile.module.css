@@ -28,7 +28,7 @@
     color: #757575;
     cursor: pointer;
     margin-top: 5px;
-    margin-right:20px;
+    margin-right: 20px;
     text-align: center;
     font-size: 16px;
     font-style: normal;
@@ -203,50 +203,349 @@
 
 @media (max-width: 768px) {
     .profileContainer {
-        width: 90%;
-        height: auto;
-        padding-left: 10px;
-        margin: 20px auto;
+        margin: 25px auto;
+        width: 1000px;
+        height: 800px;
+        padding-left: 20px;
     }
 
-    .imageContainer, .images_container, .images_container_second {
-        display: block;
-        margin-top: 20px;
-        text-align: center;
+    .imageContainer {
+        margin-top: 50px;
     }
 
-    .profileImage, .basic_img, .imagePreviewContainer {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto;
-        border-radius: 50px;
+    .profileEdit {
+        margin-top: 5px;
+        margin-right: 20px;
+        font-size: 16px;
+        line-height: 160%;
+        letter-spacing: -0.32px;
+        text-decoration-line: underline;
+    }
+
+    .likedListContainer {
+        margin-bottom: 69px;
+        font-size: 24px;
+        line-height: 160%;
+        letter-spacing: -0.48px;
     }
 
     .userAsk, .userAnswer {
-        width: 90%;
-        margin: 10px auto;
+        width: auto;
+        height: 55px;
+        flex-shrink: 0;
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 160%; /* 25.6px */
+        letter-spacing: -0.32px;
     }
 
     .userAnswer {
-        margin-left: 0;
+        margin-left: 85px;
     }
 
-    .editButton, .checkButton {
-        width: 90%;
-        margin: 20px auto;
+    .errorMessage {
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        text-align: left;
+        margin-left: 125px;
     }
 
-    .errorMessage, .hint {
-        margin-left: 10px;
+    .hint {
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
     }
 
     .userNameChangeButton {
-        margin-left: 5px;
+        width: 90px;
+        height: 24px;
+        margin-left: 10px;
+        line-height: 100%; /* 10px */
+        letter-spacing: -0.2px;
+    }
+
+    .editButton {
+        width: 550px;
+        height: 65px;
+        margin: 0 0 55px 25%;
+        font-size: 20px;
+        line-height: 100%; /* 20px */
+        letter-spacing: -0.4px;
+    }
+
+    .basic_img {
+        width: 150px;
+        height: 150px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    }
+
+    .imagePreview {
+        width: 100%;
+        height: 100px;
+        margin-top: 20px;
+    }
+
+    .images_container {
+        height: 200px;
+    }
+
+    .images_container_second {
+        margin-bottom: 20px;
+    }
+
+    .checkButton {
+        width: 720px;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 300px;
+    }
+
+    .selected {
+        border: 2px solid #000;
+    }
+
+    .imagePreviewContainer {
+        margin-bottom: 20px;
+        width: 298px;
+        height: 298px;
     }
 }
 
 @media (min-width: 1600px) {
+    .profileContainer {
+        margin: 25px auto;
+        width: 1000px;
+        height: 800px;
+        padding-left: 20px;
+    }
+
+    .imageContainer {
+        margin-top: 50px;
+    }
+
+    .profileEdit {
+        margin-top: 5px;
+        margin-right: 20px;
+        font-size: 16px;
+        font-weight: 400;
+        line-height: 160%;
+        letter-spacing: -0.32px;
+    }
+
+    .likedListContainer {
+        margin-bottom: 69px;
+        font-size: 24px;
+        font-style: normal;
+        line-height: 160%;
+        letter-spacing: -0.48px;
+    }
+
+    .userAsk, .userAnswer {
+        width: auto;
+        height: 55px;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: 600;
+        line-height: 160%; /* 25.6px */
+        letter-spacing: -0.32px;
+    }
+
+    .userAnswer {
+        margin-left: 85px;
+    }
+
+    .errorMessage {
+        margin-top: 10px;
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
+    }
+
+    .hint {
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
+    }
+
+    .userNameChangeButton {
+        width: 90px;
+        height: 24px;
+        font-size: 10px;
+        line-height: 100%; /* 10px */
+        letter-spacing: -0.2px;
+    }
+
+    .editButton {
+        width: 550px;
+        height: 65px;
+        background: #1C3C29;
+        margin: 0 0 55px 25%;
+        font-size: 20px;
+        line-height: 100%; /* 20px */
+        letter-spacing: -0.4px;
+    }
+
+    .basic_img {
+        width: 150px;
+        height: 150px;
+        padding: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    }
+
+    .fileInput {
+        display: block;
+        margin: 20px auto;
+    }
+
+    .imagePreview {
+        width: 100%;
+        height: 100px;
+        margin-top: 20px;
+    }
+
+    .images_container {
+        height: 200px;
+    }
+
+    .images_container_second {
+        margin-bottom: 20px;
+    }
+
+    .checkButton {
+        width: 720px;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 300px;
+    }
+
+    .selected {
+        border: 2px solid #000;
+    }
+
+    .imagePreviewContainer {
+        margin-bottom: 20px;
+        width: 298px;
+        height: 298px;
+    }
 }
 
 @media (min-width: 1200px) {
+    .profileContainer {
+        margin: 25px auto;
+        width: 1000px;
+        height: 800px;
+        padding-left: 20px;
+    }
+
+    .imageContainer {
+        margin-top: 50px;
+    }
+
+    .profileEdit {
+        margin-top: 5px;
+        margin-right: 20px;
+        text-align: center;
+        font-size: 16px;
+        line-height: 160%;
+        letter-spacing: -0.32px;
+    }
+
+    .likedListContainer {
+        margin-bottom: 69px;
+        font-size: 24px;
+        line-height: 160%;
+        letter-spacing: -0.48px;
+    }
+
+    .userAsk, .userAnswer {
+        width: auto;
+        height: 55px;
+        font-size: 16px;
+        line-height: 160%; /* 25.6px */
+        letter-spacing: -0.32px;
+    }
+
+    .userAnswer {
+        margin-left: 85px;
+    }
+
+    .errorMessage {
+        color: red;
+        margin-top: 10px;
+        font-size: 14px;
+        font-style: normal;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
+    }
+
+    .hint {
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
+    }
+
+    .userNameChangeButton {
+        width: 90px;
+        height: 24px;
+        margin-left: 10px;
+        font-size: 10px;
+        line-height: 100%; /* 10px */
+        letter-spacing: -0.2px;
+    }
+
+    .editButton {
+        width: 550px;
+        height: 65px;
+        margin: 0 0 55px 25%;
+        font-size: 20px;
+        line-height: 100%; /* 20px */
+        letter-spacing: -0.4px;
+    }
+
+    .basic_img {
+        width: 150px;
+        height: 150px;
+        padding: 20px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+        margin-left: 20px;
+    }
+
+    .fileInput {
+        margin: 20px auto;
+    }
+
+    .imagePreview {
+        width: 100%;
+        height: 100px;
+        margin-top: 20px;
+    }
+
+    .images_container {
+        height: 200px;
+    }
+
+    .checkButton {
+        width: 720px;
+        padding: 12px;
+        font-size: 16px;
+        margin-top: 300px;
+    }
+
+    .imagePreviewContainer {
+        margin-bottom: 20px;
+        width: 298px;
+        height: 298px;
+    }
 }
