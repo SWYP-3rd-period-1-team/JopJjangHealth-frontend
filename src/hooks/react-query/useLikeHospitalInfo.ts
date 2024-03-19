@@ -58,28 +58,32 @@ const useHospitalInfo = () => {
                 const detailsPromises = hospitalFirstData.map((hospital) =>
                     new Promise<HospitalDetail | null>((resolve, reject) => {
                         if (hospital.googleMapId) {
-                            service.getDetails({placeId: hospital.googleMapId}, (result: any, status) => {
+                            service.getDetails({placeId: hospital.googleMapId}, (result:any, status) => {
                                 if (status === google.maps.places.PlacesServiceStatus.OK && result && result.geometry && result.geometry.location) {
-                                    const hospitalLocation = result.geometry.location;
-                                    if (userLocation && hospitalLocation) {
-                                        const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(
-                                            userLocation,
-                                            hospitalLocation,
-                                        );
-                                        if (!isNaN(distanceMeters)) {
-                                            const distanceKm = !isNaN(distanceMeters) ? (distanceMeters / 1000).toFixed(2) : '거리 정보 없음';
-                                            resolve({
-                                                id: result.place_id,
-                                                name: result.name,
-                                                address: result.formatted_address,
-                                                bookmarkDate: hospital.bookmarkDate,
-                                                distance: `${distanceKm} km`,
-                                            });
-                                        } else {
-                                            resolve(null);
-                                        }
+                                    let hospitalLat = result.geometry.location.lat;
+                                    let hospitalLng = result.geometry.location.lng;
+                                    if (typeof hospitalLat === 'function') {
+                                        hospitalLat = hospitalLat();
+                                    }
+                                    if (typeof hospitalLng === 'function') {
+                                        hospitalLng = hospitalLng();
+                                    }
+                                    const hospitalLocation = new google.maps.LatLng(hospitalLat, hospitalLng);
+                                    const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(
+                                        userLocation,
+                                        hospitalLocation
+                                    );
+                                    if (!isNaN(distanceMeters)) {
+                                        const distanceKm = (distanceMeters / 1000).toFixed(2);
+                                        resolve({
+                                            id: result.place_id,
+                                            name: result.name,
+                                            address: result.formatted_address,
+                                            bookmarkDate: hospital.bookmarkDate,
+                                            distance: `${distanceKm} km`,
+                                        });
                                     } else {
-                                        reject(new Error('위치 정보가 유효하지 않습니다.'));
+                                        resolve(null);
                                     }
                                 } else {
                                     reject(new Error(`${hospital.googleMapId}의 구글맵 ID에 에러 발생하였습니다.`));
@@ -88,10 +92,10 @@ const useHospitalInfo = () => {
                         } else {
                             reject(new Error('구글 맵 ID가 제공되지 않았습니다.'));
                         }
-                        
                     }),
                 );
                 
+                // 모든 병원 정보에 대한 처리가 완료되면 상태 업데이트
                 Promise.allSettled(detailsPromises).then((results) => {
                     const successfulDetails = results
                         .filter((result): result is PromiseFulfilledResult<HospitalDetail | null> => result.status === 'fulfilled')
@@ -100,15 +104,14 @@ const useHospitalInfo = () => {
                     setHospitalInfo(successfulDetails);
                     setIsHospitalDetailsLoaded(true);
                 }).catch(error => {
-                    console.error('구글맵 병원 정보가 없습니다.', error);
-                    setIsLoading(false);
+                    console.error('구글맵 병원 정보 로드 중 에러 발생:', error);
                 })
                     .finally(() => {
                         setIsLoading(false);
                     });
             },
             (error) => {
-                console.error('Geolocation 에러 발생 했습니다.:', error);
+                console.error('Geolocation 에러 발생:', error);
                 setIsLoading(false);
             },
         );
