@@ -108,7 +108,6 @@ const UserProfile = () => {
         try {
             const response = await changeUserNickname(newNickname);
             if (response?.success) {
-                alert(response.data.data.message);
                 await refreshUserInfo();
                 setNicknameChangeRequested(true);
             } else {
@@ -122,10 +121,17 @@ const UserProfile = () => {
     
     const deleteUserImageMutation = useMutation({
         mutationFn: deleteUserProfileImage,
-        onSuccess: () => {
-            showAlert("프로필 이미지가 성공적으로 삭제되었습니다.", 'success');
-            // @ts-ignore
-            queryClient.invalidateQueries(['userInfo']);
+        onSuccess: (response) => {
+            if(!response.success) {
+                throw new Error('Server responded with an error');
+            } else {
+                showAlert("프로필 이미지가 성공적으로 삭제되었습니다.", 'success');
+                setUserInfo(prevUserInfo => ({
+                    ...prevUserInfo,
+                    profileImage: DEFAULT_IMAGE_URL,
+                }));
+            }
+           
         },
         onError: () => {
             showAlert("프로필 이미지 삭제 중 오류가 발생했습니다.", 'error');

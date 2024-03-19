@@ -38,11 +38,10 @@ export const login = async (username: string, password: string) => {
         return { success: true, data: response.data };
     } catch (error: any) {
         if (error.response) {
-            const errData = error.response.data;
             return {
                 success: false,
-                message: errData.message || "로그인 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
-                errorCode: errData.errorCode
+                message: error.response.data || "로그인 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
+                errorCode: error.response.status
             };
         } else if (error.request) {
             return { success: false, message: "서버로부터 응답이 없습니다." };
@@ -62,7 +61,7 @@ export const sendEmailVerification = async (email: string) => {
             return {
                 success: false,
                 message: errData.message || "이메일 인증 요청 중 에러가 발생했습니다. 잠시 후 다시 시도해주세요.",
-                errorCode: errData.errorCode
+                errorCode: error.response.status
             };
         } else if (error.request) {
             return { success: false, message: "서버로부터 응답이 없습니다." };
@@ -72,7 +71,8 @@ export const sendEmailVerification = async (email: string) => {
     }
 };
 
-export const verifyEmailCode = async (email: string, code: string) => {
+export const
+    verifyEmailCode = async (email: string, code: string) => {
     try {
         const response = await axiosInstance.get(verifyEmailCodeUrl(email, code));
         return { success: true, data: response.data };

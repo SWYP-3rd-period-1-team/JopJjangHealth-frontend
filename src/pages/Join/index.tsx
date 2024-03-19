@@ -65,7 +65,7 @@ const Join = () => {
     }, [setErrorMessage]);
     
     useEffect(() => {
-        const fullEmail = emailDomain === '' ? `${emailUsername}${customDomain}` : `${emailUsername}@${emailDomain || customDomain}`;
+        const fullEmail = emailDomain === '' ? `${emailUsername}${emailUsername? "@" : " "}${customDomain}` : `${emailUsername}@${emailDomain || customDomain}`;
         setValue('email', fullEmail);
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
@@ -168,7 +168,7 @@ const Join = () => {
                         {" "}@{" "}
                         <input
                             placeholder="직접 입력"
-                            value={emailDomain}
+                            value={isOtherDomain ? customDomain : emailDomain}
                             onChange={(e) => setCustomDomain(e.target.value)}
                             className={styles.input}
                             style={{width: "180px"}}

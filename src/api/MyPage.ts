@@ -116,7 +116,6 @@ export const changeUserNickname = async (newNickname: string) => {
         }
     } catch (error: any) {
         const errorMessage = error.response?.data?.message || '닉네임 변경 중 문제가 발생했습니다. 다시 시도 해주세요.';
-        alert(errorMessage);
         return { success: false, message: errorMessage };
     }
 };

@@ -19,7 +19,7 @@ export const useLogout = () => {
     const {mutate} = useMutation({
         mutationFn: () => logout(refreshToken),
         onSuccess: (data) => {
-            if (data.success) {
+            if (data.data.success) {
                 logoutDeleteToken();
                 localStorage.clear();
                 router.push('/Home');
@@ -125,7 +125,7 @@ export const useSendEmailVerification = () => {
                 alert(response?.data?.data?.message);
                 setIsVerificationSent(true);
             } else {
-                alert(response?.message?.message);
+                alert(response?.message);
             }
         },
         onError: () => {
@@ -147,7 +147,7 @@ export const useVerifyEmailCode = () => {
                 setIsVerificationComplete(true);
                 setIsVerificationSent(false);
             } else {
-                alert(response?.message?.message);
+                alert(response?.message);
             }
         },
         onError: () => {
