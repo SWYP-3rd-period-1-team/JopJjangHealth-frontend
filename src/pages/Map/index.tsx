@@ -13,8 +13,8 @@ declare global {
 }
 
 const Container = styled.main`
-    width: 100%;
-    height: 100%;
+    width: auto;
+    height: 880px;
     display: flex;
     padding: 30px 160px;
     flex-direction: column;
