@@ -9,92 +9,128 @@ import {
 
 export const changePassword = async (password: string, confirmPassword: string) => {
     try {
-        await axiosInstance.patch(changePasswordUrl,
-            {
-                newPassword: password,
-                confirmPassword: confirmPassword,
-            });
+        await axiosInstance.patch(changePasswordUrl, { newPassword: password, confirmPassword: confirmPassword });
         alert('비밀번호가 성공적으로 변경되었습니다.');
         window.location.href = '/MyPage';
-    } catch (error) {
-        return {success: false, message: '비밀번호 변경 중 에러가 발생했습니다'};
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '비밀번호 변경 중 에러가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
 export const fetchDiseaseList = async () => {
     try {
         const response = await axiosInstance.get(fetchDiseaseListUrl);
-        return {success: true, data: response.data};
-    } catch (error) {
-        return {success: false, message: '질병 리스트 호출 중 에러가 발생했습니다'};
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '질병 리스트 호출 중 에러가 발생했습니다.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
 export const fetchDiseaseListDelete = async (surveyId: number) => {
     try {
         const response = await axiosInstance.delete(fetchDiseaseListDeleteUrl(surveyId));
-        return {success: true, data: response.data};
-    } catch (error) {
-        return {success: false, message: '질병 리스트 삭제 중 에러가 발생했습니다'};
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '질병 리스트 삭제 중 에러가 발생했습니다.';
+        return { success: false, message: errorMessage };
     }
 };
 
 export const changeUserProfileImage = async (file: File) => {
-    const formData = new FormData();
-    formData.append('profileImage', file);
-    
-    return axiosInstance.put(changeUserProfileImageUrl, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+    try {
+        const formData = new FormData();
+        formData.append('profileImage', file);
+        
+        const response = await axiosInstance.put(changeUserProfileImageUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '프로필 이미지 변경 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
+    }
 };
 
 export const uploadProfileImage = async (file: File) => {
-    const formData = new FormData();
-    formData.append('profileImage', file);
-    
-    const response = await axiosInstance.post(uploadProfileImageUrl, formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
-    return response.data;
+    try {
+        const formData = new FormData();
+        formData.append('profileImage', file);
+        
+        const response = await axiosInstance.post(uploadProfileImageUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '프로필 이미지 업로드 중 문제가 발생했습니다.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
+    }
 };
 
 export const deleteUserProfileImage = async () => {
-    return axiosInstance.delete(deleteUserProfileImageUrl, {
-        headers: {
-            'Content-Type': 'multipart/form-data',
-        },
-    });
+    try {
+        const response = await axiosInstance.delete(deleteUserProfileImageUrl, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+        });
+        return { success: true, data: response.data };
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '프로필 이미지 삭제 중 문제가 발생했습니다.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
+    }
 };
 
 export const fetchUserInfo = async () => {
     try {
         const response = await axiosInstance.get(fetchUserInfoUrl);
-        return {success: true, data: response.data.data};
-    } catch (error) {
-        return {success: false, message: '회원정보 호출 중 에러가 발생했습니다'};
+        if (response.data.success === "true") {
+            return { success: true, data: response.data.data };
+        } else {
+            return { success: false, message: "예상치 못한 응답 형식입니다." };
+        }
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '회원 정보 조회 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
 
 export const changeUserNickname = async (newNickname: string) => {
     try {
-        const response = await axiosInstance.patch(changeUserNicknameUrl, {newNickname});
-        return {success: true, data: response.data};
-    } catch (error:any) {
-        return { success: false, message: error.response?.data?.message || error.message };
+        const response = await axiosInstance.patch(changeUserNicknameUrl, { newNickname });
+        if (response.data.success === "true") {
+            return { success: true, data: response.data };
+        } else {
+            return { success: false, message: "예상치 못한 응답 형식입니다." };
+        }
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '닉네임 변경 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        return { success: false, message: errorMessage };
     }
 };
 
 export const sendEmailVerificationForMyPage = async (email: string) => {
     try {
-        const response = await axiosInstance.post(sendEmailVerificationForMyPageUrl, {email: email});
-        alert(response.data.data);
-        return {success: true, data: response.data};
-    } catch (error) {
-        return {success: false, message: '이메일 요청 실패'};
+        const response = await axiosInstance.post(sendEmailVerificationForMyPageUrl, { email });
+        if (response.data.success === "true") {
+            return { success: true, data: response.data.data };
+        } else {
+            return { success: false, message: "예상치 못한 응답 형식입니다." };
+        }
+    } catch (error: any) {
+        const errorMessage = error.response?.data?.message || '이메일 인증 발송 중 문제가 발생했습니다. 다시 시도 해주세요.';
+        alert(errorMessage);
+        return { success: false, message: errorMessage };
     }
 };
-

@@ -4,10 +4,10 @@ import ChangeBasicImage from '../../../components/MyPage/ChangeBasicImage';
 import ChangePathImage from '../../../components/MyPage/ChangePathImage';
 import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
-import useAuth from '../../../hooks/useAuth';
+import useAuthRedirect from '../../../hooks/useAuthRedirect';
 
 const TabComponent:React.FC = () => {
-    useAuth();
+    useAuthRedirect();
     const [activeTab, setActiveTab] = useState<string>('');
 
     useEffect(() => {

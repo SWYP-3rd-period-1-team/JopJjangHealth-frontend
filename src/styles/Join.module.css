@@ -1,5 +1,4 @@
 .joinContainer {
-    padding: 30px;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -10,11 +9,12 @@
     color: #000;
     text-align: center;
     font-family: 'SUIT',sans-serif;
-    font-size: 32px;
+    font-size: 52px;
     font-style: normal;
     font-weight: 300;
     line-height: 150%; /* 78px */
     letter-spacing: -1.04px;
+    margin-top:50px;
     margin-bottom: 20px;
 }
 
@@ -25,32 +25,49 @@
 
 .visibilityToggle {
     position: absolute;
-    right: 20px;
+    right: 30px;
     top: 15px;
     border: none;
     background: none;
     cursor: pointer;
 }
 
-.input, .input_email, .inputError, .inputVerification {
-    width:600px;
-    height:45px;
+.input, .input_email, .inputError, .inputVerification, .input_email_text {
+    color: #757575;
+    font-family: 'SUIT', sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.32px;
+    width:550px;
+    height:55px;
     padding: 10px 20px;
     border:none;
     background-color: #ffffff;
 }
 
+.input_email_text {
+    width: 380px;
+    height:55px;
+}
+
 .input_email {
     margin-right:5px;
-    width: 190px;
+    width: 170px;
 }
 
 .inputVerification {
-    width: 480px;
+    flex: 1;
+    margin-right: 10px;
+    width: 380px;
 }
 
 .selectDomain {
-    margin-left: 5px;
+    border:none;
+    width:151px;
+    height:55px;
+    margin: 10px 10px 10px 10px;
     padding: 10px 20px;
     background-color: #ffffff;
 }
@@ -63,10 +80,12 @@
     color: red;
     font-size: 0.75rem;
     margin-top: 5px;
+    word-wrap: break-word;
+    max-width: 550px;
 }
 
 .submitButton {
-    width: 600px;
+    width: 550px;
     height: 55px;
     flex-shrink: 0;
     background: #1C3C29;
@@ -74,7 +93,7 @@
     font-family: 'SUIT',sans-serif;
     font-size: 24px;
     font-style: normal;
-    font-weight: 600;
+    font-weight: 550;
     line-height: 100%;
     letter-spacing: -0.48px;
     padding: 10px 20px;
@@ -89,31 +108,129 @@
     cursor: not-allowed;
 }
 
-.verifyButton {
-    width: max-content;
-    flex-shrink: 0;
-    margin-left: 20px;
-    border: 1px solid #A8A8A8;
-    background: #00A241;
-    padding: 8px 20px;
+.verifyButton:disabled {
+    background-color: grey;
+    cursor: not-allowed;
 }
 
-@media (max-width: 768px) {
+.verifyButton {
+    width: 151px;
+    height: 55px;
+    flex-shrink: 0;
+    margin-left: 10px;
+    border: 1px solid #A8A8A8;
+    background: #00A241;
+    padding: 10px 20px;
+    color: #FFF;
+    font-family: 'SUIT',sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.32px;
+}
+
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
     .joinTitle {
-        font-size: 24px;
-        line-height: 130%;
+        font-size: 44px;
+        line-height: 150%;
+        letter-spacing: -0.88px;
     }
-    .input, .input_email, .inputError, .inputVerification, .selectDomain, .submitButton, .verifyButton {
-        width: 100%;
+
+    .input, .input_email, .inputError, .inputVerification, .input_email_text {
+        font-size: 14px;
+        letter-spacing: -0.28px;
     }
+
+    .input_email_text {
+        width: 380px;
+        height:55px;
+    }
+
+    .input_email {
+        margin-right:5px;
+        width: 170px;
+    }
+
+    .inputVerification {
+        flex: 1;
+        margin-right: 10px;
+        width: 380px;
+    }
+}
+
+@media screen and (max-width: 1280px) {
+    .joinTitle {
+        font-size: 40px;
+        line-height: 120%;
+        margin-bottom: 15px;
+    }
+
+    .input, .input_email, .inputError, .inputVerification, .input_email_text, .selectDomain {
+        width: 450px;
+        height: 45px;
+    }
+
+    .input_email_text {
+        width: 290px;
+    }
+
     .input_email, .selectDomain {
-        flex-grow: 1;
+        width: 150px;
     }
-    .verifyButton {
-        margin-top: 10px;
-        width: auto;
+
+    .inputVerification, .verifyButton {
+        width: 290px;
     }
+
     .submitButton {
+        width: 450px;
         font-size: 20px;
+    }
+
+    .errorText {
+        max-width: 450px;
+    }
+
+    .verifyButton {
+        margin-left: 5px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .joinTitle {
+        font-size: 32px;
+        line-height: 110%;
+        margin-bottom: 10px;
+    }
+
+    .input, .input_email, .inputError, .inputVerification, .input_email_text, .selectDomain {
+        width: 300px;
+        height: 40px;
+    }
+
+    .input_email_text {
+        width: 190px;
+    }
+
+    .input_email, .selectDomain {
+        width: 100px;
+    }
+
+    .inputVerification, .verifyButton {
+        width: 190px;
+    }
+
+    .submitButton {
+        width: 300px;
+        font-size: 18px;
+    }
+
+    .errorText {
+        max-width: 300px;
+    }
+
+    .verifyButton {
+        margin-left: 5px;
     }
 }

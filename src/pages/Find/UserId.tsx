@@ -1,9 +1,8 @@
 import React from 'react';
 import {useForm} from 'react-hook-form';
-import {findId} from '../../api/Find';
 import styles from '../../styles/Find.module.css';
-import {useRouter} from 'next/router';
 import {FindFormData} from '../../types/server/formData';
+import {useFindId} from '../../hooks/react-query/useFind';
 
 const FindId:React.FC = () => {
     const {
@@ -11,16 +10,10 @@ const FindId:React.FC = () => {
         handleSubmit,
         formState: {errors},
     } = useForm<FindFormData>();
-    const router = useRouter();
+    const { mutate: findId } = useFindId();
     
     const onSubmit = async (data: FindFormData) => {
-        const response = await findId(data.email);
-        if (response.success) {
-            router.push({
-                pathname: '/Find/Complete',
-                query: {userId: response.data.data.userId},
-            });
-        }
+        findId(data.email);
     };
     
     return (

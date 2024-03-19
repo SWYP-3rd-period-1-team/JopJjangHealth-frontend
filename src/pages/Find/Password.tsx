@@ -1,9 +1,8 @@
 import React from 'react';
 import { useForm } from 'react-hook-form';
-import {findPassword} from '../../api/Find';
 import styles from '../../styles/Find.module.css';
-import {useRouter} from 'next/router';
 import {PasswordFormData} from '../../types/server/formData';
+import {useFindPassword} from '../../hooks/react-query/useFind';
 
 const FindPassword: React.FC = () => {
     const {
@@ -11,15 +10,10 @@ const FindPassword: React.FC = () => {
         handleSubmit,
         formState: { errors },
     } = useForm<PasswordFormData>();
-    const router = useRouter();
+    const { mutate: findPassword } = useFindPassword();
     
     const onSubmit = async (data: PasswordFormData) => {
-        const response = await findPassword(data.userId, data.email);
-        if (response.success) {
-            router.push({
-                pathname: '/Find/Complete'
-            });
-        }
+        findPassword(data);
     };
     
     return (
@@ -37,7 +31,7 @@ const FindPassword: React.FC = () => {
                         className={errors.userId ? styles.inputError : styles.input}
                     />
                     {errors.userId && <p className={styles.errorText}>{errors.userId.message}</p>}
-                </div>
+                </div><br/>
                 <div className={styles.inputGroup}>
                     <input
                         placeholder="@ 까지 입력해 주세요."

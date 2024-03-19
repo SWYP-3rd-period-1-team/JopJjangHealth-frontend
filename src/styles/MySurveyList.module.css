@@ -6,7 +6,7 @@
     font-weight: 600;
     line-height: 160%;
     letter-spacing: -0.8px;
-    margin: 50px 210px 0 210px;
+    margin: 50px 25%;
 }
 
 .mySurvey_check_text, .mySurvey_check_img {
@@ -21,17 +21,17 @@
 }
 
 .mySurvey_check_text {
-    margin: 50px 230px 15px 210px;
+    margin: 50px 20% 15px 25%;
 }
 
 .mySurvey_container {
     width: 1000px;
-    height: 699px;
+    height: 620px;
     flex-shrink: 0;
     border-radius: 5px;
     border: 1px solid #ECECEC;
     background: #FFF;
-    margin: 0 210px 50px 210px;
+    margin: 0 25% 50px 25%;
     overflow-y: scroll;
 }
 
@@ -141,7 +141,7 @@
     border-radius: 10px;
     background: #424242;
     padding: 20px;
-    color: white;
+    color: #ffffff;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
     z-index: 100;
     display: flex;
@@ -245,6 +245,7 @@
 }
 
 .image {
+    margin-top:70px;
     margin-left: 35%;
 }
 
@@ -268,21 +269,218 @@
     letter-spacing: -0.8px;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
     .mySurvey_text {
-        font-size: 24px;
-        margin: 20px;
+        font-size: 40px;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+        margin: 50px 25%;
+    }
+
+    .mySurvey_check_text, .mySurvey_check_img {
+        font-size: 14px;
+        line-height: 100%;
+        letter-spacing: -0.28px;
     }
 
     .mySurvey_check_text {
-        font-size: 12px;
-        margin: 20px;
+        margin: 50px 18.5% 15px 25%;
     }
 
     .mySurvey_container {
-        width: calc(100% - 40px);
-        height: calc(100% - 140px);
+        width: 1000px;
+        height:max-content;
+        min-height: 440px;
+        margin: 0 19% 50px 15%;
+    }
+
+    .mySurvey_item_container, .mySurvey_item_container_delete {
+        width: 960px;
+        height: 140px;
         margin: 20px;
+    }
+
+    .mySurvey_container::-webkit-scrollbar {
+        display: none;
+    }
+
+    .mySurvey_container {
+        scrollbar-width: none;
+    }
+
+    .mySurvey_item_container_delete {
+        margin: 20px 20px 20px 0;
+        width: 900px;
+    }
+
+    .title {
+        font-size: 24px;
+        line-height: 160%;
+        letter-spacing: -0.48px;
+        margin: 20px;
+    }
+
+    .date {
+        display: inline-flex;
+        gap: 6px;
+        margin: -35px 20px 0 0;
+        font-size: 14px;
+        line-height: 160%;
+        letter-spacing: -0.28px;
+    }
+
+    .place {
+        font-size: 20px;
+        line-height: 160%;
+        letter-spacing: -0.4px;
+    }
+
+    .no_mySurvey {
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+    }
+
+    .no_mySurvey_text {
+        font-size: 40px;
+        line-height: 160%; /* 64px */
+        letter-spacing: -0.8px;
+    }
+
+    .click_survey {
+        width: 240px;
+        height: 60px;
+        font-size: 24px;
+        line-height: 100%; /* 24px */
+        letter-spacing: -0.48px;
+        margin: 50px 50px 50px 380px;
+    }
+
+    .popupContainer {
+        top: 90%;
+        left: 50%;
+        width: 960px;
+        height: 60px;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /*
+    .clickedItem {
+        color: #FFFFFF !important;
+        background-color: #0F0F0F;
+    }
+     */
+
+    .check_survey {
+        width: 34px;
+        height: 34px;
+        margin: 20px 20px 20px 20px;
+    }
+    .chice_delete {
+        width: 340px;
+        height: 60px;
+        font-size: 24px;
+        line-height: 100%; /* 24px */
+        letter-spacing: -0.48px;
+        margin: 50px 50px 50px 350px;
+    }
+
+    .popupText {
+        width: 50%;
+        font-size: 20px;
+        line-height: 100%; /* 20px */
+        letter-spacing: -0.4px;
+        padding-right: 10px;
+    }
+
+    .popupClick {
+        width: 50%;
+        font-size: 20px;
+        line-height: 100%;
+        letter-spacing: -0.4px;
+        padding-right: 10px;
+    }
+
+    .title {
+        font-size: 20px;
+        line-height: 160%;
+        letter-spacing: -0.4px;
+        margin: 20px 20px 20px 20px;
+    }
+
+    .date {
+        margin: -20px 20px 0 0;
+        font-size: 14px;
+        line-height: 160%;
+        letter-spacing: -0.28px;
+    }
+
+    .place {
+        font-size: 16px;
+        line-height: 160%;
+        letter-spacing: -0.32px;
+    }
+
+    .image {
+        margin-left: 35%;
+    }
+
+    .no_mySurvey {
+        font-size: 40px;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+    }
+
+    .no_mySurvey_text {
+        font-size: 32px;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .mySurvey_container {
+        width: 800px;
+        height: auto;
+        margin: 0 10%;
+    }
+
+    .mySurvey_text, .no_mySurvey, .no_mySurvey_text {
+        font-size: 36px;
+        margin: 30px 15%;
+    }
+
+    .mySurvey_item_container, .mySurvey_item_container_delete {
+        width: 760px;
+        margin: 15px;
+    }
+
+    .click_survey, .chice_delete {
+        width: 200px;
+        margin: 40px auto;
+        display: block;
+    }
+
+    .title, .place {
+        font-size: 18px;
+    }
+
+    .date {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .mySurvey_container {
+        width: 100%;
+        margin: 0;
+    }
+
+    .mySurvey_text, .no_mySurvey, .no_mySurvey_text {
+        font-size: 28px;
+        margin: 20px 10%;
     }
 
     .mySurvey_item_container, .mySurvey_item_container_delete {
@@ -290,33 +488,16 @@
         margin: 10px;
     }
 
-    .mySurvey_item_container_delete {
-        width: calc(100% - 110px);
-    }
-
     .click_survey, .chice_delete {
-        width: 80%;
-        margin: 20px 10%;
+        width: 180px;
+        margin: 30px auto;
     }
 
-    .popupContainer {
-        width: 90%;
-        height: auto;
-        padding: 10px;
+    .title, .place {
+        font-size: 16px;
     }
 
-    .title, .date, .place, .no_mySurvey, .no_mySurvey_text {
-        font-size: reduce(20%);
-        margin: 10px;
-    }
-
-    .image {
-        margin: 10px auto;
-        text-align: center;
+    .date {
+        font-size: 11px;
     }
 }
-
-
-
-
-

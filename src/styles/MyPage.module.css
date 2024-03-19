@@ -2,7 +2,7 @@
     width: 1000px;
     height: 850px;
     flex-shrink: 0;
-    margin: 0 205px;
+    margin: 0 25%;
 }
 
 .profileContainer {
@@ -10,26 +10,26 @@
     height: 180px;
     flex-shrink: 0;
     background: #FFF;
-    margin:20px;
+    margin: 20px;
 }
 
 .profileInfo {
     display: flex;
     align-items: center;
-    height:100%;
-    width:100%;
+    height: 100%;
+    width: 100%;
 }
 
 .imageContainer {
     display: flex;
     justify-content: center;
-    margin:15px 15px 20px;
+    margin: 15px 15px 20px;
 }
 
 .profileImage {
     flex-shrink: 0;
     border-radius: 100px;
-    border: 1px solid #A8A8A8!important;
+    border: 1px solid #A8A8A8 !important;
 }
 
 .profileText {
@@ -58,7 +58,7 @@
 }
 
 .userButton {
-    margin:0 0 0 20px;
+    margin: 0 0 0 20px;
     width: 120px;
     height: 30px;
     flex-shrink: 0;
@@ -68,7 +68,7 @@
     cursor: pointer;
     color: #FFF;
     text-align: center;
-    font-family: 'SUIT',sans-serif;
+    font-family: 'SUIT', sans-serif;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
@@ -78,11 +78,11 @@
 
 .likedListContainer {
     color: #000;
-    margin:20px;
+    margin: 20px;
     font-style: normal;
     line-height: 160%;
     letter-spacing: -0.5px;
-    font-family: 'SUIT',sans-serif;
+    font-family: 'SUIT', sans-serif;
     font-size: 20px;
     font-weight: 600;
 }
@@ -93,47 +93,114 @@
     flex-shrink: 0;
     fill: #000;
     content: url('/assets/icon/ic_go.png');
-    margin-right:28px;
+    margin-right: 28px;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
     .myPageContainer {
-        width: 100%;
-        height: auto;
-        margin: 0 20px;
+        width: 1000px;
+        height: 850px;
+        margin: 0 25%;
     }
 
     .profileContainer {
-        width: calc(100% - 80px);
+        width: 800px;
+        height: 130px;
         margin: 20px;
     }
 
     .profileInfo {
-        display: flex;
-        height:100%;
-        width:100%;
+        height: 100%;
+        width: 100%;
     }
 
     .imageContainer {
-        margin: 15px;
+        margin: 15px 15px 20px;
+        width: 100px;
+        height: 100px;
     }
 
     .profileText {
-        margin-left: 0;
+        margin-left: 20px;
+    }
+
+    .username {
+        font-size: 24px;
+        letter-spacing: -0.48px;
+    }
+
+    .userId {
+        font-size: 16px;
+        letter-spacing: -0.32px;
     }
 
     .userButton {
-        margin: 10px;
+        width: 100px;
+        height: 26px;
+        font-size: 12px;
+        letter-spacing: -0.24px;
+    }
+
+    .likedListContainer {
+        margin: 20px;
+        letter-spacing: -0.32px;
+        font-size: 16px;
+    }
+
+    .likedListContainer:hover::before {
+        width: 8px;
+        height: 14px;
+        margin-right: 28px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .myPageContainer {
+        width: 80%;
+        margin: 0 auto;
+    }
+
+    .profileContainer {
+        width: 90%;
+        height: 100px;
+        margin: 10px auto;
+    }
+
+    .imageContainer {
+        width: 80px;
+        height: 80px;
+    }
+
+    .profileText, .username, .userId, .userButton {
+        font-size: 90%;
     }
 
     .likedListContainer {
         font-size: 18px;
-        margin: 20px;
-    }
-
-    .likedListContainer:hover::before {
-        margin-right: 10px;
     }
 }
 
+@media screen and (max-width: 767px) {
+    .myPageContainer, .profileContainer, .profileInfo, .imageContainer, .profileText, .username, .userId, .userButton, .likedListContainer {
+        width: 100%;
+        margin: 0;
+        padding: 0;
+    }
 
+    .profileContainer {
+        height: auto;
+    }
+
+    .imageContainer {
+        justify-content: flex-start;
+    }
+
+    .profileImage {
+        width: 60px;
+        height: 60px;
+    }
+
+    .username, .userId, .userButton, .likedListContainer {
+        font-size: 80%;
+    }
+}

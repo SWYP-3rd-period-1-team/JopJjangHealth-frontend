@@ -8,7 +8,7 @@ import styles from '../../../styles/MySurveyList.module.css';
 import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/MyPage';
 import {checkUserAuthentication} from '../../../api/auth';
 import {GetServerSideProps} from 'next';
-import useAuth from '../../../hooks/useAuth';
+import useAuthRedirect from '../../../hooks/useAuthRedirect';
 import LoadingView from '../../../components/common/LoadingView';
 import { useRecoilState } from 'recoil';
 import {
@@ -19,6 +19,7 @@ import {
 } from '../../../state/surveyList';
 import {DeleteDiseaseResponse, DiseaseItem, DiseaseListResponse, SurveyIdType} from '../../../types/server/surveyList';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
+import {Snackbar, Alert} from '@mui/material';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -33,13 +34,16 @@ import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 // );
 
 const SurveyList = () => {
-    useAuth();
+    useAuthRedirect();
     const queryClient = useQueryClient();
     const [diseaseList, setDiseaseList] = useRecoilState(diseaseListState);
     const [selectedDiseases, setSelectedDiseases] = useRecoilState(selectedDiseasesState);
     const [isSelectionMode, setIsSelectionMode] = useRecoilState(isSelectionModeState);
     const [activeDiseaseId, setActiveDiseaseId] = useRecoilState(activeDiseaseIdState);
     // const [showPopup, setShowPopup] = useState(false);
+    const [openSnackbar, setOpenSnackbar] = useState<boolean>(false);
+    const [snackbarMessage, setSnackbarMessage] = useState<string>('');
+    const [snackbarSeverity, setSnackbarSeverity] = useState<'error' | 'warning' | 'info' | 'success'>('success');
     
     // @ts-ignore
     const { data: queriedDiseaseList, isLoading, isError, error } = useQuery<DiseaseListResponse, Error>({
@@ -58,22 +62,39 @@ const SurveyList = () => {
         }
     }, [queriedDiseaseList, setDiseaseList]);
     
+    
     const deleteDiseaseMutation = useMutation<DeleteDiseaseResponse, Error, SurveyIdType>({
         mutationFn: fetchDiseaseListDelete,
-        onSuccess: () => {
-            // @ts-ignore
-            queryClient.invalidateQueries(['diseaseList']);
-            setSelectedDiseases([]);
-            setIsSelectionMode(false);
+        onSuccess: (response) => {
+            if(response.success) {
+                // @ts-ignore
+                queryClient.invalidateQueries(['diseaseList']);
+                setSelectedDiseases([]);
+                setIsSelectionMode(false);
+                setSnackbarMessage('성공적으로 삭제되었습니다.');
+                setSnackbarSeverity('success');
+                setOpenSnackbar(true);
+            } else {
+                // @ts-ignore
+                setSnackbarMessage(response.message);
+                setSnackbarSeverity('error');
+                setOpenSnackbar(true);
+            }
+        },
+        onError: (error, variables, context) => {
+            console.error('질병 리스트 삭제 중 에러 발생:', error);
+            setSnackbarMessage('오류가 발생했습니다. 다시 시도해 주세요.');
+            setSnackbarSeverity('error');
+            setOpenSnackbar(true);
         },
     });
     
-    const handleListClick = () => {
-        setIsSelectionMode(!isSelectionMode);
-    };
-    
     const handleDeleteSelected = async () => {
         await Promise.all(selectedDiseases.map((surveyId) => deleteDiseaseMutation.mutateAsync(Number(surveyId))));
+    };
+    
+    const handleListClick = () => {
+        setIsSelectionMode(!isSelectionMode);
     };
     
     // const toggleCalendarLink = (diseaseId: string) => {
@@ -112,18 +133,30 @@ const SurveyList = () => {
     //     }
     // }, [showPopup]);
     
+    const handleCloseSnackbar = (
+        event: React.SyntheticEvent<any> | Event,
+        reason?: string
+    ) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setOpenSnackbar(false);
+    };
+    
     return (
         <Layout>
             <div className={styles.mySurvey_text}>나의 질병 리스트</div>
-            <div onClick={handleListClick} className={styles.mySurvey_check_text}>
-                <input
-                    type="checkbox"
-                    className={styles.mySurvey_check_img}
-                    onClick={handleListClick}
-                    readOnly
-                />
-                질병 리스트 선택
-            </div>
+            {diseaseList.length > 0 && (
+                <div onClick={handleListClick} className={styles.mySurvey_check_text}>
+                    <input
+                        type="checkbox"
+                        className={styles.mySurvey_check_img}
+                        onClick={handleListClick}
+                        readOnly
+                    />
+                    질병 리스트 선택
+                </div>
+            )}
             {isLoading ? <LoadingView />
                 :
                 <>
@@ -182,7 +215,13 @@ const SurveyList = () => {
                     )}
                 </>
             }
-        
+            <Snackbar open={openSnackbar} autoHideDuration={1500} onClose={handleCloseSnackbar}>
+                <Alert onClose={handleCloseSnackbar}
+                       severity={snackbarSeverity}
+                       sx={{width: '100%'}}>
+                    {snackbarMessage}
+                </Alert>
+            </Snackbar>
         </Layout>
     );
 };

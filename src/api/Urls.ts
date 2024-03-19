@@ -16,5 +16,4 @@ export const signUpUrl ='/api/members/join';
 export const loginUrl ='/login';
 export const sendEmailVerificationUrl = (email:string) => `/api/emails/verification-requests?email=${email}`
 export const verifyEmailCodeUrl = (email: string, code: string) => `/api/emails/verifications?email=${email}&code=${code}`
-
 export const logoutUrl = `/api/members/logout`

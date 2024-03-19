@@ -46,7 +46,7 @@ const KakaoShareButton: React.FC<KakaoShareButtonProps> = ({ text }) => {
 	
 	return (
 		<span className={styles.choice_share_kakao} onClick={shareKakao}>
-            <Image src={KakaoBtn} alt="kakao" width={100} height={100}/>
+            <Image src={KakaoBtn} alt="kakao" width={100} height={100} priority/>
             <p>카카오톡</p>
         </span>
 	);

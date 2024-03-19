@@ -1,55 +1,54 @@
 import {useEffect} from 'react';
-import {fetchHospitalInfo} from '../api/Like';
+
 import {useRecoilState} from 'recoil';
-import {HospitalBookmark, HospitalDetail} from '../types/server/like';
 import {
     hospitalFirstDataState,
     hospitalInfoState,
-    isHospitalDetailsLoadedState,
-    isHospitalInfoLoadedState,
-    isLoadingState,
-} from '../state/like';
-import {useQuery} from '@tanstack/react-query';
+    isHospitalDetailsLoadedState, isHospitalInfoLoadedState,
+    isLoadingState
+} from '../../state/like';
+import {HospitalBookmark, HospitalDetail} from '../../types/server/like';
+import {fetchHospitalInfo} from '../../api/Like';
 
 const useHospitalInfo = () => {
-    // @ts-ignore
-    const { data:response, isLoading, isError, error } = useQuery(['hospitalInfo'], fetchHospitalInfo);
-    
-    useEffect(() => {
-        if (isLoading) {
-            setIsLoading(true);
-            return;
-        }
-        
-        if (isError) {
-            console.error('Error fetching hospital info:', error);
-            setIsLoading(false);
-            return;
-        }
-        
-        if (response) {
-            // @ts-ignore
-            const bookmarks = response?.data?.data?.bookmarkList ?? [];
-            setHospitalFirstData(bookmarks);
-            setIsHospitalInfoLoaded(true);
-            setIsHospitalDetailsLoaded(true);
-        }
-        
-        setIsLoading(false);
-    }, [response, isLoading, isError, error]);
-    
-    const [hospitalInfo, setHospitalInfo] = useRecoilState<HospitalDetail[]>(hospitalInfoState);
     const [hospitalFirstData, setHospitalFirstData] = useRecoilState<HospitalBookmark[]>(hospitalFirstDataState);
-    const [, setIsLoading] = useRecoilState<boolean>(isLoadingState);
+    const [hospitalInfo, setHospitalInfo] = useRecoilState<HospitalDetail[]>(hospitalInfoState);
+    const [isLoading, setIsLoading] = useRecoilState<boolean>(isLoadingState);
     const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useRecoilState<boolean>(isHospitalDetailsLoadedState);
     const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useRecoilState<boolean>(isHospitalInfoLoadedState);
     
+    useEffect(() => {
+        const initializeHospitalInfo = async () => {
+            setIsLoading(true);
+            try {
+                const response = await fetchHospitalInfo();
+                if (response.success) {
+                    const bookmarkList = response.data.data.bookmarkList;
+                    setHospitalFirstData(bookmarkList.length > 0 ? bookmarkList : '');
+                    setIsHospitalInfoLoaded(true);
+                } else {
+                    setHospitalFirstData([]);
+                    setIsHospitalDetailsLoaded(true);
+                    setIsHospitalInfoLoaded(true);
+                }
+            } catch (error) {
+                setHospitalFirstData([]);
+                setIsHospitalDetailsLoaded(true);
+                setIsHospitalInfoLoaded(true);
+            } finally {
+                setIsLoading(false);
+            }
+            
+        };
+        initializeHospitalInfo();
+    }, []);
+    
     const loadPlaceDetails = () => {
         if (!window.google || !navigator.geolocation) {
-            console.error('Google Maps API or Geolocation is not available');
             setIsLoading(false);
             return;
         }
+        
         setIsLoading(true);
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -60,30 +59,36 @@ const useHospitalInfo = () => {
                     new Promise<HospitalDetail | null>((resolve, reject) => {
                         if (hospital.googleMapId) {
                             service.getDetails({placeId: hospital.googleMapId}, (result: any, status) => {
-                                if (status === google.maps.places.PlacesServiceStatus.OK && result) {
+                                if (status === google.maps.places.PlacesServiceStatus.OK && result && result.geometry && result.geometry.location) {
                                     const hospitalLocation = result.geometry.location;
-                                    const distanceMeters = google.maps.geometry?.spherical.computeDistanceBetween(
-                                        userLocation,
-                                        hospitalLocation,
-                                    );
-                                    const distanceKm = (distanceMeters / 1000).toFixed(2);
-                                    
-                                    resolve({
-                                        id: result.place_id,
-                                        name: result.name,
-                                        address: result.formatted_address,
-                                        bookmarkDate: hospital.bookmarkDate,
-                                        distance: `${distanceKm} km`,
-                                    });
+                                    if (userLocation && hospitalLocation) {
+                                        const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(
+                                            userLocation,
+                                            hospitalLocation,
+                                        );
+                                        if (!isNaN(distanceMeters)) {
+                                            const distanceKm = !isNaN(distanceMeters) ? (distanceMeters / 1000).toFixed(2) : '거리 정보 없음';
+                                            resolve({
+                                                id: result.place_id,
+                                                name: result.name,
+                                                address: result.formatted_address,
+                                                bookmarkDate: hospital.bookmarkDate,
+                                                distance: `${distanceKm} km`,
+                                            });
+                                        } else {
+                                            resolve(null);
+                                        }
+                                    } else {
+                                        reject(new Error('위치 정보가 유효하지 않습니다.'));
+                                    }
                                 } else {
-                                    reject(new Error(`Error with Google Maps ID ${hospital.googleMapId}`));
-                                    setIsLoading(false);
+                                    reject(new Error(`${hospital.googleMapId}의 구글맵 ID에 에러 발생하였습니다.`));
                                 }
                             });
                         } else {
-                            reject(new Error('Google Maps ID is not provided.'));
-                            setIsLoading(false);
+                            reject(new Error('구글 맵 ID가 제공되지 않았습니다.'));
                         }
+                        
                     }),
                 );
                 
@@ -95,7 +100,7 @@ const useHospitalInfo = () => {
                     setHospitalInfo(successfulDetails);
                     setIsHospitalDetailsLoaded(true);
                 }).catch(error => {
-                    console.error('Error loading hospital details:', error);
+                    console.error('구글맵 병원 정보가 없습니다.', error);
                     setIsLoading(false);
                 })
                     .finally(() => {
@@ -103,7 +108,7 @@ const useHospitalInfo = () => {
                     });
             },
             (error) => {
-                console.error('Geolocation error:', error);
+                console.error('Geolocation 에러 발생 했습니다.:', error);
                 setIsLoading(false);
             },
         );

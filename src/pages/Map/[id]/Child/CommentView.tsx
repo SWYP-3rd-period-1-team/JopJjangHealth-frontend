@@ -21,7 +21,7 @@ const FormContainer = styled.form`
 `;
 const TextAreaContainer = styled.div`
     display: flex;
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #dadada;
     padding: 12px 16px;
     align-items: center;
@@ -56,7 +56,7 @@ const NotLoginButton = styled.button`
     border: none;
     background-color: #00a241;
     padding: 26px 20px;
-    color: white;
+    color: #ffffff;
     border-radius: 16px;
     cursor: pointer;
 `;

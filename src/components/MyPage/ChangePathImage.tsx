@@ -1,13 +1,15 @@
 import React from 'react';
 import styles from '../../styles/UserProfile.module.css';
 import Image from 'next/image';
-import {changeUserProfileImage, uploadProfileImage} from '../../api/MyPage';
 import { useRecoilState } from 'recoil';
-import {changeProfileImageSelectedFile, changeProfileImagePreviewUrl} from '../../state/mypage';
+import { changeProfileImageSelectedFile, changeProfileImagePreviewUrl } from '../../state/mypage';
+import { useUploadProfileImage, useChangeUserProfileImage } from '../../hooks/react-query/useProfileImage';
 
 const ChangeProfileImage: React.FC = () => {
     const [selectedFile, setSelectedFile] = useRecoilState(changeProfileImageSelectedFile);
     const [previewUrl, setPreviewUrl] = useRecoilState(changeProfileImagePreviewUrl);
+    const { mutate: uploadImage } = useUploadProfileImage();
+    const { mutate: changeImage } = useChangeUserProfileImage();
     
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         if (event.target.files && event.target.files[0]) {
@@ -24,7 +26,6 @@ const ChangeProfileImage: React.FC = () => {
         }
     };
     
-    
     const handleSubmit = async () => {
         if (!selectedFile) {
             alert('이미지를 선택해주세요.');
@@ -32,18 +33,14 @@ const ChangeProfileImage: React.FC = () => {
         }
         
         const isDefaultImage = localStorage.getItem('isDefaultImage') === 'true';
-        
         try {
             if (isDefaultImage) {
-                await uploadProfileImage(selectedFile);
+                uploadImage(selectedFile);
             } else {
-                await changeUserProfileImage(selectedFile);
+                changeImage(selectedFile);
             }
-            alert('이미지 업로드에 성공했습니다.')
-            localStorage.clear();
-            window.close();
         } catch (error) {
-            alert('이미지 업로드에 실패했습니다.');
+            alert('이미지 업로드에 실패했습니다. 잠시 후 시도 해주세요.');
         }
     };
     
@@ -57,7 +54,7 @@ const ChangeProfileImage: React.FC = () => {
                     accept=".png,.jpg,.jpeg,.gif"
                 />
                 <div className={styles.imagePreviewContainer}>
-                    <Image src={previewUrl}
+                    <Image src={previewUrl || '/path/to/default/image'}
                            alt="미리보기"
                            width={298}
                            height={298}

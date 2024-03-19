@@ -22,7 +22,7 @@
     left: 50%;
     transform: translate(-50%, -50%);
     padding: 20px;
-    background-color: white;
+    background-color: #fffff;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0);
     border-radius: 10px;
     text-align: center;
@@ -81,30 +81,4 @@
     font-weight: 600;
     line-height: 100%; /* 16px */
     letter-spacing: -0.32px;
-}
-
-@media (max-width: 768px) {
-    .logoutButton, .closeButton {
-        width: 100px;
-        height: 40px;
-        font-size: 14px;
-        padding: 8px 16px;
-    }
-
-    .popup, .modal {
-        width: 90%;
-        height: auto;
-        padding: 15px;
-    }
-
-    .modalOverlay {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .modalText {
-        font-size: 20px;
-        margin: 20px;
-    }
 }

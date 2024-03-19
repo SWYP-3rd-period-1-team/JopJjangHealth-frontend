@@ -1,6 +1,5 @@
 import React, {useEffect} from 'react';
 import {useForm} from 'react-hook-form';
-import {signUp, sendEmailVerification, verifyEmailCode} from '../../api/auth';
 import {validateNickname, validateUserId, validatePassword, validateEmail} from '../../utils/validation';
 import styles from '../../styles/Join.module.css';
 import Layout from '../../components/common/Layout';
@@ -11,20 +10,28 @@ import {
     emailUsernameState,
     isAgreedState,
     isVerificationCompleteState,
-    isVerificationSentState,
-    passwordVisibilityState
+    isVerificationSentState
 } from '../../state/join';
-import {useRouter} from 'next/router';
 import eye from "../../../public/assets/icon/ic_eye.png";
 import eyeSlash from '../../../public/assets/icon/ic_eye_slash.png';
 import Image from 'next/image';
 import { JoinFormData } from '../../types/server/formData';
-import {errorMessageState} from '../../state';
+import {useSendEmailVerification, useSignUp, useVerifyEmailCode} from '../../hooks/react-query/useAuth';
+import {errorMessageState, passwordVisibilityState} from '../../state';
 
-const emailDomains = ['gmail.com', 'naver.com', 'daum.net', 'nate.com', 'other'];
+const emailDomains = [
+    '',
+    'gmail.com',
+    'naver.com',
+    'daum.net',
+    'nate.com',
+    'hotmail.com',
+    'yahoo.com',
+    'outlook.com',
+    'icloud.com',
+];
 
 const Join = () => {
-    const router = useRouter();
     const {
         register,
         handleSubmit,
@@ -35,8 +42,10 @@ const Join = () => {
     } = useForm<JoinFormData>({
         mode: 'onChange',
     });
+    const { mutate: signUp, errorMessage } = useSignUp();
+    const { mutate: sendEmailVerification } = useSendEmailVerification();
+    const { mutate: verifyEmailCode } = useVerifyEmailCode();
     
-    const [errorMessage, setErrorMessage] = useRecoilState(errorMessageState);
     const [passwordType, setPasswordType] = useRecoilState(passwordVisibilityState);
     
     const togglePasswordVisibility = () => {
@@ -46,56 +55,43 @@ const Join = () => {
     const [emailUsername, setEmailUsername] = useRecoilState(emailUsernameState);
     const [emailDomain, setEmailDomain] = useRecoilState(emailDomainState);
     const [customDomain, setCustomDomain] = useRecoilState(customDomainState);
-    const [isVerificationSent, setIsVerificationSent] = useRecoilState(isVerificationSentState);
-    const [isVerificationComplete, setIsVerificationComplete] = useRecoilState(isVerificationCompleteState);
+    const [isVerificationSent, ] = useRecoilState(isVerificationSentState);
+    const [isVerificationComplete, ] = useRecoilState(isVerificationCompleteState);
     const [isAgreed, setIsAgreed] = useRecoilState(isAgreedState);
+    const [, setErrorMessage] = useRecoilState(errorMessageState);
     
     useEffect(() => {
-        const fullEmail = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
+        setErrorMessage('');
+    }, [setErrorMessage]);
+    
+    useEffect(() => {
+        const fullEmail = emailDomain === '' ? `${emailUsername}${emailUsername? "@" : " "}${customDomain}` : `${emailUsername}@${emailDomain || customDomain}`;
         setValue('email', fullEmail);
     }, [emailUsername, emailDomain, customDomain, setValue]);
     
     const onSubmit = async (data: JoinFormData) => {
-        const response = await signUp(data.nickname, data.userId, data.email, data.password);
-        if (response?.success) {
-            alert(response?.data?.data?.message);
-            await router.push(response.data?.data?.surveyUrl)
-        } else {
-            setErrorMessage(response.message);
-        }
+        signUp(data);
     };
     
     const handleEmailVerificationRequest = async () => {
-        const email = `${emailUsername}@${emailDomain === 'other' ? customDomain : emailDomain}`;
-        const response = await sendEmailVerification(email);
-        if (response?.data?.data?.message) {
-            alert(response?.data?.data?.message);
-            setIsVerificationSent(true);
-        } else {
-            alert(response?.message.includes('이미 존재하는 이메일 입니다.') ? response.message : '이메일을 확인 해주세요.');
-        }
+        const email = `${emailUsername}@${emailDomain === '' ? customDomain : emailDomain}`;
+        sendEmailVerification(email);
     };
     
     const handleEmailVerification = async () => {
         const formData = getValues();
-        const response = await verifyEmailCode(formData.email, formData.emailVerificationCode);
-        if (response?.data?.data?.message) {
-            setIsVerificationComplete(true);
-            setIsVerificationSent(false);
-        } else {
-          alert(response?.message);
-        }
+        verifyEmailCode(formData);
     };
     
     const handleDomainChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
         const value = e.target.value;
         setEmailDomain(value);
-        if (value === 'other') {
+        if (value === '') {
             setCustomDomain('');
         }
     };
     
-    const isOtherDomain = emailDomain === 'other';
+    const isOtherDomain = emailDomain === '';
     
     const handleAgreementChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         setIsAgreed(e.target.checked);
@@ -141,10 +137,10 @@ const Join = () => {
                         <div className={styles.visibilityToggle} onClick={togglePasswordVisibility}>
                             {passwordType === 'password' ?
                                 <>
-                                    <Image src={eyeSlash} alt={'eye-slash'} />
+                                    <Image src={eyeSlash} alt={'eye-slash'} priority/>
                                 </> :
                                 <>
-                                    <Image src={eye} alt={'eye'} />
+                                    <Image src={eye} alt={'eye'} priority/>
                                 </>}
                         </div>
                         {errors.password && <p className={styles.errorText}>{errors.password.message}</p>}
@@ -163,49 +159,33 @@ const Join = () => {
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            placeholder="Email ID"
+                            placeholder="이메일"
                             value={emailUsername}
                             onChange={(e) => setEmailUsername(e.target.value)}
+                            style={{width:"180px"}}
                             className={errors.email ? styles.inputError : styles.input_email}
-                        />&nbsp;@&nbsp;
+                        />
+                        {" "}@{" "}
+                        <input
+                            placeholder="직접 입력"
+                            value={isOtherDomain ? customDomain : emailDomain}
+                            onChange={(e) => setCustomDomain(e.target.value)}
+                            className={styles.input}
+                            style={{width: "180px"}}
+                        />
                         <select
-                            value={isOtherDomain ? 'other' : emailDomain}
-                            className={styles.selectDomain}
-                            disabled={true}
-                        >
-                            {emailDomains.map((domain, index) => (
-                                <option key={index} value={domain}>
-                                    {domain === 'other' ? '직접 입력' : domain}
-                                </option>
-                            ))}
-                        </select>
-                        <select
-                            value={isOtherDomain ? 'other' : emailDomain}
+                            value={isOtherDomain ? '' : emailDomain}
                             onChange={handleDomainChange}
                             className={styles.selectDomain}
                         >
                             {emailDomains.map((domain, index) => (
                                 <option key={index} value={domain}>
-                                    {domain === 'other' ? '직접 입력' : domain}
+                                    {domain === '' ? '선택' : domain}
                                 </option>
                             ))}
                         </select>
-                        {isOtherDomain && (
-                            <input
-                                placeholder="이메일 도메인 직접 입력"
-                                value={customDomain}
-                                onChange={(e) => setCustomDomain(e.target.value)}
-                                className={styles.input}
-                                style={{width: '120px'}}
-                            />
-                        )}
-                        <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
-                                disabled={isVerificationSent}>
-                            인증 하기
-                        </button>
                     </div>
                     {errors.email && <p className={styles.errorText}>{errors.email.message}</p>}
-                    
                     <div className={styles.inputGroup}>
                         <input
                             placeholder="이메일 인증"
@@ -213,14 +193,19 @@ const Join = () => {
                                 required: '이메일 인증을 입력해주세요.',
                                 validate: validateEmail,
                             })}
-                            className={errors.email ? styles.inputError : styles.input}
+                            style={{width: '390px'}}
+                            className={errors.email ? styles.inputError : styles.input_email_text}
                         />
+                        <button type="button" onClick={handleEmailVerificationRequest} className={styles.verifyButton}
+                                disabled={isVerificationSent}>
+                            인증하기
+                        </button>
                         {errors.email && (
                             <p className={styles.errorText}>{errors.email.message || errorMessage.includes('email')}</p>
                         )}
                     </div>
                     {isVerificationSent && !isVerificationComplete && (
-                        <div className={styles.inputGroup}>
+                        <div className={`${styles.inputGroup} ${styles.emailInputGroup}`}>
                             <input
                                 placeholder="인증 코드 입력"
                                 {...register('emailVerificationCode', {
@@ -228,9 +213,6 @@ const Join = () => {
                                 })}
                                 className={errors.emailVerificationCode ? styles.inputError : styles.inputVerification}
                             />
-                            {errors.emailVerificationCode && (
-                                <p className={styles.errorText}>{errors.emailVerificationCode.message}</p>
-                            )}
                             <button type="button" onClick={handleEmailVerification} className={styles.verifyButton}>
                                 인증 확인
                             </button>

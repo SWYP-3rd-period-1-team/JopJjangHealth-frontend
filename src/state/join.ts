@@ -7,7 +7,7 @@ export const emailUsernameState = atom({
 
 export const emailDomainState = atom({
     key: 'emailDomainState',
-    default: 'gmail.com',
+    default: '',
 });
 
 export const customDomainState = atom({
@@ -28,9 +28,4 @@ export const isVerificationCompleteState = atom({
 export const isAgreedState = atom({
     key: 'isAgreedState',
     default: false,
-});
-
-export const passwordVisibilityState = atom({
-    key: 'passwordVisibilityState',
-    default: 'password',
 });

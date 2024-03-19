@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, {SyntheticEvent, useEffect, useState} from 'react';
 import Image from 'next/image';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { useRouter } from 'next/router';
@@ -9,22 +9,29 @@ import { changeUserNickname, deleteUserProfileImage, fetchUserInfo } from '../..
 import {
     userInfoState,
     newNicknameState,
-    errorMessageState,
     nicknameValidationPassedState,
     nicknameChangeRequestedState,
 } from '../../../state/mypage';
 import styles from '../../../styles/UserProfile.module.css';
 import defaultImg from '../../../../public/assets/myPage/Default.png';
 import cancel from "../../../../public/assets/icon/ic_cancel.png";
-import useAuth from '../../../hooks/useAuth';
+import useAuthRedirect from '../../../hooks/useAuthRedirect';
 import { GetServerSideProps } from 'next';
 import { checkUserAuthentication } from '../../../api/auth';
-import {useQuery_UserInfo} from '../../../hooks/react-query';
+import {errorMessageState} from '../../../state';
+import Alert from '@mui/material/Alert';
+import Snackbar from '@mui/material/Snackbar';
 
 const DEFAULT_IMAGE_URL = '/assets/myPage/Default.png';
 
+interface AlertInfo {
+    open: boolean;
+    message: string;
+    severity: 'error' | 'warning' | 'info' | 'success';
+}
+
 const UserProfile = () => {
-    useAuth();
+    useAuthRedirect();
     const router = useRouter();
     const queryClient = useQueryClient();
     const [userInfo, setUserInfo] = useRecoilState(userInfoState);
@@ -33,30 +40,58 @@ const UserProfile = () => {
     const [nicknameValidationPassed, setNicknameValidationPassed] = useRecoilState(nicknameValidationPassedState);
     const [nicknameChangeRequested, setNicknameChangeRequested] = useRecoilState(nicknameChangeRequestedState);
     
+    useEffect(() => {
+        setErrorMessage('');
+    }, [setErrorMessage]);
+    
+    const [alertInfo, setAlertInfo] = useState<AlertInfo>({
+        open: false,
+        message: '',
+        severity: 'info',
+    });
+    
+    const showAlert = (message:any, severity:any) => {
+        setAlertInfo({
+            open: true,
+            message,
+            severity:'info',
+        });
+    };
+    
+    const handleCloseAlert = (event: Event | SyntheticEvent<Element, Event>, reason?: string) => {
+        if (reason === 'clickaway') {
+            return;
+        }
+        setAlertInfo({ ...alertInfo, open: false });
+    };
+    
     const handleNickNameChange = (event: {target: {value: React.SetStateAction<string>;};}) => {
         setNewNickname(event.target.value);
         setErrorMessage('');
         setNicknameChangeRequested(false);
     };
     
-    const {data: userData} = useQuery_UserInfo();
+    const { data } = useQuery({
+        queryKey: ['userInfo'],
+        queryFn: fetchUserInfo,
+    });
     
     useEffect(() => {
-        if (userData) {
-            setUserInfo(userData?.data);
-            setNewNickname(userData?.data.nickname);
+        if (data) {
+            setUserInfo(data.data);
+            setNewNickname(data.data.nickname);
         }
-    }, [userData]);
+    }, [data]);
     
     const changeNicknameMutation = useMutation({
         mutationFn: (nickname:string) => changeUserNickname( nickname ),
         onSuccess: () => {
             // @ts-ignore
-            queryClient.invalidateQueries(['user_info']);
+            queryClient.invalidateQueries(['userInfo']);
             setNicknameChangeRequested(true);
         },
         onError: (error) => {
-            setErrorMessage(error?.message || "닉네임 변경 중 오류가 발생했습니다.");
+            setErrorMessage("닉네임 변경 중 오류가 발생했습니다.");
             setNicknameChangeRequested(false);
         },
     });
@@ -73,7 +108,6 @@ const UserProfile = () => {
         try {
             const response = await changeUserNickname(newNickname);
             if (response?.success) {
-                alert(response.data.data.message);
                 await refreshUserInfo();
                 setNicknameChangeRequested(true);
             } else {
@@ -87,13 +121,20 @@ const UserProfile = () => {
     
     const deleteUserImageMutation = useMutation({
         mutationFn: deleteUserProfileImage,
-        onSuccess: () => {
-            alert("프로필 이미지가 성공적으로 삭제되었습니다.");
-            // @ts-ignore
-            queryClient.invalidateQueries(['user_info']);
+        onSuccess: (response) => {
+            if(!response.success) {
+                throw new Error('Server responded with an error');
+            } else {
+                showAlert("프로필 이미지가 성공적으로 삭제되었습니다.", 'success');
+                setUserInfo(prevUserInfo => ({
+                    ...prevUserInfo,
+                    profileImage: DEFAULT_IMAGE_URL,
+                }));
+            }
+           
         },
         onError: () => {
-            alert("프로필 이미지 삭제 중 오류가 발생했습니다.");
+            showAlert("프로필 이미지 삭제 중 오류가 발생했습니다.", 'error');
         },
     });
     
@@ -104,7 +145,6 @@ const UserProfile = () => {
     const refreshUserInfo = async () => {
         const userInfo = await fetchUserInfo();
         if (userInfo) {
-            console.log(userInfo,"userInfo:")
             setUserInfo({
                 profileImage: userInfo.data.profileImage || defaultImg,
                 nickname: userInfo.data.nickname || '',
@@ -115,7 +155,7 @@ const UserProfile = () => {
     };
     
     const openPopup = (url: string, text: string): void => {
-        const isDefaultImage = userInfo.profileImage === DEFAULT_IMAGE_URL;
+        const isDefaultImage = userInfo.profileImage === null;
         localStorage.setItem('activeTab', text);
         localStorage.setItem('isDefaultImage', isDefaultImage ? 'true' : 'false');
         const popup: Window | null = window.open(url, 'popup', 'width=800,height=800');
@@ -131,8 +171,8 @@ const UserProfile = () => {
     };
     
     const onSubmit = async () => {
-        alert('회원정보가 저장 되었습니다.');
-        router.push('/MyPage');
+        showAlert('회원정보가 저장 되었습니다.', 'success');
+        await router.push('/MyPage');
     };
     
     return (
@@ -147,6 +187,7 @@ const UserProfile = () => {
                             width={'150px'}
                             height={'150px'}
                             objectFit={'scale-down'}
+                            priority
                         />
                         <div className={styles.profileBroke} onClick={handleDeleteProfileImage}>
                             {userInfo.profileImage && userInfo.profileImage !== DEFAULT_IMAGE_URL ?
@@ -203,6 +244,11 @@ const UserProfile = () => {
                     disabled={!nicknameValidationPassed || !nicknameChangeRequested}>확인
                 </button>
             </div>
+            <Snackbar open={alertInfo.open} autoHideDuration={1500} onClose={handleCloseAlert}>
+                <Alert onClose={handleCloseAlert} severity={alertInfo.severity} sx={{ width: '100%' }}>
+                    {alertInfo.message}
+                </Alert>
+            </Snackbar>
         </Layout>
     );
 };

@@ -25,7 +25,7 @@ const BubbleTriangle = styled.div`
 `;
 const BubbleContent = styled.div`
     padding: 30px 42px;
-    background-color: white;
+    background-color: #ffffff;
     border-radius: 20px;
 `;
 const BubbleText = styled.p`

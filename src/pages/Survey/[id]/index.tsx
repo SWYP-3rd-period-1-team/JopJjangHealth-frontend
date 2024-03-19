@@ -2,7 +2,7 @@ import {useRouter} from 'next/router';
 import Image from 'next/image';
 import Layout from '../../../components/common/Layout';
 import styles from '../../../styles/Survey.module.css';
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {useRecoilState} from 'recoil';
 import {
     selectedBodyPartState,
@@ -18,13 +18,19 @@ import {options} from '../../../../mock/SurveyMock';
 import ShareButton from '../../../components/Share/ShareButton';
 import {IOption} from '../../../types/server/survey';
 import LoginConfirmPopup from '../../../components/common/LoginConfirmPopup';
-import {saveHealthSurvey} from '../../../api/Survey';
 import useSaveLocalContent from '../../../hooks/useSaveLocalContent';
+import {useSaveHealthSurvey} from '../../../hooks/react-query/useSurvey';
+import Alert, {AlertColor} from '@mui/material/Alert';
 
 const Index = () => {
     const router = useRouter();
     const {getDecryptedCookie} = useSaveLocalContent();
     const accessToken = getDecryptedCookie('zzgg_at');
+    const [alertInfo, setAlertInfo] = useState<{ show: boolean; message: string; severity: AlertColor }>({
+        show: false,
+        message: '',
+        severity: 'success'
+    });
     const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
     const [showLoginConfirm, setShowLoginConfirm] = useRecoilState(showLoginConfirmState);
     const [selectedBodyPart, setSelectedBodyPart] = useRecoilState(selectedBodyPartState);
@@ -32,6 +38,12 @@ const Index = () => {
     const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
     const [currentOptions, setCurrentOptions] = useRecoilState(currentOptionsState);
     const currentStage = parseInt(id as string, 10);
+    
+    useEffect(() => {
+        setShowLoginConfirm(false);
+    }, [setShowLoginConfirm]);
+    
+    const { mutate: saveHealthSurvey } = useSaveHealthSurvey();
     
     useEffect(() => {
         const {targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
@@ -104,7 +116,7 @@ const Index = () => {
     };
     
     const SurveyAnswerText = (currentStage: number, option: IOption) => {
-        let text: string | undefined = '';
+        let text: string | undefined;
         switch (currentStage) {
             case 1:
                 text = option.targetBodyPart;
@@ -134,7 +146,7 @@ const Index = () => {
     };
     
     const homeButton = () => {
-        alert('건강설문 데이터가 없어집니다!');
+        setAlertInfo({ show: true, message: '건강설문 데이터가 없어집니다!', severity: 'warning' });
         router.push('/');
     };
     
@@ -156,10 +168,28 @@ const Index = () => {
         if (!accessToken && !forceRedirect) {
             localStorage.setItem('surveyOption', JSON.stringify(surveyOption));
             setShowLoginConfirm(true);
+        } else if (accessToken) {
+            saveHealthSurvey(surveyOption, {
+                onSuccess: (response) => {
+                    if (response.success) {
+                        router.push({
+                            pathname: '/Map',
+                            query: {
+                                disease: diseases.join(','),
+                                department: departments.join(','),
+                            },
+                        });
+                    } else {
+                        setAlertInfo({ show: true, message: '건강 설문 저장을 실패하였습니다. 잠시 후 시도 해주세요.', severity: 'error' });
+                    }
+                },
+                onError: (error) => {
+                    console.error('건강 설문 저장 중 오류 발생:', error);
+                    setAlertInfo({ show: true, message: '건강 설문 저장 중 문제가 발생했습니다. 잠시 후 시도 해주세요.', severity: 'error' });
+                },
+            });
         } else {
-            saveHealthSurvey(surveyOption);
             if (diseases.length > 0 && departments.length > 0) {
-                localStorage.clear();
                 router.push({
                     pathname: '/Map',
                     query: {
@@ -176,11 +206,35 @@ const Index = () => {
     };
     
     const handleCancelLogin = () => {
+        setShowLoginConfirm(false);
         choiceHospitalButton(currentOptions, true);
     };
     
+    const handleCloseAlert = () => {
+        setAlertInfo({ ...alertInfo, show: false });
+    };
+    
+    useEffect(() => {
+        let timer:any;
+        if (alertInfo.show) {
+            timer = setTimeout(() => {
+                setAlertInfo({ ...alertInfo, show: false });
+            }, 1500);
+        }
+        return () => clearTimeout(timer);
+    }, [alertInfo.show]);
+    
     return (
         <Layout>
+            {alertInfo.show && (
+                <Alert
+                    severity={alertInfo.severity}
+                    onClose={handleCloseAlert}
+                    style={{position: 'fixed', top: 200, left: '50%', transform: 'translateX(-50%)', zIndex: 1000}}
+                >
+                    {alertInfo.message}
+                </Alert>
+            )}
             {showLoginConfirm && (
                 <LoginConfirmPopup onConfirm={handleLoginConfirm} onCancel={handleCancelLogin} />
             )}
@@ -191,7 +245,7 @@ const Index = () => {
                 <div className={currentStage < 4 ? styles.question : styles.question_complete_title}>
                     <SurveyAskText />
                 </div>
-                <div style={{ marginTop: currentStage === 4 ? '64px' : '122px' }}
+                <div style={{marginTop: currentStage === 4 ? '64px' : '122px'}}
                      className={currentOptions.length > 10 ? styles.max_options : styles.options}>
                     {currentOptions.map(option => {
                         const imageSrc = option.image;
@@ -202,10 +256,12 @@ const Index = () => {
                         
                         if (imageSrc && optionText) {
                             return (
-                                <div key={option.id} style={{marginLeft: '30px'}}
+                                <div key={option.id} style={{marginLeft: '35px'}}
                                      onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
                                     <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
-                                           height={150} />
+                                           height={150}
+                                           priority
+                                    />
                                     <br />
                                     <div className={styles.survey_text}>
                                         {optionText}
@@ -217,27 +273,31 @@ const Index = () => {
                     })}
                 </div>
             </div>
-            {currentStage > 1 && (
-                <>
-                    <button className={styles.before_button} onClick={() => router.back()}>
-                        <Image src={before} alt="before" width={10} height={10} /> 전 단계로 돌아가기
-                    </button>
-                    {currentStage < 4 && (
-                        <button className={styles.home_button} onClick={homeButton}>
-                            <Image src={home} alt="home" width={10} height={10} /> 직<b>짱</b>건강
+            <div className={currentStage === 4 ? styles.fixed_buttons_container: styles.fixed_buttons_container_first}>
+                {currentStage > 1 && (
+                    <>
+                        <button className={styles.before_button} onClick={() => router.back()}>
+                            <Image src={before} alt="before" width={8} height={15} />
+                            <span className={styles.text}>전 단계로 돌아가기</span>
                         </button>
-                    )}
-                </>
-            )}
-            {currentStage === 4 && (
-                <>
-                    <button className={styles.hospital_button} onClick={() => choiceHospitalButton(currentOptions)}>
-                        추천병원 <Image src={hospital} alt="hospital" width={16} height={16} />
-                    </button>
-                    <ShareButton />
-                </>
-            )}
-        
+                        {currentStage < 4 && (
+                            <button className={styles.home_button} onClick={homeButton}>
+                                <Image src={home} alt="home" width={14} height={16} />
+                                <span className={styles.text}>직<b>짱</b>건강</span>
+                            </button>
+                        )}
+                    </>
+                )}
+                {currentStage === 4 && (
+                    <>
+                        <button className={styles.hospital_button} onClick={() => choiceHospitalButton(currentOptions)}>
+                            <span className={styles.text}>추천병원</span>
+                            <Image src={hospital} alt="hospital" width={16} height={16} />
+                        </button>
+                        <ShareButton />
+                    </>
+                )}
+            </div>
         </Layout>
     );
 };

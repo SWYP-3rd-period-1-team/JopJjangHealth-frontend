@@ -171,7 +171,8 @@
 }
 
 .checkButton {
-    width: 720px;
+    width: 520px;
+    height: 55px;
     padding: 12px;
     font-size: 16px;
     text-transform: uppercase;
@@ -182,6 +183,7 @@
     cursor: pointer;
     transition: background-color 0.3s ease;
     margin-top: 300px;
+    margin-left:90px;
 }
 
 .selected {
@@ -201,46 +203,119 @@
     background: #FFF;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
     .profileContainer {
-        width: 90%;
-        height: auto;
-        padding-left: 10px;
-        margin: 20px auto;
+        width: 800px;
+        height: 620px;
+        padding-left: 20px;
     }
 
-    .imageContainer, .images_container, .images_container_second {
-        display: block;
-        margin-top: 20px;
-        text-align: center;
+    .imageContainer {
+        margin-top: 50px;
     }
 
-    .profileImage, .basic_img, .imagePreviewContainer {
-        width: 100px;
-        height: 100px;
-        margin: 0 auto;
-        border-radius: 50px;
+    .profileEdit {
+        margin-top: 5px;
+        margin-right: 20px;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+    }
+
+    .likedListContainer {
+        margin-bottom: 20px;
+        font-size: 24px;
+        letter-spacing: -0.48px;
     }
 
     .userAsk, .userAnswer {
-        width: 90%;
-        margin: 10px auto;
+        width: auto;
+        height: 55px;
+        font-size: 16px;
+        letter-spacing: -0.32px;
     }
 
     .userAnswer {
-        margin-left: 0;
+        margin-left: 85px;
     }
 
-    .editButton, .checkButton {
-        width: 90%;
-        margin: 20px auto;
+    .errorMessage {
+        margin-top: 10px;
+        font-size: 14px;
+        letter-spacing: -0.28px;
+        margin-left: 125px;
     }
 
-    .errorMessage, .hint {
-        margin-left: 10px;
+    .hint {
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
     }
 
     .userNameChangeButton {
-        margin-left: 5px;
+        width: 90px;
+        height: 24px;
+        font-size: 10px;
+        letter-spacing: -0.2px;
+    }
+
+    .editButton {
+        width: 450px;
+        height: 55px;
+        margin: 0 0 55px 20%;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+    }
+
+    .fileInput {
+        display: block;
+        margin: 20px auto;
+    }
+
+    .imagePreview {
+        width: 100%;
+        height: 100px;
+        margin-top: 20px;
+    }
+
+    .imagePreviewContainer {
+        margin-bottom: 20px;
+        width: 298px;
+        height: 298px;
+    }
+}
+
+@media screen and (max-width: 1279px) {
+    .profileContainer {
+        width: 90%;
+        height: auto;
+        margin: 25px auto;
+        padding: 20px;
+    }
+
+    .editButton {
+        width: 70%;
+        margin: 20px auto;
+    }
+
+    .userAnswer, .errorMessage, .hint {
+        margin-left: 5%;
+    }
+}
+
+@media screen and (max-width: 767px) {
+    .profileContainer {
+        width: 100%;
+        margin: 15px auto;
+        padding: 10px;
+    }
+
+    .editButton {
+        width: 80%;
+        margin: 20px auto;
+    }
+
+    .userAnswer, .errorMessage, .hint {
+        margin-left: 10px;
     }
 }

@@ -1,12 +1,15 @@
 .calendarContainer {
-    width: auto;
-    height: 850px;
-    margin: 30px 130px;
-    border: 2px solid #ffffff;
-    background: #ffffff66;
+    width: 1300px;
+    height: 880px;
+    flex-shrink: 0;
+    margin: 30px 15%;
     font-family: 'SUIT', sans-serif;
     padding: 30px 50px;
     border-radius: 20px;
+    border: 2px solid #FFF;
+    background: linear-gradient(114deg, rgba(255, 255, 255, 0.40) 2.8%, rgba(255, 255, 255, 0.12) 96.29%);
+    box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(30px);
     box-sizing: border-box;
     text-align: center;
     display: flex;
@@ -19,12 +22,10 @@
     align-items: center;
     justify-content: space-between;
     padding: 10px;
-    color: #000;
     font-family: 'SUIT', sans-serif;
     font-size: 36px;
     font-style: normal;
-    font-weight: 500;
-    line-height: 160%; /* 57.6px */
+    font-weight: 700;
     letter-spacing: -0.72px;
 }
 
@@ -33,6 +34,7 @@
     background-color: transparent;
     cursor: pointer;
 }
+
 .header_arrow_button img {
     object-fit: contain;
 }
@@ -42,13 +44,14 @@
     background-color: transparent;
     cursor: pointer;
 }
+
 .header_arrow_button_right img {
     object-fit: contain;
     transform: rotate(180deg);
 }
 
 .monthDisplay {
-    font-size: 24px;
+    font-size: 32px;
     margin: 0 24px;
 }
 
@@ -71,14 +74,23 @@
     border-right: 1px solid #f4f4f4;
     padding: 10px;
     cursor: pointer;
+    font-family: 'SUIT',sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 100%; /* 16px */
+    letter-spacing: -0.32px;
 }
+
 .day:nth-child(7n) {
     border-right: none;
     color: #0000ff;
 }
+
 .day:nth-child(7n-6) {
     color: #ff0000;
 }
+
 .day_notActive {
     text-align: left;
     /* width: 166px; */
@@ -91,10 +103,12 @@
     cursor: pointer;
     color: #00000066;
 }
+
 .day_notActive:nth-child(7n) {
     border-right: none;
     color: #0000ff66;
 }
+
 .day_notActive:nth-child(7n-6) {
     color: #ff000066;
 }
@@ -107,7 +121,7 @@
     background-color: #d1ffe3;
     padding: 10px;
     border-bottom: 1px solid #ccc;
-    font-size: 14px;
+    font-size: 16px;
     color: #757575;
 }
 
@@ -123,6 +137,7 @@
     border: 1px solid #ccc;
     border-radius: 8px;
 }
+
 .listItemHeader {
     display: flex;
     align-items: center;
@@ -138,12 +153,14 @@
     display: flex;
     align-items: flex-end;
 }
+
 .listItem_Content {
     display: flex;
     align-items: center;
     flex: 1;
     padding: 8px 0;
 }
+
 .listText {
     float: left;
     color: #000;
@@ -155,7 +172,7 @@
 
 .listButton {
     float: right;
-    color: white;
+    color: #ffffff;
     font-family: 'SUIT', sans-serif;
     width: 132px;
     height: 30px;
@@ -172,12 +189,134 @@
 .listModalButton {
     float: right;
     border: none;
-    color: #757575;
+    color: #424242;
     font-family: 'SUIT', sans-serif;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 100%; /* 20px */
-    letter-spacing: -0.4px;
+    letter-spacing: -0.32px;
     text-decoration-line: underline;
+}
+
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
+    .calendarContainer {
+        width: 1000px;
+        height: 678px;
+        margin: 30px 18%;
+    }
+
+    .header {
+        font-size: 28px;
+        letter-spacing: -0.56px;
+    }
+
+    .monthDisplay {
+        font-size: 28px;
+    }
+
+    .day {
+        font-size: 12px;
+        letter-spacing: -0.248px;
+    }
+
+    .weekday {
+        font-size: 12px;
+    }
+
+    .listText {
+        font-family: 'SUIT', sans-serif;
+        font-size: 24px;
+    }
+
+    .listButton {
+        width: 128px;
+        height: 30px;
+        font-size: 16px;
+        line-height: 100%; /* 16px */
+        letter-spacing: -0.32px;
+    }
+
+    .listModalButton {
+        font-size: 14px;
+        letter-spacing: -0.28px;
+    }
+}
+
+@media screen and (max-width: 1260px) {
+    .calendarContainer {
+        width: 90%;
+        height: auto;
+        margin: 20px auto;
+        padding: 20px;
+    }
+
+    .header {
+        font-size: 24px;
+    }
+
+    .monthDisplay {
+        font-size: 24px;
+    }
+
+    .day, .day_notActive {
+        height: 80px;
+        font-size: 14px;
+    }
+
+    .weekday {
+        font-size: 14px;
+    }
+
+    .listText, .listButton, .listModalButton {
+        font-size: 22px;
+    }
+
+    .listContainer, .listTitleContainer {
+        margin: 20px 10%;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .calendarContainer {
+        width: 100%;
+        margin: 10px 0;
+        padding: 15px;
+        font-size: 16px;
+    }
+
+    .header {
+        font-size: 20px;
+        padding: 5px;
+    }
+
+    .monthDisplay {
+        font-size: 20px;
+    }
+
+    .grid {
+        grid-template-columns: repeat(7, 1fr);
+    }
+
+    .day, .day_notActive {
+        height: 60px;
+        font-size: 12px;
+    }
+
+    .weekday {
+        font-size: 12px;
+    }
+
+    .listContainer, .listTitleContainer {
+        margin: 15px 5%;
+    }
+
+    .listText, .listButton, .listModalButton {
+        font-size: 18px;
+    }
+
+    .listItem {
+        flex-direction: column;
+        align-items: center;
+    }
 }
