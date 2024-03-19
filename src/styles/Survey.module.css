@@ -11,13 +11,17 @@
     height: 60px;
     flex-shrink: 0;
     border-radius: 100px;
-    color:#ffffff;
     background: #1C3C29;
+    color: #FFF;
+    font-family: 'SUIT',sans-serif;
+    font-size: 30px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
     margin-bottom: 20px;
     margin-left: 48%;
     padding:10px;
     text-align: center;
-    font-size: 30px;
 }
 
 .question_complete {
@@ -26,6 +30,7 @@
     line-height: normal;
     letter-spacing: -0.56px;
     width: 180px;
+    height: 60px;
     margin:0 45%;
 }
 
@@ -70,6 +75,16 @@
     background-color: #e7e7e7;
 }
 
+.fixed_buttons_container_first , .fixed_buttons_container {
+    position: sticky;
+    width: 1780px;
+    padding: 10px 0;
+    margin-top:270px;
+}
+
+.fixed_buttons_container {
+    margin-top:210px;
+}
 
 .home_button {
     float: right;
@@ -81,7 +96,7 @@
     font-weight: 500;
     line-height: 100%; /* 14px */
     letter-spacing: 0.98px;
-    margin-right: 50px;
+    margin-right: 25px;
     margin-bottom: 38px;
     width: 124px;
     height: 40px;
@@ -130,7 +145,7 @@
     align-items: center;
     justify-content: center;
     float: right;
-    margin-right: 50px;
+    margin-left: 0;
     margin-bottom: 38px;
 }
 
@@ -169,397 +184,107 @@
     font-family: 'SUIT',sans-serif;
 }
 
-.disease {
-    background-color: red;
-    margin-right: 80px;
-}
-
-.department {
-    background-color: green;
-}
-
 .text {
     margin:10px;
     display: inline-flex;
 }
 
-@media (max-width: 768px) {
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
     .quizContainer {
-        margin: 100px 0 144px 0;
-        padding: 0;
-        flex-direction: column;
-        align-items: center;
-        text-align: center;
+        margin: 51px 0 90px 0;
     }
-
     .question_num, .question_complete {
-        width: 60px;
-        height: 60px;
-        flex-shrink: 0;
-        border-radius: 100px;
-        color:#ffffff;
-        background: #1C3C29;
-        margin-bottom: 20px;
-        margin-left: 48%;
-        padding:10px;
-        text-align: center;
-        font-size: 30px;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
     }
 
     .question_complete {
-        font-size: 28px;
-        font-weight: 600;
-        line-height: normal;
-        letter-spacing: -0.56px;
-        width: 180px;
-        margin:0 45%;
+        font-size: 24px;
+        letter-spacing: -0.48px;
+        width: 150px;
+        height:50px;
     }
 
     .question {
-        position: absolute;
-        left: 50%;
-        transform: translateX(-50%);
-        margin-bottom: 20px;
-        font-size: 32px;
-        text-align: center;
-        white-space: nowrap;
+        font-size: 28px;
     }
 
     .question_complete_title {
-        margin-top:34px;
-        margin-bottom: 20px;
+        margin-top:32px;
+        margin-bottom: 50px;
         font-size: 32px;
-        text-align: center;
     }
 
-    .options,.max_options {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 10px;
-    }
-
+    /* todo : 여기 확인 해보기*/
     .max_options {
-        max-width: 70vw;
+        max-width: 50vw;
         margin:auto;
     }
 
-    .option {
-        padding: 10px 15px;
-        border: 1px solid #ccc;
-        background-color: #f7f7f7;
-        cursor: pointer;
-        transition: background-color 0.3s;
-    }
-
-    .option:hover {
-        background-color: #e7e7e7;
-    }
-
-
-    .home_button {
-        float: right;
-        color: #FFF;
-        text-align: center;
-        font-family: 'SUIT', sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 100%; /* 14px */
-        letter-spacing: 0.98px;
-        margin-right: 50px;
-        margin-bottom: 38px;
-        width: 124px;
-        height: 40px;
-        flex-shrink: 0;
-        border-radius: 20px;
-        background: #00A241;
-    }
-
-    .share_button {
-        width: 124px;
-        height: 40px;
-        flex-shrink: 0;
-        border-radius: 20px;
-        background: #424242;
-        float: right;
-        color: #FFF;
-        text-align: center;
-        font-family: 'SUIT',sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 100%; /* 14px */
-        letter-spacing: 1px;
-        margin-right: 20px;
-        margin-bottom: 38px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .hospital_button {
-        width: 124px;
-        height: 40px;
-        flex-shrink: 0;
-        border-radius: 20px;
-        color: #FFF;
-        text-align: center;
-        font-family: 'SUIT',sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 100%; /* 14px */
-        letter-spacing: 1px;
-        background: #00A241;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        float: right;
-        margin-right: 50px;
-        margin-bottom: 38px;
-    }
-
-    .before_button {
-        float: left;
-        color: #FFF;
-        text-align: center;
-        font-family: 'SUIT',sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 100%; /* 14px */
-        letter-spacing: -0.28px;
-        margin-left: 50px;
-        margin-bottom: 38px;
-        flex-shrink: 0;
-        border-radius: 20px;
-        width: 162px;
-        height: 40px;
-        background: #5B5B5B;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
     .survey_text, .disease, .department {
-        word-break: keep-all;
-        white-space: pre-wrap;
-        color: #000;
-        text-align: center;
-        font-size: 20px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 160%;
-        letter-spacing: -0.4px;
-        font-family: 'SUIT',sans-serif;
+        font-size: 16px;
+        line-height: 150%;
+        letter-spacing: -0.32px;
     }
 
-    .disease {
-        background-color: red;
-        margin-right: 80px;
+    .fixed_buttons_container_first , .fixed_buttons_container {
+        position: sticky;
+        width: 1460px;
+        padding: 10px 0;
+        margin-top:160px;
     }
 
-    .department {
-        background-color: green;
-    }
-
-    .text {
-        margin:10px;
-        display: inline-flex;
+    .fixed_buttons_container {
+        margin-top:120px;
     }
 }
 
-@media (min-width: 1600px) {
+@media screen and (max-width: 1280px) {
     .quizContainer {
-        margin: 100px 0 144px 0;
+        margin: 80px 0 120px 0;
     }
-
     .question_num, .question_complete {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 20px;
-        margin-left: 48%;
-        font-size: 30px;
+        width: 50px;
+        height: 50px;
+        font-size: 24px;
+        margin-left: 45%;
     }
-
     .question_complete {
-        font-size: 28px;
-        letter-spacing: -0.56px;
-        width: 180px;
-        margin:0 45%;
+        width: 160px;
+        height: 50px;
+        margin: 0 42.5%;
     }
-
-    .question {
-        margin-bottom: 20px;
-        font-size: 32px;
-    }
-
-    .question_complete_title {
-        margin-top:34px;
-        margin-bottom: 20px;
-        font-size: 32px;
-    }
-
-    .max_options {
-        max-width: 70vw;
-        margin:auto;
-    }
-
-    .option {
-        padding: 10px 15px;
-        transition: background-color 0.3s;
-    }
-
-    .home_button {
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: 0.98px;
-        margin-right: 50px;
-        margin-bottom: 38px;
-        width: 124px;
-        height: 40px;
-    }
-
-    .share_button {
-        width: 124px;
-        height: 40px;
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        margin-right: 20px;
-        margin-bottom: 38px;
-    }
-
-    .hospital_button {
-        width: 124px;
-        height: 40px;
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: 1px;
-        margin-right: 50px;
-        margin-bottom: 38px;
-    }
-
-    .before_button {
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: -0.28px;
-        margin-left: 50px;
-        margin-bottom: 38px;
-        width: 162px;
-        height: 40px;
-    }
-
-    .survey_text, .disease, .department {
-        font-size: 20px;
-        font-weight: 600;
-        line-height: 160%;
-        letter-spacing: -0.4px;
-    }
-
-    .disease {
-        margin-right: 80px;
-    }
-
-    .text {
-        margin:10px;
+    .fixed_buttons_container_first, .fixed_buttons_container {
+        width: 100%;
+        margin-top: 100px;
     }
 }
 
-@media (min-width: 1200px) {
+@media screen and (max-width: 768px) {
     .quizContainer {
-        margin: 100px 0 144px 0;
+        margin: 60px 0 100px 0;
     }
-
     .question_num, .question_complete {
-        width: 60px;
-        height: 60px;
-        margin-bottom: 20px;
-        margin-left: 48%;
-        font-size: 30px;
-    }
-
-    .question_complete {
-        font-size: 28px;
-        letter-spacing: -0.56px;
-        width: 180px;
-        margin:0 45%;
-    }
-
-    .question {
-        margin-bottom: 20px;
-        font-size: 32px;
-    }
-
-    .question_complete_title {
-        margin-top:34px;
-        margin-bottom: 20px;
-        font-size: 32px;
-    }
-
-    .options,.max_options {
-        gap: 10px;
-    }
-
-    .max_options {
-        max-width: 70vw;
-        margin:auto;
-    }
-
-    .option:hover {
-        background-color: #e7e7e7;
-    }
-
-
-    .home_button {
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: 0.98px;
-        margin-right: 50px;
-        margin-bottom: 38px;
-        width: 124px;
+        width: 40px;
         height: 40px;
-    }
-
-    .share_button {
-        width: 124px;
-        height: 40px;
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: 1px;
-        margin-right: 20px;
-        margin-bottom: 38px;
-    }
-
-    .hospital_button {
-        width: 124px;
-        height: 40px;
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: 1px;
-        margin-right: 50px;
-        margin-bottom: 38px;
-    }
-
-    .before_button {
-        font-size: 14px;
-        line-height: 100%; /* 14px */
-        letter-spacing: -0.28px;
-        margin-left: 50px;
-        margin-bottom: 38px;
-        width: 162px;
-        height: 40px;
-    }
-
-    .survey_text, .disease, .department {
         font-size: 20px;
-        line-height: 160%;
-        letter-spacing: -0.4px;
+        margin-left: 45%;
     }
-    .disease {
-        margin-right: 80px;
+    .question_complete {
+        width: 140px;
+        height: 40px;
+        margin: 0 40%;
     }
-    .text {
-        margin:10px;
+    .fixed_buttons_container_first, .fixed_buttons_container {
+        width: 100%;
+        margin-top: 80px;
+    }
+    .home_button, .share_button, .hospital_button, .before_button {
+        margin-right: 10px;
+        margin-bottom: 28px;
+        width: 100px;
+        height: 35px;
     }
 }
+

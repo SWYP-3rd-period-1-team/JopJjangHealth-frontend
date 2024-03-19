@@ -8,7 +8,7 @@ import {useRouter} from 'next/router';
 const Container = styled.section`
     padding: 54px 20px;
     width: 80%;
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #a8a8a8;
     margin-top: 16px;
 `;

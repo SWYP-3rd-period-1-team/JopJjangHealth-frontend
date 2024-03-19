@@ -5,7 +5,7 @@
     font-weight: 500;
     line-height: 160%; /* 51.2px */
     letter-spacing: -0.64px;
-    margin: 24px 21%;
+    margin: 24px 23%;
 }
 
 .like_container {
@@ -20,24 +20,25 @@
     margin: 45px 25%;
 }
 
-.like_list_templete {
-    flex-shrink: 0;
-    border-radius: 10px;
-    border: 1px solid #ECECEC;
-    background: #FFF;
-    margin: 0 20px;
-}
-
 .like_item_container {
+    position: relative;
     width: 960px;
     height: 100px;
     margin: 20px;
-    flex-shrink: 0;
     border-radius: 10px;
-    background: #B5FCD1;
+    border: 2px solid #FFF;
+    background: linear-gradient(91deg, rgba(181, 252, 209, 0.50) 0%, rgba(181, 252, 209, 0.15) 100%);
+    box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
+    backdrop-filter: blur(30px);
 }
 
-.title {
+.like_item_container::after {
+    content: "";
+    display: block;
+    clear: both;
+}
+
+.title, .title_bottom {
     color: #000;
     font-family: 'SUIT',sans-serif;
     font-size: 20px;
@@ -45,7 +46,14 @@
     font-weight: 600;
     line-height: 160%; /* 32px */
     letter-spacing: -0.4px;
-    margin:20px 20px 20px 20px;
+    margin-bottom:20px;
+    margin-left:20px;
+}
+
+.title {
+    margin-top:10px;
+    margin-bottom:20px;
+    margin-left:20px;
 }
 
 .date {
@@ -56,7 +64,7 @@
     font-weight: 400;
     line-height: 160%; /* 22.4px */
     letter-spacing: -0.28px;
-    margin:-40px 20px 0 0;
+    margin:-50px 20px 0 0;
     float:right;
 }
 
@@ -68,6 +76,7 @@
     font-weight: 400;
     line-height: 160%; /* 25.6px */
     letter-spacing: -0.32px;
+    margin-right:20px;
 }
 
 .district {
@@ -78,6 +87,7 @@
     font-weight: 400;
     line-height: 160%; /* 25.6px */
     letter-spacing: -0.32px;
+    margin-left:20px;
 }
 
 .delete {
@@ -89,7 +99,7 @@
     line-height: 160%; /* 22.4px */
     letter-spacing: -0.28px;
     border :none;
-    margin:-40px 20px 0 0;
+    margin:-48px 20px 0 0;
     float:right;
 }
 
@@ -102,7 +112,7 @@
 
 .no_hospitals {
     width:960px;
-    height:560px;
+    height:574px;
     flex-shrink: 0;
     border-radius: 10px;
     border: 1px solid #ECECEC;
@@ -111,6 +121,7 @@
     justify-content: center;
     align-items: center;
     flex-direction: column;
+    margin: 0 0 0 20px;
 }
 
 .no_like_image {
@@ -153,54 +164,12 @@
     margin-top:39px;
 }
 
-.popupContainer {
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 80%;
-    max-width: 400px;
-    padding: 20px;
-    background-color: white;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-    z-index: 100;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.popupContainer div,
-.popupContainer button {
-    margin-top: 10px;
-    margin-bottom: 10px;
-}
-
-.popupContainer button {
-    padding: 10px 20px;
-    background-color: #f44336;
-    color: white;
-    border: none;
-    cursor: pointer;
-}
-
-.popupContainer button:last-child {
-    background-color: #4caf50;
-}
-
-.popupContainer button:hover {
-    opacity: 0.9;
-}
-
-
-.clickedItem {
-    background-color: red;
-}
-
-@media (min-width: 768px) {
+@media screen and (max-width: 1919px) and (min-width: 1600px)  {
     .like_text {
+        color: #000;
         font-size: 28px;
         letter-spacing: -0.56px;
-        margin: 24px 17%;
+        margin: 24px 19%;
     }
 
     .like_container {
@@ -209,182 +178,37 @@
         margin: 45px 22%;
     }
 
-    .like_list_templete {
-        margin: 0 20px;
-    }
-
     .like_item_container {
         width: 760px;
         height: 80px;
     }
 
-    .title {
+    .title, .title_bottom {
         font-size: 18px;
-        line-height: 160%; /* 32px */
-        letter-spacing: -0.4px;
-        margin:20px 20px 20px 20px;
+        letter-spacing: -0.36px;
+        margin-bottom:4px;
+        margin-left:20px;
     }
 
     .date {
-        line-height: 160%; /* 22.4px */
-        letter-spacing: -0.28px;
-        margin:-40px 20px 0 0;
+        font-size: 12px;
+        letter-spacing: -0.24px;
+        margin:-28px 20px 0 0;
     }
 
     .place {
-        font-size: 16px;
-        line-height: 160%; /* 25.6px */
-        letter-spacing: -0.32px;
+        font-size: 14px;
+        letter-spacing: -0.28px;
     }
 
     .district {
-        font-size: 16px;
-        line-height: 160%; /* 25.6px */
-        letter-spacing: -0.32px;
+        font-size: 14px;
+        letter-spacing: -0.28px;
     }
 
     .delete {
-        font-size: 14px;
-        line-height: 160%; /* 22.4px */
-        letter-spacing: -0.28px;
-        border :none;
-        margin:-40px 20px 0 0;
-    }
-
-    .imageContainer {
-        margin-right:232px;
-    }
-
-    .no_hospitals {
-        width:960px;
-        height:560px;
-    }
-
-    .no_like_image {
-        flex-shrink: 0;
-    }
-
-    .no_like {
-        color: #000;
-        text-align: center;
-        font-size: 40px;
-        line-height: 160%; /* 64px */
-        letter-spacing: -0.8px;
-    }
-    .no_like_text {
-        color: #000;
-        text-align: center;
-        font-size: 32px;
-        line-height: 160%; /* 64px */
-        letter-spacing: -0.8px;
-    }
-
-    .click_survey{
-        width: 240px;
-        height: 60px;
-        font-size: 24px;
-        line-height: 100%; /* 24px */
-        letter-spacing: -0.48px;
-        margin-top:39px;
-    }
-
-    .popupContainer {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        width: 80%;
-        max-width: 400px;
-        padding: 20px;
-    }
-
-    .popupContainer div,
-    .popupContainer button {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-}
-
-@media (min-width: 1600px) {
-    .like_text {
-        color: #000;
-        font-size: 28px;
-        letter-spacing: -0.56px;
-        margin: 24px 17%;
-    }
-
-    .like_container {
-        width: 800px;
-        height: 580px;
-        margin: 45px 22%;
-    }
-
-    .like_list_templete {
-        flex-shrink: 0;
-        border-radius: 10px;
-        border: 1px solid #ECECEC;
-        background: #FFF;
-        margin: 0 20px;
-    }
-
-    .like_item_container {
-        width: 760px;
-        height: 80px;
-    }
-
-    .title {
-        color: #000;
-        font-family: 'SUIT',sans-serif;
-        font-size: 18px;
-        font-style: normal;
-        font-weight: 600;
-        line-height: 160%; /* 32px */
-        letter-spacing: -0.4px;
-        margin:20px 20px 20px 20px;
-    }
-
-    .date {
-        color: #757575;
-        font-family: 'SUIT',sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 160%; /* 22.4px */
-        letter-spacing: -0.28px;
-        margin:-40px 20px 0 0;
-        float:right;
-    }
-
-    .place {
-        color: #000;
-        font-family: 'SUIT',sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 160%; /* 25.6px */
-        letter-spacing: -0.32px;
-    }
-
-    .district {
-        color: #000;
-        font-family: 'SUIT',sans-serif;
-        font-size: 16px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 160%; /* 25.6px */
-        letter-spacing: -0.32px;
-    }
-
-    .delete {
-        color: #000;
-        font-family: 'SUIT',sans-serif;
-        font-size: 14px;
-        font-style: normal;
-        font-weight: 400;
-        line-height: 160%; /* 22.4px */
-        letter-spacing: -0.28px;
-        border :none;
-        margin:-40px 20px 0 0;
-        float:right;
+        font-size: 12px;
+        margin:-28px 20px 0 0;
     }
 
     .imageContainer {
@@ -395,16 +219,8 @@
     }
 
     .no_hospitals {
-        width:960px;
-        height:560px;
-        flex-shrink: 0;
-        border-radius: 10px;
-        border: 1px solid #ECECEC;
-        background: #FFF;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        flex-direction: column;
+        width: 760px;
+        height: 400px;
     }
 
     .no_like_image {
@@ -412,178 +228,151 @@
     }
 
     .no_like {
-        color: #000;
-        text-align: center;
-        font-size: 40px;
-        font-style: normal;
-        font-weight: 700;
-        line-height: 160%; /* 64px */
-        letter-spacing: -0.8px;
+        font-size: 32px;
+        letter-spacing: -0.48px;
     }
     .no_like_text {
-        color: #000;
-        text-align: center;
-        font-size: 32px;
-        font-style: normal;
-        font-weight: 400;
+        font-size: 24px;
         line-height: 160%; /* 64px */
-        letter-spacing: -0.8px;
+        letter-spacing: -0.48px;
     }
 
     .click_survey{
-        width: 240px;
-        height: 60px;
-        flex-shrink: 0;
-        border-radius: 100px;
-        background: #1C3C29;
-        color: #FFF;
-        text-align: center;
-        font-family: 'SUIT', serif;
-        font-size: 24px;
-        font-style: normal;
-        font-weight: 500;
-        line-height: 100%; /* 24px */
-        letter-spacing: -0.48px;
+        width: 200px;
+        height: 50px;
+        font-size: 18px;
+        letter-spacing: -0.36px;
         margin-top:39px;
     }
-
-    .popupContainer {
-        position: fixed;
-        top: 50%;
-        left: 50%;
-        transform: translate(-50%, -50%);
-        width: 80%;
-        max-width: 400px;
-        padding: 20px;
-        background-color: white;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-        z-index: 100;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .popupContainer div,
-    .popupContainer button {
-        margin-top: 10px;
-        margin-bottom: 10px;
-    }
-
-    .popupContainer button {
-        padding: 10px 20px;
-        background-color: #f44336;
-        color: white;
-        border: none;
-        cursor: pointer;
-    }
-
-    .popupContainer button:last-child {
-        background-color: #4caf50;
-    }
-
-    .popupContainer button:hover {
-        opacity: 0.9;
-    }
-
-
-    .clickedItem {
-        background-color: red;
-    }
-
 }
 
-@media (min-width: 1200px) {
+@media screen and (max-width: 1280px) {
     .like_text {
-        font-size: 28px;
-        letter-spacing: -0.56px;
-        margin: 24px 17%;
+        font-size: 24px;
+        letter-spacing: -0.48px;
+        margin: 24px 15%;
     }
 
     .like_container {
-        width: 800px;
+        width: 80%;
         height: 580px;
-        margin: 45px 22%;
-    }
-
-    .like_list_templete {
-        margin: 0 20px;
+        margin: 45px 10%;
     }
 
     .like_item_container {
-        width: 760px;
+        width: calc(100% - 40px);
         height: 80px;
+        margin: 20px;
     }
 
-    .title {
-        line-height: 160%; /* 32px */
-        letter-spacing: -0.4px;
-        margin:20px 20px 20px 20px;
+    .title, .title_bottom {
+        font-size: 16px;
+        letter-spacing: -0.32px;
+        margin-bottom: 16px;
+        margin-left: 10px;
     }
 
     .date {
+        font-size: 12px;
+        letter-spacing: -0.24px;
+        margin: -40px 10px 0 0;
+    }
+
+    .place, .district {
         font-size: 14px;
-        line-height: 160%; /* 22.4px */
         letter-spacing: -0.28px;
-        margin:-40px 20px 0 0;
-    }
-
-    .place {
-        font-size: 16px;
-        line-height: 160%; /* 25.6px */
-        letter-spacing: -0.32px;
-    }
-
-    .district {
-        font-size: 16px;
-        line-height: 160%; /* 25.6px */
-        letter-spacing: -0.32px;
     }
 
     .delete {
-        font-size: 14px;
-        line-height: 160%; /* 22.4px */
-        letter-spacing: -0.28px;
-        margin:-40px 20px 0 0;
+        font-size: 12px;
+        margin: -40px 10px 0 0;
     }
 
     .imageContainer {
-        margin-right:232px;
+        margin-right: 10%;
     }
 
     .no_hospitals {
-        width:960px;
-        height:560px;
+        width: calc(100% - 40px);
+        height: 400px;
+        margin: 0 20px;
     }
 
-    .no_like {
-        font-size: 40px;
-        line-height: 160%; /* 64px */
-        letter-spacing: -0.8px;
-    }
-    .no_like_text {
-        font-size: 32px;
-        line-height: 160%; /* 64px */
-        letter-spacing: -0.8px;
+    .no_like, .no_like_text {
+        font-size: 28px;
+        letter-spacing: -0.56px;
     }
 
-    .click_survey{
-        width: 240px;
-        height: 60px;
+    .click_survey {
+        width: 180px;
+        height: 50px;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+        margin-top: 30px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .like_text {
+        font-size: 20px;
+        letter-spacing: -0.4px;
+        margin: 24px 10%;
+    }
+
+    .like_container {
+        width: 100%;
+        height: auto;
+        margin: 45px 5%;
+    }
+
+    .like_item_container {
+        width: calc(100% - 20px);
+        height: 80px;
+        margin: 20px 10px;
+    }
+
+    .title, .title_bottom {
+        font-size: 14px;
+        letter-spacing: -0.28px;
+        margin: 10px 10px 10px 10px;
+    }
+
+    .date {
+        font-size: 10px;
+        letter-spacing: -0.2px;
+        margin: -30px 10px 0 0;
+    }
+
+    .place, .district {
+        font-size: 12px;
+        letter-spacing: -0.24px;
+    }
+
+    .delete {
+        font-size: 10px;
+        margin: -30px 10px 0 0;
+    }
+
+    .imageContainer {
+        margin-right: 5%;
+    }
+
+    .no_hospitals {
+        width: calc(100% - 20px);
+        height: 300px;
+        margin: 0 10px;
+    }
+
+    .no_like, .no_like_text {
         font-size: 24px;
-        line-height: 100%; /* 24px */
         letter-spacing: -0.48px;
-        margin-top:39px;
     }
 
-    .popupContainer {
-        width: 80%;
-        max-width: 400px;
-        padding: 20px;
-    }
-
-    .popupContainer div,
-    .popupContainer button {
-        margin-top: 10px;
-        margin-bottom: 10px;
+    .click_survey {
+        width: 160px;
+        height: 45px;
+        font-size: 14px;
+        letter-spacing: -0.28px;
+        margin-top: 20px;
     }
 }

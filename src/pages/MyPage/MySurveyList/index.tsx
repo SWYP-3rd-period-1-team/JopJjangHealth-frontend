@@ -146,15 +146,17 @@ const SurveyList = () => {
     return (
         <Layout>
             <div className={styles.mySurvey_text}>나의 질병 리스트</div>
-            <div onClick={handleListClick} className={styles.mySurvey_check_text}>
-                <input
-                    type="checkbox"
-                    className={styles.mySurvey_check_img}
-                    onClick={handleListClick}
-                    readOnly
-                />
-                질병 리스트 선택
-            </div>
+            {diseaseList.length > 0 && (
+                <div onClick={handleListClick} className={styles.mySurvey_check_text}>
+                    <input
+                        type="checkbox"
+                        className={styles.mySurvey_check_img}
+                        onClick={handleListClick}
+                        readOnly
+                    />
+                    질병 리스트 선택
+                </div>
+            )}
             {isLoading ? <LoadingView />
                 :
                 <>

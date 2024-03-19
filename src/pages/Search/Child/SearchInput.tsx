@@ -4,7 +4,7 @@ import styled from 'styled-components';
 const SearchForm = styled.form`
     width: 80%;
     display: flex;
-    background-color: white;
+    background-color: #ffffff;
     padding: 0 24px;
     border: 1px solid #a8a8a8;
 `;

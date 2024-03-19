@@ -56,7 +56,7 @@ const FormContainer = styled.form`
 `;
 const TextAreaContainer = styled.div`
     display: flex;
-    background-color: white;
+    background-color: #ffffff;
     border: 1px solid #dadada;
     padding: 12px 16px;
     align-items: center;
@@ -83,7 +83,7 @@ const ReportView = styled.div`
     position: absolute;
     right: -200px;
     width: 200px;
-    background-color: white;
+    background-color: #ffffff;
 `;
 const RepostItem = styled.div`
     cursor: pointer;

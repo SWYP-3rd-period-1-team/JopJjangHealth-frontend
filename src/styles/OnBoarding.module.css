@@ -76,7 +76,7 @@
     }
 }
 
-@media (min-width: 768px) {
+@media screen and (max-width: 1919px) and (min-width: 1600px) {
     @keyframes typing {
         from {
             width: 0;
@@ -119,88 +119,37 @@
     }
 }
 
-@media (min-width: 1600px) {
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-        to {
-            width: 450px;
-        }
-    }
-
-    @keyframes blink-caret {
-        from, to {
-            border-color: transparent;
-        }
-        50% {
-            border-color: black;
-        }
-    }
-
-    .content_basic {
-        font-size: 28px;
-        letter-spacing: -0.56px;
+@media screen and (max-width: 1279px) {
+    .content_basic, .content_bold {
+        font-size: 24px;
+        letter-spacing: -0.48px;
     }
 
     .content_bold {
-        font-size: 28px;
-        letter-spacing: -0.56px;
-    }
-
-    .image_container {
-        bottom:25%;
-        display: flex;
-        justify-content: center;
+        width: 400px;
     }
 
     .check {
-        width: 530px;
-        height: 65px;
-        font-size: 20px;
-        letter-spacing: -0.4px;
+        width: 450px;
+        height: 55px;
+        font-size: 18px;
     }
 }
 
-@media (min-width: 1200px) {
-    @keyframes typing {
-        from {
-            width: 0;
-        }
-        to {
-            width: 450px;
-        }
-    }
-
-    @keyframes blink-caret {
-        from, to {
-            border-color: transparent;
-        }
-        50% {
-            border-color: black;
-        }
-    }
-
-    .content_basic {
-        font-size: 28px;
-        letter-spacing: -0.56px;
-    }
-
-    .content_bold {
-        font-size: 28px;
-        letter-spacing: -0.56px;
-    }
-
-    .image_container {
-        bottom:25%;
-        display: flex;
-        justify-content: center;
-    }
-
-    .check {
-        width: 530px;
-        height: 65px;
+@media screen and (max-width: 767px) {
+    .content_basic, .content_bold {
         font-size: 20px;
         letter-spacing: -0.4px;
     }
+
+    .content_bold {
+        width: 300px;
+    }
+
+    .check {
+        width: 400px;
+        height: 45px;
+        font-size: 16px;
+    }
+
 }

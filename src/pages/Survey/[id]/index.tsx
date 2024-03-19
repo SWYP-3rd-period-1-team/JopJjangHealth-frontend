@@ -230,7 +230,7 @@ const Index = () => {
                 <Alert
                     severity={alertInfo.severity}
                     onClose={handleCloseAlert}
-                    style={{ position: 'fixed', top: 200, left: '50%', transform: 'translateX(-50%)', zIndex: 1000 }}
+                    style={{position: 'fixed', top: 200, left: '50%', transform: 'translateX(-50%)', zIndex: 1000}}
                 >
                     {alertInfo.message}
                 </Alert>
@@ -245,7 +245,7 @@ const Index = () => {
                 <div className={currentStage < 4 ? styles.question : styles.question_complete_title}>
                     <SurveyAskText />
                 </div>
-                <div style={{ marginTop: currentStage === 4 ? '64px' : '122px' }}
+                <div style={{marginTop: currentStage === 4 ? '64px' : '122px'}}
                      className={currentOptions.length > 10 ? styles.max_options : styles.options}>
                     {currentOptions.map(option => {
                         const imageSrc = option.image;
@@ -273,29 +273,31 @@ const Index = () => {
                     })}
                 </div>
             </div>
-            {currentStage > 1 && (
-                <>
-                    <button className={styles.before_button} onClick={() => router.back()}>
-                        <Image src={before} alt="before" width={8} height={15} />
-                        <span className={styles.text}>전 단계로 돌아가기 </span>
-                    </button>
-                    {currentStage < 4 && (
-                        <button className={styles.home_button} onClick={homeButton}>
-                            <Image src={home} alt="home" width={14} height={16} />
-                            <span className={styles.text}>직<b>짱</b>건강</span>
+            <div className={currentStage === 4 ? styles.fixed_buttons_container: styles.fixed_buttons_container_first}>
+                {currentStage > 1 && (
+                    <>
+                        <button className={styles.before_button} onClick={() => router.back()}>
+                            <Image src={before} alt="before" width={8} height={15} />
+                            <span className={styles.text}>전 단계로 돌아가기</span>
                         </button>
-                    )}
-                </>
-            )}
-            {currentStage === 4 && (
-                <>
-                    <button className={styles.hospital_button} onClick={() => choiceHospitalButton(currentOptions)}>
-                        <span className={styles.text}>추천병원</span>
-                        <Image src={hospital} alt="hospital" width={16} height={16} />
-                    </button>
-                    <ShareButton />
-                </>
-            )}
+                        {currentStage < 4 && (
+                            <button className={styles.home_button} onClick={homeButton}>
+                                <Image src={home} alt="home" width={14} height={16} />
+                                <span className={styles.text}>직<b>짱</b>건강</span>
+                            </button>
+                        )}
+                    </>
+                )}
+                {currentStage === 4 && (
+                    <>
+                        <button className={styles.hospital_button} onClick={() => choiceHospitalButton(currentOptions)}>
+                            <span className={styles.text}>추천병원</span>
+                            <Image src={hospital} alt="hospital" width={16} height={16} />
+                        </button>
+                        <ShareButton />
+                    </>
+                )}
+            </div>
         </Layout>
     );
 };

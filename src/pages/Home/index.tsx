@@ -36,7 +36,7 @@ const Index: React.FC = () => {
                     <div
                         className={styles.home}
                         onClick={() => {
-                            router.push('/Survey');
+                            router.push('/Survey/1');
                         }}
                     >
                         <div className={styles.homeImageWrapper}>
