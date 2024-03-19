@@ -18,6 +18,15 @@
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(30px);
     margin: 45px 25%;
+    overflow-y:auto;
+}
+
+.like_container::-webkit-scrollbar {
+    display: none;
+}
+
+.like_container {
+    scrollbar-width: none;
 }
 
 .like_item_container {
@@ -30,6 +39,7 @@
     background: linear-gradient(91deg, rgba(181, 252, 209, 0.50) 0%, rgba(181, 252, 209, 0.15) 100%);
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(30px);
+    cursor: pointer;
 }
 
 .like_item_container::after {
@@ -101,6 +111,7 @@
     border :none;
     margin:-48px 20px 0 0;
     float:right;
+    cursor: pointer;
 }
 
 .imageContainer {

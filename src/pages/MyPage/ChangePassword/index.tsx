@@ -109,7 +109,7 @@ const Index: React.FC = () => {
                                     required: '이메일을 입력해주세요.',
                                     validate: validateEmail
                                 })}
-                                className={errors.email ? styles.inputError : styles.input}
+                                className={errors.email ? styles.inputError : styles.input_email}
                             />
                             <button
                                 type="button"
