@@ -68,7 +68,7 @@ const useHospitalInfo = () => {
                                     if (typeof hospitalLng === 'function') {
                                         hospitalLng = hospitalLng();
                                     }
-                                    const hospitalLocation = new google.maps.LatLng(hospitalLat, hospitalLng);
+                                    const hospitalLocation = new google.maps.LatLng(Number(hospitalLat), Number(hospitalLng)); // Convert to Number if not already
                                     const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(
                                         userLocation,
                                         hospitalLocation
