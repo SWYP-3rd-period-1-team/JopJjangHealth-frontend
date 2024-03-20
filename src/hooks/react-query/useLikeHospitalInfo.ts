@@ -18,31 +18,43 @@ const useHospitalInfo = () => {
     const [isLoading, setIsLoading] = useRecoilState<boolean>(isLoadingState);
     const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useRecoilState<boolean>(isHospitalDetailsLoadedState);
     const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useRecoilState<boolean>(isHospitalInfoLoadedState);
-    
-    useEffect(() => {
-        const initializeHospitalInfo = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetchHospitalInfo();
-                if (response.data.success) {
-                    const bookmarkList = response.data.data.bookmarkList;
-                    setHospitalFirstData(bookmarkList.length > 0 ? bookmarkList : '');
-                    setIsHospitalInfoLoaded(true);
-                } else {
-                    setHospitalFirstData([]);
-                    setIsHospitalDetailsLoaded(true);
-                    setIsHospitalInfoLoaded(true);
-                }
-            } catch (error) {
+  
+    const initializeHospitalInfo = async () => {
+        setIsLoading(true);
+        const response = await fetchHospitalInfo();
+        const bookmarkList = response.data.data.bookmarkList;
+        try {
+            if (response.data.success) {
+                setHospitalFirstData(bookmarkList.length > 0 ? bookmarkList : '');
+                setIsHospitalInfoLoaded(true);
+            } else {
                 setHospitalFirstData([]);
                 setIsHospitalDetailsLoaded(true);
                 setIsHospitalInfoLoaded(true);
-            } finally {
-                setIsLoading(false);
             }
-            
-        };
+        } catch (error) {
+            setHospitalFirstData([]);
+            setIsHospitalDetailsLoaded(true);
+            setIsHospitalInfoLoaded(true);
+        } finally {
+            setIsLoading(false);
+        }
+        
+    };
+    
+    useEffect(() => {
         initializeHospitalInfo();
+    }, []);
+    
+    useEffect(() => {
+        const hasRefreshed = localStorage.getItem('refreshed');
+        
+        if (!hasRefreshed) {
+            localStorage.setItem('refreshed', 'true');
+            router.reload();
+        } else {
+            localStorage.removeItem('refreshed');
+        }
     }, []);
     
     const loadPlaceDetails = () => {
