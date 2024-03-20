@@ -72,7 +72,7 @@ const UserProfile = () => {
     };
     
     const { data } = useQuery({
-        queryKey: ['userInfo'],
+        queryKey: ['user_Info'],
         queryFn: fetchUserInfo,
     });
     

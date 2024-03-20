@@ -9,38 +9,52 @@ import {
 } from '../../state/like';
 import {HospitalBookmark, HospitalDetail} from '../../types/server/like';
 import {fetchHospitalInfo} from '../../api/Like';
+import {useRouter} from 'next/router';
 
 const useHospitalInfo = () => {
+    const router = useRouter();
     const [hospitalFirstData, setHospitalFirstData] = useRecoilState<HospitalBookmark[]>(hospitalFirstDataState);
     const [hospitalInfo, setHospitalInfo] = useRecoilState<HospitalDetail[]>(hospitalInfoState);
     const [isLoading, setIsLoading] = useRecoilState<boolean>(isLoadingState);
     const [isHospitalDetailsLoaded, setIsHospitalDetailsLoaded] = useRecoilState<boolean>(isHospitalDetailsLoadedState);
     const [isHospitalInfoLoaded, setIsHospitalInfoLoaded] = useRecoilState<boolean>(isHospitalInfoLoadedState);
-    
-    useEffect(() => {
-        const initializeHospitalInfo = async () => {
-            setIsLoading(true);
-            try {
-                const response = await fetchHospitalInfo();
-                if (response.success) {
-                    const bookmarkList = response.data.data.bookmarkList;
-                    setHospitalFirstData(bookmarkList.length > 0 ? bookmarkList : '');
-                    setIsHospitalInfoLoaded(true);
-                } else {
-                    setHospitalFirstData([]);
-                    setIsHospitalDetailsLoaded(true);
-                    setIsHospitalInfoLoaded(true);
-                }
-            } catch (error) {
+  
+    const initializeHospitalInfo = async () => {
+        setIsLoading(true);
+        const response = await fetchHospitalInfo();
+        const bookmarkList = response.data.data.bookmarkList;
+        try {
+            if (response.data.success) {
+                setHospitalFirstData(bookmarkList.length > 0 ? bookmarkList : '');
+                setIsHospitalInfoLoaded(true);
+            } else {
                 setHospitalFirstData([]);
                 setIsHospitalDetailsLoaded(true);
                 setIsHospitalInfoLoaded(true);
-            } finally {
-                setIsLoading(false);
             }
-            
-        };
+        } catch (error) {
+            setHospitalFirstData([]);
+            setIsHospitalDetailsLoaded(true);
+            setIsHospitalInfoLoaded(true);
+        } finally {
+            setIsLoading(false);
+        }
+        
+    };
+    
+    useEffect(() => {
         initializeHospitalInfo();
+    }, []);
+    
+    useEffect(() => {
+        const hasRefreshed = localStorage.getItem('refreshed');
+        
+        if (!hasRefreshed) {
+            localStorage.setItem('refreshed', 'true');
+            router.reload();
+        } else {
+            localStorage.removeItem('refreshed');
+        }
     }, []);
     
     const loadPlaceDetails = () => {
@@ -52,14 +66,14 @@ const useHospitalInfo = () => {
         setIsLoading(true);
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                const userLocation = new google.maps.LatLng(position.coords.latitude, position.coords.longitude);
-                const service = new google.maps.places.PlacesService(document.createElement('div'));
+                const userLocation = new window.google.maps.LatLng(position.coords.latitude, position.coords.longitude);
+                const service = new window.google.maps.places.PlacesService(document.createElement('div'));
                 
                 const detailsPromises = hospitalFirstData.map((hospital) =>
                     new Promise<HospitalDetail | null>((resolve, reject) => {
                         if (hospital.googleMapId) {
-                            service.getDetails({placeId: hospital.googleMapId}, (result:any, status) => {
-                                if (status === google.maps.places.PlacesServiceStatus.OK && result && result.geometry && result.geometry.location) {
+                            service.getDetails({placeId: hospital.googleMapId}, (result:any, status:any) => {
+                                if (status === window.google.maps.places.PlacesServiceStatus.OK && result && result.geometry && result.geometry.location) {
                                     let hospitalLat = result.geometry.location.lat;
                                     let hospitalLng = result.geometry.location.lng;
                                     if (typeof hospitalLat === 'function') {
@@ -68,8 +82,8 @@ const useHospitalInfo = () => {
                                     if (typeof hospitalLng === 'function') {
                                         hospitalLng = hospitalLng();
                                     }
-                                    const hospitalLocation = new google.maps.LatLng(Number(hospitalLat), Number(hospitalLng)); // Convert to Number if not already
-                                    const distanceMeters = google.maps.geometry.spherical.computeDistanceBetween(
+                                    const hospitalLocation = new window.google.maps.LatLng(Number(hospitalLat), Number(hospitalLng));
+                                    const distanceMeters = window.google.maps.geometry?.spherical.computeDistanceBetween(
                                         userLocation,
                                         hospitalLocation
                                     );
@@ -95,7 +109,6 @@ const useHospitalInfo = () => {
                     }),
                 );
                 
-                // 모든 병원 정보에 대한 처리가 완료되면 상태 업데이트
                 Promise.allSettled(detailsPromises).then((results) => {
                     const successfulDetails = results
                         .filter((result): result is PromiseFulfilledResult<HospitalDetail | null> => result.status === 'fulfilled')
@@ -122,7 +135,7 @@ const useHospitalInfo = () => {
             const loadGoogleMapsScript = (callback: () => void) => {
                 if (!document.querySelector('script[src^="https://maps.googleapis.com/maps/api/js"]')) {
                     const googleMapScript = document.createElement('script');
-                    googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places,geometry`;
+                    googleMapScript.src = `https://maps.googleapis.com/maps/api/js?key=${process.env.NEXT_PUBLIC_GOOGLE_MAP_KEY}&libraries=places,geometry&loading=async`;
                     document.body.appendChild(googleMapScript);
                     googleMapScript.addEventListener('load', callback);
                 } else {
