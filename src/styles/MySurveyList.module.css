@@ -52,7 +52,7 @@
 }
 
 .mySurvey_item_container, .mySurvey_item_container_delete {
-    width: 902px;
+    width: 960px;
     height: 100px;
     flex-shrink: 0;
     border-radius: 10px;
@@ -60,7 +60,7 @@
     background: linear-gradient(91deg, rgba(181, 252, 209, 0.50) 0%, rgba(181, 252, 209, 0.15) 100%);
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
     backdrop-filter: blur(30px);
-    margin: 20px 5%;
+    margin: 20px;
 }
 
 .mySurvey_container::-webkit-scrollbar {
@@ -73,7 +73,7 @@
 
 .mySurvey_item_container_delete {
     margin: 20px 20px 20px 0;
-    width: 900px;
+    width: 902px;
 }
 
 .title, .title_bottom {
@@ -84,11 +84,12 @@
     font-weight: 600;
     line-height: 160%; /* 32px */
     letter-spacing: -0.4px;
-    margin: -20px 20px 0 20px;
+    margin: 20px 20px 10px 20px;
 }
 
-.title {
-    margin: 20px 20px 20px 20px;
+.title_bottom {
+    font-size: 16px;
+    margin: 10px 20px 20px 20px;
 }
 
 .place {
@@ -224,16 +225,6 @@
     padding-right: 10px;
 }
 
-.title {
-    color: #000;
-    font-size: 20px;
-    font-style: normal;
-    font-weight: 600;
-    line-height: 160%;
-    letter-spacing: -0.4px;
-    margin: 20px 20px 20px 20px;
-}
-
 .place {
     color: #000;
     font-size: 16px;
@@ -301,16 +292,15 @@
         margin: 20px 0;
     }
 
-    .title {
+    .title, .title_bottom {
         font-size: 18px;
         letter-spacing: -0.36px;
-        margin: 14px 14px 14px 14px;
+        margin: 14px 14px 7px 14px;
     }
 
     .title_bottom {
-        font-size: 14px;
-        letter-spacing: -0.28px;
-        margin: -14px 14px 0 14px;
+        font-size: 16px;
+        margin: 7px 14px 14px 14px;
     }
 
     .place {
