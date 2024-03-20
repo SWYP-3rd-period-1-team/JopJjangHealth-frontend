@@ -3,7 +3,7 @@ import React, {useEffect, useState} from 'react';
 import Layout from '../../../components/common/Layout';
 import NoSurveyList from '../../../components/MyPage/NoSurveyList';
 import styles from '../../../styles/MySurveyList.module.css';
-// import Image from 'next/image';
+import Image from 'next/image';
 //import calendarIcon from '../../../../public/assets/icon/ic_calendar.png';
 import {fetchDiseaseList, fetchDiseaseListDelete} from '../../../api/MyPage';
 import {checkUserAuthentication} from '../../../api/auth';
@@ -20,6 +20,9 @@ import {
 import {DeleteDiseaseResponse, DiseaseItem, DiseaseListResponse, SurveyIdType} from '../../../types/server/surveyList';
 import {useMutation, useQuery, useQueryClient} from '@tanstack/react-query';
 import {Snackbar, Alert} from '@mui/material';
+import icDrug from "../../../../public/assets/icon/ic_drug.png";
+import icPoint from "../../../../public/assets/icon/ic_point.png";
+import OnBoarding from '../../../../public/assets/onBoarding/onBoarding.png';
 
 // const CalendarPopup = ({onClose}: {onClose: () => void}) => (
 //     <div className={styles.popupContainer} onClick={onClose}>
@@ -145,24 +148,37 @@ const SurveyList = () => {
     
     return (
         <Layout>
-            <div className={styles.mySurvey_text}>나의 질병 리스트</div>
-            {diseaseList.length > 0 && (
-                <div onClick={handleListClick} className={styles.mySurvey_check_text}>
-                    <input
-                        type="checkbox"
-                        className={styles.mySurvey_check_img}
-                        onClick={handleListClick}
-                        readOnly
-                    />
-                    질병 리스트 선택
-                </div>
-            )}
             {isLoading ? <LoadingView />
                 :
                 <>
                     {diseaseList.length > 0 ? (
                         <>
                             <div className={styles.mySurvey_container}>
+                                <div className={styles.mySurvey_text}>
+                                    <Image
+                                        src={icDrug}
+                                        alt="질병 리스트 1"
+                                        priority
+                                    />
+                                    <span>나의 질병 리스트</span>
+                                    <Image
+                                        src={icPoint}
+                                        alt="질병 리스트 2"
+                                        priority
+                                    />
+                                </div>
+                                {diseaseList.length > 0 && (
+                                    <div className={styles.mySurvey_check_text}>
+                                        <input
+                                            id="mySurveyCheckbox"
+                                            type="checkbox"
+                                            className={styles.mySurvey_check_img}
+                                            onChange={handleListClick}
+                                            checked={isSelectionMode}
+                                        />
+                                        <label htmlFor="mySurveyCheckbox">질병 리스트 선택</label>
+                                    </div>
+                                )}
                                 {diseaseList.map(disease => (
                                     <div key={disease?.surveyId} className={styles.mySurvey_item_wrapper}>
                                         {isSelectionMode && (
@@ -187,7 +203,7 @@ const SurveyList = () => {
                                             {/*    {disease?.isLinked ? '질병 캘린더에 연동됨' : '질병 캘린더 연동중'}*/}
                                             {/*</div>*/}
                                             <div
-                                                className={`${styles.title} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
+                                                className={`${styles.title_bottom} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
                                         <span
                                             className={`${styles.place} ${activeDiseaseId === disease?.surveyId ? styles.clickedItem : ''}`}>
                                             {disease?.targetBody}{' > '}

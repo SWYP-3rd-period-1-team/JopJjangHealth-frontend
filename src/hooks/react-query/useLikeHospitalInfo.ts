@@ -97,7 +97,6 @@ const useHospitalInfo = () => {
                     }),
                 );
                 
-                // 모든 병원 정보에 대한 처리가 완료되면 상태 업데이트
                 Promise.allSettled(detailsPromises).then((results) => {
                     const successfulDetails = results
                         .filter((result): result is PromiseFulfilledResult<HospitalDetail | null> => result.status === 'fulfilled')
