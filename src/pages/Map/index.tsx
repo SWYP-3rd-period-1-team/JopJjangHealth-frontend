@@ -19,7 +19,7 @@ const Container = styled.main`
     padding: 30px 160px;
     flex-direction: column;
     align-items: center;
-    @media (max-width: 1919px) {
+    @media (max-width: 1280px) {
         padding: 0;
         height:550px;
     }

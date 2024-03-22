@@ -14,7 +14,7 @@ const LogoImage2 = styled.img`
 const Container = styled.main`
     display: flex;
     align-items: center;
-    @media (max-width: 1919px) {
+    @media (max-width: 1280px) {
         display: block;
     }
 `;

@@ -17,7 +17,7 @@ const Container = styled.main`
     padding: 30px 160px;
     flex-direction: column;
     align-items: center;
-    @media screen and (max-width: 1919px) {
+    @media screen and (max-width: 1280px) {
         padding: 0;
     }
 `;
