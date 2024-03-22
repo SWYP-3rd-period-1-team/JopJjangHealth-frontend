@@ -154,53 +154,60 @@
     }
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: 1599px) and (min-width: 1280px) {
     .myPageContainer {
-        width: 80%;
-        margin: 0 auto;
+        width: 800px;
+        height: 350px;
+        margin: 0 20%;
     }
 
     .profileContainer {
-        width: 90%;
-        height: 100px;
-        margin: 10px auto;
+        width: 700px;
+        height: 130px;
+        margin: 20px;
+    }
+
+    .profileInfo {
+        height: 100%;
+        width: 100%;
     }
 
     .imageContainer {
-        width: 80px;
-        height: 80px;
+        margin: 15px 15px 20px;
+        width: 100px;
+        height: 100px;
     }
 
-    .profileText, .username, .userId, .userButton {
-        font-size: 90%;
+    .profileText {
+        margin-left: 20px;
+    }
+
+    .username {
+        font-size: 24px;
+        letter-spacing: -0.48px;
+    }
+
+    .userId {
+        font-size: 16px;
+        letter-spacing: -0.32px;
+    }
+
+    .userButton {
+        width: 100px;
+        height: 26px;
+        font-size: 12px;
+        letter-spacing: -0.24px;
     }
 
     .likedListContainer {
-        font-size: 18px;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .myPageContainer, .profileContainer, .profileInfo, .imageContainer, .profileText, .username, .userId, .userButton, .likedListContainer {
-        width: 100%;
-        margin: 0;
-        padding: 0;
+        margin: 20px;
+        letter-spacing: -0.32px;
+        font-size: 16px;
     }
 
-    .profileContainer {
-        height: auto;
-    }
-
-    .imageContainer {
-        justify-content: flex-start;
-    }
-
-    .profileImage {
-        width: 60px;
-        height: 60px;
-    }
-
-    .username, .userId, .userButton, .likedListContainer {
-        font-size: 80%;
+    .likedListContainer:hover::before {
+        width: 8px;
+        height: 14px;
+        margin-right: 28px;
     }
 }

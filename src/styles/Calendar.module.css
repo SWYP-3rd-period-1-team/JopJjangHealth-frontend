@@ -244,80 +244,91 @@
     }
 }
 
-@media screen and (max-width: 1260px) {
+@media screen and (max-width: 1599px) and (min-width: 1280px) {
     .calendarContainer {
-        width: 90%;
-        height: auto;
-        margin: 20px auto;
-        padding: 20px;
+        width: 800px;
+        height: 678px;
+        margin: 30px 18%;
     }
 
     .header {
-        font-size: 24px;
+        font-size: 28px;
+        letter-spacing: -0.56px;
     }
 
     .monthDisplay {
-        font-size: 24px;
+        font-size: 28px;
     }
 
-    .day, .day_notActive {
-        height: 80px;
-        font-size: 14px;
+    .day {
+        font-size: 12px;
+        letter-spacing: -0.248px;
     }
 
     .weekday {
+        font-size: 12px;
+    }
+
+    .listText {
+        font-family: 'SUIT', sans-serif;
+        font-size: 24px;
+    }
+
+    .listButton {
+        width: 128px;
+        height: 30px;
+        font-size: 16px;
+        line-height: 100%; /* 16px */
+        letter-spacing: -0.32px;
+    }
+
+    .listModalButton {
         font-size: 14px;
-    }
-
-    .listText, .listButton, .listModalButton {
-        font-size: 22px;
-    }
-
-    .listContainer, .listTitleContainer {
-        margin: 20px 10%;
+        letter-spacing: -0.28px;
     }
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1279px) {
     .calendarContainer {
         width: 100%;
-        margin: 10px 0;
-        padding: 15px;
-        font-size: 16px;
+        height: auto;
+        margin: 20px 10%;
+        padding: 20px;
+        font-size: 14px;
     }
 
     .header {
-        font-size: 20px;
+        font-size: 24px;
         padding: 5px;
     }
 
     .monthDisplay {
-        font-size: 20px;
-    }
-
-    .grid {
-        grid-template-columns: repeat(7, 1fr);
+        font-size: 24px;
     }
 
     .day, .day_notActive {
-        height: 60px;
         font-size: 12px;
+        height: auto;
+        padding: 8px;
     }
 
     .weekday {
         font-size: 12px;
     }
 
-    .listContainer, .listTitleContainer {
-        margin: 15px 5%;
-    }
-
-    .listText, .listButton, .listModalButton {
-        font-size: 18px;
+    .listTitleContainer, .listContainer {
+        margin: 20px 5%;
     }
 
     .listItem {
-        flex-direction: column;
-        align-items: center;
+        font-size: 12px;
+    }
+
+    .listText {
+        font-size: 20px;
+    }
+
+    .listButton, .listModalButton {
+        font-size: 14px;
     }
 }

@@ -391,3 +391,137 @@
         letter-spacing: -0.8px;
     }
 }
+
+@media screen and (max-width: 1599px) and (min-width: 1280px) {
+    .mySurvey_text {
+        font-size: 24px;
+        letter-spacing: -0.48px;
+    }
+
+    .mySurvey_check_text, .mySurvey_check_img {
+        font-size: 14px;
+        line-height: 100%;
+        letter-spacing: -0.28px;
+    }
+
+    .mySurvey_check_text {
+        margin: 20px 3%;
+    }
+
+    .mySurvey_container {
+        width: 750px;
+        margin:50px auto;
+        height:460px;
+    }
+
+    .mySurvey_item_container, .mySurvey_item_container_delete {
+        width: 600px;
+        height: 80px;
+        margin: 20px 10%;
+    }
+
+    .mySurvey_item_container_delete {
+        width: 550px;
+        height: 80px;
+        margin: 20px 0;
+    }
+
+    .title, .title_bottom {
+        font-size: 16px;
+        letter-spacing: -0.36px;
+        margin: 14px 14px 7px 14px;
+    }
+
+    .title_bottom {
+        font-size: 16px;
+        margin: 7px 14px 14px 14px;
+    }
+
+    .place {
+        font-size: 14px;
+        letter-spacing: -0.28px;
+    }
+
+    .no_mySurvey {
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+    }
+
+    .no_mySurvey_text {
+        font-size: 40px;
+        line-height: 160%; /* 64px */
+        letter-spacing: -0.8px;
+    }
+
+    .click_survey {
+        width: 240px;
+        height: 60px;
+        font-size: 24px;
+        line-height: 100%; /* 24px */
+        letter-spacing: -0.48px;
+        margin: 50px 50px 50px 380px;
+    }
+
+    .popupContainer {
+        top: 90%;
+        left: 50%;
+        width: 960px;
+        height: 60px;
+        padding: 20px;
+        margin: 0;
+    }
+
+    /*
+    .clickedItem {
+        color: #FFFFFF !important;
+        background-color: #0F0F0F;
+    }
+     */
+
+    .check_survey {
+        width: 34px;
+        height: 34px;
+        margin: 20px 20px 20px 20px;
+    }
+    .chice_delete {
+        width: 450px;
+        height: 55px;
+        font-size: 18px;
+        letter-spacing: -0.36px;
+        margin: 50px 19%;
+    }
+
+    .popupText {
+        width: 50%;
+        font-size: 20px;
+        line-height: 100%; /* 20px */
+        letter-spacing: -0.4px;
+        padding-right: 10px;
+    }
+
+    .popupClick {
+        width: 50%;
+        font-size: 20px;
+        line-height: 100%;
+        letter-spacing: -0.4px;
+        padding-right: 10px;
+    }
+
+    .image {
+        margin-left: 35%;
+    }
+
+    .no_mySurvey {
+        font-size: 40px;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+    }
+
+    .no_mySurvey_text {
+        font-size: 32px;
+        line-height: 160%;
+        letter-spacing: -0.8px;
+    }
+}
