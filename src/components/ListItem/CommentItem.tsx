@@ -37,6 +37,9 @@ const CommentListText = styled.p`
 const CommentMenu = styled.div`
     display: flex;
     align-items: center;
+    @media (max-width: 1600px) {
+        display: block;
+    }
 `;
 const CommentMenuButton = styled.button<{
     $borderright?: boolean;

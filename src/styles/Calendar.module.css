@@ -290,7 +290,7 @@
 
 @media screen and (max-width: 1279px) {
     .calendarContainer {
-        width: 100%;
+        width: 80%;
         height: auto;
         margin: 20px 10%;
         padding: 20px;

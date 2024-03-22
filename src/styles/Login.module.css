@@ -274,3 +274,81 @@
         margin-right: 10px;
     }
 }
+
+@media screen and (max-width: 1279px) {
+    .loginContainer {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 30px;
+        margin-top :5%;
+    }
+
+    .loginTitle {
+        color: #000;
+        text-align: center;
+        font-family: 'SUIT',sans-serif;
+        font-size: 40px;
+        font-style: normal;
+        font-weight: 300;
+        line-height: 150%; /* 78px */
+        letter-spacing: -1.04px;
+        margin-bottom: 20px;
+    }
+
+    .inputGroup {
+        position: relative;
+        margin-bottom: 20px;
+    }
+
+    .visibilityToggle {
+        position: absolute;
+        right: 20px;
+        top: 15px;
+        border: none;
+        background: none;
+        cursor: pointer;
+    }
+
+    .input,.inputError {
+        width: 250px;
+        height: 45px;
+        flex-shrink: 0;
+        font-size: 14px;
+        letter-spacing: -0.28px;
+        border: 1px solid #ECECEC;
+        background: #FFF;
+        padding: 10px 20px;
+        margin-left:30px;
+    }
+
+    .submitButton {
+        width: 250px;
+        height: 45px;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+        margin-left:30px;
+    }
+
+    .join, .findId, .findPassword {
+        font-size: 12px;
+        line-height: 100%;
+        letter-spacing: -0.24px;
+    }
+
+    .findId {
+        margin-right: 10px;
+    }
+
+    .hr {
+        width: 250px;
+        height: 0;
+        flex-shrink: 0;
+        border: 2px solid #00A241;
+    }
+
+    .linkContainer {
+        margin-left:15%;
+        width: 250px;
+    }
+}

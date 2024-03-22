@@ -17,6 +17,9 @@ const Container = styled.main`
     padding: 30px 160px;
     flex-direction: column;
     align-items: center;
+    @media (max-width: 1600px) {
+        padding: 0;
+    }
 `;
 const ImageContainer = styled.div`
     width: 100%;

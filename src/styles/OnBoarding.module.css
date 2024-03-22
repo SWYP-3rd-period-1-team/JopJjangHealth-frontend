@@ -161,3 +161,46 @@
         letter-spacing: -0.4px;
     }
 }
+
+@media screen and (max-width: 1279px) {
+    @keyframes typing {
+        from {
+            width: 0;
+        }
+        to {
+            width: 250px;
+        }
+    }
+
+    @keyframes blink-caret {
+        from, to {
+            border-color: transparent;
+        }
+        50% {
+            border-color: black;
+        }
+    }
+
+    .content_basic {
+        font-size: 14px;
+        letter-spacing: -0.28px;
+    }
+
+    .content_bold {
+        font-size: 14px;
+        letter-spacing: -0.28px;
+    }
+
+    .image_container {
+        bottom:50%;
+        display: flex;
+        justify-content: center;
+    }
+
+    .check {
+        width: 230px;
+        height: 45px;
+        font-size: 20px;
+        letter-spacing: -0.4px;
+    }
+}

@@ -525,3 +525,76 @@
         letter-spacing: -0.8px;
     }
 }
+
+@media screen and (max-width: 1279px) {
+    .mySurvey_text {
+        font-size: 20px;
+        letter-spacing: -0.4px;
+        margin: 30px 0%;
+    }
+
+    .mySurvey_check_text, .mySurvey_check_img {
+        font-size: 12px;
+        line-height: 100%;
+        letter-spacing: -0.24px;
+        margin: 20px 10%;
+    }
+
+    .mySurvey_container {
+        width: 90%;
+        height: auto;
+        margin: 30px 5% 30px 5%;
+        padding-bottom: 20px;
+    }
+
+    .mySurvey_item_container, .mySurvey_item_container_delete {
+        width: 90%;
+        height: auto;
+        margin: 20px 5%;
+        padding: 10px;
+    }
+
+    .mySurvey_item_container_delete {
+        width: 70%;
+        margin: 20px 5% 20px 5%;
+    }
+
+    .title, .title_bottom, .place, .no_mySurvey, .no_mySurvey_text {
+        font-size: 18px;
+        margin: 10px 5%;
+        letter-spacing: -0.36px;
+    }
+
+    .title_bottom, .place {
+        font-size: 16px;
+    }
+
+    .click_survey, .chice_delete {
+        width: 80%;
+        height: 50px;
+        font-size: 18px;
+        letter-spacing: -0.36px;
+        margin: 20px 10%;
+    }
+
+    .popupContainer {
+        top: 90%;
+        left: 50%;
+        width: 90%;
+        height: auto;
+        padding: 10px;
+        margin: 0 auto;
+    }
+
+    .popupText, .popupClick {
+        font-size: 18px;
+        line-height: 100%;
+        letter-spacing: -0.36px;
+    }
+
+    .image {
+        margin-left: auto;
+        margin-right: auto;
+        display: block;
+    }
+}
