@@ -19,9 +19,10 @@ export const useLogout = () => {
     const {mutate} = useMutation({
         mutationFn: () => logout(refreshToken),
         onSuccess: (data) => {
-            if (data.data.success) {
+            if (data.success) {
                 logoutDeleteToken();
                 localStorage.clear();
+                alert('로그아웃 되었습니다.');
                 router.push('/Home');
             } else {
                 alert(data.message || '로그아웃에 실패하였습니다. 잠시 후 시도 해주세요.');

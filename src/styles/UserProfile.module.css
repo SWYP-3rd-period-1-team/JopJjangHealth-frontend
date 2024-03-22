@@ -285,37 +285,84 @@
     }
 }
 
-@media screen and (max-width: 1279px) {
+@media screen and (max-width: 1599px) and (min-width: 1280px) {
     .profileContainer {
-        width: 90%;
-        height: auto;
-        margin: 25px auto;
-        padding: 20px;
+        width: 900px;
+        height: 620px;
+        padding-left: 20px;
+    }
+
+    .imageContainer {
+        margin-top: 50px;
+    }
+
+    .profileEdit {
+        margin-top: 5px;
+        margin-right: 20px;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+    }
+
+    .likedListContainer {
+        margin-bottom: 20px;
+        font-size: 24px;
+        letter-spacing: -0.48px;
+    }
+
+    .userAsk, .userAnswer {
+        width: auto;
+        height: 55px;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+    }
+
+    .userAnswer {
+        margin-left: 85px;
+    }
+
+    .errorMessage {
+        margin-top: 10px;
+        font-size: 14px;
+        letter-spacing: -0.28px;
+        margin-left: 125px;
+    }
+
+    .hint {
+        font-size: 14px;
+        line-height: 160%; /* 22.4px */
+        letter-spacing: -0.28px;
+        margin-left: 125px;
+    }
+
+    .userNameChangeButton {
+        width: 90px;
+        height: 24px;
+        font-size: 10px;
+        letter-spacing: -0.2px;
     }
 
     .editButton {
-        width: 70%;
+        width: 450px;
+        height: 55px;
+        margin: 0 0 55px 20%;
+        font-size: 16px;
+        letter-spacing: -0.32px;
+    }
+
+    .fileInput {
+        display: block;
         margin: 20px auto;
     }
 
-    .userAnswer, .errorMessage, .hint {
-        margin-left: 5%;
-    }
-}
-
-@media screen and (max-width: 767px) {
-    .profileContainer {
+    .imagePreview {
         width: 100%;
-        margin: 15px auto;
-        padding: 10px;
+        height: 100px;
+        margin-top: 20px;
     }
 
-    .editButton {
-        width: 80%;
-        margin: 20px auto;
-    }
-
-    .userAnswer, .errorMessage, .hint {
-        margin-left: 10px;
+    .imagePreviewContainer {
+        margin-bottom: 20px;
+        width: 298px;
+        height: 298px;
     }
 }

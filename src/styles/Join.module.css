@@ -159,78 +159,69 @@
     }
 }
 
-@media screen and (max-width: 1280px) {
+@media screen and (max-width: 1599px) and (min-width: 1280px) {
     .joinTitle {
         font-size: 40px;
-        line-height: 120%;
-        margin-bottom: 15px;
+        line-height: 150%;
+        margin-top:0;
+        letter-spacing: -0.88px;
     }
 
-    .input, .input_email, .inputError, .inputVerification, .input_email_text, .selectDomain {
-        width: 450px;
-        height: 45px;
+    .input, .input_email, .inputError, .inputVerification, .input_email_text {
+        font-size: 14px;
+        letter-spacing: -0.28px;
     }
 
     .input_email_text {
-        width: 290px;
+        width: 380px;
+        height:55px;
     }
 
-    .input_email, .selectDomain {
-        width: 150px;
+    .input_email {
+        margin-right:5px;
+        width: 170px;
     }
 
-    .inputVerification, .verifyButton {
-        width: 290px;
+    .inputVerification {
+        flex: 1;
+        margin-right: 10px;
+        width: 380px;
+    }
+}
+@media screen and (max-width: 1279px) {
+    .joinTitle {
+        font-size: 36px;
+        line-height: 120%;
+        margin-top: 20px;
+        margin-bottom: 15px;
+        letter-spacing: -0.72px;
     }
 
-    .submitButton {
-        width: 450px;
-        font-size: 20px;
+    .input, .input_email, .inputError, .inputVerification, .input_email_text, .selectDomain {
+        width: 100%;
+        height: 45px;
+        font-size: 14px;
+        padding: 8px 15px;
+    }
+
+    .inputGroup, .submitButton, .verifyButton {
+        width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .visibilityToggle {
+        right: 10px;
+        top: 10px;
     }
 
     .errorText {
-        max-width: 450px;
+        font-size: 0.7rem;
     }
 
-    .verifyButton {
-        margin-left: 5px;
-    }
-}
-
-@media screen and (max-width: 768px) {
-    .joinTitle {
-        font-size: 32px;
-        line-height: 110%;
-        margin-bottom: 10px;
-    }
-
-    .input, .input_email, .inputError, .inputVerification, .input_email_text, .selectDomain {
-        width: 300px;
-        height: 40px;
-    }
-
-    .input_email_text {
-        width: 190px;
-    }
-
-    .input_email, .selectDomain {
-        width: 100px;
-    }
-
-    .inputVerification, .verifyButton {
-        width: 190px;
-    }
-
-    .submitButton {
-        width: 300px;
+    .submitButton, .verifyButton {
+        height: 45px;
         font-size: 18px;
     }
-
-    .errorText {
-        max-width: 300px;
-    }
-
-    .verifyButton {
-        margin-left: 5px;
-    }
 }
+

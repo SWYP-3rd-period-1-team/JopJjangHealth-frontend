@@ -37,6 +37,7 @@ const Index = () => {
     const [selectedTargetBodyPart, setSelectedTargetBodyPart] = useRecoilState(selectedTargetBodyPartState);
     const [selectedPresentedSymptom, setSelectedPresentedSymptom] = useRecoilState(selectedPresentedSymptomState);
     const [currentOptions, setCurrentOptions] = useRecoilState(currentOptionsState);
+    const [maxClassName, setMaxClassName] = useState<string>('styles.options');
     const currentStage = parseInt(id as string, 10);
     
     useEffect(() => {
@@ -224,6 +225,29 @@ const Index = () => {
         return () => clearTimeout(timer);
     }, [alertInfo.show]);
     
+    useEffect(() => {
+        const updateClassName = () => {
+            if(typeof window !== "undefined") {
+            if(window.innerWidth >= 1920 && currentOptions.length > 10) {
+                setMaxClassName(styles.max_options)
+             } else if (window.innerWidth >= 1920 && currentOptions.length < 10) {
+                setMaxClassName(styles.options)
+           } else if (window.innerWidth < 1920 && currentOptions.length > 5) {
+                setMaxClassName(styles.max_options)
+             } else if (window.innerWidth < 1920 && currentOptions.length < 5){
+                setMaxClassName(styles.options)
+             }
+            }
+        };
+        
+        updateClassName();
+        window.addEventListener('resize', updateClassName);
+        
+        return () => {
+            window.removeEventListener('resize', updateClassName);
+        };
+    }, [currentOptions]);
+    
     return (
         <Layout>
             {alertInfo.show && (
@@ -246,7 +270,7 @@ const Index = () => {
                     <SurveyAskText />
                 </div>
                 <div style={{marginTop: currentStage === 4 ? '64px' : '122px'}}
-                     className={currentOptions.length > 10 ? styles.max_options : styles.options}>
+                     className={maxClassName}>
                     {currentOptions.map(option => {
                         const imageSrc = option.image;
                         const optionText = SurveyAnswerText(currentStage, option);
