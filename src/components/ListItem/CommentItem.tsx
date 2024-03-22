@@ -37,7 +37,7 @@ const CommentListText = styled.p`
 const CommentMenu = styled.div`
     display: flex;
     align-items: center;
-    @media (max-width: 1600px) {
+    @media (max-width: 1919px) {
         display: block;
     }
 `;

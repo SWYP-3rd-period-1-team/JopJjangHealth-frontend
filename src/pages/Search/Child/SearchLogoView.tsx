@@ -14,10 +14,13 @@ const LogoImage2 = styled.img`
 const Container = styled.main`
     display: flex;
     align-items: center;
+    @media (max-width: 1919px) {
+        display: block;
+    }
 `;
 const BubbleTriangle = styled.div`
-    width: 0px;
-    height: 0px;
+    width: 0;
+    height: 0;
     border-style: solid;
     border-width: 15px 30px 15px 0;
     border-color: transparent #ffffff transparent transparent;
