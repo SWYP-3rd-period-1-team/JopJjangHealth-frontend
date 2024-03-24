@@ -196,6 +196,10 @@
     display: inline-flex;
 }
 
+.cursorNone {
+    cursor: none !important;
+}
+
 @media screen and (max-width: 1919px) and (min-width: 1600px) {
     .quizContainer {
         margin: 51px 0 90px 0;

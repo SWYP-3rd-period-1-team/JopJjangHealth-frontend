@@ -26,10 +26,10 @@ const Index = () => {
     const router = useRouter();
     const {getDecryptedCookie} = useSaveLocalContent();
     const accessToken = getDecryptedCookie('zzgg_at');
-    const [alertInfo, setAlertInfo] = useState<{ show: boolean; message: string; severity: AlertColor }>({
+    const [alertInfo, setAlertInfo] = useState<{show: boolean; message: string; severity: AlertColor}>({
         show: false,
         message: '',
-        severity: 'success'
+        severity: 'success',
     });
     const {id, targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
     const [showLoginConfirm, setShowLoginConfirm] = useRecoilState(showLoginConfirmState);
@@ -44,7 +44,7 @@ const Index = () => {
         setShowLoginConfirm(false);
     }, [setShowLoginConfirm]);
     
-    const { mutate: saveHealthSurvey } = useSaveHealthSurvey();
+    const {mutate: saveHealthSurvey} = useSaveHealthSurvey();
     
     useEffect(() => {
         const {targetBodyPart, diagnosisPart, presentedSymptom} = router.query;
@@ -147,7 +147,7 @@ const Index = () => {
     };
     
     const homeButton = () => {
-        setAlertInfo({ show: true, message: '건강설문 데이터가 없어집니다!', severity: 'warning' });
+        setAlertInfo({show: true, message: '건강설문 데이터가 없어집니다!', severity: 'warning'});
         router.push('/');
     };
     
@@ -181,12 +181,12 @@ const Index = () => {
                             },
                         });
                     } else {
-                        setAlertInfo({ show: true, message: '건강 설문 저장을 실패하였습니다. 잠시 후 시도 해주세요.', severity: 'error' });
+                        setAlertInfo({show: true, message: '건강 설문 저장을 실패하였습니다. 잠시 후 시도 해주세요.', severity: 'error'});
                     }
                 },
                 onError: (error) => {
                     console.error('건강 설문 저장 중 오류 발생:', error);
-                    setAlertInfo({ show: true, message: '건강 설문 저장 중 문제가 발생했습니다. 잠시 후 시도 해주세요.', severity: 'error' });
+                    setAlertInfo({show: true, message: '건강 설문 저장 중 문제가 발생했습니다. 잠시 후 시도 해주세요.', severity: 'error'});
                 },
             });
         } else {
@@ -212,14 +212,14 @@ const Index = () => {
     };
     
     const handleCloseAlert = () => {
-        setAlertInfo({ ...alertInfo, show: false });
+        setAlertInfo({...alertInfo, show: false});
     };
     
     useEffect(() => {
-        let timer:any;
+        let timer: any;
         if (alertInfo.show) {
             timer = setTimeout(() => {
-                setAlertInfo({ ...alertInfo, show: false });
+                setAlertInfo({...alertInfo, show: false});
             }, 1500);
         }
         return () => clearTimeout(timer);
@@ -227,16 +227,16 @@ const Index = () => {
     
     useEffect(() => {
         const updateClassName = () => {
-            if(typeof window !== "undefined") {
-            if(window.innerWidth >= 1920 && currentOptions.length > 10) {
-                setMaxClassName(styles.max_options)
-             } else if (window.innerWidth >= 1920 && currentOptions.length < 10) {
-                setMaxClassName(styles.options)
-           } else if (window.innerWidth < 1920 && currentOptions.length > 5) {
-                setMaxClassName(styles.max_options)
-             } else if (window.innerWidth < 1920 && currentOptions.length < 5){
-                setMaxClassName(styles.options)
-             }
+            if (typeof window !== 'undefined') {
+                if (window.innerWidth >= 1920 && currentOptions.length > 10) {
+                    setMaxClassName(styles.max_options);
+                } else if (window.innerWidth >= 1920 && currentOptions.length < 10) {
+                    setMaxClassName(styles.options);
+                } else if (window.innerWidth < 1920 && currentOptions.length > 5) {
+                    setMaxClassName(styles.max_options);
+                } else if (window.innerWidth < 1920 && currentOptions.length < 5) {
+                    setMaxClassName(styles.options);
+                }
             }
         };
         
@@ -277,11 +277,17 @@ const Index = () => {
                         if (!imageSrc || !optionText) {
                             return null;
                         }
+                        const handleClick = () => {
+                            if (currentStage < 4 || optionText !== null) {
+                                goToNextPage(option);
+                            }
+                        };
                         
                         if (imageSrc && optionText) {
                             return (
-                                <div key={option.id} style={{marginLeft: '35px'}}
-                                     onClick={() => currentStage < 4 ? goToNextPage(option) : null}>
+                                <div key={option.id} style={{ marginLeft: '35px'}}
+                                     className={`${currentStage === 4 ? styles.cursorNone : ''}`}
+                                     onClick={handleClick}>
                                     <Image src={imageSrc} alt="survey-option" className={styles.option} width={150}
                                            height={150}
                                            priority
@@ -297,7 +303,7 @@ const Index = () => {
                     })}
                 </div>
             </div>
-            <div className={currentStage === 4 ? styles.fixed_buttons_container: styles.fixed_buttons_container_first}>
+            <div className={currentStage === 4 ? styles.fixed_buttons_container : styles.fixed_buttons_container_first}>
                 {currentStage > 1 && (
                     <>
                         <button className={styles.before_button} onClick={() => router.back()}>

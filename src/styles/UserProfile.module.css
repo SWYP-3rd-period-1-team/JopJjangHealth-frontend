@@ -267,21 +267,10 @@
         letter-spacing: -0.32px;
     }
 
-    .fileInput {
-        display: block;
-        margin: 20px auto;
-    }
-
     .imagePreview {
         width: 100%;
         height: 100px;
         margin-top: 20px;
-    }
-
-    .imagePreviewContainer {
-        margin-bottom: 20px;
-        width: 298px;
-        height: 298px;
     }
 }
 
@@ -349,21 +338,10 @@
         letter-spacing: -0.32px;
     }
 
-    .fileInput {
-        display: block;
-        margin: 20px auto;
-    }
-
     .imagePreview {
         width: 100%;
         height: 100px;
         margin-top: 20px;
-    }
-
-    .imagePreviewContainer {
-        margin-bottom: 20px;
-        width: 298px;
-        height: 298px;
     }
 }
 
@@ -379,11 +357,6 @@
         margin-top: 30px;
     }
 
-    .profileImage {
-        width: 120px;
-        height: 120px;
-    }
-
     .profileEdit, .likedListContainer, .userAsk, .userAnswer, .errorMessage, .hint {
         font-size: 14px;
         margin-left: 10px;
@@ -394,22 +367,9 @@
         margin-left: 15px;
     }
 
-    .userNameChangeButton, .editButton, .checkButton {
+    .userNameChangeButton, .editButton {
         width: 100%;
         margin: 10px auto;
         height: auto;
-    }
-
-    .fileInput, .imagePreview, .images_container, .images_container_second, .imagePreviewContainer {
-        width: 90%;
-        margin: 10px auto;
-    }
-
-    .imagePreview {
-        height: auto;
-    }
-
-    .images_container, .images_container_second {
-        flex-direction: column;
     }
 }
