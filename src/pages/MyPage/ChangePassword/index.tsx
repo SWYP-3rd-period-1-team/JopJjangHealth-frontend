@@ -132,7 +132,7 @@ const Index: React.FC = () => {
                     <div className={styles.inputGroup}>
                         <input
                             type={passwordType}
-                            placeholder="새 비밀번호 (영문, 숫자 조합 8 ~ 15자리)"
+                            placeholder="새 비밀번호 (영문 대/소문자, 숫자 조합 8 ~ 15자리)"
                             {...register('password', {
                                 required: '비밀번호를 입력해주세요.',
                                 validate: validatePassword,

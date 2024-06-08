@@ -10,15 +10,16 @@ export const validatePassword = (password:string) => {
 	const regex = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,15}$/;
 	
 	if (!regex.test(password)) {
-		return '비밀번호는 영문, 숫자 조합 8~15자리여야 합니다.';
+		return '비밀번호는 영문 대/소문자, 숫자 조합 8~15자리여야 합니다.';
 	}
 	return true;
 };
 
 export const validateUserId = (userId: string): string | true => {
-	const regex = /^[a-z\d]{6,12}$/;
+	const regex = /^[a-zA-Z\d]{6,12}$/;
+	
 	if (!regex.test(userId)) {
-		return '아이디는 영문 소문자, 숫자를 조합한 6자 이상 12자 이하이어야 합니다.';
+		return '아이디는 영문 대/소문자, 숫자를 조합한 6자 이상 12자 이하이어야 합니다.';
 	}
 	return true;
 };
