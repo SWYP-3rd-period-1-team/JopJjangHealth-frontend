@@ -31,8 +31,8 @@ module.exports = {
     return [
       {
         source: "/api/:path*",
-        destination: process.env.NEXT_PUBLIC_API_URL, // 환경 변수에서 API URL을 가져옴
+        destination: `${process.env.NEXT_PUBLIC_API_URL}/api/:path*`, // 환경 변수에서 API URL을 가져옴
       },
     ];
-  }
+  },
 };

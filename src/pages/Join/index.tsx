@@ -115,7 +115,7 @@ const Join = () => {
                     </div>
                     <div className={styles.inputGroup}>
                         <input
-                            placeholder="아이디 (영문 소문자 또는 영문 소문자, 숫자 조합 6 ~ 12자리)"
+                            placeholder="아이디 (영문 대/소문자 , 숫자 조합 6 ~ 12자리)"
                             {...register('userId', {
                                 required: '아이디을 입력해주세요.',
                                 validate: validateUserId,
@@ -127,7 +127,7 @@ const Join = () => {
                     <div className={styles.inputGroup}>
                         <input
                             type={passwordType}
-                            placeholder="비밀번호 (영문, 숫자 조합 8 ~ 15자리)"
+                            placeholder="비밀번호 (영문 대/소문자, 숫자 조합 8 ~ 15자리)"
                             {...register('password', {
                                 required: '비밀번호를 입력해주세요.',
                                 validate: validatePassword,
